@@ -1,17 +1,10 @@
 package net.creeperhost.chickens;
 
-import net.creeperhost.chickens.client.render.RenderChickenItem;
-import net.creeperhost.chickens.client.render.RenderRoost;
 import net.creeperhost.chickens.compat.top.TheOneProbePlugin;
 import net.creeperhost.chickens.config.ConfigHandler;
-import net.creeperhost.chickens.handler.ItemColorHandler;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.registry.LiquidEggRegistry;
 import net.creeperhost.chickens.registry.LiquidEggRegistryItem;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,12 +43,10 @@ public class ChickensMod
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public void clientInit(FMLClientSetupEvent event)
+    private void clientInit(final FMLClientSetupEvent event)
     {
         ModScreens.init();
-        Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), ModItems.SPAWN_EGG.get(), ModItems.COLOURED_EGG.get(), ModItems.LIQUID_EGG.get());
-        ItemProperties.register(ModItems.CHICKEN_ITEM.get(), new ResourceLocation(MODID, ""), RenderChickenItem.getInstance());
-        BlockEntityRenderers.register(ModBlocks.ROOST_TILE.get(), p_173571_ -> new RenderRoost());
+        event.enqueueWork(ChickensClient::init);
     }
 
     public void registerLiquidEggs()
