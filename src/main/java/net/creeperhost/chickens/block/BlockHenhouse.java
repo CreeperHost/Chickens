@@ -4,7 +4,6 @@ import net.creeperhost.chickens.blockentities.BlockEntityHenhouse;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +23,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -60,18 +60,18 @@ public class BlockHenhouse extends BaseEntityBlock
     public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter blockGetter, List<Component> components, TooltipFlag tooltipFlag)
     {
         super.appendHoverText(itemStack, blockGetter, components, tooltipFlag);
-        components.add(new TranslatableComponent("block.chickens.henhouse.tooltip"));
+        components.add(Component.translatable("block.chickens.henhouse.tooltip"));
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState)
+    public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState)
     {
         return new BlockEntityHenhouse(blockPos, blockState);
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState1, boolean p_51542_) {
+    public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState blockState1, boolean p_51542_) {
         if (!blockState.is(blockState1.getBlock())) {
             BlockEntity blockentity = level.getBlockEntity(blockPos);
             if (blockentity instanceof Container) {
@@ -83,7 +83,7 @@ public class BlockHenhouse extends BaseEntityBlock
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult)
+    public @NotNull InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, BlockHitResult blockHitResult)
     {
         if (!level.isClientSide)
         {

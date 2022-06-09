@@ -13,13 +13,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -163,7 +163,7 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
         }
     }
 
-    public void spawnParticle(Level worldIn, double posX, double posY, double posZ, Random rand)
+    public void spawnParticle(Level worldIn, double posX, double posY, double posZ, RandomSource rand)
     {
         for (int i = 0; i < 16; ++i)
         {
@@ -225,7 +225,7 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
     @Override
     public @NotNull Component getDisplayName()
     {
-        return new TextComponent("chickens.container.roost");
+        return Component.translatable("chickens.container.roost");
     }
 
     @org.jetbrains.annotations.Nullable

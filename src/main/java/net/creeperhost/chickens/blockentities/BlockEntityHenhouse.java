@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
@@ -247,7 +246,7 @@ public class BlockEntityHenhouse extends BaseContainerBlockEntity
     @Override
     protected Component getDefaultName()
     {
-        return new TranslatableComponent("container.henhouse");
+        return Component.translatable("container.henhouse");
     }
 
     @Override

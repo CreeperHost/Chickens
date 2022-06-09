@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import net.creeperhost.chickens.handler.ItemHolder;
+import net.minecraft.core.Registry;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -295,7 +296,8 @@ public class JsonConfig
      */
     protected static String getIDfromItemStack(ItemStack stack)
     {
-        return stack.getItem().getRegistryName() + (stack.getDamageValue() != 0 || stack.getCount() > 1 ? ":" + stack.getDamageValue() + (stack.getCount() > 1 ? ":" + stack.getCount() : "") : "");
+        String name = Registry.ITEM.getKey(stack.getItem()).toString();
+        return name + (stack.getDamageValue() != 0 || stack.getCount() > 1 ? ":" + stack.getDamageValue() + (stack.getCount() > 1 ? ":" + stack.getCount() : "") : "");
     }
 
     /**

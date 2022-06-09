@@ -1,6 +1,5 @@
 package net.creeperhost.chickens;
 
-import net.creeperhost.chickens.compat.top.TheOneProbePlugin;
 import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.registry.LiquidEggRegistry;
@@ -13,6 +12,7 @@ import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,12 +35,19 @@ public class ChickensMod
         ModEntities.ENTITIES.register(eventBus);
         registerLiquidEggs();
         eventBus.addListener(this::clientInit);
+        eventBus.addListener(this::loaded);
 
         if (ModList.get().isLoaded("theoneprobe")) {
-            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TheOneProbePlugin.GetTheOneProbe::new);
+            //TODO
+//            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TheOneProbePlugin.GetTheOneProbe::new);
         }
 
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    private void loaded(final FMLCommonSetupEvent event)
+    {
+        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem));
     }
 
     private void clientInit(final FMLClientSetupEvent event)

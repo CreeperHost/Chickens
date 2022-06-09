@@ -3,6 +3,7 @@ package net.creeperhost.chickens.entity;
 import net.creeperhost.chickens.blockentities.BlockEntityHenhouse;
 import net.creeperhost.chickens.registry.ChickensRegistry;
 import net.creeperhost.chickens.registry.ChickensRegistryItem;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -10,6 +11,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -53,8 +55,13 @@ public class EntityChickensChicken extends Chicken
     {
         super(entityType, worldIn);
         this.entityType = entityType;
-        setChickenType(entityType.getRegistryName().toString());
-        setChickenTypeInternal(entityType.getRegistryName().toString());
+        setChickenType(getRegistryName(entityType).toString());
+        setChickenTypeInternal(getRegistryName(entityType).toString());
+    }
+
+    public ResourceLocation getRegistryName(EntityType<?> entityType)
+    {
+        return Registry.ENTITY_TYPE.getKey(entityType);
     }
 
     public static AttributeSupplier.Builder prepareAttributes()
@@ -110,7 +117,7 @@ public class EntityChickensChicken extends Chicken
 
     private ChickensRegistryItem getChickenDescription()
     {
-        ChickensRegistryItem description = ChickensRegistry.getByRegistryName(entityType.getRegistryName().toString());
+        ChickensRegistryItem description = ChickensRegistry.getByRegistryName(getRegistryName(entityType).toString());
         if (description == null || !description.isEnabled())
         {
             description = ChickensRegistry.getByResourceLocation(ChickensRegistry.SMART_CHICKEN_ID);
@@ -166,7 +173,7 @@ public class EntityChickensChicken extends Chicken
         newChicken.setStrength(parent.getStrength());
     }
 
-    private static void increaseStats(EntityChickensChicken newChicken, EntityChickensChicken parent1, EntityChickensChicken parent2, Random rand)
+    private static void increaseStats(EntityChickensChicken newChicken, EntityChickensChicken parent1, EntityChickensChicken parent2, RandomSource rand)
     {
         int parent1Strength = parent1.getStrength();
         int parent2Strength = parent2.getStrength();
@@ -175,7 +182,7 @@ public class EntityChickensChicken extends Chicken
         newChicken.setStrength(calculateNewStat(parent1Strength, parent2Strength, parent1Strength, parent2Strength, rand));
     }
 
-    private static int calculateNewStat(int thisStrength, int mateStrength, int stat1, int stat2, Random rand)
+    private static int calculateNewStat(int thisStrength, int mateStrength, int stat1, int stat2, RandomSource rand)
     {
         int mutation = rand.nextInt(2) + 1;
         int newStatValue = (stat1 * thisStrength + stat2 * mateStrength) / (thisStrength + mateStrength) + mutation;

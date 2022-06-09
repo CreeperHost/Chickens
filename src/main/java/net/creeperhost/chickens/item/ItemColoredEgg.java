@@ -9,8 +9,6 @@ import net.creeperhost.chickens.registry.ChickensRegistryItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -53,25 +51,25 @@ public class ItemColoredEgg extends Item implements IColorSource
     public void appendHoverText(ItemStack itemStack, @Nullable Level p_41422_, List<Component> tooltip, TooltipFlag p_41424_)
     {
         super.appendHoverText(itemStack, p_41422_, tooltip, p_41424_);
-        tooltip.add(new TranslatableComponent("item.colored_egg.tooltip"));
+        tooltip.add(Component.translatable("item.colored_egg.tooltip"));
     }
 
     @Override
     public Component getName(ItemStack stack)
     {
-        if (!stack.hasTag()) return new TextComponent("null");
+        if (!stack.hasTag()) return Component.literal("null");
 
         String name = stack.getTag().getString("id");
         String[] split = name.split(":");
         String s = split[1].replace("_chicken", "");
 
-        return new TranslatableComponent("item.colored_egg." + s + ".name");
+        return Component.translatable("item.colored_egg." + s + ".name");
     }
 
     @Override
     public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> subItems)
     {
-        if (this.allowdedIn(tab))
+        if (this.allowedIn(tab))
         {
             try
             {

@@ -16,7 +16,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,11 +25,12 @@ import net.minecraftforge.registries.RegistryObject;
 @Mod.EventBusSubscriber(modid = ChickensMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEvents
 {
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onRegister(RegistryEvent.Register<Block> event)
-    {
-        ModEntities.init();
-    }
+    //TODO
+//    @SubscribeEvent(priority = EventPriority.LOWEST)
+//    public static void onRegister(RegistryEvent.Register<Block> event)
+//    {
+//        ModEntities.init();
+//    }
 
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event)

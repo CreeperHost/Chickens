@@ -6,7 +6,6 @@ import net.creeperhost.chickens.ChickensMod;
 import net.creeperhost.chickens.containers.ContainerBreeder;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
@@ -59,7 +58,7 @@ public class GuiBreeder extends AbstractContainerScreen<ContainerBreeder>
         int j = (height - imageHeight) / 2;
         if(isInRect(i + 84, j + 22, 26, 20, mouseX, mouseY))
         {
-            renderTooltip(poseStack, new TextComponent(containerBreeder.getProgress() / 10D + "%"), mouseX, mouseY);
+            renderTooltip(poseStack, Component.literal(containerBreeder.getProgress() / 10D + "%"), mouseX, mouseY);
         }
     }
 

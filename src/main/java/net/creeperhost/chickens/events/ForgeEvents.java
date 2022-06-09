@@ -14,25 +14,25 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = ChickensMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvents
 {
-    @SubscribeEvent
-    public static void onBiomeLoading(BiomeLoadingEvent event)
-    {
-        ModEntities.SPAWNABLE_CHICKENS.forEach(entityType ->
-        {
-            try
-            {
-                event.getSpawns().addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(entityType, 10, 4, 4));
-            }
-            catch (Exception ignored){}
-        });
-    }
+    //TODO
+//    @SubscribeEvent
+//    public static void onBiomeLoading(BiomeLoadingEvent event)
+//    {
+//        ModEntities.SPAWNABLE_CHICKENS.forEach(entityType ->
+//        {
+//            try
+//            {
+//                event.getSpawns().addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(entityType, 10, 4, 4));
+//            }
+//            catch (Exception ignored){}
+//        });
+//    }
 
     @SubscribeEvent
     public static void playerInteractEvent(PlayerInteractEvent.EntityInteract event)

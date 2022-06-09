@@ -11,8 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -38,7 +36,7 @@ public class ItemChicken extends Item
     @Override
     public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> subItems)
     {
-        if(this.allowdedIn(tab))
+        if(this.allowedIn(tab))
         {
             for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
             {
@@ -74,13 +72,13 @@ public class ItemChicken extends Item
         ChickenStats chickenStats = new ChickenStats(itemStack);
         if(Screen.hasShiftDown())
         {
-            components.add(new TextComponent(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
-            components.add(new TextComponent(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
-            components.add(new TextComponent(ChatFormatting.DARK_PURPLE + "Strength: " + chickenStats.getStrength()));
+            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
+            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
+            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Strength: " + chickenStats.getStrength()));
         }
         else
         {
-            components.add(new TextComponent("Hold <Shift> for stats"));
+            components.add(Component.literal("Hold <Shift> for stats"));
         }
     }
 
@@ -88,8 +86,8 @@ public class ItemChicken extends Item
     public Component getName(ItemStack stack)
     {
         ChickensRegistryItem chickenDescription = ChickensRegistry.getByRegistryName(getTypeFromStack(stack));
-        if(chickenDescription == null) return new TextComponent("nul1");
-        return new TranslatableComponent("entity.chickens." + chickenDescription.getEntityName());
+        if(chickenDescription == null) return Component.literal("nul1");
+        return Component.translatable("entity.chickens." + chickenDescription.getEntityName());
     }
 
     public static void applyEntityIdToItemStack(ItemStack stack, ResourceLocation entityId)

@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[40,]" #mandatory
+loaderVersion="[41,]" #mandatory
 license="MIT Licence"
 credits="" #optional
 authors="CreeperHost, gigabit101" #optional
@@ -17,6 +17,13 @@ authors="CreeperHost, gigabit101" #optional
 [[dependencies.chickens]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2]"
+    versionRange="[1.19]"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.chickens]]
+    modId="polylib"
+    mandatory=true
+    versionRange="[1900,)"
     ordering="NONE"
     side="BOTH"

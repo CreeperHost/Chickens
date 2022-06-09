@@ -8,7 +8,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -47,19 +46,20 @@ public class ItemLiquidEgg extends Item implements IColorSource
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag)
     {
         super.appendHoverText(itemStack, level, components, tooltipFlag);
-        components.add(new TranslatableComponent("item.liquid_egg.tooltip"));
+        components.add(Component.translatable("item.liquid_egg.tooltip"));
     }
 
     @Override
     public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> subItems)
     {
-        if (this.allowdedIn(tab))
+        if (this.allowedIn(tab))
         {
             for (LiquidEggRegistryItem liquid : LiquidEggRegistry.getAll())
             {
                 ItemStack itemstack = new ItemStack(this, 1);
                 CompoundTag compoundTag = new CompoundTag();
-                compoundTag.putString("id", liquid.getFluid().getRegistryName().toString());
+                //TODO
+//                compoundTag.putString("id", liquid.getFluid().getRegistryName().toString());
                 itemstack.setTag(compoundTag);
                 subItems.add(itemstack);
             }
@@ -72,7 +72,7 @@ public class ItemLiquidEgg extends Item implements IColorSource
         if (!stack.hasTag()) return super.getName(stack);
 
         String[] strings = stack.getTag().getString("id").split(":");
-        return new TranslatableComponent("item.liquid_egg." + strings[1] + ".name");
+        return Component.translatable("item.liquid_egg." + strings[1] + ".name");
     }
 
     //TODO
