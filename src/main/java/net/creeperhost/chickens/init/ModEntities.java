@@ -49,7 +49,7 @@ public class ModEntities
         if(chickensRegistryItem.canSpawn())
         {
             BiomeModifications.addProperties(biomeContext -> canSpawnBiome(biomeContext.getProperties()), (biomeContext, mutable) -> mutable.getSpawnProperties().addSpawn(MobCategory.MONSTER,
-                    new MobSpawnSettings.SpawnerData(entityType.get(), 4, 4, 10)));
+                    new MobSpawnSettings.SpawnerData(entityType.get(), 10, 4, 4)));
 
             SpawnPlacements.register(entityType.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                     (p_21781_, p_21782_, p_21783_, p_21784_, p_21785_) -> checkAnimalSpawnRules(p_21781_, p_21782_, p_21783_, p_21784_, p_21785_, chickensRegistryItem));
