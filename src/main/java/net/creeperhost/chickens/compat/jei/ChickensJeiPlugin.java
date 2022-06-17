@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.compat.jei;
 
+import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import net.creeperhost.chickens.ChickensMod;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
@@ -13,6 +14,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +34,23 @@ public class ChickensJeiPlugin implements IModPlugin
     }
 
     @Override
+    public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration)
+    {
+        registration.addRecipeCatalyst(new ItemStack(ModItems.BREEDER.get()), ChickensRecipeTypes.BREEDING);
+    }
+
+    @Override
     public void registerItemSubtypes(ISubtypeRegistration registration)
     {
         registration.useNbtForSubtypes(ModItems.SPAWN_EGG.get(), ModItems.COLOURED_EGG.get(), ModItems.LIQUID_EGG.get(), ModItems.CHICKEN_ITEM.get());
     }
 
-    @SuppressWarnings("removal")
     @Override
     public void registerRecipes(IRecipeRegistration registry)
     {
-        registry.addRecipes(getBreedingRecipes(), ChickenBreedingCategory.UID);
-        registry.addRecipes(getDropRecipes(), ChickenDropsCategory.UID);
-        registry.addRecipes(getLayingRecipes(), ChickenLayingCategory.UID);
+        registry.addRecipes(ChickensRecipeTypes.BREEDING, getBreedingRecipes());
+        registry.addRecipes(ChickensRecipeTypes.LAYING, getLayingRecipes());
+        registry.addRecipes(ChickensRecipeTypes.DROPS, getDropRecipes());
     }
 
     private List<ChickenLayingCategory.Recipe> getLayingRecipes()
@@ -96,7 +103,7 @@ public class ChickensJeiPlugin implements IModPlugin
     }
 
     @Override
-    public ResourceLocation getPluginUid()
+    public @NotNull ResourceLocation getPluginUid()
     {
         return ID;
     }

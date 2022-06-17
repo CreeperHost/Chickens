@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.client.RenderProperties;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +38,7 @@ public class ItemLiquidEgg extends Item implements IColorSource
         Fluid fluid = Registry.FLUID.get(resourceLocation);
         if (fluid != null)
         {
-            return fluid.getAttributes().getColor();
+            return RenderProperties.get(fluid).getColorTint();
         }
         return 0;
     }

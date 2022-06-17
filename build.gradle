@@ -60,7 +60,7 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'quantumstorage', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
+            args '--mod', 'chickens', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
 
             mods {
                 quantumstorage {
@@ -99,15 +99,16 @@ dependencies {
 //    theoneprobe-1.18-5.1.0.jar
 //    implementation fg.deobf("theoneprobe:theoneprobe:1.18-5.1.0")
 
-    compileOnly fg.deobf("mezz.jei:jei-1.18.2:${project.jei_version}:api")
-//    runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${project.jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-1.19-common-api:${project.jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-1.19-forge-api:${project.jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.19-forge:${project.jei_version}")
 
 //    implementation fg.deobf("mcjty.theoneprobe:TheOneProbe-${project.mc_version}:${project.mc_version}-${probe_version}")
 //    implementation "dev.architectury:architectury:${rootProject.architectury_version}"
 
-    implementation(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}"))
+//    implementation(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}"))
 
-    implementation fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}")
+//    implementation fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}")
 
     implementation fg.deobf("dev.architectury:architectury-forge:${rootProject.architectury_version}")
     implementation fg.deobf("net.creeperhost:polylib-forge:${rootProject.polylib_version}")
