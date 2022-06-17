@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.init;
 
 import net.creeperhost.chickens.ChickensMod;
+import net.creeperhost.chickens.handler.ItemHolder;
 import net.creeperhost.chickens.handler.SpawnType;
 import net.creeperhost.chickens.registry.ChickensRegistry;
 import net.creeperhost.chickens.registry.ChickensRegistryItem;
@@ -98,10 +99,10 @@ public class ModChickens
         ChickensRegistryItem snowballChicken = new ChickensRegistryItem(new ResourceLocation(ChickensMod.MODID, "snowball_chicken"), "snowball_chicken", new ResourceLocation("chickens", "textures/entity/snowball_chicken.png"), new ItemStack(Items.SNOWBALL), 0x33bbff, 0x0088cc, blueChicken, logChicken).setSpawnType(SpawnType.SNOW);
         chickens.add(snowballChicken);
 
-        ChickensRegistryItem waterChicken = new ChickensRegistryItem(new ResourceLocation(ChickensMod.MODID, "water_chicken"), "water_chicken", new ResourceLocation("chickens", "textures/entity/water_chicken.png"), new ItemStack(Items.WATER_BUCKET, 1), 0x000099, 0x8080ff, gunpowderChicken, snowballChicken);
+        ChickensRegistryItem waterChicken = new ChickensRegistryItem(new ResourceLocation(ChickensMod.MODID, "water_chicken"), "water_chicken", new ResourceLocation("chickens", "textures/entity/water_chicken.png"), new ItemHolder("chickens:water_fluid_egg", 0, 1), 0x000099, 0x8080ff, gunpowderChicken, snowballChicken);
         chickens.add(waterChicken);
 
-        ChickensRegistryItem lavaChicken = new ChickensRegistryItem(new ResourceLocation(ChickensMod.MODID, "lava_chicken"), "lava_chicken", new ResourceLocation("chickens", "textures/entity/lava_chicken.png"), new ItemStack(Items.LAVA_BUCKET, 1), 0xcc3300, 0xffff00, coalChicken, quartzChicken).setSpawnType(SpawnType.HELL);
+        ChickensRegistryItem lavaChicken = new ChickensRegistryItem(new ResourceLocation(ChickensMod.MODID, "lava_chicken"), "lava_chicken", new ResourceLocation("chickens", "textures/entity/lava_chicken.png"), new ItemHolder("chickens:lava_fluid_egg", 0, 1), 0xcc3300, 0xffff00, coalChicken, quartzChicken).setSpawnType(SpawnType.HELL);
         chickens.add(lavaChicken);
 
         ChickensRegistryItem clayChicken = new ChickensRegistryItem(new ResourceLocation(ChickensMod.MODID, "clay_chicken"), "clay_chicken", new ResourceLocation("chickens", "textures/entity/clay_chicken.png"), new ItemStack(Items.CLAY_BALL), 0xcccccc, 0xbfbfbf, snowballChicken, sandChicken);
