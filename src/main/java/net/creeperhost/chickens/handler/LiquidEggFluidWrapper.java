@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 public class LiquidEggFluidWrapper implements IFluidHandler, IFluidHandlerItem, ICapabilityProvider
 {
     private final ItemStack container;
+    private final LazyOptional<IFluidHandlerItem> holder = LazyOptional.of(() -> this);
 
     public LiquidEggFluidWrapper(ItemStack container)
     {
@@ -28,13 +29,7 @@ public class LiquidEggFluidWrapper implements IFluidHandler, IFluidHandlerItem, 
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability)
     {
-//        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-//            return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-//        }
-//        if (capability == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY) {
-//            return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.cast(this);
-//        }
-        return LazyOptional.empty();
+        return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(capability, holder);
     }
 
 
