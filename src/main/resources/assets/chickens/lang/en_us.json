@@ -10,6 +10,8 @@
   "item.analyzer.tooltip1":"Use it on chickens to determine their stats.",
   "item.analyzer.tooltip2":" - \"Which day of the week do chickens hate most? Fry-day!\"",
   "item.chickens.catcher":"Chicken Catcher",
+  "item.chickens.water_fluid_egg":"Water Egg",
+  "item.chickens.lava_fluid_egg":"Lava Egg",
 
   "item.colored_egg.tooltip":"Throw it to have a chance to spawn the chicken.",
 
