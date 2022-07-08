@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "DED",
+    "DDD"  ],
+  "key": {
+    "D": [
+      {
+        "item": "minecraft:light_gray_dye"
+      }
+    ],
+    "E": [
+      {
+        "item": "minecraft:egg"
+      }
+    ]
+  },
+  "result": {
+    "type": "forge:nbt",
+    "item": "chickens:colored_egg",
+    "nbt": {
+      "colourid":8,
+      "id":"chickens:light_gray_chicken"
+    }
+  }
+}

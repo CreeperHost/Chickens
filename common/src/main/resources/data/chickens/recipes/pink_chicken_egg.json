@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "DED",
+    "DDD"  ],
+  "key": {
+    "D": [
+      {
+        "item": "minecraft:pink_dye"
+      }
+    ],
+    "E": [
+      {
+        "item": "minecraft:egg"
+      }
+    ]
+  },
+  "result": {
+    "type": "forge:nbt",
+    "item": "chickens:colored_egg",
+    "nbt": {
+      "colourid":6,
+      "id":"chickens:pink_chicken"
+    }
+  }
+}

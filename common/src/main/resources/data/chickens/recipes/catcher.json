@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "e",
+    "s",
+    "f"
+  ],
+  "key": {
+    "e": [
+      {
+        "tag": "forge:eggs"
+      }
+    ],
+    "s": [
+      {
+        "item": "minecraft:stick"
+      }
+    ],
+    "f": [
+      {
+        "item": "minecraft:feather"
+      }
+    ]
+  },
+  "result": {
+    "item": "chickens:catcher"
+  }
+}
