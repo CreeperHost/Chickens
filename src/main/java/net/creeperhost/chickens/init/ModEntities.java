@@ -11,6 +11,7 @@ import net.creeperhost.chickens.registry.ChickensRegistryItem;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
@@ -48,7 +49,7 @@ public class ModEntities
     {
         if(chickensRegistryItem.canSpawn())
         {
-            BiomeModifications.addProperties(biomeContext -> canSpawnBiome(biomeContext.getProperties()), (biomeContext, mutable) -> mutable.getSpawnProperties().addSpawn(MobCategory.MONSTER,
+            BiomeModifications.addProperties(ModEntities::canSpawnBiome, (biomeContext, mutable) -> mutable.getSpawnProperties().addSpawn(MobCategory.MONSTER,
                     new MobSpawnSettings.SpawnerData(entityType.get(), 10, 4, 4)));
 
             SpawnPlacements.register(entityType.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
@@ -56,42 +57,19 @@ public class ModEntities
         }
     }
 
-    public static boolean canSpawnBiome(BiomeProperties biomeProperties)
+    public static boolean canSpawnBiome(BiomeModifications.BiomeContext biomeContext)
     {
+        if(biomeContext.hasTag(BiomeTags.IS_NETHER)) return false;
+        if(biomeContext.hasTag(BiomeTags.IS_END)) return false;
+        if(biomeContext.hasTag(BiomeTags.IS_OCEAN)) return false;
         return true;
     }
 
-
-    @Deprecated
-    public static void init()
-    {
-//        for (ChickensRegistryItem item : ChickensRegistry.getItems())
-//        {
-//            EntityType<EntityChickensChicken> entityType = EntityType.Builder.of(EntityChickensChicken::new, MobCategory.CREATURE).sized(0.6F, 1.7F).clientTrackingRange(8).build(item.getEntityName());
-//            ENTITIES.register(item.getEntityName(), () -> entityType);
-//            if(item.canSpawn())
-//            {
-//                SPAWNABLE_CHICKENS.add(entityType);
-//                SpawnPlacements.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (p_21781_, p_21782_, p_21783_, p_21784_, p_21785_)
-//                        -> checkAnimalSpawnRules(p_21781_, p_21782_, p_21783_, p_21784_, p_21785_, item));
-//            }
-//        }
-    }
 
     public static boolean checkAnimalSpawnRules(EntityType<?> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource random, ChickensRegistryItem chickensRegistryItem)
     {
-        if(!levelAccessor.getBlockState(blockPos.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON)) return false;
-        if(!isBrightEnoughToSpawn(levelAccessor, blockPos)) return false;
-        if(!chickensRegistryItem.canSpawn()) return false;
-        if(chickensRegistryItem.getSpawnType() == SpawnType.NORMAL)
-        {
-            return levelAccessor.dimensionType().natural();
-        }
-        if(chickensRegistryItem.getSpawnType() == SpawnType.HELL)
-        {
-            return levelAccessor.dimensionType().piglinSafe();
-        }
-        return true;
+        return levelAccessor.getBlockState(blockPos.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON) && isBrightEnoughToSpawn(levelAccessor, blockPos);
+
     }
 
     public static boolean isBrightEnoughToSpawn(BlockAndTintGetter blockAndTintGetter, BlockPos blockPos)
