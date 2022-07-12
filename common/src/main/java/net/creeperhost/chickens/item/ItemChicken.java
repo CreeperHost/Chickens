@@ -1,7 +1,10 @@
 package net.creeperhost.chickens.item;
 
+import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -64,18 +67,17 @@ public class ItemChicken  extends Item
     public void appendHoverText(@NotNull ItemStack itemStack, @org.jetbrains.annotations.Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag tooltipFlag)
     {
         super.appendHoverText(itemStack, level, components, tooltipFlag);
-        //TODO
-//        ChickenStats chickenStats = new ChickenStats(itemStack);
-//        if(Screen.hasShiftDown())
-//        {
-//            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
-//            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
-//            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Strength: " + chickenStats.getStrength()));
-//        }
-//        else
-//        {
-//            components.add(Component.literal("Hold <Shift> for stats"));
-//        }
+        ChickenStats chickenStats = new ChickenStats(itemStack);
+        if(Screen.hasShiftDown())
+        {
+            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
+            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
+            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Strength: " + chickenStats.getStrength()));
+        }
+        else
+        {
+            components.add(Component.literal("Hold <Shift> for stats"));
+        }
     }
 
     @Override
