@@ -3,10 +3,13 @@ package net.creeperhost.chickens.item;
 import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -52,9 +55,8 @@ public class ItemChicken  extends Item
         {
             InteractionHand hand = useOnContext.getHand();
             ItemStack stack = useOnContext.getPlayer().getItemInHand(hand);
-            //TODO
-//            BlockPos blockPos = ItemSpawnEgg.correctPosition(useOnContext.getClickedPos(), useOnContext.getClickedFace());
-//            ItemSpawnEgg.activate(stack, level, blockPos);
+            BlockPos blockPos = correctPosition(useOnContext.getClickedPos(), useOnContext.getClickedFace());
+            spawn(stack, level, blockPos);
             if (!useOnContext.getPlayer().isCreative())
             {
                 stack.shrink(1);
@@ -62,6 +64,38 @@ public class ItemChicken  extends Item
         }
         return InteractionResult.PASS;
     }
+
+    public static BlockPos correctPosition(BlockPos pos, Direction side)
+    {
+        final int[] offsetsXForSide = new int[]{0, 0, 0, 0, -1, 1};
+        final int[] offsetsYForSide = new int[]{-1, 1, 0, 0, 0, 0};
+        final int[] offsetsZForSide = new int[]{0, 0, -1, 1, 0, 0};
+
+        int posX = pos.getX() + offsetsXForSide[side.ordinal()];
+        int posY = pos.getY() + offsetsYForSide[side.ordinal()];
+        int posZ = pos.getZ() + offsetsZForSide[side.ordinal()];
+
+        return new BlockPos(posX, posY, posZ);
+    }
+
+    public static void spawn(ItemStack stack, Level worldIn, BlockPos pos)
+    {
+        ResourceLocation entityName = ResourceLocation.tryParse(getTypeFromStack(stack));
+        EntityChickensChicken entity = (EntityChickensChicken) Registry.ENTITY_TYPE.get(entityName).create(worldIn);
+        ChickenStats chickenStats = new ChickenStats(stack);
+        if (entity == null) return;
+
+        entity.setStatsAnalyzed(true);
+        entity.setGain(chickenStats.getGain());
+        entity.setStrength(chickenStats.getStrength());
+        entity.setGrowth(chickenStats.getGrowth());
+
+        entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+        entity.setChickenType(getTypeFromStack(stack));
+
+        worldIn.addFreshEntity(entity);
+    }
+
 
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @org.jetbrains.annotations.Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag tooltipFlag)
