@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.item;
 
+import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,36 +33,35 @@ public class ItemAnalyzer extends Item
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack itemStack, @NotNull Player playerIn, LivingEntity target, @NotNull InteractionHand hand)
     {
-        //TODO
-//        if (target.level.isClientSide || !(target instanceof EntityChickensChicken))
-//        {
-//            return InteractionResult.FAIL;
-//        }
-//
-//        EntityChickensChicken chicken = (EntityChickensChicken) target;
-//        chicken.setStatsAnalyzed(true);
-//
-//        Component chickenName = chicken.getName();
-//        playerIn.displayClientMessage(chickenName, false);
-//
-//        playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.tier", chicken.getTier()), false);
-//
-//        playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.growth", chicken.getGrowth()), false);
-//        playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.gain", chicken.getGain()), false);
-//        playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.strength", chicken.getStrength()), false);
-//
-//        if (!chicken.isBaby())
-//        {
-//            int layProgress = chicken.getLayProgress();
-//            if (layProgress <= 0)
-//            {
-//                playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.nextEggSoon"), false);
-//            }
-//            else
-//            {
-//                playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.layProgress", layProgress), false);
-//            }
-//        }
+        if (target.level.isClientSide || !(target instanceof EntityChickensChicken))
+        {
+            return InteractionResult.FAIL;
+        }
+
+        EntityChickensChicken chicken = (EntityChickensChicken) target;
+        chicken.setStatsAnalyzed(true);
+
+        Component chickenName = chicken.getName();
+        playerIn.displayClientMessage(chickenName, false);
+
+        playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.tier", chicken.getTier()), false);
+
+        playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.growth", chicken.getGrowth()), false);
+        playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.gain", chicken.getGain()), false);
+        playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.strength", chicken.getStrength()), false);
+
+        if (!chicken.isBaby())
+        {
+            int layProgress = chicken.getLayProgress();
+            if (layProgress <= 0)
+            {
+                playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.nextEggSoon"), false);
+            }
+            else
+            {
+                playerIn.displayClientMessage(Component.translatable("entity.ChickensChicken.layProgress", layProgress), false);
+            }
+        }
         return InteractionResult.PASS;
     }
 }
