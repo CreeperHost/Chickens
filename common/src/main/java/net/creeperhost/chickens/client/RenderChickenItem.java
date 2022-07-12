@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.client;
 
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
@@ -29,14 +30,19 @@ public class RenderChickenItem
         chicken.yHeadRot = 0;
 
         poseStack.pushPose();
-        poseStack.translate(0.5F, 0.0F, 0.5F);
+
+        if(transformType == ItemTransforms.TransformType.GUI)
+        {
+            Lighting.setupForFlatItems();
+        }
 
         EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
         entityRenderDispatcher.setRenderShadow(false);
         entityRenderDispatcher.setRenderHitBoxes(false);
+
         MultiBufferSource.BufferSource irendertypebuffer$impl = mc.renderBuffers().bufferSource();
         RenderSystem.runAsFancy(() -> {
-            entityRenderDispatcher.render(chicken, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, poseStack, irendertypebuffer$impl, 15728880);
+            entityRenderDispatcher.render(chicken, 0.5D, 0.0D, 0.5D, 1.0F, 1.0F, poseStack, irendertypebuffer$impl, combinedLight);
         });
 
         poseStack.popPose();
