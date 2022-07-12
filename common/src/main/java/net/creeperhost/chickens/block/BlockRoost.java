@@ -1,6 +1,8 @@
 package net.creeperhost.chickens.block;
 
+import dev.architectury.registry.menu.MenuRegistry;
 import net.creeperhost.chickens.blockentities.BlockEntityRoost;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -37,8 +39,8 @@ public class BlockRoost extends BaseEntityBlock
     {
         if (!level.isClientSide)
         {
-            //TODO Open gui
-//            NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) level.getBlockEntity(blockPos), blockPos);
+            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            MenuRegistry.openExtendedMenu((ServerPlayer) player, (MenuProvider) blockEntity, packetBuffer -> packetBuffer.writeBlockPos(blockEntity.getBlockPos()));
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.SUCCESS;
