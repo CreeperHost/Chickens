@@ -1,11 +1,10 @@
 package net.creeperhost.chickens.block;
 
+import dev.architectury.registry.menu.MenuRegistry;
 import net.creeperhost.chickens.blockentities.BlockEntityBreeder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -39,8 +38,8 @@ public class BlockBreeder extends BaseEntityBlock
     {
         if (!level.isClientSide)
         {
-            //TODO open GUI
-//            NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) level.getBlockEntity(blockPos), blockPos);
+            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            MenuRegistry.openExtendedMenu((ServerPlayer) player, (MenuProvider) blockEntity, packetBuffer -> packetBuffer.writeBlockPos(blockEntity.getBlockPos()));
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.SUCCESS;

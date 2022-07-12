@@ -6,10 +6,7 @@ import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import net.creeperhost.chickens.client.RenderChickensChicken;
 import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
-import net.creeperhost.chickens.init.ModBlocks;
-import net.creeperhost.chickens.init.ModChickens;
-import net.creeperhost.chickens.init.ModEntities;
-import net.creeperhost.chickens.init.ModItems;
+import net.creeperhost.chickens.init.*;
 import net.fabricmc.api.EnvType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,6 +25,7 @@ public class Chickens
         ModEntities.ENTITIES.register();
         ModBlocks.TILES_ENTITIES.register();
         ModItems.ITEMS.register();
+        ModContainers.CONTAINERS.register();
 
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) ->
         {
@@ -38,5 +36,10 @@ public class Chickens
                 EntityRendererRegistry.register(entityTypeSupplier, RenderChickensChicken::new);
             }
         });
+
+        if(Platform.getEnv() == EnvType.CLIENT)
+        {
+            ModScreens.init();
+        }
     }
 }
