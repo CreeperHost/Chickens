@@ -4,8 +4,8 @@ import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.creeperhost.chickens.Chickens;
+import net.creeperhost.chickens.ChickensExpectPlatform;
 import net.creeperhost.chickens.item.ItemAnalyzer;
-import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenCatcher;
 import net.creeperhost.chickens.item.ItemColoredEgg;
 import net.minecraft.core.Registry;
@@ -20,7 +20,7 @@ public class ModItems
 
     public static final RegistrySupplier<Item> COLOURED_EGG = ITEMS.register("colored_egg", () -> new ItemColoredEgg(new Item.Properties().tab(CREATIVE_MODE_TAB)));
     public static final RegistrySupplier<Item> ANALYZER = ITEMS.register("analyzer", () -> new ItemAnalyzer(new Item.Properties().tab(CREATIVE_MODE_TAB).stacksTo(1)));
-    public static final RegistrySupplier<Item> CHICKEN_ITEM = ITEMS.register("chicken_item", () -> new ItemChicken(new Item.Properties().tab(CREATIVE_MODE_TAB).stacksTo(16)));
+    public static final RegistrySupplier<Item> CHICKEN_ITEM = ITEMS.register("chicken_item", () -> ChickensExpectPlatform.createNewChickenItem(new Item.Properties().tab(CREATIVE_MODE_TAB).stacksTo(16)));
     public static final RegistrySupplier<Item> CATCHER_ITEM = ITEMS.register("catcher", () -> new ItemChickenCatcher(new Item.Properties().tab(CREATIVE_MODE_TAB)));
 
 

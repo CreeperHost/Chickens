@@ -1,6 +1,5 @@
 {
-    "parent": "item/generated",
+    "parent": "minecraft:builtin/entity",
     "textures": {
-        "layer0": "chickens:items/chicken/zincchicken"
     }
 }

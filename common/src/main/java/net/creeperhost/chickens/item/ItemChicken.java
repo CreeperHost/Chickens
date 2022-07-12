@@ -6,6 +6,7 @@ import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -26,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ItemChicken  extends Item
+public class ItemChicken extends Item
 {
     public ItemChicken(Properties properties)
     {
@@ -144,16 +145,4 @@ public class ItemChicken  extends Item
         }
         return null;
     }
-
-    //TODO figure out how to do this in fabric/arch
-//    @Override
-//    public void initializeClient(Consumer<IClientItemExtensions> consumer)
-//    {
-//        consumer.accept(new IClientItemExtensions() {
-//            @Override
-//            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
-//                return RenderChickenItem.getInstance();
-//            }
-//        });
-//    }
 }
