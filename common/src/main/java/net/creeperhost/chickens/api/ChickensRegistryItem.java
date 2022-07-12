@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.api;
 
 import net.creeperhost.chickens.handler.ItemHolder;
+import net.creeperhost.chickens.polylib.CommonTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -141,9 +142,7 @@ public class ChickensRegistryItem
 
     public boolean isDye()
     {
-        //TODO
-        return false;
-//        return layItem.getStack().is(Tags.Items.DYES);
+        return layItem.getStack().is(CommonTags.DYE);
     }
 
     public boolean canSpawn()
