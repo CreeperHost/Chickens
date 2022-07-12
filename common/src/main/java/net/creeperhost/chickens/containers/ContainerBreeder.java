@@ -61,6 +61,6 @@ public class ContainerBreeder extends PolyContainer
 
     public int getProgress()
     {
-        return 0;
+        return containerData.get(0);
     }
 }

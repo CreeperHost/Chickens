@@ -221,7 +221,7 @@ public class PolyInventory implements Container, StackedContentsCompatible
         for (int i = 0; i < this.size; ++i)
         {
             ItemStack itemStack2 = this.getItem(i);
-            if (ItemStack.isSame(itemStack2, itemStack))
+            if (ItemStack.isSameItemSameTags(itemStack2, itemStack))
             {
                 this.moveItemsBetweenStacks(itemStack, itemStack2);
                 if (itemStack.isEmpty())
