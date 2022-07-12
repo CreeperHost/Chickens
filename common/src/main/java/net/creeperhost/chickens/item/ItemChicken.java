@@ -111,9 +111,9 @@ public class ItemChicken  extends Item
 
     //TODO figure out how to do this in fabric/arch
 //    @Override
-//    public void initializeClient(Consumer<IItemRenderProperties> consumer)
+//    public void initializeClient(Consumer<IClientItemExtensions> consumer)
 //    {
-//        consumer.accept(new IItemRenderProperties() {
+//        consumer.accept(new IClientItemExtensions() {
 //            @Override
 //            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
 //                return RenderChickenItem.getInstance();
