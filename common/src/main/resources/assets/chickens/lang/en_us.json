@@ -1,7 +1,5 @@
 {
-  "itemGroup.chickens":"Chickens",
-  "itemGroup.chickens_spawneggs":"Chickens Spawn Eggs",
-  "itemGroup.chickens_blocks":"Chickens Blocks",
+  "itemGroup.chickens.creative_tab":"Chickens",
 
   "item.liquid_egg.tooltip":"It's like one-off bucket.",
   "item.liquid_egg.water.name":"Water Egg",
