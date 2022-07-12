@@ -1,5 +1,7 @@
 package net.creeperhost.chickens.item;
 
+import net.creeperhost.chickens.api.ChickenStats;
+import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -24,22 +26,21 @@ public class ItemChickenCatcher extends Item
     @Override
     public InteractionResult interactLivingEntity(@NotNull ItemStack itemStack, @NotNull Player player, @NotNull LivingEntity livingEntity, @NotNull InteractionHand hand)
     {
-        //TODO
-//        if(livingEntity instanceof EntityChickensChicken entityChickensChicken)
-//        {
-//            Level level = livingEntity.getLevel();
-//            ItemStack chicken = new ItemStack(ModItems.CHICKEN_ITEM.get());
-//            ResourceLocation resourceLocation = Registry.ENTITY_TYPE.getKey(entityChickensChicken.getType());
-//            ItemChicken.applyEntityIdToItemStack(chicken, resourceLocation);
-//
-//            ChickenStats chickenStats = new ChickenStats(entityChickensChicken.getGain(), entityChickensChicken.getGrowth(), entityChickensChicken.getStrength());
-//            chickenStats.write(chicken);
-//
-//            ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), chicken);
-//            level.addFreshEntity(itemEntity);
-//            livingEntity.remove(Entity.RemovalReason.DISCARDED);
-//            return InteractionResult.PASS;
-//        }
+        if(livingEntity instanceof EntityChickensChicken entityChickensChicken)
+        {
+            Level level = livingEntity.getLevel();
+            ItemStack chicken = new ItemStack(ModItems.CHICKEN_ITEM.get());
+            ResourceLocation resourceLocation = Registry.ENTITY_TYPE.getKey(entityChickensChicken.getType());
+            ItemChicken.applyEntityIdToItemStack(chicken, resourceLocation);
+
+            ChickenStats chickenStats = new ChickenStats(entityChickensChicken.getGain(), entityChickensChicken.getGrowth(), entityChickensChicken.getStrength());
+            chickenStats.write(chicken);
+
+            ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), chicken);
+            level.addFreshEntity(itemEntity);
+            livingEntity.remove(Entity.RemovalReason.DISCARDED);
+            return InteractionResult.PASS;
+        }
         return InteractionResult.PASS;
     }
 }
