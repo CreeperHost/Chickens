@@ -6,6 +6,7 @@ import net.creeperhost.chickens.api.IColorSource;
 import net.creeperhost.chickens.entity.EntityColoredEgg;
 import net.creeperhost.chickens.init.ModChickens;
 import net.creeperhost.chickens.init.ModEntities;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -60,7 +61,7 @@ public class ItemColoredEgg extends Item implements IColorSource
     @Override
     public Component getName(ItemStack stack)
     {
-        if (!stack.hasTag()) return Component.literal("null");
+        if (!stack.hasTag()) return Component.literal(ChatFormatting.RED + "Bad Egg");
 
         String name = stack.getTag().getString("id");
         String[] split = name.split(":");
@@ -117,17 +118,20 @@ public class ItemColoredEgg extends Item implements IColorSource
 
         if (!level.isClientSide)
         {
-            String chickenType = itemStackIn.getTag().getString("id");
-            if (chickenType != null)
+            if(itemStackIn.hasTag())
             {
-                EntityColoredEgg entityIn = ModEntities.EGG.get().create(level);
-                entityIn.setItem(itemStackIn);
-                entityIn.setChickenType(chickenType);
-                entityIn.setPos(player.getX(), player.getEyeY() - 0.1D, player.getZ());
-                entityIn.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-                entityIn.setOwner(player);
+                String chickenType = itemStackIn.getTag().getString("id");
+                if (chickenType != null)
+                {
+                    EntityColoredEgg entityIn = ModEntities.EGG.get().create(level);
+                    entityIn.setItem(itemStackIn);
+                    entityIn.setChickenType(chickenType);
+                    entityIn.setPos(player.getX(), player.getEyeY() - 0.1D, player.getZ());
+                    entityIn.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
+                    entityIn.setOwner(player);
 
-                level.addFreshEntity(entityIn);
+                    level.addFreshEntity(entityIn);
+                }
             }
         }
 
