@@ -32,6 +32,8 @@ public class ItemColoredEgg extends Item implements IColorSource
     {
         try
         {
+            if(!stack.hasTag()) return 0;
+
             int colourid = stack.getTag().getInt("colourid");
             DyeColor dyeColor = DyeColor.byId(colourid);
             if (dyeColor != null)

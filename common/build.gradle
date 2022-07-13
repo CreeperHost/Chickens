@@ -14,6 +14,10 @@ dependencies {
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
     modApi("net.creeperhost:polylib-fabric:${rootProject.polylib_version}")
 
+    modApi("mezz.jei:jei-1.19-common-api:${project.jei_version}")
+    modApi("mezz.jei:jei-1.19-fabric-api:${project.jei_version}")
+    modApi("mezz.jei:jei-1.19-fabric:${project.jei_version}")
+
 }
 
 publishing {

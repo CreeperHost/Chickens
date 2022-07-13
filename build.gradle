@@ -38,6 +38,10 @@ allprojects {
             name "CreeperHost"
             url 'https://maven.creeperhost.net'
         }
+        maven {
+            name 'JEI'
+            url 'https://dvs1.progwml6.com/files/maven'
+        }
     }
 
     tasks.withType(JavaCompile) {
