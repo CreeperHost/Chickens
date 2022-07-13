@@ -15,6 +15,7 @@ import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.item.ItemColoredEgg;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.Registry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -58,6 +59,7 @@ public class Chickens
         }, ModItems.COLOURED_EGG);
 
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickensChicken::new));
+        EntityRendererRegistry.register(ModEntities.EGG, ThrownItemRenderer::new);
     }
 
     private static EventResult onEntityInteract(Player player, Entity entity, InteractionHand interactionHand)

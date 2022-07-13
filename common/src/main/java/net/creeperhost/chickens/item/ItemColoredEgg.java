@@ -3,7 +3,9 @@ package net.creeperhost.chickens.item;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.api.IColorSource;
+import net.creeperhost.chickens.entity.EntityColoredEgg;
 import net.creeperhost.chickens.init.ModChickens;
+import net.creeperhost.chickens.init.ModEntities;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -116,18 +118,17 @@ public class ItemColoredEgg extends Item implements IColorSource
         if (!level.isClientSide)
         {
             String chickenType = itemStackIn.getTag().getString("id");
-            //TODO
-//            if (chickenType != null)
-//            {
-//                EntityColoredEgg entityIn = ModEntities.EGG.get().create(level);
-//                entityIn.setItem(itemStackIn);
-//                entityIn.setChickenType(chickenType);
-//                entityIn.setPos(player.getX(), player.getEyeY() - 0.1D, player.getZ());
-//                entityIn.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-//                entityIn.setOwner(player);
-//
-//                level.addFreshEntity(entityIn);
-//            }
+            if (chickenType != null)
+            {
+                EntityColoredEgg entityIn = ModEntities.EGG.get().create(level);
+                entityIn.setItem(itemStackIn);
+                entityIn.setChickenType(chickenType);
+                entityIn.setPos(player.getX(), player.getEyeY() - 0.1D, player.getZ());
+                entityIn.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
+                entityIn.setOwner(player);
+
+                level.addFreshEntity(entityIn);
+            }
         }
 
         return new InteractionResultHolder<ItemStack>(InteractionResult.SUCCESS, itemStackIn);

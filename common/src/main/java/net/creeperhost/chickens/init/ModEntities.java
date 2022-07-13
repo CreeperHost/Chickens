@@ -5,11 +5,13 @@ import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.client.RenderChickensChicken;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
+import net.creeperhost.chickens.entity.EntityColoredEgg;
 import net.fabricmc.api.EnvType;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -35,6 +37,7 @@ import java.util.function.Supplier;
 public class ModEntities
 {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Chickens.MOD_ID, Registry.ENTITY_TYPE_REGISTRY);
+    public static final RegistrySupplier<EntityType<EntityColoredEgg>> EGG = ENTITIES.register("egg", () -> EntityType.Builder.<EntityColoredEgg>of(EntityColoredEgg::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build("egg"));
 
     @Deprecated
     public static final List<EntityType<?>> SPAWNABLE_CHICKENS = new ArrayList<>();
