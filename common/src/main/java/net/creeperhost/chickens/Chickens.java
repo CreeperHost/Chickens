@@ -16,6 +16,7 @@ import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.item.ItemColoredEgg;
+import net.creeperhost.polylib.entities.SpawnRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.Registry;
@@ -46,6 +47,8 @@ public class Chickens
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
 
         InteractionEvent.INTERACT_ENTITY.register(Chickens::onEntityInteract);
+
+        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem));
     }
 
     private static void clientSetup(Minecraft minecraft)
