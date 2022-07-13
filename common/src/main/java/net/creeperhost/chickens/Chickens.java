@@ -6,10 +6,12 @@ import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
+import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.client.RenderChickensChicken;
+import net.creeperhost.chickens.client.RenderRoost;
 import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
@@ -60,6 +62,7 @@ public class Chickens
 
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickensChicken::new));
         EntityRendererRegistry.register(ModEntities.EGG, ThrownItemRenderer::new);
+        BlockEntityRendererRegistry.register(ModBlocks.ROOST_TILE.get(), context -> new RenderRoost());
     }
 
     private static EventResult onEntityInteract(Player player, Entity entity, InteractionHand interactionHand)
