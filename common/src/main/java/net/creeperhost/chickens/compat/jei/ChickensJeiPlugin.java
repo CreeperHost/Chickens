@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@JeiPlugin
+//@JeiPlugin
 public class ChickensJeiPlugin implements IModPlugin
 {
     private static final ResourceLocation ID = new ResourceLocation(Chickens.MOD_ID, "jei_plugin");

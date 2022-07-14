@@ -4,12 +4,15 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.InteractionEvent;
+import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.PlayerEvent;
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import net.creeperhost.chickens.api.ChickensRegistry;
+import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.client.RenderChickensChicken;
 import net.creeperhost.chickens.client.RenderRoost;
 import net.creeperhost.chickens.config.ConfigHandler;
@@ -28,6 +31,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class Chickens
 {
@@ -48,7 +54,8 @@ public class Chickens
 
         InteractionEvent.INTERACT_ENTITY.register(Chickens::onEntityInteract);
 
-        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem));
+
+//        LifecycleEvent.SERVER_STARTED.register(instance -> ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem)));
     }
 
     private static void clientSetup(Minecraft minecraft)
@@ -63,8 +70,12 @@ public class Chickens
             return 0;
         }, ModItems.COLOURED_EGG);
 
-        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickensChicken::new));
-        EntityRendererRegistry.register(ModEntities.EGG, ThrownItemRenderer::new);
+        if(Platform.isFabric())
+        {
+            ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickensChicken::new));
+            EntityRendererRegistry.register(ModEntities.EGG, ThrownItemRenderer::new);
+        }
+
         BlockEntityRendererRegistry.register(ModBlocks.ROOST_TILE.get(), context -> new RenderRoost());
     }
 

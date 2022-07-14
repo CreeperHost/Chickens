@@ -45,14 +45,17 @@ public class RenderRoost implements BlockEntityRenderer<BlockEntityRoost>
                 poseStack.mulPose(Vector3f.XP.rotationDegrees(270));
 
 
-                EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
-                entityRenderDispatcher.setRenderShadow(false);
-                entityRenderDispatcher.setRenderHitBoxes(false);
-                MultiBufferSource.BufferSource irendertypebuffer$impl = mc.renderBuffers().bufferSource();
-                RenderSystem.runAsFancy(() ->
+                if(mc.getEntityRenderDispatcher() != null)
                 {
-                    entityRenderDispatcher.render(chicken, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, poseStack, irendertypebuffer$impl, 15728880);
-                });
+                    EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
+                    entityRenderDispatcher.setRenderShadow(false);
+                    entityRenderDispatcher.setRenderHitBoxes(false);
+                    MultiBufferSource.BufferSource irendertypebuffer$impl = mc.renderBuffers().bufferSource();
+                    RenderSystem.runAsFancy(() ->
+                    {
+                        entityRenderDispatcher.render(chicken, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, poseStack, irendertypebuffer$impl, 15728880);
+                    });
+                }
 
                 poseStack.popPose();
             }

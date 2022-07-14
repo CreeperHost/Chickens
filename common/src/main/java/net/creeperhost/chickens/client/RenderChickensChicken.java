@@ -1,8 +1,11 @@
 package net.creeperhost.chickens.client;
 
 import net.creeperhost.chickens.entity.EntityChickensChicken;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ChickenModel;
+import net.minecraft.client.model.MinecartModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

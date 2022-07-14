@@ -36,14 +36,15 @@ public class RenderChickenItem
             Lighting.setupForFlatItems();
         }
 
-        EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
-        entityRenderDispatcher.setRenderShadow(false);
-        entityRenderDispatcher.setRenderHitBoxes(false);
+        if(mc.getEntityRenderDispatcher() != null)
+        {
+            EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
+            entityRenderDispatcher.setRenderShadow(false);
+            entityRenderDispatcher.setRenderHitBoxes(false);
 
-        MultiBufferSource.BufferSource irendertypebuffer$impl = mc.renderBuffers().bufferSource();
-        RenderSystem.runAsFancy(() -> {
+            MultiBufferSource.BufferSource irendertypebuffer$impl = mc.renderBuffers().bufferSource();
             entityRenderDispatcher.render(chicken, 0.5D, 0.0D, 0.5D, 1.0F, 1.0F, poseStack, irendertypebuffer$impl, combinedLight);
-        });
+        }
 
         poseStack.popPose();
     }

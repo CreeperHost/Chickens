@@ -33,9 +33,6 @@ public class ModEntities
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Chickens.MOD_ID, Registry.ENTITY_TYPE_REGISTRY);
     public static final RegistrySupplier<EntityType<EntityColoredEgg>> EGG = ENTITIES.register("egg", () -> EntityType.Builder.<EntityColoredEgg>of(EntityColoredEgg::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build("egg"));
 
-    @Deprecated
-    public static final List<EntityType<?>> SPAWNABLE_CHICKENS = new ArrayList<>();
-
     public static final Map<ChickensRegistryItem, Supplier<EntityType<EntityChickensChicken>>> CHICKENS = Util.make(new LinkedHashMap<>(), map ->
     {
         for (ChickensRegistryItem item : ChickensRegistry.getItems())
