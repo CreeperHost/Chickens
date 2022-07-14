@@ -50,12 +50,17 @@ public class Chickens
         ModContainers.CONTAINERS.register();
         ClientLifecycleEvent.CLIENT_SETUP.register(Chickens::clientSetup);
 
-        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
+        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) ->
+        {
+            EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes);
+        });
 
         InteractionEvent.INTERACT_ENTITY.register(Chickens::onEntityInteract);
 
-
-//        LifecycleEvent.SERVER_STARTED.register(instance -> ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem)));
+        if(Platform.isFabric())
+        {
+            ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem));
+        }
     }
 
     private static void clientSetup(Minecraft minecraft)
