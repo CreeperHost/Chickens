@@ -63,31 +63,28 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
 
     public void tick()
     {
-        //TODO use a random here to stagger the progress of each egg
+        if(level == null) return;
+
+        int random = level.getRandom().nextInt(0, inventory.getContainerSize());
         progress++;
         if(progress >= 20)
         {
             progress = 0;
-
-            for (int i = 0; i < getContainerSize(); i++)
+            if (inventory.getItem(random).getItem() instanceof ItemChickenEgg itemChickenEgg)
             {
-                if (getItem(i).isEmpty()) continue;
-                if (getItem(i).getItem() instanceof ItemChickenEgg itemChickenEgg)
+                ItemStack stack = inventory.getItem(random);
+                int progress = itemChickenEgg.getProgress(stack);
+                if (progress < 100)
                 {
-                    ItemStack stack = getItem(i);
-                    int progress = itemChickenEgg.getProgress(stack);
-                    if (progress < 100)
+                    progress++;
+                    itemChickenEgg.setProgress(stack, progress);
+                }
+                else
+                {
+                    ItemStack chicken = ItemChicken.of(itemChickenEgg.getType(stack));
+                    if (chicken != null && !chicken.isEmpty())
                     {
-                        progress++;
-                        itemChickenEgg.setProgress(stack, progress);
-                    }
-                    else
-                    {
-                        ItemStack chicken = ItemChicken.of(itemChickenEgg.getType(stack));
-                        if (chicken != null && !chicken.isEmpty())
-                        {
-                            setItem(i, chicken);
-                        }
+                        inventory.setItem(random, chicken);
                     }
                 }
             }

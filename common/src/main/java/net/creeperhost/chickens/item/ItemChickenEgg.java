@@ -35,6 +35,15 @@ public class ItemChickenEgg extends Item
         }
     }
 
+    @Override
+    public Component getName(@NotNull ItemStack itemStack)
+    {
+        String name = getType(itemStack).getEntityName().replace("_", " ") + " egg";
+        String first = name.substring(0, 1).toUpperCase();
+        String formatted = first + name.substring(1);
+        return Component.literal(formatted);
+    }
+
     public static ItemStack of(ChickensRegistryItem chickensRegistryItem)
     {
         ItemStack stack = new ItemStack(ModItems.CHICKEN_EGG.get());
