@@ -40,7 +40,9 @@ public class ScreenRoost extends AbstractContainerScreen<ContainerRoost>
     }
 
     @Override
-    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {}
+    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY)
+    {
+    }
 
     @Override
     public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
@@ -51,7 +53,7 @@ public class ScreenRoost extends AbstractContainerScreen<ContainerRoost>
         int i = (width - imageWidth) / 2;
         int j = (height - imageHeight) / 2;
 
-        if(isInRect(i + 48, j + 20, 26, 20, mouseX, mouseY))
+        if (isInRect(i + 48, j + 20, 26, 20, mouseX, mouseY))
         {
             renderTooltip(poseStack, Component.literal(containerRoost.getProgress() / 10D + "%"), mouseX, mouseY);
         }

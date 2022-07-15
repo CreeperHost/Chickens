@@ -22,7 +22,8 @@ public class ChickensExpectPlatform
      * <a href="https://plugins.jetbrains.com/plugin/16210-architectury">You should also get the IntelliJ plugin to help with @ExpectPlatform.</a>
      */
     @ExpectPlatform
-    public static Path getConfigDirectory() {
+    public static Path getConfigDirectory()
+    {
         // Just throw an error, the content should get replaced at runtime.
         throw new AssertionError();
     }

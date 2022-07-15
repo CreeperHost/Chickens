@@ -151,10 +151,12 @@ public class EntityChickensChicken extends Chicken
         if (mutatingStats)
         {
             increaseStats(newChicken, this, mateChicken, random);
-        } else if (chickenDescription.getRegistryName() == childToBeBorn.getRegistryName())
+        }
+        else if (chickenDescription.getRegistryName() == childToBeBorn.getRegistryName())
         {
             inheritStats(newChicken, this);
-        } else if (mateChickenDescription.getRegistryName() == childToBeBorn.getRegistryName())
+        }
+        else if (mateChickenDescription.getRegistryName() == childToBeBorn.getRegistryName())
         {
             inheritStats(newChicken, mateChicken);
         }
@@ -210,7 +212,7 @@ public class EntityChickensChicken extends Chicken
                 }
 
                 //TODO
-//                itemToLay = BlockEntityHenhouse.pushItemStack(itemToLay, level, new Vec3(getX(), getY(), getZ()));
+                //                itemToLay = BlockEntityHenhouse.pushItemStack(itemToLay, level, new Vec3(getX(), getY(), getZ()));
 
                 if (!itemToLay.isEmpty())
                 {

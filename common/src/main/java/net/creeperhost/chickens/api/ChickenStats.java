@@ -29,7 +29,7 @@ public class ChickenStats
 
     public void read(ItemStack stack)
     {
-        if(!stack.hasTag())
+        if (!stack.hasTag())
         {
             gain = 1;
             growth = 1;
@@ -38,9 +38,9 @@ public class ChickenStats
         }
         else
         {
-            if(stack.getTag() != null)
+            if (stack.getTag() != null)
             {
-                if(stack.getTag().contains("gain"))
+                if (stack.getTag().contains("gain"))
                 {
                     gain = stack.getTag().getInt("gain");
                 }
@@ -48,7 +48,7 @@ public class ChickenStats
                 {
                     gain = 1;
                 }
-                if(stack.getTag().contains("growth"))
+                if (stack.getTag().contains("growth"))
                 {
                     growth = stack.getTag().getInt("growth");
                 }
@@ -56,7 +56,7 @@ public class ChickenStats
                 {
                     growth = 1;
                 }
-                if(stack.getTag().contains("strength"))
+                if (stack.getTag().contains("strength"))
                 {
                     strength = stack.getTag().getInt("strength");
                 }
@@ -70,7 +70,7 @@ public class ChickenStats
 
     public void setGain(int gain)
     {
-        if(gain > 10) gain = 10;
+        if (gain > 10) gain = 10;
         this.gain = gain;
     }
 
@@ -81,7 +81,7 @@ public class ChickenStats
 
     public void setGrowth(int growth)
     {
-        if(growth > 10) growth = 10;
+        if (growth > 10) growth = 10;
         this.growth = growth;
     }
 
@@ -92,7 +92,7 @@ public class ChickenStats
 
     public void setStrength(int strength)
     {
-        if(strength > 10) strength = 10;
+        if (strength > 10) strength = 10;
         this.strength = strength;
     }
 

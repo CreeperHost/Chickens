@@ -86,7 +86,8 @@ public class ConfigHandler
             if (parent1 != null && parent2 != null)
             {
                 chicken.setParentsNew(parent1, parent2);
-            } else
+            }
+            else
             {
                 chicken.setNoParents();
             }

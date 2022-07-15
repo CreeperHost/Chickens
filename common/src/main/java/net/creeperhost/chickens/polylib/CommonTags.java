@@ -12,7 +12,7 @@ public class CommonTags
 
     public static TagKey<Item> registerTag(String string)
     {
-        if(Platform.isForge())
+        if (Platform.isForge())
         {
             return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("forge", string));
         }

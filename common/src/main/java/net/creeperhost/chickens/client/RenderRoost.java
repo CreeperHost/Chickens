@@ -23,17 +23,17 @@ public class RenderRoost implements BlockEntityRenderer<BlockEntityRoost>
     @Override
     public void render(@NotNull BlockEntityRoost blockEntityRoost, float p_112308_, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int light, int ov)
     {
-        if(blockEntityRoost != null && !blockEntityRoost.inventory.getItem(0).isEmpty())
+        if (blockEntityRoost != null && !blockEntityRoost.inventory.getItem(0).isEmpty())
         {
             ItemStack itemStack = blockEntityRoost.inventory.getItem(0);
-            if(itemStack.getItem() instanceof ItemChicken)
+            if (itemStack.getItem() instanceof ItemChicken)
             {
                 Minecraft mc = Minecraft.getInstance();
-                if(mc.level == null) return;
+                if (mc.level == null) return;
                 EntityType<?> entityType = Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(ItemChicken.getTypeFromStack(itemStack)));
-                if(entityType == null) return;
+                if (entityType == null) return;
                 EntityChickensChicken chicken = (EntityChickensChicken) entityType.create(mc.level);
-                if(chicken == null) return;
+                if (chicken == null) return;
                 //Force the head rot in position to stop it bouncing
                 chicken.yHeadRot = 0;
 
@@ -45,7 +45,7 @@ public class RenderRoost implements BlockEntityRenderer<BlockEntityRoost>
                 poseStack.mulPose(Vector3f.XP.rotationDegrees(270));
 
 
-                if(mc.getEntityRenderDispatcher() != null)
+                if (mc.getEntityRenderDispatcher() != null)
                 {
                     EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
                     entityRenderDispatcher.setRenderShadow(false);

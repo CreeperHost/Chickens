@@ -19,7 +19,7 @@ public class BlockEntityHenhouse extends BaseContainerBlockEntity
 
     public void tick()
     {
-        
+
     }
 
     @Override

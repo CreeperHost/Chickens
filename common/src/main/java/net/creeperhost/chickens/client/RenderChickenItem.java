@@ -1,7 +1,6 @@
 package net.creeperhost.chickens.client;
 
 import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.item.ItemChicken;
@@ -19,24 +18,24 @@ public class RenderChickenItem
     public static void renderByItem(ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay)
     {
         Minecraft mc = Minecraft.getInstance();
-        if(mc == null) return;
-        if(mc.level == null) return;
+        if (mc == null) return;
+        if (mc.level == null) return;
 
         EntityType<?> entityType = Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(ItemChicken.getTypeFromStack(itemStack)));
 
         EntityChickensChicken chicken = (EntityChickensChicken) entityType.create(mc.level);
-        if(chicken == null) return;
+        if (chicken == null) return;
         //Force the head rot in position to stop it bouncing
         chicken.yHeadRot = 0;
 
         poseStack.pushPose();
 
-        if(transformType == ItemTransforms.TransformType.GUI)
+        if (transformType == ItemTransforms.TransformType.GUI)
         {
             Lighting.setupForFlatItems();
         }
 
-        if(mc.getEntityRenderDispatcher() != null)
+        if (mc.getEntityRenderDispatcher() != null)
         {
             EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
             entityRenderDispatcher.setRenderShadow(false);

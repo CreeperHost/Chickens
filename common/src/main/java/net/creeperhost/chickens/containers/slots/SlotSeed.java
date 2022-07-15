@@ -1,6 +1,5 @@
 package net.creeperhost.chickens.containers.slots;
 
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;

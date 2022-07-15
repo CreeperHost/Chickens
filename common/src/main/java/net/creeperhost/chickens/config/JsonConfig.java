@@ -67,7 +67,8 @@ public class JsonConfig
         if (json.has(categoryProperty))
         {
             object = json.getAsJsonObject(categoryProperty);
-        } else
+        }
+        else
         {
             json.add(categoryProperty, object);
             setHasChanged(true);
@@ -91,7 +92,8 @@ public class JsonConfig
         if (object.has(property))
         {
             value = object.get(property).getAsBoolean();
-        } else
+        }
+        else
         {
             object.addProperty(property, value);
             setHasChanged(true);
@@ -116,7 +118,8 @@ public class JsonConfig
         if (object.has(property))
         {
             value = object.get(property).getAsString();
-        } else
+        }
+        else
         {
             object.addProperty(property, value);
             setHasChanged(true);
@@ -143,7 +146,8 @@ public class JsonConfig
         if (object.has(property))
         {
             value = object.get(property).getAsFloat();
-        } else
+        }
+        else
         {
             object.addProperty(property, value);
             setHasChanged(true);
@@ -169,7 +173,8 @@ public class JsonConfig
             {
                 holder.readJsonObject(object.get(property).getAsJsonObject());
                 useDefault = false;
-            } else
+            }
+            else
             {
                 // Use old code reader to update old configs
                 ItemStack oldItemStack = getItemStack(categoryProperty, property, defaultItemHolder.getStack());
@@ -200,7 +205,8 @@ public class JsonConfig
         if (object.has(property))
         {
             stack = getItemStackFromID(object.get(property).getAsString());
-        } else
+        }
+        else
         {
             object.addProperty(property, getIDfromItemStack(stack));
             setHasChanged(true);

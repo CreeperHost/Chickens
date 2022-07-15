@@ -2,10 +2,7 @@ package net.creeperhost.chickens.api;
 
 public enum SpawnType
 {
-    NORMAL,
-    SNOW,
-    NONE,
-    HELL;
+    NORMAL, SNOW, NONE, HELL;
 
     public static String[] names()
     {

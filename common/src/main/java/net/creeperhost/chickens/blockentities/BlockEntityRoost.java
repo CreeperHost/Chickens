@@ -71,12 +71,13 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
 
     public void tick()
     {
-        if(level != null && !level.isClientSide)
+        if (level != null && !level.isClientSide)
         {
             if (!inventory.getItem(0).isEmpty() && progress <= 1000)
             {
                 progress++;
-            } else
+            }
+            else
             {
                 ChickensRegistryItem chickensRegistryItem = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(inventory.getItem(0)));
                 if (chickensRegistryItem != null)
@@ -96,7 +97,7 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
                     int finalCount = itemToLay.getCount() * chickens;
                     itemToLay.setCount(finalCount);
                     ItemStack inserted = inventory.addItem(itemToLay);
-                    if(inserted.isEmpty())
+                    if (inserted.isEmpty())
                     {
                         level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
 

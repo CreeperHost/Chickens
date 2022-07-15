@@ -118,7 +118,8 @@ public class ItemHolder
                 if (this.nbtData != null && !this.nbtData.isEmpty()) stack.setTag(this.nbtData);
 
                 isComplete = true;
-            } else
+            }
+            else
             {
                 handleItemNotFound();
             }

@@ -2,14 +2,14 @@ package net.creeperhost.chickens.block;
 
 import dev.architectury.registry.menu.MenuRegistry;
 import net.creeperhost.chickens.blockentities.BlockEntityRoost;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -85,11 +85,14 @@ public class BlockRoost extends BaseEntityBlock
     }
 
     @Override
-    public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState blockState1, boolean p_51542_) {
-        if (!blockState.is(blockState1.getBlock())) {
+    public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState blockState1, boolean p_51542_)
+    {
+        if (!blockState.is(blockState1.getBlock()))
+        {
             BlockEntity blockentity = level.getBlockEntity(blockPos);
-            if (blockentity instanceof Container) {
-                Containers.dropContents(level, blockPos, (Container)blockentity);
+            if (blockentity instanceof Container)
+            {
+                Containers.dropContents(level, blockPos, (Container) blockentity);
                 level.updateNeighbourForOutputSignal(blockPos, this);
             }
             super.onRemove(blockState, level, blockPos, blockState1, p_51542_);

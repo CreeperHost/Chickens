@@ -24,7 +24,6 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -76,18 +75,19 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
     public void tick()
     {
         boolean canWork = (!inventory.getItem(0).isEmpty() && !inventory.getItem(1).isEmpty() && !inventory.getItem(2).isEmpty());
-        if(level != null && !level.isClientSide && canWork)
+        if (level != null && !level.isClientSide && canWork)
         {
             if (progress <= 1000)
             {
                 progress++;
-            } else
+            }
+            else
             {
                 ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(inventory.getItem(0)));
                 ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(inventory.getItem(1)));
 
                 ChickensRegistryItem baby = ChickensRegistry.getRandomChild(chickensRegistryItem1, chickensRegistryItem2);
-                if(baby == null)
+                if (baby == null)
                 {
                     progress = 0;
                     return;
@@ -98,7 +98,7 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
                 babyStats.write(chickenStack);
                 chickenStack.setCount(1);
                 ItemStack inserted = inventory.addItem(chickenStack);
-                if(inserted.isEmpty())
+                if (inserted.isEmpty())
                 {
                     level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
                     spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
@@ -125,7 +125,7 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
             double d3 = (rand.nextFloat() * (float) j);
             double d4 = (rand.nextFloat() - 0.5D) * 0.125D;
             double d5 = (rand.nextFloat() * (float) k);
-            if(worldIn instanceof ServerLevel serverLevel)
+            if (worldIn instanceof ServerLevel serverLevel)
             {
                 serverLevel.addParticle(ParticleTypes.HEART, d0, d1, d2, d3, d4, d5);
             }

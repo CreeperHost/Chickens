@@ -59,6 +59,7 @@ public class ChickenBreedingCategory implements IRecipeCategory<ChickenBreedingC
         builder.addSlot(RecipeIngredientRole.INPUT, 53, 15).addIngredients(Ingredient.of(recipe.parent2));
         builder.addSlot(RecipeIngredientRole.OUTPUT, 33, 30).addIngredients(Ingredient.of(recipe.child));
     }
+
     @Override
     public void draw(@NotNull Recipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull PoseStack stack, double mouseX, double mouseY)
     {

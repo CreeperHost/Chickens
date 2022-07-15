@@ -40,7 +40,9 @@ public class ScreenBreeder extends AbstractContainerScreen<ContainerBreeder>
     }
 
     @Override
-    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {}
+    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY)
+    {
+    }
 
     @Override
     public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
@@ -50,7 +52,7 @@ public class ScreenBreeder extends AbstractContainerScreen<ContainerBreeder>
         renderTooltip(poseStack, mouseX, mouseY);
         int i = (width - imageWidth) / 2;
         int j = (height - imageHeight) / 2;
-        if(isInRect(i + 84, j + 22, 26, 20, mouseX, mouseY))
+        if (isInRect(i + 84, j + 22, 26, 20, mouseX, mouseY))
         {
             renderTooltip(poseStack, Component.literal(containerBreeder.getProgress() / 10D + "%"), mouseX, mouseY);
         }

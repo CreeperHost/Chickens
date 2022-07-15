@@ -4,7 +4,10 @@ import net.creeperhost.chickens.blockentities.BlockEntityHenhouse;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.*;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -69,11 +72,14 @@ public class BlockHenhouse extends BaseEntityBlock
     }
 
     @Override
-    public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState blockState1, boolean p_51542_) {
-        if (!blockState.is(blockState1.getBlock())) {
+    public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState blockState1, boolean p_51542_)
+    {
+        if (!blockState.is(blockState1.getBlock()))
+        {
             BlockEntity blockentity = level.getBlockEntity(blockPos);
-            if (blockentity instanceof Container) {
-                Containers.dropContents(level, blockPos, (Container)blockentity);
+            if (blockentity instanceof Container)
+            {
+                Containers.dropContents(level, blockPos, (Container) blockentity);
                 level.updateNeighbourForOutputSignal(blockPos, this);
             }
             super.onRemove(blockState, level, blockPos, blockState1, p_51542_);
@@ -86,7 +92,7 @@ public class BlockHenhouse extends BaseEntityBlock
         if (!level.isClientSide)
         {
             //TODO open gui
-//            NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) level.getBlockEntity(blockPos), blockPos);
+            //            NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) level.getBlockEntity(blockPos), blockPos);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.SUCCESS;

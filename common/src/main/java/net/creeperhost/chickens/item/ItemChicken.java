@@ -6,7 +6,6 @@ import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -37,7 +36,7 @@ public class ItemChicken extends Item
     @Override
     public void fillItemCategory(@NotNull CreativeModeTab tab, @NotNull NonNullList<ItemStack> subItems)
     {
-        if(this.allowedIn(tab))
+        if (this.allowedIn(tab))
         {
             for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
             {
@@ -52,7 +51,7 @@ public class ItemChicken extends Item
     public InteractionResult useOn(UseOnContext useOnContext)
     {
         Level level = useOnContext.getLevel();
-        if(!level.isClientSide)
+        if (!level.isClientSide)
         {
             InteractionHand hand = useOnContext.getHand();
             ItemStack stack = useOnContext.getPlayer().getItemInHand(hand);
@@ -103,7 +102,7 @@ public class ItemChicken extends Item
     {
         super.appendHoverText(itemStack, level, components, tooltipFlag);
         ChickenStats chickenStats = new ChickenStats(itemStack);
-        if(Screen.hasShiftDown())
+        if (Screen.hasShiftDown())
         {
             components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
             components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
@@ -119,7 +118,7 @@ public class ItemChicken extends Item
     public Component getName(@NotNull ItemStack stack)
     {
         ChickensRegistryItem chickenDescription = ChickensRegistry.getByRegistryName(getTypeFromStack(stack));
-        if(chickenDescription == null) return Component.literal("nul1");
+        if (chickenDescription == null) return Component.literal("nul1");
         return Component.translatable("entity.chickens." + chickenDescription.getEntityName());
     }
 
