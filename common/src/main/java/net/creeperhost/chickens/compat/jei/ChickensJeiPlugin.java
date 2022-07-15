@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.compat.jei;
 
 import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-//@JeiPlugin
+@JeiPlugin
 public class ChickensJeiPlugin implements IModPlugin
 {
     private static final ResourceLocation ID = new ResourceLocation(Chickens.MOD_ID, "jei_plugin");
