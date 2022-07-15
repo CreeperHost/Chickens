@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@Deprecated
 public class ItemColoredEgg extends Item implements IColorSource
 {
     public ItemColoredEgg(Item.Properties properties)

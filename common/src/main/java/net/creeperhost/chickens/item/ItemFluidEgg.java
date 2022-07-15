@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@Deprecated
 public class ItemFluidEgg extends Item
 {
     public ItemFluidEgg()

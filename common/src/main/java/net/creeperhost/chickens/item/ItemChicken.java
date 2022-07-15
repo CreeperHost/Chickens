@@ -4,6 +4,7 @@ import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
+import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -40,11 +41,16 @@ public class ItemChicken extends Item
         {
             for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
             {
-                ItemStack itemstack = new ItemStack(this);
-                applyEntityIdToItemStack(itemstack, chicken.getRegistryName());
-                subItems.add(itemstack);
+                subItems.add(of(chicken));
             }
         }
+    }
+
+    public static ItemStack of(ChickensRegistryItem chickensRegistryItem)
+    {
+        ItemStack stack = new ItemStack(ModItems.CHICKEN_ITEM.get());
+        applyEntityIdToItemStack(stack, chickensRegistryItem.getRegistryName());
+        return stack;
     }
 
     @Override

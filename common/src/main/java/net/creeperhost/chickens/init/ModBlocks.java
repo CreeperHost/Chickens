@@ -7,6 +7,7 @@ import net.creeperhost.chickens.block.BlockBreeder;
 import net.creeperhost.chickens.block.BlockIncubator;
 import net.creeperhost.chickens.block.BlockRoost;
 import net.creeperhost.chickens.blockentities.BlockEntityBreeder;
+import net.creeperhost.chickens.blockentities.BlockEntityIncubator;
 import net.creeperhost.chickens.blockentities.BlockEntityRoost;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.block.Block;
@@ -25,5 +26,6 @@ public class ModBlocks
     public static final RegistrySupplier<BlockEntityType<BlockEntityBreeder>> BREEDER_TILE = TILES_ENTITIES.register("breeder", () -> BlockEntityType.Builder.of(BlockEntityBreeder::new, ModBlocks.BREEDER.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<BlockEntityRoost>> ROOST_TILE = TILES_ENTITIES.register("roost", () -> BlockEntityType.Builder.of(BlockEntityRoost::new, ModBlocks.ROOST.get()).build(null));
 
+    public static final RegistrySupplier<BlockEntityType<BlockEntityIncubator>> INCUBATOR_TILE = TILES_ENTITIES.register("incubator", () -> BlockEntityType.Builder.of(BlockEntityIncubator::new, ModBlocks.INCUBATOR.get()).build(null));
 
 }
