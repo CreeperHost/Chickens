@@ -22,7 +22,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockBreeder extends BaseEntityBlock
+public class BlockBreeder extends BlockBase
 {
     public static final BooleanProperty IS_BREEDING = BooleanProperty.create("is_breeding");
     public static final BooleanProperty HAS_SEEDS = BooleanProperty.create("has_seeds");
@@ -68,12 +68,6 @@ public class BlockBreeder extends BaseEntityBlock
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(IS_BREEDING, HAS_SEEDS);
-    }
-
-    @Override
-    public RenderShape getRenderShape(@NotNull BlockState blockState)
-    {
-        return RenderShape.MODEL;
     }
 
     @Nullable

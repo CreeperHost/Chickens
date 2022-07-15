@@ -43,14 +43,8 @@ public class ModItems
     public static final RegistrySupplier<Item> FLUID_EGG = ITEMS.register("fluid_egg", () -> new ItemFluidEgg());
 
     //ItemBlocks
-    public static final RegistrySupplier<Item> HEN_HOUSE_ITEM = ITEMS.register("henhouse", () -> new BlockItem(ModBlocks.HEN_HOUSE.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
-    public static final RegistrySupplier<Item> HEN_HOUSE_ACACIA_ITEM = ITEMS.register("henhouse_acacia", () -> new BlockItem(ModBlocks.HEN_HOUSE_ACACIA.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
-    public static final RegistrySupplier<Item> HEN_HOUSE_BIRCH_ITEM = ITEMS.register("henhouse_birch", () -> new BlockItem(ModBlocks.HEN_HOUSE_BIRCH.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
-    public static final RegistrySupplier<Item> HEN_HOUSE_DARK_OAK_ITEM = ITEMS.register("henhouse_dark_oak", () -> new BlockItem(ModBlocks.HEN_HOUSE_DARK_OAK.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
-    public static final RegistrySupplier<Item> HEN_HOUSE_JUNGLE_ITEM = ITEMS.register("henhouse_jungle", () -> new BlockItem(ModBlocks.HEN_HOUSE_JUNGLE.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
-    public static final RegistrySupplier<Item> HEN_HOUSE_SPRUCE_ITEM = ITEMS.register("henhouse_spruce", () -> new BlockItem(ModBlocks.HEN_HOUSE_SPRUCE.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
-
     public static final RegistrySupplier<Item> BREEDER = ITEMS.register("breeder", () -> new BlockItem(ModBlocks.BREEDER.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
     public static final RegistrySupplier<Item> ROOST = ITEMS.register("roost", () -> new BlockItem(ModBlocks.ROOST.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
+    public static final RegistrySupplier<Item> INCUBATOR = ITEMS.register("incubator", () -> new BlockItem(ModBlocks.INCUBATOR.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
 
 }

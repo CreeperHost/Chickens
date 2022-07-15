@@ -16,7 +16,6 @@ import java.util.List;
 public class ConfigHandler
 {
     public static final File configDir = new File("config/chickens");
-    public static final File ChickensMainFile = new File(configDir, "main_chickens.cfg");
     public static final File ChickensFile = new File(configDir, "chickens.json");
 
     private static JsonConfig config;

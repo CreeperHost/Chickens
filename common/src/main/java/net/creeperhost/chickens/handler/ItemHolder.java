@@ -55,7 +55,7 @@ public class ItemHolder
         isComplete = isFinal;
     }
 
-    public ItemHolder(String itemID, int metaID, int qty)
+    public ItemHolder(String itemID, int qty)
     {
         this.itemID = itemID;
         this.nbtData = null;
@@ -82,7 +82,6 @@ public class ItemHolder
         return this;
     }
 
-    @SuppressWarnings("deprecation")
     @Nullable
     public Item getItem()
     {
@@ -99,18 +98,10 @@ public class ItemHolder
         return stackSize;
     }
 
-    /**
-     * Get or Create itemstack for this Loot Item
-     *
-     * @return
-     */
     public ItemStack getStack()
     {
-
-
         if (!isComplete)
         {
-
             Item item = getItem();
             if (item != null)
             {

@@ -63,12 +63,17 @@ public class ItemFluidEgg extends Item
             {
                 if(!fluid.isSame(Fluids.EMPTY))
                 {
-                    ItemStack stack = new ItemStack(this);
-                    stack.getOrCreateTag().putString("fluid", Registry.FLUID.getKey(fluid).toString());
-                    nonNullList.add(stack);
+                    nonNullList.add(of(fluid));
                 }
             });
         }
+    }
+
+    public static ItemStack of(Fluid fluid)
+    {
+        ItemStack stack = new ItemStack(ModItems.FLUID_EGG.get());
+        stack.getOrCreateTag().putString("fluid", Registry.FLUID.getKey(fluid).toString());
+        return stack;
     }
 
     public Fluid getFluid(ItemStack stack)

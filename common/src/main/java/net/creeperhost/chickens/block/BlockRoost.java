@@ -24,7 +24,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockRoost extends BaseEntityBlock
+public class BlockRoost extends BlockBase
 {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
@@ -69,12 +69,6 @@ public class BlockRoost extends BaseEntityBlock
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(FACING);
-    }
-
-    @Override
-    public RenderShape getRenderShape(@NotNull BlockState blockState)
-    {
-        return RenderShape.MODEL;
     }
 
     @Nullable
