@@ -16,6 +16,7 @@ import net.creeperhost.chickens.client.RenderRoost;
 import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
+import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.chickens.item.ItemColoredEgg;
 import net.creeperhost.chickens.item.ItemFluidEgg;
 import net.minecraft.client.Minecraft;
@@ -25,6 +26,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
@@ -62,24 +65,26 @@ public class Chickens
     private static void clientSetup(Minecraft minecraft)
     {
         ModScreens.init();
-        ColorHandlerRegistry.registerItemColors((itemStack, i) ->
-        {
-            if (itemStack.getItem() instanceof ItemColoredEgg itemColoredEgg)
-            {
-                return itemColoredEgg.getColorFromItemStack(itemStack, 1);
-            }
-            return 0;
-        }, ModItems.COLOURED_EGG);
 
         ColorHandlerRegistry.registerItemColors((itemStack, i) ->
         {
-            if (itemStack.getItem() instanceof ItemFluidEgg itemFluidEgg)
+            if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
             {
-                Fluid fluid = itemFluidEgg.getFluid(itemStack);
-                return FluidStackHooks.getColor(fluid);
+                if(itemColoredEgg.getType(itemStack).isDye())
+                {
+                    if(itemColoredEgg.getType(itemStack).getLayItemHolder().getItem() instanceof DyeItem dyeItem)
+                    {
+                        DyeColor dyeColor = dyeItem.getDyeColor();
+                        return dyeColor.getFireworkColor();
+                    }
+                }
+                else
+                {
+                    return itemColoredEgg.getType(itemStack).getFgColor();
+                }
             }
             return 0;
-        }, ModItems.FLUID_EGG);
+        }, ModItems.CHICKEN_EGG);
 
         if (Platform.isFabric())
         {

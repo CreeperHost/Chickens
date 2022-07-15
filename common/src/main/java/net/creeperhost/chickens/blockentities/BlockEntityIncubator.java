@@ -81,6 +81,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
                 }
                 else
                 {
+                    //TODO use a random to decide if we hatch or not
                     ItemStack chicken = ItemChicken.of(itemChickenEgg.getType(stack));
                     if (chicken != null && !chicken.isEmpty())
                     {
