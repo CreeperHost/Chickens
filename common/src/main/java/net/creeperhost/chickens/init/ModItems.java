@@ -1,19 +1,33 @@
 package net.creeperhost.chickens.init;
 
+import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.ChickensExpectPlatform;
+import net.creeperhost.chickens.api.ChickensRegistry;
+import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.item.ItemAnalyzer;
 import net.creeperhost.chickens.item.ItemChickenCatcher;
 import net.creeperhost.chickens.item.ItemColoredEgg;
+import net.creeperhost.chickens.item.ItemFluidEgg;
+import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class ModItems
 {
@@ -26,6 +40,7 @@ public class ModItems
     public static final RegistrySupplier<Item> CHICKEN_ITEM = ITEMS.register("chicken_item", () -> ChickensExpectPlatform.createNewChickenItem(new Item.Properties().tab(CREATIVE_MODE_TAB).stacksTo(16)));
     public static final RegistrySupplier<Item> CATCHER_ITEM = ITEMS.register("catcher", () -> new ItemChickenCatcher(new Item.Properties().tab(CREATIVE_MODE_TAB)));
 
+    public static final RegistrySupplier<Item> FLUID_EGG = ITEMS.register("fluid_egg", () -> new ItemFluidEgg());
 
     //ItemBlocks
     public static final RegistrySupplier<Item> HEN_HOUSE_ITEM = ITEMS.register("henhouse", () -> new BlockItem(ModBlocks.HEN_HOUSE.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));

@@ -42,7 +42,7 @@ public class ChickensJeiPlugin implements IModPlugin
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration)
     {
-        registration.useNbtForSubtypes(ModItems.COLOURED_EGG.get(), ModItems.CHICKEN_ITEM.get());
+        registration.useNbtForSubtypes(ModItems.FLUID_EGG.get(), ModItems.COLOURED_EGG.get(), ModItems.CHICKEN_ITEM.get());
     }
 
     @Override

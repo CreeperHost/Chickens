@@ -3,6 +3,8 @@ package net.creeperhost.chickens;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.common.InteractionEvent;
+import dev.architectury.fluid.FluidStack;
+import dev.architectury.hooks.fluid.FluidStackHooks;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
@@ -15,6 +17,7 @@ import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.item.ItemColoredEgg;
+import net.creeperhost.chickens.item.ItemFluidEgg;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.Registry;
@@ -24,6 +27,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,6 +70,16 @@ public class Chickens
             }
             return 0;
         }, ModItems.COLOURED_EGG);
+
+        ColorHandlerRegistry.registerItemColors((itemStack, i) ->
+        {
+            if (itemStack.getItem() instanceof ItemFluidEgg itemFluidEgg)
+            {
+                Fluid fluid = itemFluidEgg.getFluid(itemStack);
+                return FluidStackHooks.getColor(fluid);
+            }
+            return 0;
+        }, ModItems.FLUID_EGG);
 
         if (Platform.isFabric())
         {
