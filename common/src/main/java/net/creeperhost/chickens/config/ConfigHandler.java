@@ -21,16 +21,6 @@ public class ConfigHandler
 
     private static JsonConfig config;
 
-    public static ArrayList<String> ErrorList = new ArrayList<String>();
-
-    public static int chickenEntityId = 30000;
-    public static int spawnProbability = 10;
-    public static int minBroodSize = 3;
-    public static int maxBroodSize = 5;
-    public static float netherSpawnChanceMultiplier = 1.0f;
-    public static boolean alwaysShowStats = false;
-
-
     public static void LoadConfigs(List<ChickensRegistryItem> allchickens)
     {
         loadChickens(allchickens);
