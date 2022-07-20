@@ -7,6 +7,7 @@ import net.creeperhost.chickens.containers.ContainerIncubator;
 import net.creeperhost.chickens.containers.ContainerRoost;
 import net.creeperhost.chickens.network.PacketHandler;
 import net.creeperhost.chickens.network.PacketIncubator;
+import net.creeperhost.polylib.client.fluid.ScreenFluidRenderer;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -53,13 +54,17 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
     {
         this.renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, partialTicks);
-        renderTooltip(poseStack, mouseX, mouseY);
         font.draw(poseStack, String.valueOf(containerIncubator.getLightLevel()), leftPos + 36, topPos + 38, 0);
         drawBar(poseStack, leftPos + 7, topPos + 7, 71, containerIncubator.getTemp(), 60, mouseX, mouseY);
+        drawTank(poseStack, leftPos + 133, topPos + 19, 60, containerIncubator.getTemp(), 60, mouseX, mouseY);
+
+        renderTooltip(poseStack, mouseX, mouseY);
     }
+
 
     public void drawBar(PoseStack poseStack, int x, int y, int height, int value, int maxValue, int mouseX, int mouseY)
     {
+        poseStack.pushPose();
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
 
         int draw = (int) ((double) value / (double) maxValue * (height - 2));
@@ -70,6 +75,30 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
         {
             renderTooltip(poseStack, Component.literal(containerIncubator.getTemp() + "c"), mouseX, mouseY);
         }
+        poseStack.popPose();
+    }
+
+    public void drawTank(PoseStack poseStack, int x, int y, int height, int value, int maxValue, int mouseX, int mouseY)
+    {
+        poseStack.pushPose();
+        RenderSystem.setShaderTexture(0, GUI_TEXTURE);
+
+        ScreenFluidRenderer screenFluidRenderer = new ScreenFluidRenderer(1000, 14, 48, 16);
+        screenFluidRenderer.render(x, y, containerIncubator.getBlockEntityIncubator().fluidTank.getFluidStack());
+
+        if (isInRect(x, y, 14, height, mouseX, mouseY))
+        {
+            int stored = (int) containerIncubator.getBlockEntityIncubator().fluidTank.getFluidStack().getAmount();
+            if(stored > 0)
+            {
+                renderTooltip(poseStack, Component.literal(stored + "mb of Water"), mouseX, mouseY);
+            }
+            else
+            {
+                renderTooltip(poseStack, Component.literal("Empty"), mouseX, mouseY);
+            }
+        }
+        poseStack.popPose();
     }
 
 

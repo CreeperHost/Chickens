@@ -5,10 +5,14 @@ import net.creeperhost.chickens.containers.ContainerIncubator;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
+import net.creeperhost.chickens.network.PacketFluidSync;
+import net.creeperhost.chickens.network.PacketHandler;
+import net.creeperhost.chickens.polylib.FluidTank;
 import net.creeperhost.chickens.polylib.PolyInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,13 +20,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockEntityIncubator extends BaseContainerBlockEntity
 {
-    public final ContainerData containerData = new SimpleContainerData(1)
+    public final ContainerData containerData = new SimpleContainerData(3)
     {
         @Override
         public int get(int index)
@@ -34,6 +39,10 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
             if(index == 1)
             {
                 return temp;
+            }
+            if(index == 2)
+            {
+                return fluidTank.getStored();
             }
             throw new IllegalArgumentException("Invalid index: " + index);
         }
@@ -47,7 +56,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         @Override
         public int getCount()
         {
-            return 2;
+            return 3;
         }
     };
 
@@ -58,6 +67,17 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         {
             super.setChanged();
             BlockEntityIncubator.this.setChanged();
+        }
+    };
+
+    public final FluidTank fluidTank = new FluidTank(1000)
+    {
+        @Override
+        public void setChanged()
+        {
+            super.setChanged();
+            BlockEntityIncubator.this.setChanged();
+            sync();
         }
     };
 
@@ -76,6 +96,15 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     public boolean isActive()
     {
         return getBlockState().getValue(BlockIncubator.ACTIVE);
+    }
+
+    public void sync()
+    {
+        if(level == null) return;
+        if(level.isClientSide) return;
+
+        ((ServerChunkCache) level.getChunkSource()).chunkMap.getPlayers(new ChunkPos(this.getBlockPos()), false).
+                forEach(serverPlayer -> PacketHandler.HANDLER.sendToPlayer(serverPlayer, new PacketFluidSync(getBlockPos(), fluidTank.getFluidStack())));
     }
 
     public void tick()
@@ -226,6 +255,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     {
         super.saveAdditional(compoundTag);
         compoundTag.merge(inventory.serializeNBT());
+        compoundTag.merge(fluidTank.serializeNBT());
         compoundTag.putInt("temp", temp);
         compoundTag.putInt("light_level", getLightLevel());
     }
@@ -235,6 +265,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     {
         super.load(compoundTag);
         inventory.deserializeNBT(compoundTag);
+        fluidTank.deserializeNBT(compoundTag);
         temp = compoundTag.getInt("temp");
         setLightLevel(compoundTag.getInt("light_level"));
     }

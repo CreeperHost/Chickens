@@ -11,5 +11,6 @@ public class PacketHandler
     public static void init()
     {
         HANDLER.register(PacketIncubator.class, PacketIncubator::write, PacketIncubator::new, PacketIncubator::handle);
+        HANDLER.register(PacketFluidSync.class, PacketFluidSync::write, PacketFluidSync::new, PacketFluidSync::handle);
     }
 }

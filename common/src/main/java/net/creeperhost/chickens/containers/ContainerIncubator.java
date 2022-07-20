@@ -21,10 +21,11 @@ public class ContainerIncubator extends PolyContainer
 {
     ContainerData containerData;
     BlockPos blockPos;
+    BlockEntityIncubator blockEntityIncubator;
 
     public ContainerIncubator(int id, Inventory playerInv, FriendlyByteBuf extraData)
     {
-        this(id, playerInv, (BlockEntityIncubator) Minecraft.getInstance().level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
+        this(id, playerInv, (BlockEntityIncubator) Minecraft.getInstance().level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
     }
 
     public ContainerIncubator(int id, Inventory playerInv, BlockEntityIncubator blockEntityIncubator, ContainerData containerData)
@@ -32,6 +33,7 @@ public class ContainerIncubator extends PolyContainer
         super(ModContainers.INCUBATOR.get(), id);
         this.containerData = containerData;
         this.blockPos = blockEntityIncubator.getBlockPos();
+        this.blockEntityIncubator = blockEntityIncubator;
 
         int i = 0;
         for (int l = 0; l < 3; ++l)
@@ -74,8 +76,18 @@ public class ContainerIncubator extends PolyContainer
         return containerData.get(1);
     }
 
+    public int getTankStored()
+    {
+        return containerData.get(2);
+    }
+
     public BlockPos getBlockPos()
     {
         return blockPos;
+    }
+
+    public BlockEntityIncubator getBlockEntityIncubator()
+    {
+        return blockEntityIncubator;
     }
 }

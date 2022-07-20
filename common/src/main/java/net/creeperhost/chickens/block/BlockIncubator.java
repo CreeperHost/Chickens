@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.block;
 
+import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.creeperhost.chickens.blockentities.BlockEntityIncubator;
 import net.creeperhost.chickens.blockentities.BlockEntityRoost;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import org.checkerframework.checker.units.qual.A;
@@ -49,6 +51,7 @@ public class BlockIncubator extends BlockBase
         if (!level.isClientSide)
         {
             BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            if(blockEntity instanceof BlockEntityIncubator blockEntityIncubator) blockEntityIncubator.fluidTank.setFluidStack(FluidStack.create(Fluids.WATER, 1000));
             MenuRegistry.openExtendedMenu((ServerPlayer) player, (MenuProvider) blockEntity, packetBuffer -> packetBuffer.writeBlockPos(blockEntity.getBlockPos()));
             return InteractionResult.SUCCESS;
         }
