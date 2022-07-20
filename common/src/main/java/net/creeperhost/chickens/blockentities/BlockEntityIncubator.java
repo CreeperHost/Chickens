@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.blockentities;
 
+import dev.architectury.fluid.FluidStack;
 import net.creeperhost.chickens.block.BlockIncubator;
 import net.creeperhost.chickens.containers.ContainerIncubator;
 import net.creeperhost.chickens.init.ModBlocks;
@@ -20,9 +21,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockEntityIncubator extends BaseContainerBlockEntity
@@ -60,7 +63,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         }
     };
 
-    public final PolyInventory inventory = new PolyInventory(10)
+    public final PolyInventory inventory = new PolyInventory(11)
     {
         @Override
         public void setChanged()
@@ -82,6 +85,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     };
 
     int progress = 0;
+    int fluidProgress = 0;
     int defaultTemp = 18;
     int temp = defaultTemp;
     //TODO Move this to Constants
@@ -111,14 +115,28 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     {
         if(level == null) return;
 
-        int random = level.getRandom().nextInt(0, inventory.getContainerSize());
+        int random = level.getRandom().nextInt(0, 9);
         progress++;
         if(progress >= 20)
         {
             progress = 0;
+            if(fluidTank.getFluidStack().isEmpty())
+            {
+                if (!inventory.getItem(10).isEmpty() && inventory.getItem(10).is(Items.WATER_BUCKET))
+                {
+                    fluidTank.setFluidStack(FluidStack.create(Fluids.WATER, 1000));
+                    inventory.setItem(10, new ItemStack(Items.BUCKET));
+                }
+            }
             if (isActive() && (temp < (lightLevel * incrementSize)))
             {
+                fluidProgress++;
                 temp++;
+                if(fluidProgress > 900)
+                {
+                    int amount = (int) (fluidTank.getFluidStack().getAmount() - 1);
+                    fluidTank.setStored(amount);
+                }
             }
             else if(temp > defaultTemp && (temp != (lightLevel * incrementSize)))
             {
@@ -258,6 +276,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         compoundTag.merge(fluidTank.serializeNBT());
         compoundTag.putInt("temp", temp);
         compoundTag.putInt("light_level", getLightLevel());
+        compoundTag.putInt("fluid_progress", fluidProgress);
     }
 
     @Override
@@ -268,5 +287,6 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         fluidTank.deserializeNBT(compoundTag);
         temp = compoundTag.getInt("temp");
         setLightLevel(compoundTag.getInt("light_level"));
+        fluidProgress = compoundTag.getInt("fluid_progress");
     }
 }

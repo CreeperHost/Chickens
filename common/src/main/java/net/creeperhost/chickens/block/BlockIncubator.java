@@ -51,7 +51,6 @@ public class BlockIncubator extends BlockBase
         if (!level.isClientSide)
         {
             BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            if(blockEntity instanceof BlockEntityIncubator blockEntityIncubator) blockEntityIncubator.fluidTank.setFluidStack(FluidStack.create(Fluids.WATER, 1000));
             MenuRegistry.openExtendedMenu((ServerPlayer) player, (MenuProvider) blockEntity, packetBuffer -> packetBuffer.writeBlockPos(blockEntity.getBlockPos()));
             return InteractionResult.SUCCESS;
         }

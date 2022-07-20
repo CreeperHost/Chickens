@@ -5,6 +5,7 @@ import net.creeperhost.chickens.blockentities.BlockEntityRoost;
 import net.creeperhost.chickens.containers.slots.SlotChicken;
 import net.creeperhost.chickens.containers.slots.SlotEgg;
 import net.creeperhost.chickens.containers.slots.SlotOutput;
+import net.creeperhost.chickens.containers.slots.SlotWaterBucket;
 import net.creeperhost.chickens.init.ModContainers;
 import net.creeperhost.polylib.containers.PolyContainer;
 import net.minecraft.client.Minecraft;
@@ -44,6 +45,8 @@ public class ContainerIncubator extends PolyContainer
                 this.addSlot(new SlotEgg(blockEntityIncubator.inventory, i, 61 + k * 18, l * 18 + 17));
             }
         }
+
+        this.addSlot(new SlotWaterBucket(blockEntityIncubator.inventory, 10, 155, 17));
 
         for (int l = 0; l < 3; ++l)
         {
