@@ -20,6 +20,7 @@ import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class EntityChickensChicken extends Chicken
 {
@@ -35,7 +36,7 @@ public class EntityChickensChicken extends Chicken
     private static final String CHICKEN_GROWTH_NBT = "Growth";
     private static final String CHICKEN_GAIN_NBT = "Gain";
     private static final String CHICKEN_STRENGTH_NBT = "Strength";
-    private EntityType<?> entityType;
+    private final EntityType<?> entityType;
 
     static
     {
@@ -211,9 +212,6 @@ public class EntityChickensChicken extends Chicken
                     itemToLay.grow(chickenDescription.createLayItem().getCount());
                 }
 
-                //TODO
-                //                itemToLay = BlockEntityHenhouse.pushItemStack(itemToLay, level, new Vec3(getX(), getY(), getZ()));
-
                 if (!itemToLay.isEmpty())
                 {
                     ItemEntity itemEntity = new ItemEntity(level, getX(), getY(), getZ(), chickenDescription.createLayItem());
@@ -280,7 +278,7 @@ public class EntityChickensChicken extends Chicken
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tagCompound)
+    public void addAdditionalSaveData(@NotNull CompoundTag tagCompound)
     {
         super.addAdditionalSaveData(tagCompound);
         tagCompound.putString(TYPE_NBT, getChickenTypeInternal());
@@ -291,7 +289,7 @@ public class EntityChickensChicken extends Chicken
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tagCompound)
+    public void readAdditionalSaveData(@NotNull CompoundTag tagCompound)
     {
         super.readAdditionalSaveData(tagCompound);
         setChickenTypeInternal(tagCompound.getString(TYPE_NBT));

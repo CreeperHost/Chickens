@@ -12,6 +12,7 @@ public class ChickensRegistry
     private static final Map<String, ChickensRegistryItem> STRING_TO_ITEM = new HashMap<String, ChickensRegistryItem>();
 
     public static final ResourceLocation SMART_CHICKEN_ID = new ResourceLocation(Chickens.MOD_ID, "smart_chicken");
+
     private static final Random rand = new Random();
 
     public static void register(ChickensRegistryItem entity)

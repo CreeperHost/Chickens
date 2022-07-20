@@ -9,6 +9,8 @@ import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
+import net.creeperhost.chickens.api.ChickenAPI;
+import net.creeperhost.chickens.api.ChickenTransformationRecipe;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.client.RenderChickensChicken;
 import net.creeperhost.chickens.client.RenderIncubator;
@@ -46,6 +48,7 @@ public class Chickens
         ModBlocks.TILES_ENTITIES.register();
         ModItems.ITEMS.register();
         ModContainers.CONTAINERS.register();
+        ModRecipes.init();
         ClientLifecycleEvent.CLIENT_SETUP.register(Chickens::clientSetup);
 
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
@@ -97,20 +100,22 @@ public class Chickens
     private static EventResult onEntityInteract(Player player, Entity entity, InteractionHand interactionHand)
     {
         Level level = player.getLevel();
-        if (!player.getItemInHand(interactionHand).isEmpty() && player.getItemInHand(interactionHand).getItem() == Items.BOOK)
+        if(!player.getItemInHand(interactionHand).isEmpty())
         {
-            if (entity.getType() == EntityType.CHICKEN)
+            for (ChickenTransformationRecipe transformationRecipe : ChickenAPI.TRANSFORMATION_RECIPES)
             {
-                EntityType<?> entityType = Registry.ENTITY_TYPE.get(ChickensRegistry.SMART_CHICKEN_ID);
-                EntityChickensChicken chicken = (EntityChickensChicken) entityType.create(level);
-                if (chicken != null)
+                if(transformationRecipe.getEntityTypeIn() == entity.getType() && player.getItemInHand(interactionHand).sameItem(transformationRecipe.getStack()))
                 {
-                    chicken.setPos(entity.position());
-                    level.addFreshEntity(chicken);
-                    entity.remove(Entity.RemovalReason.DISCARDED);
-                    if (!player.isCreative())
+                    Entity newEntity = transformationRecipe.getEntityTypeOut().create(level);
+                    if(newEntity != null)
                     {
-                        player.getItemInHand(interactionHand).shrink(1);
+                        newEntity.setPos(entity.position());
+                        level.addFreshEntity(newEntity);
+                        entity.remove(Entity.RemovalReason.DISCARDED);
+                        if (!player.isCreative())
+                        {
+                            player.getItemInHand(interactionHand).shrink(1);
+                        }
                     }
                 }
             }
