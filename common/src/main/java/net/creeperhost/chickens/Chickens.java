@@ -3,12 +3,11 @@ package net.creeperhost.chickens;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.common.InteractionEvent;
-import dev.architectury.fluid.FluidStack;
-import dev.architectury.hooks.fluid.FluidStackHooks;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry;
+import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.client.RenderChickensChicken;
@@ -17,9 +16,8 @@ import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.item.ItemChickenEgg;
-import net.creeperhost.chickens.item.ItemColoredEgg;
-import net.creeperhost.chickens.item.ItemFluidEgg;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.Registry;
 import net.minecraft.world.InteractionHand;
@@ -30,7 +28,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,10 +46,7 @@ public class Chickens
         ModContainers.CONTAINERS.register();
         ClientLifecycleEvent.CLIENT_SETUP.register(Chickens::clientSetup);
 
-        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) ->
-        {
-            EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes);
-        });
+        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
 
         InteractionEvent.INTERACT_ENTITY.register(Chickens::onEntityInteract);
 
@@ -93,6 +87,8 @@ public class Chickens
         }
 
         BlockEntityRendererRegistry.register(ModBlocks.ROOST_TILE.get(), context -> new RenderRoost());
+        RenderTypeRegistry.register(RenderType.translucent(), ModBlocks.INCUBATOR.get());
+
     }
 
     private static EventResult onEntityInteract(Player player, Entity entity, InteractionHand interactionHand)

@@ -45,7 +45,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         }
     };
 
-    public final PolyInventory inventory = new PolyInventory(28)
+    public final PolyInventory inventory = new PolyInventory(10)
     {
         @Override
         public void setChanged()

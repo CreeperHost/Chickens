@@ -11,6 +11,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -31,7 +32,7 @@ public class BlockIncubator extends BlockBase
 
     public BlockIncubator()
     {
-        super(Properties.of(Material.METAL).strength(2.0F));
+        super(Properties.of(Material.METAL).strength(2.0F).noOcclusion().lightLevel(value -> 15));
         this.registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH));
     }
 
@@ -77,5 +78,17 @@ public class BlockIncubator extends BlockBase
     public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState)
     {
         return new BlockEntityIncubator(blockPos, blockState);
+    }
+
+    @Override
+    public boolean skipRendering(@NotNull BlockState blockState, @NotNull BlockState blockState2, @NotNull Direction direction)
+    {
+        return true;
+    }
+
+    @Override
+    public float getShadeBrightness(@NotNull BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos)
+    {
+        return 1.0F;
     }
 }

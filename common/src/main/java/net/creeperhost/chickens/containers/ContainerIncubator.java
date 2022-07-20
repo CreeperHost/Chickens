@@ -33,10 +33,10 @@ public class ContainerIncubator extends PolyContainer
         int i = 0;
         for (int l = 0; l < 3; ++l)
         {
-            for (int k = 0; k < 9; ++k)
+            for (int k = 0; k < 3; ++k)
             {
                 i++;
-                this.addSlot(new SlotEgg(blockEntityIncubator.inventory, i, 8 + k * 18, l * 18 + 17));
+                this.addSlot(new SlotEgg(blockEntityIncubator.inventory, i, 61 + k * 18, l * 18 + 17));
             }
         }
 
