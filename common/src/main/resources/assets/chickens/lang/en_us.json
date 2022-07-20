@@ -98,16 +98,8 @@
   "gui.breeding.time":"%1$s%%",
   "gui.drops":"Chicken Drop,",
   "gui.throws":"Color Egg Throwing",
-  "gui.henhousing":"Henhouse Byproduct",
 
-  "container.henhouse":"Henhouse",
-  "block.chickens.henhouse.tooltip":"It will automatically collect items from chickens in 9x9x9 radius when provided with hay bale.",
-  "block.chickens.henhouse":"Henhouse",
-  "block.chickens.henhouse_acacia":"Acacia Henhouse",
-  "block.chickens.henhouse_birch":"Birch Henhouse",
-  "block.chickens.henhouse_dark_oak":"Dark Oak Henhouse",
-  "block.chickens.henhouse_jungle":"Jungle Henhouse",
-  "block.chickens.henhouse_spruce":"Spruce Henhouse",
   "block.chickens.breeder": "Breeder",
-  "block.chickens.roost": "Roost"
+  "block.chickens.roost": "Roost",
+  "block.chickens.incubator": "Incubator"
 }

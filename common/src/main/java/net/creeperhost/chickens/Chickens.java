@@ -11,6 +11,7 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.client.RenderChickensChicken;
+import net.creeperhost.chickens.client.RenderIncubator;
 import net.creeperhost.chickens.client.RenderRoost;
 import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
@@ -87,6 +88,7 @@ public class Chickens
         }
 
         BlockEntityRendererRegistry.register(ModBlocks.ROOST_TILE.get(), context -> new RenderRoost());
+        BlockEntityRendererRegistry.register(ModBlocks.INCUBATOR_TILE.get(), context -> new RenderIncubator());
         RenderTypeRegistry.register(RenderType.translucent(), ModBlocks.INCUBATOR.get());
 
     }
