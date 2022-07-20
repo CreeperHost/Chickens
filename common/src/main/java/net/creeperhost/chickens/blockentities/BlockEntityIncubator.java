@@ -114,6 +114,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     public void tick()
     {
         if(level == null) return;
+        if(level.isClientSide) return;
 
         int random = level.getRandom().nextInt(0, 9);
         progress++;
@@ -176,16 +177,13 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
                     }
                 }
             }
-            else
+            if(!isWithinHatchingTemp() && itemChickenEgg.getProgress(stack) > 0)
             {
-               if(itemChickenEgg.getProgress(stack) > 0)
+               itemChickenEgg.incrementMissed(stack);
+               int i = Mth.ceil((35 - defaultTemp) * 1.5);
+               if(itemChickenEgg.getMissedCycles(stack) > i)
                {
-                   itemChickenEgg.incrementMissed(stack);
-                   int i = Mth.ceil((35 - defaultTemp) * 1.5);
-                   if(itemChickenEgg.getMissedCycles(stack) > i)
-                   {
-                       itemChickenEgg.setNotViable(stack);
-                   }
+                   itemChickenEgg.setNotViable(stack);
                }
             }
         }
