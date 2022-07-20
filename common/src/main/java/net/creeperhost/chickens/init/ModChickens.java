@@ -5,7 +5,7 @@ import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.api.SpawnType;
-import net.creeperhost.chickens.handler.ItemHolder;
+import net.creeperhost.chickens.polylib.ItemHolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;

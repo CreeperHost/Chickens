@@ -1,4 +1,4 @@
-package net.creeperhost.chickens.network;
+package net.creeperhost.chickens.network.packets;
 
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.FluidStackHooks;

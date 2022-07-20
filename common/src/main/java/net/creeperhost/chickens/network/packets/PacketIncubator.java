@@ -1,4 +1,4 @@
-package net.creeperhost.chickens.network;
+package net.creeperhost.chickens.network.packets;
 
 import dev.architectury.networking.NetworkManager;
 import net.creeperhost.chickens.blockentities.BlockEntityIncubator;

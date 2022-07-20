@@ -4,12 +4,11 @@ import com.google.gson.JsonObject;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.api.SpawnType;
-import net.creeperhost.chickens.handler.ItemHolder;
+import net.creeperhost.chickens.polylib.ItemHolder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 

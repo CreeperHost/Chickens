@@ -2,6 +2,8 @@ package net.creeperhost.chickens.network;
 
 import dev.architectury.networking.NetworkChannel;
 import net.creeperhost.chickens.Chickens;
+import net.creeperhost.chickens.network.packets.PacketFluidSync;
+import net.creeperhost.chickens.network.packets.PacketIncubator;
 import net.minecraft.resources.ResourceLocation;
 
 public class PacketHandler

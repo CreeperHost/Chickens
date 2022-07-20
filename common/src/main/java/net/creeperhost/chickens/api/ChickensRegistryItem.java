@@ -1,6 +1,6 @@
 package net.creeperhost.chickens.api;
 
-import net.creeperhost.chickens.handler.ItemHolder;
+import net.creeperhost.chickens.polylib.ItemHolder;
 import net.creeperhost.chickens.polylib.CommonTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

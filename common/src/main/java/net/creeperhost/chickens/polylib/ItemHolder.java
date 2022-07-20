@@ -1,4 +1,4 @@
-package net.creeperhost.chickens.handler;
+package net.creeperhost.chickens.polylib;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

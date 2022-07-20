@@ -6,7 +6,7 @@ import net.creeperhost.chickens.containers.ContainerIncubator;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
-import net.creeperhost.chickens.network.PacketFluidSync;
+import net.creeperhost.chickens.network.packets.PacketFluidSync;
 import net.creeperhost.chickens.network.PacketHandler;
 import net.creeperhost.chickens.polylib.FluidTank;
 import net.creeperhost.chickens.polylib.PolyInventory;
