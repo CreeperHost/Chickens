@@ -1,12 +1,10 @@
 {
   "itemGroup.chickens.creative_tab":"Chickens",
+  "itemGroup.chickens.creative_tab_eggs":"Chicken Eggs",
 
   "item.liquid_egg.tooltip":"It's like one-off bucket.",
   "item.liquid_egg.water.name":"Water Egg",
   "item.liquid_egg.lava.name":"Lava Egg",
-  "item.chickens.analyzer":"Chicken Analyzer",
-  "item.analyzer.tooltip1":"Use it on chickens to determine their stats.",
-  "item.analyzer.tooltip2":" - \"Which day of the week do chickens hate most? Fry-day!\"",
   "item.chickens.catcher":"Chicken Catcher",
   "item.chickens.water_fluid_egg":"Water Egg",
   "item.chickens.lava_fluid_egg":"Lava Egg",
@@ -88,6 +86,7 @@
   "entity.ChickensChicken.top.layProgress":"Next egg in",
   "entity.ChickensChicken.top.layProgressEnd":"min.",
   "entity.ChickensChicken.top.nextEggSoon":"Next egg in <1min.",
+
   "entity.ChickensChicken.top.growth":"Growth",
   "entity.ChickensChicken.top.gain":"Gain",
   "entity.ChickensChicken.top.strength":"Strength",
@@ -101,5 +100,7 @@
 
   "block.chickens.breeder": "Breeder",
   "block.chickens.roost": "Roost",
-  "block.chickens.incubator": "Incubator"
+  "block.chickens.incubator": "Incubator",
+  "block.chickens.egg_cracker": "Egg Cracker"
+
 }
