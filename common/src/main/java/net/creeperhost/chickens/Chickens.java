@@ -86,7 +86,6 @@ public class Chickens
         if (Platform.isFabric())
         {
             ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickensChicken::new));
-            EntityRendererRegistry.register(ModEntities.EGG, ThrownItemRenderer::new);
         }
 
         BlockEntityRendererRegistry.register(ModBlocks.ROOST_TILE.get(), context -> new RenderRoost());

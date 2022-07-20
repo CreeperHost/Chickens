@@ -8,7 +8,6 @@ import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.api.SpawnType;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
-import net.creeperhost.chickens.entity.EntityColoredEgg;
 import net.creeperhost.polylib.entities.SpawnRegistry;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -29,7 +28,6 @@ import java.util.function.Supplier;
 public class ModEntities
 {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Chickens.MOD_ID, Registry.ENTITY_TYPE_REGISTRY);
-    public static final RegistrySupplier<EntityType<EntityColoredEgg>> EGG = ENTITIES.register("egg", () -> EntityType.Builder.<EntityColoredEgg>of(EntityColoredEgg::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build("egg"));
 
     public static final Map<ChickensRegistryItem, Supplier<EntityType<EntityChickensChicken>>> CHICKENS = Util.make(new LinkedHashMap<>(), map ->
     {

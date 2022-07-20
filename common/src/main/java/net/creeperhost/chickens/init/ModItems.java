@@ -31,8 +31,6 @@ public class ModItems
     public static final CreativeModeTab CREATIVE_MODE_TAB_EGGS = CreativeTabRegistry.create(new ResourceLocation(Chickens.MOD_ID, "creative_tab_eggs"), () -> new ItemStack(Items.EGG));
 
     @Deprecated
-    public static final RegistrySupplier<Item> COLOURED_EGG = ITEMS.register("colored_egg", () -> new ItemColoredEgg(new Item.Properties().tab(CREATIVE_MODE_TAB)));
-    @Deprecated
     public static final RegistrySupplier<Item> ANALYZER = ITEMS.register("analyzer", () -> new ItemAnalyzer(new Item.Properties().tab(CREATIVE_MODE_TAB).stacksTo(1)));
     public static final RegistrySupplier<Item> CHICKEN_ITEM = ITEMS.register("chicken_item", () -> ChickensExpectPlatform.createNewChickenItem(new Item.Properties().tab(CREATIVE_MODE_TAB).stacksTo(16)));
     public static final RegistrySupplier<Item> CATCHER_ITEM = ITEMS.register("catcher", () -> new ItemChickenCatcher(new Item.Properties().tab(CREATIVE_MODE_TAB)));
