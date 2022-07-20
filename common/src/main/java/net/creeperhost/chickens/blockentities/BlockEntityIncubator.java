@@ -135,7 +135,14 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
                 if(fluidProgress > 900)
                 {
                     int amount = (int) (fluidTank.getFluidStack().getAmount() - 1);
-                    fluidTank.setStored(amount);
+                    if(amount <= 0)
+                    {
+                        fluidTank.setFluidStack(FluidStack.empty());
+                    }
+                    else
+                    {
+                        fluidTank.setStored(amount);
+                    }
                 }
             }
             else if(temp > defaultTemp && (temp != (lightLevel * incrementSize)))
