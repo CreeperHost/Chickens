@@ -5,6 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.containers.ContainerIncubator;
 import net.creeperhost.chickens.containers.ContainerRoost;
+import net.creeperhost.chickens.network.PacketHandler;
+import net.creeperhost.chickens.network.PacketIncubator;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +36,14 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
     }
 
     @Override
+    public void init()
+    {
+        super.init();
+        addRenderableWidget(new Button(leftPos + 30, topPos + 15, 20, 20, Component.literal("+"), button -> PacketHandler.HANDLER.sendToServer(new PacketIncubator(containerIncubator.getBlockPos(), true))));
+        addRenderableWidget(new Button(leftPos + 30, topPos + 50, 20, 20, Component.literal("-"), button -> PacketHandler.HANDLER.sendToServer(new PacketIncubator(containerIncubator.getBlockPos(), false))));
+    }
+
+    @Override
     protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY)
     {
     }
@@ -43,7 +54,24 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
         this.renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, partialTicks);
         renderTooltip(poseStack, mouseX, mouseY);
+        font.draw(poseStack, String.valueOf(containerIncubator.getLightLevel()), leftPos + 36, topPos + 38, 0);
+        drawBar(poseStack, leftPos + 7, topPos + 7, 71, containerIncubator.getTemp(), 60, mouseX, mouseY);
     }
+
+    public void drawBar(PoseStack poseStack, int x, int y, int height, int value, int maxValue, int mouseX, int mouseY)
+    {
+        RenderSystem.setShaderTexture(0, GUI_TEXTURE);
+
+        int draw = (int) ((double) value / (double) maxValue * (height - 2));
+        blit(poseStack, x + 1, y + height - draw - 1, 176, height - draw, 12, draw, 256, 256);
+        blit(poseStack, x + 1, y - 10, 188, 0, 16, height);
+
+        if (isInRect(x, y, 14, height, mouseX, mouseY))
+        {
+            renderTooltip(poseStack, Component.literal(containerIncubator.getTemp() + "c"), mouseX, mouseY);
+        }
+    }
+
 
     public boolean isInRect(int x, int y, int xSize, int ySize, int mouseX, int mouseY)
     {

@@ -49,6 +49,8 @@ public class ItemChickenEgg extends Item
         ItemStack stack = new ItemStack(ModItems.CHICKEN_EGG.get());
         stack.getOrCreateTag().putString("chickentype", chickensRegistryItem.getRegistryName().toString());
         stack.getOrCreateTag().putInt("progress", 0);
+        stack.getOrCreateTag().putInt("missed", 0);
+        stack.getOrCreateTag().putBoolean("viable", true);
         return stack;
     }
 
@@ -89,6 +91,41 @@ public class ItemChickenEgg extends Item
         }
     }
 
+    public void incrementMissed(ItemStack stack)
+    {
+        if(stack.getItem() instanceof ItemChickenEgg)
+        {
+            int value = stack.getOrCreateTag().getInt("missed");
+            stack.getOrCreateTag().putInt("missed", ++value);
+        }
+    }
+
+    public int getMissedCycles(ItemStack stack)
+    {
+        if(stack.getItem() instanceof ItemChickenEgg)
+        {
+            return stack.getOrCreateTag().getInt("missed");
+        }
+        return 0;
+    }
+
+    public void setNotViable(ItemStack stack)
+    {
+        if(stack.getItem() instanceof ItemChickenEgg)
+        {
+            stack.getOrCreateTag().putBoolean("viable", false);
+        }
+    }
+
+    public boolean isViable(ItemStack stack)
+    {
+        if(stack.getItem() instanceof ItemChickenEgg)
+        {
+            return stack.getOrCreateTag().getBoolean("viable");
+        }
+        return false;
+    }
+
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag)
     {
@@ -102,6 +139,8 @@ public class ItemChickenEgg extends Item
             }
             list.add(Component.literal(ChatFormatting.BLUE + "ChickenType: " + ChatFormatting.WHITE + chickensRegistryItem.getEntityName()));
             list.add(Component.literal(ChatFormatting.LIGHT_PURPLE + "Progress: " + ChatFormatting.WHITE + getProgress(itemStack)));
+            list.add(Component.literal("Missed: " + getMissedCycles(itemStack)));
+            list.add(Component.literal("Viable: " + isViable(itemStack)));
         }
     }
 }

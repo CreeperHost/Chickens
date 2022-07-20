@@ -3,6 +3,7 @@ package net.creeperhost.chickens.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.creeperhost.chickens.blockentities.BlockEntityIncubator;
+import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -21,7 +22,7 @@ public class RenderIncubator implements BlockEntityRenderer<BlockEntityIncubator
             if(blockEntity.inventory.getItem(i1).isEmpty()) continue;
 
             ItemStack stack = blockEntity.inventory.getItem(i1);
-            if(stack.getItem() instanceof ItemChickenEgg itemChickenEgg)
+            if(stack.getItem() instanceof ItemChickenEgg || stack.getItem() instanceof ItemChicken)
             {
                 poseStack.pushPose();
                 double offsetX = 0.25D;

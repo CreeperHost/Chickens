@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.blockentities;
 
+import net.creeperhost.chickens.block.BlockIncubator;
 import net.creeperhost.chickens.containers.ContainerIncubator;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.item.ItemChicken;
@@ -8,6 +9,7 @@ import net.creeperhost.chickens.polylib.PolyInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -27,7 +29,11 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         {
             if (index == 0)
             {
-                return progress;
+                return lightLevel;
+            }
+            if(index == 1)
+            {
+                return temp;
             }
             throw new IllegalArgumentException("Invalid index: " + index);
         }
@@ -41,7 +47,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         @Override
         public int getCount()
         {
-            return 1;
+            return 2;
         }
     };
 
@@ -56,9 +62,20 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     };
 
     int progress = 0;
+    int defaultTemp = 18;
+    int temp = defaultTemp;
+    //TODO Move this to Constants
+    public static int incrementSize = 4;
+    int lightLevel = 0;
+
     public BlockEntityIncubator(BlockPos blockPos, BlockState blockState)
     {
         super(ModBlocks.INCUBATOR_TILE.get(), blockPos, blockState);
+    }
+
+    public boolean isActive()
+    {
+        return getBlockState().getValue(BlockIncubator.ACTIVE);
     }
 
     public void tick()
@@ -70,9 +87,25 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         if(progress >= 20)
         {
             progress = 0;
-            if (inventory.getItem(random).getItem() instanceof ItemChickenEgg itemChickenEgg)
+            if (isActive() && (temp < (lightLevel * incrementSize)))
             {
-                ItemStack stack = inventory.getItem(random);
+                temp++;
+            }
+            else if(temp > defaultTemp && (temp != (lightLevel * incrementSize)))
+            {
+                temp--;
+            }
+            if(!isActive() && temp > defaultTemp)
+            {
+                temp--;
+            }
+
+            ItemStack stack = inventory.getItem(random);
+            if(!(stack.getItem() instanceof ItemChickenEgg itemChickenEgg)) return;
+            if(!itemChickenEgg.isViable(stack)) return;
+
+            if (isWithinHatchingTemp())
+            {
                 int progress = itemChickenEgg.getProgress(stack);
                 if (progress < 100)
                 {
@@ -89,7 +122,26 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
                     }
                 }
             }
+            else
+            {
+               if(itemChickenEgg.getProgress(stack) > 0)
+               {
+                   itemChickenEgg.incrementMissed(stack);
+                   int i = Mth.ceil((35 - defaultTemp) * 1.5);
+                   if(itemChickenEgg.getMissedCycles(stack) > i)
+                   {
+                       itemChickenEgg.setNotViable(stack);
+                   }
+               }
+            }
         }
+    }
+
+    public boolean isWithinHatchingTemp()
+    {
+        if(temp >= 35 && temp <= 40) return true;
+
+        return false;
     }
 
     @Override
@@ -158,11 +210,24 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
         inventory.clearContent();
     }
 
+    public int getLightLevel()
+    {
+        return lightLevel;
+    }
+
+    public void setLightLevel(int lightLevel)
+    {
+        this.lightLevel = lightLevel;
+        setChanged();
+    }
+
     @Override
     protected void saveAdditional(@NotNull CompoundTag compoundTag)
     {
         super.saveAdditional(compoundTag);
         compoundTag.merge(inventory.serializeNBT());
+        compoundTag.putInt("temp", temp);
+        compoundTag.putInt("light_level", getLightLevel());
     }
 
     @Override
@@ -170,5 +235,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     {
         super.load(compoundTag);
         inventory.deserializeNBT(compoundTag);
+        temp = compoundTag.getInt("temp");
+        setLightLevel(compoundTag.getInt("light_level"));
     }
 }

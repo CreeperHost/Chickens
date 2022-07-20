@@ -17,6 +17,7 @@ import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.item.ItemChickenEgg;
+import net.creeperhost.chickens.network.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -50,6 +51,7 @@ public class Chickens
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
 
         InteractionEvent.INTERACT_ENTITY.register(Chickens::onEntityInteract);
+        PacketHandler.init();
 
         if (Platform.isFabric())
         {

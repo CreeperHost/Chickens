@@ -8,6 +8,7 @@ import net.creeperhost.chickens.containers.slots.SlotOutput;
 import net.creeperhost.chickens.init.ModContainers;
 import net.creeperhost.polylib.containers.PolyContainer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -19,16 +20,18 @@ import org.jetbrains.annotations.NotNull;
 public class ContainerIncubator extends PolyContainer
 {
     ContainerData containerData;
+    BlockPos blockPos;
 
     public ContainerIncubator(int id, Inventory playerInv, FriendlyByteBuf extraData)
     {
-        this(id, playerInv, (BlockEntityIncubator) Minecraft.getInstance().level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(1));
+        this(id, playerInv, (BlockEntityIncubator) Minecraft.getInstance().level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
     public ContainerIncubator(int id, Inventory playerInv, BlockEntityIncubator blockEntityIncubator, ContainerData containerData)
     {
         super(ModContainers.INCUBATOR.get(), id);
         this.containerData = containerData;
+        this.blockPos = blockEntityIncubator.getBlockPos();
 
         int i = 0;
         for (int l = 0; l < 3; ++l)
@@ -61,8 +64,18 @@ public class ContainerIncubator extends PolyContainer
         return true;
     }
 
-    public int getProgress()
+    public int getLightLevel()
     {
         return containerData.get(0);
+    }
+
+    public int getTemp()
+    {
+        return containerData.get(1);
+    }
+
+    public BlockPos getBlockPos()
+    {
+        return blockPos;
     }
 }
