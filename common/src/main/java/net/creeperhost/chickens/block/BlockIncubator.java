@@ -43,8 +43,6 @@ public class BlockIncubator extends BlockBase
         this.registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(ACTIVE, false));
     }
 
-    public int light = 1;
-
     @Override
     public InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult)
     {

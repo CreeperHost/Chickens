@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.containers.ContainerBreeder;
+import net.creeperhost.chickens.containers.ContainerEggCracker;
 import net.creeperhost.chickens.containers.ContainerIncubator;
 import net.creeperhost.chickens.containers.ContainerRoost;
 import net.minecraft.core.Registry;
@@ -17,5 +18,6 @@ public class ModContainers
     public static final RegistrySupplier<MenuType<ContainerBreeder>> BREEDER_CONTAINER = CONTAINERS.register("container_breeder", () -> MenuRegistry.ofExtended(ContainerBreeder::new));
     public static final RegistrySupplier<MenuType<ContainerRoost>> ROOST = CONTAINERS.register("container_roost", () -> MenuRegistry.ofExtended(ContainerRoost::new));
     public static final RegistrySupplier<MenuType<ContainerIncubator>> INCUBATOR = CONTAINERS.register("incubator", () -> MenuRegistry.ofExtended(ContainerIncubator::new));
+    public static final RegistrySupplier<MenuType<ContainerEggCracker>> EGG_CRACKER = CONTAINERS.register("egg_cracker", () -> MenuRegistry.ofExtended(ContainerEggCracker::new));
 
 }
