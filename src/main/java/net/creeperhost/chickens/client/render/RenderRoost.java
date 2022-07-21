@@ -29,7 +29,13 @@ public class RenderRoost implements BlockEntityRenderer<BlockEntityRoost>
             ItemStack itemStack = blockEntityRoost.inventory.getStackInSlot(0);
 
             Minecraft mc = Minecraft.getInstance();
-            EntityType<?> entityType = Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(ItemChicken.getTypeFromStack(itemStack)));
+            String chickenType = ItemChicken.getTypeFromStack(itemStack);
+            if (chickenType == null) return;
+            ResourceLocation location = ResourceLocation.tryParse(chickenType);
+            if (location == null) return;
+
+            EntityType<?> entityType = Registry.ENTITY_TYPE.get(location);
+
             EntityChickensChicken chicken = (EntityChickensChicken) entityType.create(Minecraft.getInstance().level);
             //Force the head rot in position to stop it bouncing
             chicken.yHeadRot = 0;
