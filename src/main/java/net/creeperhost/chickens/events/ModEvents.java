@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -56,13 +56,13 @@ public class ModEvents
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onModelBake(ModelBakeEvent e)
+    public static void onModelBake(ModelEvent.BakingCompleted e)
     {
         ResourceLocation location = new ModelResourceLocation(ChickensMod.MODID, "chicken_item", "inventory");
-        BakedModel model = e.getModelRegistry().get(location);
+        BakedModel model = e.getModels().get(location);
         if(model != null)
         {
-            e.getModelRegistry().put(location, new ChickenBakedItemModel(model));
+            e.getModels().put(location, new ChickenBakedItemModel(model));
         }
     }
 }
