@@ -38,7 +38,7 @@ public class BlockRoost extends BaseEntityBlock
     {
         if (!level.isClientSide)
         {
-            NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) level.getBlockEntity(blockPos), blockPos);
+            NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) level.getBlockEntity(blockPos), blockPos);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.SUCCESS;

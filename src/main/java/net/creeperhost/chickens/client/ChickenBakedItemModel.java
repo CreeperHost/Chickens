@@ -19,9 +19,9 @@ public class ChickenBakedItemModel extends BakedModelWrapper<BakedModel>
     }
 
     @Override
-    public BakedModel handlePerspective(ItemTransforms.TransformType cameraTransformType, PoseStack poseStack)
+    public BakedModel applyTransform(ItemTransforms.TransformType cameraTransformType, PoseStack poseStack, boolean applyLeftHandedTransform)
     {
-        super.handlePerspective(cameraTransformType, poseStack);
+        super.applyTransform(cameraTransformType, poseStack, applyLeftHandedTransform);
         return this;
     }
 }

@@ -16,7 +16,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModBlocks
 {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ChickensMod.MODID);
-    public static final DeferredRegister<BlockEntityType<?>> TILES_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ChickensMod.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> TILES_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, ChickensMod.MODID);
 
     public static final RegistryObject<Block> HEN_HOUSE = BLOCKS.register("henhouse", BlockHenhouse::new);
     public static final RegistryObject<Block> HEN_HOUSE_ACACIA = BLOCKS.register("henhouse_acacia", BlockHenhouse::new);
