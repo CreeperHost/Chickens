@@ -55,7 +55,7 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
         super.render(poseStack, mouseX, mouseY, partialTicks);
         font.draw(poseStack, String.valueOf(containerIncubator.getLightLevel()), leftPos + 36, topPos + 38, 0);
         drawBar(poseStack, leftPos + 7, topPos + 7, 71, containerIncubator.getTemp(), 60, mouseX, mouseY);
-        drawTank(poseStack, leftPos + 133, topPos + 19, 60, containerIncubator.getTemp(), 60, mouseX, mouseY);
+        drawTank(poseStack, leftPos + 150, topPos + 9, 38, containerIncubator.getTemp(), 60, mouseX, mouseY);
 
         renderTooltip(poseStack, mouseX, mouseY);
     }
@@ -82,7 +82,7 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
         poseStack.pushPose();
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
 
-        ScreenFluidRenderer screenFluidRenderer = new ScreenFluidRenderer(1000, 14, 48, 16);
+        ScreenFluidRenderer screenFluidRenderer = new ScreenFluidRenderer(1000, 14, height, 16);
         screenFluidRenderer.render(x, y, containerIncubator.getBlockEntityIncubator().fluidTank.getFluidStack());
 
         if (isInRect(x, y, 14, height, mouseX, mouseY))

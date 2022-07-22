@@ -30,7 +30,7 @@ public class BlockEggCracker extends BlockBase
 
     public BlockEggCracker()
     {
-        super(Properties.of(Material.METAL).strength(2.0F));
+        super(Properties.of(Material.METAL).strength(2.0F).noOcclusion());
         this.registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH));
     }
 

@@ -46,7 +46,7 @@ public class ContainerIncubator extends PolyContainer
             }
         }
 
-        this.addSlot(new SlotWaterBucket(blockEntityIncubator.inventory, 10, 155, 17));
+        this.addSlot(new SlotWaterBucket(blockEntityIncubator.inventory, 10, 150, 54));
 
         for (int l = 0; l < 3; ++l)
         {
