@@ -49,7 +49,7 @@ public class Chickens
         ModItems.ITEMS.register();
         ModContainers.CONTAINERS.register();
         ModRecipes.init();
-        ClientLifecycleEvent.CLIENT_SETUP.register(Chickens::clientSetup);
+        ClientLifecycleEvent.CLIENT_SETUP.register(ChickensClient::clientSetup);
 
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
 
@@ -62,40 +62,7 @@ public class Chickens
         }
     }
 
-    private static void clientSetup(Minecraft minecraft)
-    {
-        ModScreens.init();
 
-        ColorHandlerRegistry.registerItemColors((itemStack, i) ->
-        {
-            if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
-            {
-                if(itemColoredEgg.getType(itemStack).isDye())
-                {
-                    if(itemColoredEgg.getType(itemStack).getLayItemHolder().getItem() instanceof DyeItem dyeItem)
-                    {
-                        DyeColor dyeColor = dyeItem.getDyeColor();
-                        return dyeColor.getFireworkColor();
-                    }
-                }
-                else
-                {
-                    return itemColoredEgg.getType(itemStack).getFgColor();
-                }
-            }
-            return 0;
-        }, ModItems.CHICKEN_EGG);
-
-        if (Platform.isFabric())
-        {
-            ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickensChicken::new));
-        }
-
-        BlockEntityRendererRegistry.register(ModBlocks.ROOST_TILE.get(), context -> new RenderRoost());
-        BlockEntityRendererRegistry.register(ModBlocks.INCUBATOR_TILE.get(), context -> new RenderIncubator());
-        RenderTypeRegistry.register(RenderType.translucent(), ModBlocks.INCUBATOR.get());
-
-    }
 
     private static EventResult onEntityInteract(Player player, Entity entity, InteractionHand interactionHand)
     {
