@@ -3,6 +3,7 @@ package net.creeperhost.chickens;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.common.InteractionEvent;
+import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
@@ -49,7 +50,6 @@ public class Chickens
         ModItems.ITEMS.register();
         ModContainers.CONTAINERS.register();
         ModSounds.SOUNDS.register();
-        ModRecipes.init();
         ClientLifecycleEvent.CLIENT_SETUP.register(ChickensClient::clientSetup);
 
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
@@ -61,6 +61,9 @@ public class Chickens
         {
             ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem));
         }
+
+        LifecycleEvent.SETUP.register(ModRecipes::init);
+
     }
 
 

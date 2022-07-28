@@ -8,6 +8,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.creeperhost.chickens.Chickens;
+import net.creeperhost.chickens.api.ChickenAPI;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.init.ModItems;
@@ -33,6 +34,7 @@ public class ChickensJeiPlugin implements IModPlugin
         registry.addRecipeCategories(new ChickenDropsCategory(jeiHelpers.getGuiHelper()));
         registry.addRecipeCategories(new ChickenLayingCategory(jeiHelpers.getGuiHelper()));
         registry.addRecipeCategories(new ChickenIncubatorCategory(jeiHelpers.getGuiHelper()));
+        registry.addRecipeCategories(new ChickenInteractionCategory(jeiHelpers.getGuiHelper()));
     }
 
     @Override
@@ -55,6 +57,7 @@ public class ChickensJeiPlugin implements IModPlugin
         registry.addRecipes(ChickensRecipeTypes.LAYING, getLayingRecipes());
         registry.addRecipes(ChickensRecipeTypes.DROPS, getDropRecipes());
         registry.addRecipes(ChickensRecipeTypes.INCUBATOR, getIncubatorRecipes());
+        registry.addRecipes(ChickensRecipeTypes.INTERACTION, ChickenAPI.TRANSFORMATION_RECIPES);
     }
 
     private List<ChickenIncubatorCategory.Recipe> getIncubatorRecipes()
@@ -76,8 +79,7 @@ public class ChickensJeiPlugin implements IModPlugin
         List<ChickenLayingCategory.Recipe> result = new ArrayList<>();
         for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
         {
-            ItemStack itemstack = new ItemStack(ModItems.CHICKEN_ITEM.get(), 1);
-            ItemChicken.applyEntityIdToItemStack(itemstack, chicken.getRegistryName());
+            ItemStack itemstack = ItemChicken.of(chicken);
 
             result.add(new ChickenLayingCategory.Recipe(itemstack, chicken.createLayItem(), chicken.getMinLayTime(), chicken.getMaxLayTime()));
         }
@@ -90,9 +92,7 @@ public class ChickensJeiPlugin implements IModPlugin
         for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
         {
 
-            ItemStack itemstack = new ItemStack(ModItems.CHICKEN_ITEM.get());
-            ItemChicken.applyEntityIdToItemStack(itemstack, chicken.getRegistryName());
-
+            ItemStack itemstack = ItemChicken.of(chicken);
             result.add(new ChickenDropsCategory.Recipe(itemstack, chicken.createDropItem()));
         }
         return result;
@@ -105,16 +105,15 @@ public class ChickensJeiPlugin implements IModPlugin
         {
             if (chicken.isBreedable())
             {
-                ItemStack itemstack = new ItemStack(ModItems.CHICKEN_ITEM.get());
-                ItemChicken.applyEntityIdToItemStack(itemstack, chicken.getRegistryName());
+                ItemStack egg = ItemChickenEgg.of(chicken);
 
-                ItemStack parent1 = new ItemStack(ModItems.CHICKEN_ITEM.get());
-                ItemChicken.applyEntityIdToItemStack(parent1, chicken.getParent1().getRegistryName());
+                if(chicken.getParent1() == null) continue;
+                ItemStack parent1 = ItemChicken.of(chicken.getParent1());
 
-                ItemStack parent2 = new ItemStack(ModItems.CHICKEN_ITEM.get());
-                ItemChicken.applyEntityIdToItemStack(parent2, chicken.getParent2().getRegistryName());
+                if(chicken.getParent2() == null) continue;
+                ItemStack parent2 = ItemChicken.of(chicken.getParent2());
 
-                result.add(new ChickenBreedingCategory.Recipe(parent1, parent2, itemstack, ChickensRegistry.getChildChance(chicken)));
+                result.add(new ChickenBreedingCategory.Recipe(parent1, parent2, egg, ChickensRegistry.getChildChance(chicken)));
             }
         }
         return result;

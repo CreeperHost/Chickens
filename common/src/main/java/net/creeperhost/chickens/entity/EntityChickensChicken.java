@@ -24,9 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EntityChickensChicken extends Chicken
 {
     private static final EntityDataAccessor<String> CHICKEN_TYPE;
@@ -139,7 +136,7 @@ public class EntityChickensChicken extends Chicken
 
     public ResourceLocation getTexture()
     {
-        ChickensRegistryItem chickenDescription = getChickenDescription();
+        ChickensRegistryItem chickenDescription = getChickenRegistryItem();
         return chickenDescription.getTexture();
     }
 
@@ -149,7 +146,7 @@ public class EntityChickensChicken extends Chicken
         return ModSounds.getRandomIdleSound(level);
     }
 
-    private ChickensRegistryItem getChickenDescription()
+    public ChickensRegistryItem getChickenRegistryItem()
     {
         ChickensRegistryItem description = ChickensRegistry.getByRegistryName(getRegistryName(entityType).toString());
         if (description == null || !description.isEnabled())
@@ -166,7 +163,7 @@ public class EntityChickensChicken extends Chicken
     @Deprecated
     public int getTier()
     {
-        return getChickenDescription().getTier();
+        return getChickenRegistryItem().getTier();
     }
 
     @Override
@@ -174,8 +171,8 @@ public class EntityChickensChicken extends Chicken
     {
         EntityChickensChicken mateChicken = (EntityChickensChicken) ageable;
 
-        ChickensRegistryItem chickenDescription = getChickenDescription();
-        ChickensRegistryItem mateChickenDescription = mateChicken.getChickenDescription();
+        ChickensRegistryItem chickenDescription = getChickenRegistryItem();
+        ChickensRegistryItem mateChickenDescription = mateChicken.getChickenRegistryItem();
 
         ChickensRegistryItem childToBeBorn = ChickensRegistry.getRandomChild(chickenDescription, mateChickenDescription);
         if (childToBeBorn == null)
@@ -237,7 +234,7 @@ public class EntityChickensChicken extends Chicken
             setTimeUntilNextEgg(newTimeUntilNextEgg);
             if (newTimeUntilNextEgg <= 1)
             {
-                ChickensRegistryItem chickenDescription = getChickenDescription();
+                ChickensRegistryItem chickenDescription = getChickenRegistryItem();
                 ItemStack itemToLay = chickenDescription.createLayItem();
 
                 int gain = getGain();
@@ -282,7 +279,7 @@ public class EntityChickensChicken extends Chicken
 
     private void resetTimeUntilNextEgg()
     {
-        ChickensRegistryItem chickenDescription = getChickenDescription();
+        ChickensRegistryItem chickenDescription = getChickenRegistryItem();
         int newBaseTimeUntilNextEgg = (chickenDescription.getMinLayTime() + random.nextInt(chickenDescription.getMaxLayTime() - chickenDescription.getMinLayTime()));
         int newTimeUntilNextEgg = (int) Math.max(1.0f, (newBaseTimeUntilNextEgg * (10.f - getGrowth() + 1.f)) / 10.f);
         setTimeUntilNextEgg(newTimeUntilNextEgg * 2);

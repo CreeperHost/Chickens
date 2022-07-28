@@ -27,7 +27,7 @@ public class ModSounds
         soundEvents.add(CHICKEN_IDLE_3.get());
         soundEvents.add(CHICKEN_IDLE_4.get());
 
-        int random = level.getRandom().nextInt(0, 3);
+        int random = level.getRandom().nextInt(0, 4);
 
         return soundEvents.get(random);
     }
