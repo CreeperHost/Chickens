@@ -48,6 +48,7 @@ public class Chickens
         ModBlocks.TILES_ENTITIES.register();
         ModItems.ITEMS.register();
         ModContainers.CONTAINERS.register();
+        ModSounds.SOUNDS.register();
         ModRecipes.init();
         ClientLifecycleEvent.CLIENT_SETUP.register(ChickensClient::clientSetup);
 

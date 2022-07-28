@@ -5,6 +5,7 @@ import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.containers.ContainerRoost;
 import net.creeperhost.chickens.init.ModBlocks;
+import net.creeperhost.chickens.init.ModSounds;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.polylib.PolyInventory;
 import net.minecraft.core.BlockPos;
@@ -71,10 +72,18 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
 
     public void tick()
     {
-        if (level != null && !level.isClientSide)
+        if (level != null)
         {
             if (!inventory.getItem(0).isEmpty() && progress <= 1000)
             {
+                if(level.isClientSide)
+                {
+                    int random = level.getRandom().nextInt(0, 4);
+                    if(random == 3)
+                    {
+                        level.playSound(null, getBlockPos(), ModSounds.getRandomIdleSound(level), SoundSource.PLAYERS, 1, 1);
+                    }
+                }
                 progress++;
             }
             else
@@ -99,7 +108,9 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
                     ItemStack inserted = inventory.addItem(itemToLay);
                     if (inserted.isEmpty())
                     {
-                        level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
+                        level.playSound(null, getBlockPos(), ModSounds.CHICKEN_IDLE_1.get(), SoundSource.PLAYERS, 1, 1);
+
+//                        level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
                         damageChicken(chickenStats);
                         spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
                         progress = 0;

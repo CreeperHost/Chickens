@@ -2,6 +2,7 @@ package net.creeperhost.chickens.entity;
 
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.creeperhost.chickens.init.ModSounds;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -9,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
@@ -21,6 +23,9 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntityChickensChicken extends Chicken
 {
@@ -115,13 +120,31 @@ public class EntityChickensChicken extends Chicken
 
     public void setLifeSpan(int lifeSpan)
     {
-        entityData.set(LIFE_SPAN, lifeSpan);
+//        entityData.set(LIFE_SPAN, lifeSpan);
+    }
+
+    @Override
+    protected float getSoundVolume()
+    {
+        return 5.0F;
+    }
+
+    @Override
+    public int getAmbientSoundInterval()
+    {
+        return 40;
     }
 
     public ResourceLocation getTexture()
     {
         ChickensRegistryItem chickenDescription = getChickenDescription();
         return chickenDescription.getTexture();
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound()
+    {
+        return ModSounds.getRandomIdleSound(level);
     }
 
     private ChickensRegistryItem getChickenDescription()
@@ -138,13 +161,14 @@ public class EntityChickensChicken extends Chicken
         return description;
     }
 
+    @Deprecated
     public int getTier()
     {
         return getChickenDescription().getTier();
     }
 
     @Override
-    public EntityChickensChicken getBreedOffspring(ServerLevel serverLevel, AgeableMob ageable)
+    public EntityChickensChicken getBreedOffspring(@NotNull ServerLevel serverLevel, @NotNull AgeableMob ageable)
     {
         EntityChickensChicken mateChicken = (EntityChickensChicken) ageable;
 
@@ -243,6 +267,7 @@ public class EntityChickensChicken extends Chicken
         updateLayProgress();
     }
 
+    @Deprecated
     public int getLayProgress()
     {
         return entityData.get(LAY_PROGRESS);

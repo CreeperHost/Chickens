@@ -4,6 +4,7 @@ import dev.architectury.fluid.FluidStack;
 import net.creeperhost.chickens.block.BlockIncubator;
 import net.creeperhost.chickens.containers.ContainerIncubator;
 import net.creeperhost.chickens.init.ModBlocks;
+import net.creeperhost.chickens.init.ModSounds;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.chickens.network.packets.PacketFluidSync;
@@ -14,6 +15,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerChunkCache;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -114,7 +117,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     public void tick()
     {
         if(level == null) return;
-        if(level.isClientSide) return;
+//        if(level.isClientSide) return;
 
         int random = level.getRandom().nextInt(0, 9);
         progress++;
@@ -174,6 +177,8 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
                     if (chicken != null && !chicken.isEmpty())
                     {
                         inventory.setItem(random, chicken);
+                        level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
+
                     }
                 }
             }

@@ -1,0 +1,38 @@
+{
+  "chicken_idle_1": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "chickens:chicken_idle_1",
+        "stream": false
+      }
+    ]
+  },
+  "chicken_idle_2": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "chickens:chicken_idle_2",
+        "stream": false
+      }
+    ]
+  },
+  "chicken_idle_3": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "chickens:chicken_idle_3",
+        "stream": false
+      }
+    ]
+  },
+  "chicken_idle_4": {
+    "category": "item",
+    "sounds": [
+      {
+        "name": "chickens:chicken_idle_4",
+        "stream": false
+      }
+    ]
+  }
+}
