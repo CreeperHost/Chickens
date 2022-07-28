@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 public class CommonTags
 {
     public static TagKey<Item> DYE = registerTag("dyes");
+    public static TagKey<Item> SEEDS = registerTag("seeds");
 
     public static TagKey<Item> registerTag(String string)
     {

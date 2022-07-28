@@ -7,27 +7,33 @@ import net.creeperhost.chickens.containers.ContainerBreeder;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
+import net.creeperhost.chickens.polylib.CommonTags;
 import net.creeperhost.chickens.polylib.PolyInventory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class BlockEntityBreeder extends BaseContainerBlockEntity
+public class BlockEntityBreeder extends BaseContainerBlockEntity implements WorldlyContainer
 {
     public final PolyInventory inventory = new PolyInventory(6)
     {
@@ -226,5 +232,26 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
     {
         super.load(compoundTag);
         inventory.deserializeNBT(compoundTag);
+    }
+
+    @Override
+    public int[] getSlotsForFace(@NotNull Direction direction)
+    {
+        return new int[]{0, 1, 2, 3, 4, 5, 6};
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int i, @NotNull ItemStack itemStack, @Nullable Direction direction)
+    {
+        if(i == 2 && (itemStack.is(CommonTags.SEEDS) || itemStack.is(Items.WHEAT_SEEDS))) return true;
+        if((i == 0 || i == 1) && itemStack.getItem() instanceof ItemChicken) return true;
+
+        return false;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int i, @NotNull ItemStack itemStack, @NotNull Direction direction)
+    {
+        return i > 3;
     }
 }

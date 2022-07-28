@@ -62,8 +62,8 @@ public class Chickens
             ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem));
         }
 
+        //We need to do this late or the entities are not registered yet
         LifecycleEvent.SETUP.register(ModRecipes::init);
-
     }
 
 
