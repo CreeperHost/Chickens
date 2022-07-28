@@ -8,11 +8,14 @@ public class ChickenStats
     public int growth;
     public int strength;
 
-    public ChickenStats(int gain, int growth, int strength)
+    public int lifespan;
+
+    public ChickenStats(int gain, int growth, int strength, int lifespan)
     {
         this.gain = gain;
         this.growth = growth;
         this.strength = strength;
+        this.lifespan = lifespan;
     }
 
     public ChickenStats(ItemStack stack)
@@ -25,6 +28,7 @@ public class ChickenStats
         stack.getOrCreateTag().putInt("gain", gain);
         stack.getOrCreateTag().putInt("growth", growth);
         stack.getOrCreateTag().putInt("strength", strength);
+        stack.getOrCreateTag().putInt("lifespan", lifespan);
     }
 
     public void read(ItemStack stack)
@@ -34,6 +38,7 @@ public class ChickenStats
             gain = 1;
             growth = 1;
             strength = 1;
+            lifespan = 100;
             write(stack);
         }
         else
@@ -63,6 +68,14 @@ public class ChickenStats
                 else
                 {
                     strength = 1;
+                }
+                if(stack.getTag().contains("lifespan"))
+                {
+                    lifespan = stack.getTag().getInt("lifespan");
+                }
+                else
+                {
+                    lifespan = 100;
                 }
             }
         }
@@ -99,5 +112,16 @@ public class ChickenStats
     public int getStrength()
     {
         return strength;
+    }
+
+    public int getLifespan()
+    {
+        return lifespan;
+    }
+
+    public void setLifespan(int lifespan)
+    {
+        if(lifespan > 100) lifespan = 100;
+        this.lifespan = lifespan;
     }
 }

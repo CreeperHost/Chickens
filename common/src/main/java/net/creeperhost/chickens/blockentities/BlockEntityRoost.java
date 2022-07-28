@@ -100,11 +100,29 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
                     if (inserted.isEmpty())
                     {
                         level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
-
+                        damageChicken(chickenStats);
                         spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
                         progress = 0;
                     }
                 }
+            }
+        }
+    }
+
+    public void damageChicken(ChickenStats chickenStats)
+    {
+        ItemStack stack = inventory.getItem(0);
+        if(stack.getItem() instanceof ItemChicken)
+        {
+            int currentHealth = chickenStats.getLifespan();
+            if(currentHealth > 1)
+            {
+                int amount = chickenStats.getLifespan() -1;
+                chickenStats.setLifespan(amount);
+            }
+            else
+            {
+                inventory.setItem(0, ItemStack.EMPTY);
             }
         }
     }

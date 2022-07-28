@@ -95,6 +95,7 @@ public class ItemChicken extends Item
         entity.setGain(chickenStats.getGain());
         entity.setStrength(chickenStats.getStrength());
         entity.setGrowth(chickenStats.getGrowth());
+        entity.setLifeSpan(chickenStats.getLifespan());
 
         entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         entity.setChickenType(getTypeFromStack(stack));
@@ -113,6 +114,7 @@ public class ItemChicken extends Item
             components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
             components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
             components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Strength: " + chickenStats.getStrength()));
+            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Lifespan: " + chickenStats.getLifespan() + "%"));
         }
         else
         {

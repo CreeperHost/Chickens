@@ -30,6 +30,7 @@ public class EntityChickensChicken extends Chicken
     private static final EntityDataAccessor<Integer> CHICKEN_GAIN;
     private static final EntityDataAccessor<Integer> CHICKEN_STRENGTH;
     private static final EntityDataAccessor<Integer> LAY_PROGRESS;
+    private static final EntityDataAccessor<Integer> LIFE_SPAN;
 
     private static final String TYPE_NBT = "Type";
     private static final String CHICKEN_STATS_ANALYZED_NBT = "Analyzed";
@@ -46,6 +47,7 @@ public class EntityChickensChicken extends Chicken
         CHICKEN_GAIN = SynchedEntityData.defineId(EntityChickensChicken.class, EntityDataSerializers.INT);
         CHICKEN_STRENGTH = SynchedEntityData.defineId(EntityChickensChicken.class, EntityDataSerializers.INT);
         LAY_PROGRESS = SynchedEntityData.defineId(EntityChickensChicken.class, EntityDataSerializers.INT);
+        LIFE_SPAN = SynchedEntityData.defineId(EntityChickensChicken.class, EntityDataSerializers.INT);
     }
 
     public EntityChickensChicken(EntityType<? extends Chicken> entityType, Level worldIn)
@@ -104,6 +106,16 @@ public class EntityChickensChicken extends Chicken
     public void setStrength(int strength)
     {
         entityData.set(CHICKEN_STRENGTH, strength);
+    }
+
+    public int getLifeSpan()
+    {
+        return entityData.get(LIFE_SPAN);
+    }
+
+    public void setLifeSpan(int lifeSpan)
+    {
+        entityData.set(LIFE_SPAN, lifeSpan);
     }
 
     public ResourceLocation getTexture()
