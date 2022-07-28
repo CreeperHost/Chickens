@@ -108,11 +108,8 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
                     ItemStack inserted = inventory.addItem(itemToLay);
                     if (inserted.isEmpty())
                     {
-                        level.playSound(null, getBlockPos(), ModSounds.CHICKEN_IDLE_1.get(), SoundSource.PLAYERS, 1, 1);
-
-//                        level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
+                        level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
                         damageChicken(chickenStats);
-                        spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
                         progress = 0;
                     }
                 }
@@ -122,14 +119,17 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
 
     public void damageChicken(ChickenStats chickenStats)
     {
+        if(level.isClientSide) return;
+
         ItemStack stack = inventory.getItem(0);
         if(stack.getItem() instanceof ItemChicken)
         {
             int currentHealth = chickenStats.getLifespan();
             if(currentHealth > 1)
             {
-                int amount = chickenStats.getLifespan() -1;
-                chickenStats.setLifespan(amount);
+                //TODO USE A RANDOM TO DECIDE IF WE TAKE DAMAGE OR NOT
+                chickenStats.reduceLifespan(1);
+                chickenStats.write(stack);
             }
             else
             {
@@ -219,6 +219,7 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
     {
         super.saveAdditional(compoundTag);
         compoundTag.merge(inventory.serializeNBT());
+        compoundTag.putInt("progress", progress);
     }
 
     @Override
@@ -226,5 +227,6 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
     {
         super.load(compoundTag);
         inventory.deserializeNBT(compoundTag);
+        progress = compoundTag.getInt("progress");
     }
 }

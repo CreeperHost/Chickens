@@ -4,9 +4,7 @@ import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.client.RenderChickensChicken;
 import net.creeperhost.chickens.init.ModEntities;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.client.event.EntityRenderersEvent;;
 
 @Mod.EventBusSubscriber(modid = Chickens.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ForgeEvents

@@ -42,6 +42,8 @@ public class EntityChickensChicken extends Chicken
     private static final String CHICKEN_GROWTH_NBT = "Growth";
     private static final String CHICKEN_GAIN_NBT = "Gain";
     private static final String CHICKEN_STRENGTH_NBT = "Strength";
+    private static final String CHICKEN_LIFESPAN_NBT = "Lifespan";
+
     private final EntityType<?> entityType;
 
     static
@@ -120,7 +122,7 @@ public class EntityChickensChicken extends Chicken
 
     public void setLifeSpan(int lifeSpan)
     {
-//        entityData.set(LIFE_SPAN, lifeSpan);
+        entityData.set(LIFE_SPAN, lifeSpan);
     }
 
     @Override
@@ -312,6 +314,7 @@ public class EntityChickensChicken extends Chicken
         entityData.define(CHICKEN_STRENGTH, 1);
         entityData.define(LAY_PROGRESS, 0);
         entityData.define(CHICKEN_STATS_ANALYZED, false);
+        entityData.define(LIFE_SPAN, 100);
     }
 
     @Override
@@ -323,6 +326,7 @@ public class EntityChickensChicken extends Chicken
         tagCompound.putInt(CHICKEN_GROWTH_NBT, getGrowth());
         tagCompound.putInt(CHICKEN_GAIN_NBT, getGain());
         tagCompound.putInt(CHICKEN_STRENGTH_NBT, getStrength());
+        tagCompound.putInt(CHICKEN_LIFESPAN_NBT, getLifeSpan());
     }
 
     @Override
@@ -334,6 +338,7 @@ public class EntityChickensChicken extends Chicken
         setGrowth(getStatusValue(tagCompound, CHICKEN_GROWTH_NBT));
         setGain(getStatusValue(tagCompound, CHICKEN_GAIN_NBT));
         setStrength(getStatusValue(tagCompound, CHICKEN_STRENGTH_NBT));
+        setLifeSpan(getStatusValue(tagCompound, CHICKEN_LIFESPAN_NBT));
         updateLayProgress();
     }
 

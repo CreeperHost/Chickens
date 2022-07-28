@@ -177,8 +177,6 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
                     if (chicken != null && !chicken.isEmpty())
                     {
                         inventory.setItem(random, chicken);
-                        level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
-
                     }
                 }
             }

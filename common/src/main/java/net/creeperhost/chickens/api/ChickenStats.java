@@ -124,4 +124,9 @@ public class ChickenStats
         if(lifespan > 100) lifespan = 100;
         this.lifespan = lifespan;
     }
+
+    public void reduceLifespan(int value)
+    {
+        setLifespan(getLifespan() - value);
+    }
 }
