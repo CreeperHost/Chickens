@@ -12,6 +12,7 @@ import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
+import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -31,12 +32,14 @@ public class ChickensJeiPlugin implements IModPlugin
         registry.addRecipeCategories(new ChickenBreedingCategory(jeiHelpers.getGuiHelper()));
         registry.addRecipeCategories(new ChickenDropsCategory(jeiHelpers.getGuiHelper()));
         registry.addRecipeCategories(new ChickenLayingCategory(jeiHelpers.getGuiHelper()));
+        registry.addRecipeCategories(new ChickenIncubatorCategory(jeiHelpers.getGuiHelper()));
     }
 
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration)
     {
         registration.addRecipeCatalyst(new ItemStack(ModItems.BREEDER.get()), ChickensRecipeTypes.BREEDING);
+        registration.addRecipeCatalyst(new ItemStack(ModItems.INCUBATOR.get()), ChickensRecipeTypes.INCUBATOR);
     }
 
     @Override
@@ -51,6 +54,21 @@ public class ChickensJeiPlugin implements IModPlugin
         registry.addRecipes(ChickensRecipeTypes.BREEDING, getBreedingRecipes());
         registry.addRecipes(ChickensRecipeTypes.LAYING, getLayingRecipes());
         registry.addRecipes(ChickensRecipeTypes.DROPS, getDropRecipes());
+        registry.addRecipes(ChickensRecipeTypes.INCUBATOR, getIncubatorRecipes());
+    }
+
+    private List<ChickenIncubatorCategory.Recipe> getIncubatorRecipes()
+    {
+        List<ChickenIncubatorCategory.Recipe> recipes = new ArrayList<>();
+        for (ChickensRegistryItem chickensRegistryItem : ChickensRegistry.getItems())
+        {
+            ItemStack egg = ItemChickenEgg.of(chickensRegistryItem);
+            if(egg.isEmpty()) continue;
+            ItemStack chicken = ItemChicken.of(chickensRegistryItem);
+            if(chicken.isEmpty()) continue;
+            recipes.add(new ChickenIncubatorCategory.Recipe(egg, chicken));
+        }
+        return recipes;
     }
 
     private List<ChickenLayingCategory.Recipe> getLayingRecipes()
