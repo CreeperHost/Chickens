@@ -22,6 +22,7 @@ public class ModChickens
     {
         List<ChickensRegistryItem> chickens = new ArrayList<ChickensRegistryItem>();
 
+        chickens.add(new ChickensRegistryItem(ChickensRegistry.VANILLA_CHICKEN, "vanilla_chicken", new ResourceLocation("minecraft", "textures/entity/chicken.png"), new ItemStack(Items.EGG), 0xffffff, 0xffff00).setSpawnType(SpawnType.NONE));
         chickens.add(new ChickensRegistryItem(ChickensRegistry.SMART_CHICKEN_ID, "smart_chicken", new ResourceLocation("chickens", "textures/entity/smart_chicken.png"), new ItemStack(Items.EGG), 0xffffff, 0xffff00).setSpawnType(SpawnType.NONE));
 
         // dye chickens

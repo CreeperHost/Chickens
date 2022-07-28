@@ -12,6 +12,7 @@
   "item.colored_egg.tooltip":"Throw it to have a chance to spawn the chicken.",
 
   "entity.chickens.smart_chicken":"Smart Chicken",
+  "entity.chickens.vanilla_chicken": "Chicken",
   "entity.chickens.white_chicken":"Bone White Chicken",
   "item.colored_egg.white.name":"Bone White Chicken Egg",
   "entity.chickens.orange_chicken":"Orange Chicken",

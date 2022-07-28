@@ -10,6 +10,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.common.Constants;
 import net.creeperhost.chickens.api.ChickenTransformationRecipe;
+import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
@@ -57,9 +58,10 @@ public class ChickenInteractionCategory implements IRecipeCategory<ChickenTransf
     @Override
     public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull ChickenTransformationRecipe recipe, @NotNull IFocusGroup focuses)
     {
-        //TODO use a chicken
+        ItemStack input = new ItemStack(ModItems.CHICKEN_ITEM.get());
+        ItemChicken.applyEntityIdToItemStack(input, ChickensRegistry.VANILLA_CHICKEN);
         builder.addSlot(RecipeIngredientRole.INPUT, 1, 7)
-                .addItemStack(new ItemStack(Items.EGG));
+                .addItemStack(input);
 
         builder.addSlot(RecipeIngredientRole.INPUT, 32, 7)
                 .addItemStack(recipe.getStack());

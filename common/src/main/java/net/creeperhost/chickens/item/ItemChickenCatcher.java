@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.item;
 
 import net.creeperhost.chickens.api.ChickenStats;
+import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.core.Registry;
@@ -9,6 +10,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -26,9 +28,10 @@ public class ItemChickenCatcher extends Item
     @Override
     public InteractionResult interactLivingEntity(@NotNull ItemStack itemStack, @NotNull Player player, @NotNull LivingEntity livingEntity, @NotNull InteractionHand hand)
     {
+        Level level = livingEntity.getLevel();
+
         if (livingEntity instanceof EntityChickensChicken entityChickensChicken)
         {
-            Level level = livingEntity.getLevel();
             ItemStack chicken = new ItemStack(ModItems.CHICKEN_ITEM.get());
             ResourceLocation resourceLocation = Registry.ENTITY_TYPE.getKey(entityChickensChicken.getType());
             ItemChicken.applyEntityIdToItemStack(chicken, resourceLocation);
@@ -37,6 +40,20 @@ public class ItemChickenCatcher extends Item
             chickenStats.write(chicken);
 
             ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), chicken);
+            level.addFreshEntity(itemEntity);
+            livingEntity.remove(Entity.RemovalReason.DISCARDED);
+            return InteractionResult.PASS;
+        }
+        else if (livingEntity instanceof Chicken)
+        {
+            ItemStack stack = new ItemStack(ModItems.CHICKEN_ITEM.get());
+            ItemChicken.applyEntityIdToItemStack(stack, ChickensRegistry.VANILLA_CHICKEN);
+
+            //Vanilla chickens don't have any stats so lets create set them to default
+            ChickenStats chickenStats = new ChickenStats(1,1, 1, 100);
+            chickenStats.write(stack);
+
+            ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), stack);
             level.addFreshEntity(itemEntity);
             livingEntity.remove(Entity.RemovalReason.DISCARDED);
             return InteractionResult.PASS;
