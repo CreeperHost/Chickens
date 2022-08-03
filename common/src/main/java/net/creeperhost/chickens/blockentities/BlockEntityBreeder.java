@@ -4,11 +4,12 @@ import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.containers.ContainerBreeder;
-import net.creeperhost.chickens.containers.slots.SlotChicken;
-import net.creeperhost.chickens.containers.slots.SlotSeed;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
+import net.creeperhost.chickens.polylib.CommonTags;
+import net.creeperhost.chickens.polylib.SlotInputFiltered;
+import net.creeperhost.chickens.polylib.SlotInputFilteredTag;
 import net.creeperhost.polylib.blockentity.BlockEntityInventory;
 import net.creeperhost.polylib.containers.slots.SlotOutput;
 import net.creeperhost.polylib.inventory.PolyItemInventory;
@@ -36,9 +37,9 @@ public class BlockEntityBreeder extends BlockEntityInventory
         setInventory(new PolyItemInventory(6));
         getInventoryOptional().ifPresent(polyItemInventory ->
         {
-            addSlot(new SlotChicken(polyItemInventory, 0, 44, 20));
-            addSlot(new SlotChicken(polyItemInventory, 1, 62, 20));
-            addSlot(new SlotSeed(polyItemInventory, 2, 8, 20));
+            addSlot(new SlotInputFiltered(polyItemInventory, 0, 44, 20, new ItemStack(ModItems.CHICKEN_ITEM.get())));
+            addSlot(new SlotInputFiltered(polyItemInventory, 1, 62, 20, new ItemStack(ModItems.CHICKEN_ITEM.get())));
+            addSlot(new SlotInputFilteredTag(polyItemInventory, 2, 8, 20, CommonTags.SEEDS));
 
             for (int i = 0; i < 3; ++i)
             {
@@ -46,7 +47,6 @@ public class BlockEntityBreeder extends BlockEntityInventory
             }
         });
         setContainerDataSize(1);
-        setContainerDataValue(0, progress);
     }
 
     public void tick()
@@ -88,6 +88,7 @@ public class BlockEntityBreeder extends BlockEntityInventory
         {
             progress = 0;
         }
+        setContainerDataValue(0, progress);
     }
 
     public void spawnParticle(Level worldIn, double posX, double posY, double posZ, RandomSource rand)

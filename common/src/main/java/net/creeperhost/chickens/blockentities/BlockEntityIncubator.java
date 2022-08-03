@@ -3,13 +3,13 @@ package net.creeperhost.chickens.blockentities;
 import dev.architectury.fluid.FluidStack;
 import net.creeperhost.chickens.block.BlockIncubator;
 import net.creeperhost.chickens.containers.ContainerIncubator;
-import net.creeperhost.chickens.containers.slots.SlotEgg;
-import net.creeperhost.chickens.containers.slots.SlotWaterBucket;
 import net.creeperhost.chickens.init.ModBlocks;
+import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.chickens.network.packets.PacketFluidSync;
 import net.creeperhost.chickens.network.PacketHandler;
+import net.creeperhost.chickens.polylib.SlotInputFiltered;
 import net.creeperhost.polylib.blockentity.BlockEntityInventory;
 import net.creeperhost.polylib.inventory.PolyFluidInventory;
 import net.creeperhost.polylib.inventory.PolyItemInventory;
@@ -19,14 +19,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
@@ -57,9 +53,7 @@ public class BlockEntityIncubator extends BlockEntityInventory
         super(ModBlocks.INCUBATOR_TILE.get(), blockPos, blockState);
         setInventory(new PolyItemInventory(11));
         setContainerDataSize(3);
-        setContainerDataValue(0, lightLevel);
-        setContainerDataValue(1, temp);
-        setContainerDataValue(2, (int) fluidTank.getFluidStack().getAmount());
+
         getInventoryOptional().ifPresent(polyItemInventory ->
         {
             int i = 0;
@@ -68,11 +62,11 @@ public class BlockEntityIncubator extends BlockEntityInventory
                 for (int k = 0; k < 3; ++k)
                 {
                     i++;
-                    this.addSlot(new SlotEgg(polyItemInventory, i, 61 + k * 18, l * 18 + 17));
+                    this.addSlot(new SlotInputFiltered(polyItemInventory, i, 61 + k * 18, l * 18 + 17, new ItemStack(ModItems.CHICKEN_EGG.get())));
                 }
             }
 
-            this.addSlot(new SlotWaterBucket(polyItemInventory, 10, 150, 54));
+            this.addSlot(new SlotInputFiltered(polyItemInventory, 10, 150, 54, new ItemStack(Items.WATER_BUCKET)));
         });
     }
 
@@ -166,6 +160,10 @@ public class BlockEntityIncubator extends BlockEntityInventory
                }
             }
         }
+
+        setContainerDataValue(0, lightLevel);
+        setContainerDataValue(1, temp);
+        setContainerDataValue(2, (int) fluidTank.getFluidStack().getAmount());
     }
 
     public boolean isWithinHatchingTemp()

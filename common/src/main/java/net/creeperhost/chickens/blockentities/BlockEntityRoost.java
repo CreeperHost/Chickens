@@ -4,14 +4,16 @@ import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.containers.ContainerRoost;
-import net.creeperhost.chickens.containers.slots.SlotChicken;
 import net.creeperhost.chickens.init.ModBlocks;
+import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.init.ModSounds;
 import net.creeperhost.chickens.item.ItemChicken;
+import net.creeperhost.chickens.polylib.SlotInputFiltered;
 import net.creeperhost.polylib.blockentity.BlockEntityInventory;
 import net.creeperhost.polylib.containers.slots.SlotOutput;
 import net.creeperhost.polylib.inventory.PolyItemInventory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -32,16 +34,17 @@ public class BlockEntityRoost extends BlockEntityInventory
     public BlockEntityRoost(BlockPos blockPos, BlockState blockState)
     {
         super(ModBlocks.ROOST_TILE.get(), blockPos, blockState);
-        setInventory(new PolyItemInventory(6));
+        setInventory(new PolyItemInventory(5));
         setContainerDataSize(1);
-        setContainerDataValue(0, progress);
         getInventoryOptional().ifPresent(polyItemInventory ->
         {
-            addSlot(new SlotChicken(polyItemInventory, 0, 26, 20));
+            addSlot(new SlotInputFiltered(polyItemInventory, 0, 26, 20, new ItemStack(ModItems.CHICKEN_ITEM.get())));
 
+            int j = 1;
             for (int i = 0; i < 4; ++i)
             {
-                addSlot(new SlotOutput(polyItemInventory, i + 1, 80 + i * 18, 20));
+                addSlot(new SlotOutput(polyItemInventory, j, 80 + i * 18, 20));
+                j++;
             }
         });
     }
@@ -91,6 +94,7 @@ public class BlockEntityRoost extends BlockEntityInventory
                 }
             }
         }
+        setContainerDataValue(0, progress);
     }
 
     public void damageChicken(ChickenStats chickenStats)
@@ -155,4 +159,21 @@ public class BlockEntityRoost extends BlockEntityInventory
         super.load(compoundTag);
         progress = compoundTag.getInt("progress");
     }
+
+//    @Override
+//    public boolean canPlaceItemThroughFace(int i, @NotNull ItemStack itemStack, @org.jetbrains.annotations.Nullable Direction direction)
+//    {
+//        if(!getSlots().isEmpty() && getSlots().size() > i)
+//        {
+//            if (getSlots().get(i) instanceof SlotOutput) return false;
+//            return getSlots().get(i).mayPlace(itemStack);
+//        }
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean canPlaceItem(int i, @NotNull ItemStack itemStack)
+//    {
+//        return super.canPlaceItem(i, itemStack);
+//    }
 }
