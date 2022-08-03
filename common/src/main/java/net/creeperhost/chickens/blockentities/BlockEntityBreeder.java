@@ -5,35 +5,26 @@ import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.containers.ContainerBreeder;
 import net.creeperhost.chickens.containers.slots.SlotChicken;
-import net.creeperhost.chickens.containers.slots.SlotOutput;
 import net.creeperhost.chickens.containers.slots.SlotSeed;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
-import net.creeperhost.chickens.polylib.CommonTags;
 import net.creeperhost.polylib.blockentity.BlockEntityInventory;
+import net.creeperhost.polylib.containers.slots.SlotOutput;
 import net.creeperhost.polylib.inventory.PolyItemInventory;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class BlockEntityBreeder extends BlockEntityInventory
 {

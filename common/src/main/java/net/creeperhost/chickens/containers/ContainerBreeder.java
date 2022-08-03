@@ -1,9 +1,6 @@
 package net.creeperhost.chickens.containers;
 
 import net.creeperhost.chickens.blockentities.BlockEntityBreeder;
-import net.creeperhost.chickens.containers.slots.SlotChicken;
-import net.creeperhost.chickens.containers.slots.SlotOutput;
-import net.creeperhost.chickens.containers.slots.SlotSeed;
 import net.creeperhost.chickens.init.ModContainers;
 import net.creeperhost.polylib.containers.PolyContainer;
 import net.minecraft.client.Minecraft;
