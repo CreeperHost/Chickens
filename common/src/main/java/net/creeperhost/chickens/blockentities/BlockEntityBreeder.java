@@ -3,6 +3,7 @@ package net.creeperhost.chickens.blockentities;
 import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.creeperhost.chickens.block.BlockBreeder;
 import net.creeperhost.chickens.containers.ContainerBreeder;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
@@ -49,38 +50,52 @@ public class BlockEntityBreeder extends BlockEntityInventory
         setContainerDataSize(1);
     }
 
+    public void updateBlockState(Level level, BlockPos blockPos, boolean canWork)
+    {
+        BlockState current = level.getBlockState(blockPos);
+        if(current != null)
+        {
+            boolean hasSeeds = !getItem(0).isEmpty();
+            level.setBlock(blockPos, current.setValue(BlockBreeder.HAS_SEEDS, hasSeeds).setValue(BlockBreeder.IS_BREEDING, canWork), 3);
+        }
+    }
+
     public void tick()
     {
         boolean canWork = (!getItem(0).isEmpty() && !getItem(1).isEmpty() && !getItem(2).isEmpty());
-        if (level != null && !level.isClientSide && canWork)
+        if (level != null && !level.isClientSide)
         {
-            if (progress <= 1000)
+            updateBlockState(level, getBlockPos(), canWork);
+            if(canWork)
             {
-                progress++;
-            }
-            else
-            {
-                ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(0)));
-                ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(1)));
-
-                ChickensRegistryItem baby = ChickensRegistry.getRandomChild(chickensRegistryItem1, chickensRegistryItem2);
-                if (baby == null)
+                if (progress <= 1000)
                 {
-                    progress = 0;
-                    return;
+                    progress++;
                 }
-                ItemStack chickenStack = new ItemStack(ModItems.CHICKEN_ITEM.get());
-                ItemChicken.applyEntityIdToItemStack(chickenStack, baby.getRegistryName());
-                ChickenStats babyStats = increaseStats(chickenStack, getItem(0), getItem(1), level.random);
-                babyStats.write(chickenStack);
-                chickenStack.setCount(1);
-                ItemStack inserted = getInventoryOptional().get().addItem(chickenStack);
-                if (inserted.isEmpty())
+                else
                 {
-                    level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
-                    spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
-                    getItem(2).shrink(1);
-                    progress = 0;
+                    ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(0)));
+                    ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(1)));
+
+                    ChickensRegistryItem baby = ChickensRegistry.getRandomChild(chickensRegistryItem1, chickensRegistryItem2);
+                    if (baby == null)
+                    {
+                        progress = 0;
+                        return;
+                    }
+                    ItemStack chickenStack = new ItemStack(ModItems.CHICKEN_ITEM.get());
+                    ItemChicken.applyEntityIdToItemStack(chickenStack, baby.getRegistryName());
+                    ChickenStats babyStats = increaseStats(chickenStack, getItem(0), getItem(1), level.random);
+                    babyStats.write(chickenStack);
+                    chickenStack.setCount(1);
+                    ItemStack inserted = getInventoryOptional().get().addItem(chickenStack);
+                    if (inserted.isEmpty())
+                    {
+                        level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
+                        spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
+                        getItem(2).shrink(1);
+                        progress = 0;
+                    }
                 }
             }
         }
