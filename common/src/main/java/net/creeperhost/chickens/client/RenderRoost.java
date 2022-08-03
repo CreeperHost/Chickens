@@ -23,9 +23,9 @@ public class RenderRoost implements BlockEntityRenderer<BlockEntityRoost>
     @Override
     public void render(@NotNull BlockEntityRoost blockEntityRoost, float p_112308_, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int light, int ov)
     {
-        if (blockEntityRoost != null && !blockEntityRoost.inventory.getItem(0).isEmpty())
+        if (blockEntityRoost != null && !blockEntityRoost.getItem(0).isEmpty())
         {
-            ItemStack itemStack = blockEntityRoost.inventory.getItem(0);
+            ItemStack itemStack = blockEntityRoost.getItem(0);
             if (itemStack.getItem() instanceof ItemChicken)
             {
                 Minecraft mc = Minecraft.getInstance();

@@ -4,10 +4,13 @@ import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.containers.ContainerRoost;
+import net.creeperhost.chickens.containers.slots.SlotChicken;
+import net.creeperhost.chickens.containers.slots.SlotOutput;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModSounds;
 import net.creeperhost.chickens.item.ItemChicken;
-import net.creeperhost.chickens.polylib.PolyInventory;
+import net.creeperhost.polylib.blockentity.BlockEntityInventory;
+import net.creeperhost.polylib.inventory.PolyItemInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -26,55 +29,32 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockEntityRoost extends BaseContainerBlockEntity
+public class BlockEntityRoost extends BlockEntityInventory
 {
-    public final ContainerData containerData = new SimpleContainerData(1)
-    {
-        @Override
-        public int get(int index)
-        {
-            if (index == 0)
-            {
-                return progress;
-            }
-            throw new IllegalArgumentException("Invalid index: " + index);
-        }
-
-        @Override
-        public void set(int index, int value)
-        {
-            throw new IllegalStateException("Cannot set values through IIntArray");
-        }
-
-        @Override
-        public int getCount()
-        {
-            return 1;
-        }
-    };
-
-    public PolyInventory inventory = new PolyInventory(6)
-    {
-        @Override
-        public void setChanged()
-        {
-            super.setChanged();
-            BlockEntityRoost.this.setChanged();
-        }
-    };
-
     public int progress = 0;
 
     public BlockEntityRoost(BlockPos blockPos, BlockState blockState)
     {
         super(ModBlocks.ROOST_TILE.get(), blockPos, blockState);
+        setInventory(new PolyItemInventory(6));
+        setContainerDataSize(1);
+        setContainerDataValue(0, progress);
+        getInventoryOptional().ifPresent(polyItemInventory ->
+        {
+            addSlot(new SlotChicken(polyItemInventory, 0, 26, 20));
+
+            for (int i = 0; i < 4; ++i)
+            {
+                addSlot(new SlotOutput(polyItemInventory, i + 1, 80 + i * 18, 20));
+            }
+        });
     }
 
     public void tick()
     {
         if (level != null)
         {
-            if (!inventory.getItem(0).isEmpty() && progress <= 1000)
+            if (!getItem(0).isEmpty() && progress <= 1000)
             {
                 if(level.isClientSide)
                 {
@@ -88,12 +68,12 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
             }
             else
             {
-                ChickensRegistryItem chickensRegistryItem = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(inventory.getItem(0)));
+                ChickensRegistryItem chickensRegistryItem = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(0)));
                 if (chickensRegistryItem != null)
                 {
-                    ChickenStats chickenStats = new ChickenStats(inventory.getItem(0));
+                    ChickenStats chickenStats = new ChickenStats(getItem(0));
                     int gain = chickenStats.getGain();
-                    int chickens = inventory.getItem(0).getCount();
+                    int chickens = getItem(0).getCount();
                     ItemStack itemToLay = chickensRegistryItem.createLayItem();
                     if (gain >= 5)
                     {
@@ -105,7 +85,7 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
                     }
                     int finalCount = itemToLay.getCount() * chickens;
                     itemToLay.setCount(finalCount);
-                    ItemStack inserted = inventory.addItem(itemToLay);
+                    ItemStack inserted = getInventoryOptional().get().addItem(itemToLay);
                     if (inserted.isEmpty())
                     {
                         level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
@@ -121,7 +101,7 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
     {
         if(level.isClientSide) return;
 
-        ItemStack stack = inventory.getItem(0);
+        ItemStack stack = getItem(0);
         if(stack.getItem() instanceof ItemChicken)
         {
             int currentHealth = chickenStats.getLifespan();
@@ -133,7 +113,7 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
             }
             else
             {
-                inventory.setItem(0, ItemStack.EMPTY);
+                setItem(0, ItemStack.EMPTY);
             }
         }
     }
@@ -163,62 +143,13 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
     @Override
     protected AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory)
     {
-        return new ContainerRoost(i, inventory, this, containerData);
-    }
-
-    @Override
-    public int getContainerSize()
-    {
-        return inventory.getContainerSize();
-    }
-
-    @Override
-    public boolean isEmpty()
-    {
-        return inventory.isEmpty();
-    }
-
-    @Override
-    public ItemStack getItem(int i)
-    {
-        return inventory.getItem(i);
-    }
-
-    @Override
-    public ItemStack removeItem(int i, int j)
-    {
-        return inventory.removeItem(i, j);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int i)
-    {
-        return inventory.removeItemNoUpdate(i);
-    }
-
-    @Override
-    public void setItem(int i, @NotNull ItemStack itemStack)
-    {
-        inventory.setItem(i, itemStack);
-    }
-
-    @Override
-    public boolean stillValid(@NotNull Player player)
-    {
-        return true;
-    }
-
-    @Override
-    public void clearContent()
-    {
-        inventory.clearContent();
+        return new ContainerRoost(i, inventory, this, getContainerData());
     }
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag compoundTag)
     {
         super.saveAdditional(compoundTag);
-        compoundTag.merge(inventory.serializeNBT());
         compoundTag.putInt("progress", progress);
     }
 
@@ -226,7 +157,6 @@ public class BlockEntityRoost extends BaseContainerBlockEntity
     public void load(@NotNull CompoundTag compoundTag)
     {
         super.load(compoundTag);
-        inventory.deserializeNBT(compoundTag);
         progress = compoundTag.getInt("progress");
     }
 }

@@ -3,20 +3,20 @@ package net.creeperhost.chickens.blockentities;
 import dev.architectury.fluid.FluidStack;
 import net.creeperhost.chickens.block.BlockIncubator;
 import net.creeperhost.chickens.containers.ContainerIncubator;
+import net.creeperhost.chickens.containers.slots.SlotEgg;
+import net.creeperhost.chickens.containers.slots.SlotWaterBucket;
 import net.creeperhost.chickens.init.ModBlocks;
-import net.creeperhost.chickens.init.ModSounds;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.chickens.network.packets.PacketFluidSync;
 import net.creeperhost.chickens.network.PacketHandler;
-import net.creeperhost.chickens.polylib.FluidTank;
-import net.creeperhost.chickens.polylib.PolyInventory;
+import net.creeperhost.polylib.blockentity.BlockEntityInventory;
+import net.creeperhost.polylib.inventory.PolyFluidInventory;
+import net.creeperhost.polylib.inventory.PolyItemInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerChunkCache;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -31,52 +31,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockEntityIncubator extends BaseContainerBlockEntity
+public class BlockEntityIncubator extends BlockEntityInventory
 {
-    public final ContainerData containerData = new SimpleContainerData(3)
-    {
-        @Override
-        public int get(int index)
-        {
-            if (index == 0)
-            {
-                return lightLevel;
-            }
-            if(index == 1)
-            {
-                return temp;
-            }
-            if(index == 2)
-            {
-                return fluidTank.getStored();
-            }
-            throw new IllegalArgumentException("Invalid index: " + index);
-        }
-
-        @Override
-        public void set(int index, int value)
-        {
-            throw new IllegalStateException("Cannot set values through IIntArray");
-        }
-
-        @Override
-        public int getCount()
-        {
-            return 3;
-        }
-    };
-
-    public final PolyInventory inventory = new PolyInventory(11)
-    {
-        @Override
-        public void setChanged()
-        {
-            super.setChanged();
-            BlockEntityIncubator.this.setChanged();
-        }
-    };
-
-    public final FluidTank fluidTank = new FluidTank(1000)
+    public final PolyFluidInventory fluidTank = new PolyFluidInventory(1000)
     {
         @Override
         public void setChanged()
@@ -98,6 +55,25 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     public BlockEntityIncubator(BlockPos blockPos, BlockState blockState)
     {
         super(ModBlocks.INCUBATOR_TILE.get(), blockPos, blockState);
+        setInventory(new PolyItemInventory(11));
+        setContainerDataSize(3);
+        setContainerDataValue(0, lightLevel);
+        setContainerDataValue(1, temp);
+        setContainerDataValue(2, (int) fluidTank.getFluidStack().getAmount());
+        getInventoryOptional().ifPresent(polyItemInventory ->
+        {
+            int i = 0;
+            for (int l = 0; l < 3; ++l)
+            {
+                for (int k = 0; k < 3; ++k)
+                {
+                    i++;
+                    this.addSlot(new SlotEgg(polyItemInventory, i, 61 + k * 18, l * 18 + 17));
+                }
+            }
+
+            this.addSlot(new SlotWaterBucket(polyItemInventory, 10, 150, 54));
+        });
     }
 
     public boolean isActive()
@@ -126,10 +102,10 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
             progress = 0;
             if(fluidTank.getFluidStack().isEmpty())
             {
-                if (!inventory.getItem(10).isEmpty() && inventory.getItem(10).is(Items.WATER_BUCKET))
+                if (!getItem(10).isEmpty() && getItem(10).is(Items.WATER_BUCKET))
                 {
                     fluidTank.setFluidStack(FluidStack.create(Fluids.WATER, 1000));
-                    inventory.setItem(10, new ItemStack(Items.BUCKET));
+                    setItem(10, new ItemStack(Items.BUCKET));
                 }
             }
             if (isActive() && (temp < (lightLevel * incrementSize)))
@@ -145,7 +121,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
                     }
                     else
                     {
-                        fluidTank.setStored(amount);
+                        fluidTank.getFluidStack().setAmount(amount);
                     }
                 }
             }
@@ -158,7 +134,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
                 temp--;
             }
 
-            ItemStack stack = inventory.getItem(random);
+            ItemStack stack = getItem(random);
             if(!(stack.getItem() instanceof ItemChickenEgg itemChickenEgg)) return;
             if(!itemChickenEgg.isViable(stack)) return;
 
@@ -176,7 +152,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
                     ItemStack chicken = ItemChicken.of(itemChickenEgg.getType(stack));
                     if (chicken != null && !chicken.isEmpty())
                     {
-                        inventory.setItem(random, chicken);
+                        setItem(random, chicken);
                     }
                 }
             }
@@ -208,61 +184,7 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     @Override
     protected AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory)
     {
-        return new ContainerIncubator(i, inventory, this, containerData);
-    }
-
-    @Override
-    public int getContainerSize()
-    {
-        return inventory.getContainerSize();
-    }
-
-    @Override
-    public int getMaxStackSize()
-    {
-        return 1;
-    }
-
-    @Override
-    public boolean isEmpty()
-    {
-        return inventory.isEmpty();
-    }
-
-    @Override
-    public ItemStack getItem(int i)
-    {
-        return inventory.getItem(i);
-    }
-
-    @Override
-    public ItemStack removeItem(int i, int j)
-    {
-        return inventory.removeItem(i, j);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int i)
-    {
-        return inventory.removeItemNoUpdate(i);
-    }
-
-    @Override
-    public void setItem(int i, @NotNull ItemStack itemStack)
-    {
-        inventory.setItem(i, itemStack);
-    }
-
-    @Override
-    public boolean stillValid(@NotNull Player player)
-    {
-        return inventory.stillValid(player);
-    }
-
-    @Override
-    public void clearContent()
-    {
-        inventory.clearContent();
+        return new ContainerIncubator(i, inventory, this, getContainerData());
     }
 
     public int getLightLevel()
@@ -280,7 +202,6 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     protected void saveAdditional(@NotNull CompoundTag compoundTag)
     {
         super.saveAdditional(compoundTag);
-        compoundTag.merge(inventory.serializeNBT());
         compoundTag.merge(fluidTank.serializeNBT());
         compoundTag.putInt("temp", temp);
         compoundTag.putInt("light_level", getLightLevel());
@@ -291,7 +212,6 @@ public class BlockEntityIncubator extends BaseContainerBlockEntity
     public void load(@NotNull CompoundTag compoundTag)
     {
         super.load(compoundTag);
-        inventory.deserializeNBT(compoundTag);
         fluidTank.deserializeNBT(compoundTag);
         temp = compoundTag.getInt("temp");
         setLightLevel(compoundTag.getInt("light_level"));

@@ -29,14 +29,7 @@ public class ContainerBreeder extends PolyContainer
         super(ModContainers.BREEDER_CONTAINER.get(), id);
         this.containerData = containerData;
 
-        addSlot(new SlotChicken(blockEntityBreeder.inventory, 0, 44, 20));
-        addSlot(new SlotChicken(blockEntityBreeder.inventory, 1, 62, 20));
-        addSlot(new SlotSeed(blockEntityBreeder.inventory, 2, 8, 20));
-
-        for (int i = 0; i < 3; ++i)
-        {
-            addSlot(new SlotOutput(blockEntityBreeder.inventory, i + 3, 116 + i * 18, 20));
-        }
+        blockEntityBreeder.getSlots().forEach(this::addSlot);
 
         for (int l = 0; l < 3; ++l)
         {

@@ -4,11 +4,15 @@ import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.containers.ContainerBreeder;
+import net.creeperhost.chickens.containers.slots.SlotChicken;
+import net.creeperhost.chickens.containers.slots.SlotOutput;
+import net.creeperhost.chickens.containers.slots.SlotSeed;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.polylib.CommonTags;
-import net.creeperhost.chickens.polylib.PolyInventory;
+import net.creeperhost.polylib.blockentity.BlockEntityInventory;
+import net.creeperhost.polylib.inventory.PolyItemInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,7 +21,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,61 +29,38 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockEntityBreeder extends BaseContainerBlockEntity implements WorldlyContainer
+public class BlockEntityBreeder extends BlockEntityInventory
 {
-    public final PolyInventory inventory = new PolyInventory(6)
-    {
-        @Override
-        public void setChanged()
-        {
-            super.setChanged();
-            BlockEntityBreeder.this.setChanged();
-        }
-    };
-
-    public final ContainerData containerData = new SimpleContainerData(1)
-    {
-        @Override
-        public int get(int index)
-        {
-            if (index == 0)
-            {
-                return progress;
-            }
-            throw new IllegalArgumentException("Invalid index: " + index);
-        }
-
-        @Override
-        public void set(int index, int value)
-        {
-            throw new IllegalStateException("Cannot set values through IIntArray");
-        }
-
-        @Override
-        public int getCount()
-        {
-            return 1;
-        }
-    };
-
     public int progress = 0;
-
 
     public BlockEntityBreeder(BlockPos blockPos, BlockState blockState)
     {
         super(ModBlocks.BREEDER_TILE.get(), blockPos, blockState);
+        setInventory(new PolyItemInventory(6));
+        getInventoryOptional().ifPresent(polyItemInventory ->
+        {
+            addSlot(new SlotChicken(polyItemInventory, 0, 44, 20));
+            addSlot(new SlotChicken(polyItemInventory, 1, 62, 20));
+            addSlot(new SlotSeed(polyItemInventory, 2, 8, 20));
+
+            for (int i = 0; i < 3; ++i)
+            {
+                addSlot(new SlotOutput(polyItemInventory, i + 3, 116 + i * 18, 20));
+            }
+        });
+        setContainerDataSize(1);
+        setContainerDataValue(0, progress);
     }
 
     public void tick()
     {
-        boolean canWork = (!inventory.getItem(0).isEmpty() && !inventory.getItem(1).isEmpty() && !inventory.getItem(2).isEmpty());
+        boolean canWork = (!getItem(0).isEmpty() && !getItem(1).isEmpty() && !getItem(2).isEmpty());
         if (level != null && !level.isClientSide && canWork)
         {
             if (progress <= 1000)
@@ -89,8 +69,8 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity implements Worl
             }
             else
             {
-                ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(inventory.getItem(0)));
-                ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(inventory.getItem(1)));
+                ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(0)));
+                ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(1)));
 
                 ChickensRegistryItem baby = ChickensRegistry.getRandomChild(chickensRegistryItem1, chickensRegistryItem2);
                 if (baby == null)
@@ -100,15 +80,15 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity implements Worl
                 }
                 ItemStack chickenStack = new ItemStack(ModItems.CHICKEN_ITEM.get());
                 ItemChicken.applyEntityIdToItemStack(chickenStack, baby.getRegistryName());
-                ChickenStats babyStats = increaseStats(chickenStack, inventory.getItem(0), inventory.getItem(1), level.random);
+                ChickenStats babyStats = increaseStats(chickenStack, getItem(0), getItem(1), level.random);
                 babyStats.write(chickenStack);
                 chickenStack.setCount(1);
-                ItemStack inserted = inventory.addItem(chickenStack);
+                ItemStack inserted = getInventoryOptional().get().addItem(chickenStack);
                 if (inserted.isEmpty())
                 {
                     level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
                     spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
-                    inventory.getItem(2).shrink(1);
+                    getItem(2).shrink(1);
                     progress = 0;
                 }
             }
@@ -169,89 +149,6 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity implements Worl
     @Override
     protected AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory)
     {
-        return new ContainerBreeder(i, inventory, this, containerData);
-    }
-
-    @Override
-    public int getContainerSize()
-    {
-        return inventory.getContainerSize();
-    }
-
-    @Override
-    public boolean isEmpty()
-    {
-        return inventory.isEmpty();
-    }
-
-    @Override
-    public ItemStack getItem(int i)
-    {
-        return inventory.getItem(i);
-    }
-
-    @Override
-    public ItemStack removeItem(int i, int j)
-    {
-        return inventory.removeItem(i, j);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int i)
-    {
-        return inventory.removeItemNoUpdate(i);
-    }
-
-    @Override
-    public void setItem(int i, @NotNull ItemStack itemStack)
-    {
-        inventory.setItem(i, itemStack);
-    }
-
-    @Override
-    public boolean stillValid(@NotNull Player player)
-    {
-        return true;
-    }
-
-    @Override
-    public void clearContent()
-    {
-        inventory.clearContent();
-    }
-
-    @Override
-    protected void saveAdditional(@NotNull CompoundTag compoundTag)
-    {
-        super.saveAdditional(compoundTag);
-        compoundTag.merge(inventory.serializeNBT());
-    }
-
-    @Override
-    public void load(@NotNull CompoundTag compoundTag)
-    {
-        super.load(compoundTag);
-        inventory.deserializeNBT(compoundTag);
-    }
-
-    @Override
-    public int[] getSlotsForFace(@NotNull Direction direction)
-    {
-        return new int[]{0, 1, 2, 3, 4, 5, 6};
-    }
-
-    @Override
-    public boolean canPlaceItemThroughFace(int i, @NotNull ItemStack itemStack, @Nullable Direction direction)
-    {
-        if(i == 2 && (itemStack.is(CommonTags.SEEDS) || itemStack.is(Items.WHEAT_SEEDS))) return true;
-        if((i == 0 || i == 1) && itemStack.getItem() instanceof ItemChicken) return true;
-
-        return false;
-    }
-
-    @Override
-    public boolean canTakeItemThroughFace(int i, @NotNull ItemStack itemStack, @NotNull Direction direction)
-    {
-        return i > 3;
+        return new ContainerBreeder(i, inventory, this, getContainerData());
     }
 }

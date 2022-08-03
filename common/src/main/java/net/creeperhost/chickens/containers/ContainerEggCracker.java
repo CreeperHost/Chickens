@@ -31,18 +31,7 @@ public class ContainerEggCracker extends PolyContainer
     {
         super(ModContainers.EGG_CRACKER.get(), id);
         this.containerData = containerData;
-
-        this.addSlot(new Slot(blockEntityEggCracker.inventory, 0, 26, 34));
-
-        int i = 0;
-        for (int l = 0; l < 3; ++l)
-        {
-            for (int k = 0; k < 3; ++k)
-            {
-                i++;
-                this.addSlot(new Slot(blockEntityEggCracker.inventory, i, 105 + k * 18, l * 18 + 17));
-            }
-        }
+        blockEntityEggCracker.getSlots().forEach(this::addSlot);
 
 
         for (int l = 0; l < 3; ++l)

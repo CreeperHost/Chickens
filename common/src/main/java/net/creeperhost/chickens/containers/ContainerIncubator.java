@@ -36,17 +36,7 @@ public class ContainerIncubator extends PolyContainer
         this.blockPos = blockEntityIncubator.getBlockPos();
         this.blockEntityIncubator = blockEntityIncubator;
 
-        int i = 0;
-        for (int l = 0; l < 3; ++l)
-        {
-            for (int k = 0; k < 3; ++k)
-            {
-                i++;
-                this.addSlot(new SlotEgg(blockEntityIncubator.inventory, i, 61 + k * 18, l * 18 + 17));
-            }
-        }
-
-        this.addSlot(new SlotWaterBucket(blockEntityIncubator.inventory, 10, 150, 54));
+        blockEntityIncubator.getSlots().forEach(this::addSlot);
 
         for (int l = 0; l < 3; ++l)
         {

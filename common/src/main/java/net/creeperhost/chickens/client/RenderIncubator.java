@@ -17,11 +17,11 @@ public class RenderIncubator implements BlockEntityRenderer<BlockEntityIncubator
     @Override
     public void render(@NotNull BlockEntityIncubator blockEntity, float f, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i, int j)
     {
-        for (int i1 = 0; i1 < blockEntity.inventory.getContainerSize(); i1++)
+        for (int i1 = 0; i1 < blockEntity.getContainerSize(); i1++)
         {
-            if(blockEntity.inventory.getItem(i1).isEmpty()) continue;
+            if(blockEntity.getItem(i1).isEmpty()) continue;
 
-            ItemStack stack = blockEntity.inventory.getItem(i1);
+            ItemStack stack = blockEntity.getItem(i1);
             if(stack.getItem() instanceof ItemChickenEgg || stack.getItem() instanceof ItemChicken)
             {
                 poseStack.pushPose();

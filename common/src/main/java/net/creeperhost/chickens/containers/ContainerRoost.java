@@ -27,13 +27,7 @@ public class ContainerRoost extends PolyContainer
     {
         super(ModContainers.ROOST.get(), id);
         this.containerData = containerData;
-
-        addSlot(new SlotChicken(blockEntityRoost.inventory, 0, 26, 20));
-
-        for (int i = 0; i < 4; ++i)
-        {
-            addSlot(new SlotOutput(blockEntityRoost.inventory, i + 1, 80 + i * 18, 20));
-        }
+        blockEntityRoost.getSlots().forEach(this::addSlot);
 
         for (int l = 0; l < 3; ++l)
         {
