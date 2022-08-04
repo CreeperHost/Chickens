@@ -7,7 +7,6 @@ import dev.architectury.registry.client.rendering.ColorHandlerRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import net.creeperhost.chickens.client.RenderChickensChicken;
 import net.creeperhost.chickens.client.RenderIncubator;
-import net.creeperhost.chickens.client.RenderRoost;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModEntities;
 import net.creeperhost.chickens.init.ModItems;
@@ -49,7 +48,6 @@ public class ChickensClient
             ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickensChicken::new));
         }
 
-        BlockEntityRendererRegistry.register(ModBlocks.ROOST_TILE.get(), context -> new RenderRoost());
         BlockEntityRendererRegistry.register(ModBlocks.INCUBATOR_TILE.get(), context -> new RenderIncubator());
         RenderTypeRegistry.register(RenderType.translucent(), ModBlocks.INCUBATOR.get());
 

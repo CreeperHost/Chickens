@@ -2,7 +2,6 @@
   "replace": false,
   "values": [
     "chickens:breeder",
-    "chickens:roost",
     "chickens:incubator"
   ]
 }

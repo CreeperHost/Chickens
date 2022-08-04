@@ -6,11 +6,9 @@ import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.block.BlockBreeder;
 import net.creeperhost.chickens.block.BlockEggCracker;
 import net.creeperhost.chickens.block.BlockIncubator;
-import net.creeperhost.chickens.block.BlockRoost;
 import net.creeperhost.chickens.blockentities.BlockEntityBreeder;
 import net.creeperhost.chickens.blockentities.BlockEntityEggCracker;
 import net.creeperhost.chickens.blockentities.BlockEntityIncubator;
-import net.creeperhost.chickens.blockentities.BlockEntityRoost;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -23,13 +21,10 @@ public class ModBlocks
     public static final RegistrySupplier<Block> INCUBATOR = BLOCKS.register("incubator", BlockIncubator::new);
 
     public static final RegistrySupplier<Block> BREEDER = BLOCKS.register("breeder", BlockBreeder::new);
-    public static final RegistrySupplier<Block> ROOST = BLOCKS.register("roost", BlockRoost::new);
 
     public static final RegistrySupplier<Block> EGG_CRACKER = BLOCKS.register("egg_cracker", BlockEggCracker::new);
 
     public static final RegistrySupplier<BlockEntityType<BlockEntityBreeder>> BREEDER_TILE = TILES_ENTITIES.register("breeder", () -> BlockEntityType.Builder.of(BlockEntityBreeder::new, ModBlocks.BREEDER.get()).build(null));
-    public static final RegistrySupplier<BlockEntityType<BlockEntityRoost>> ROOST_TILE = TILES_ENTITIES.register("roost", () -> BlockEntityType.Builder.of(BlockEntityRoost::new, ModBlocks.ROOST.get()).build(null));
-
     public static final RegistrySupplier<BlockEntityType<BlockEntityIncubator>> INCUBATOR_TILE = TILES_ENTITIES.register("incubator", () -> BlockEntityType.Builder.of(BlockEntityIncubator::new, ModBlocks.INCUBATOR.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<BlockEntityEggCracker>> EGG_CRACKER_TILE = TILES_ENTITIES.register("egg_cracker", () -> BlockEntityType.Builder.of(BlockEntityEggCracker::new, ModBlocks.EGG_CRACKER.get()).build(null));
 
