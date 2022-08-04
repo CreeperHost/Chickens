@@ -1,4 +1,4 @@
-package net.creeperhost.chickens.containers;
+package net.creeperhost.chickens.containers.slots;
 
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.polylib.containers.slots.SlotInput;

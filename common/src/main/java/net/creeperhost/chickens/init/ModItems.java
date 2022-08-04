@@ -42,5 +42,6 @@ public class ModItems
     public static final RegistrySupplier<Item> BREEDER = ITEMS.register("breeder", () -> new BlockItem(ModBlocks.BREEDER.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
     public static final RegistrySupplier<Item> INCUBATOR = ITEMS.register("incubator", () -> new BlockItem(ModBlocks.INCUBATOR.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
     public static final RegistrySupplier<Item> EGG_CRACKER = ITEMS.register("egg_cracker", () -> new BlockItem(ModBlocks.EGG_CRACKER.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
+    public static final RegistrySupplier<Item> OVOSCOPE = ITEMS.register("ovoscope", () -> new BlockItem(ModBlocks.OVOSCOPE.get(), new Item.Properties().tab(CREATIVE_MODE_TAB)));
 
 }
