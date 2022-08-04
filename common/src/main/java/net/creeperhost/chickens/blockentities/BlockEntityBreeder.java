@@ -8,6 +8,7 @@ import net.creeperhost.chickens.containers.ContainerBreeder;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
+import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.chickens.polylib.CommonTags;
 import net.creeperhost.chickens.polylib.SlotInputFiltered;
 import net.creeperhost.chickens.polylib.SlotInputFilteredTag;
@@ -16,6 +17,7 @@ import net.creeperhost.polylib.containers.slots.SlotOutput;
 import net.creeperhost.polylib.inventory.PolyItemInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -83,14 +85,23 @@ public class BlockEntityBreeder extends BlockEntityInventory
                         progress = 0;
                         return;
                     }
-                    ItemStack chickenStack = new ItemStack(ModItems.CHICKEN_ITEM.get());
-                    ItemChicken.applyEntityIdToItemStack(chickenStack, baby.getRegistryName());
+                    ItemStack chickenStack = ItemChickenEgg.of(baby);
                     ChickenStats babyStats = increaseStats(chickenStack, getItem(0), getItem(1), level.random);
                     babyStats.write(chickenStack);
-                    chickenStack.setCount(1);
+
+                    ChickenStats chickenStats = new ChickenStats(getItem(0));
+                    int count = Math.max(1, ((1 + chickenStats.getGain()) / 3));
+                    chickenStack.setCount(count);
                     ItemStack inserted = getInventoryOptional().get().addItem(chickenStack);
                     if (inserted.isEmpty())
                     {
+                        int random = level.getRandom().nextInt(1, 4);
+                        if(random == 4)
+                        {
+                            damageChicken(0);
+                            damageChicken(1);
+                        }
+
                         level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
                         spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
                         getItem(2).shrink(1);
@@ -104,6 +115,27 @@ public class BlockEntityBreeder extends BlockEntityInventory
             progress = 0;
         }
         setContainerDataValue(0, progress);
+    }
+
+    public void damageChicken(int slot)
+    {
+        if(!getItem(slot).isEmpty() && getItem(slot).getItem() instanceof ItemChicken)
+        {
+            ItemStack copy = getItem(slot).copy();
+
+            ChickenStats chickenStats = new ChickenStats(copy);
+            int life = chickenStats.getLifespan() - 1;
+            if(life > 0)
+            {
+                chickenStats.setLifespan(life);
+                chickenStats.write(copy);
+                setItem(slot, copy);
+            }
+            else
+            {
+                setItem(slot, ItemStack.EMPTY);
+            }
+        }
     }
 
     public void spawnParticle(Level worldIn, double posX, double posY, double posZ, RandomSource rand)
@@ -157,5 +189,19 @@ public class BlockEntityBreeder extends BlockEntityInventory
     protected AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory)
     {
         return new ContainerBreeder(i, inventory, this, getContainerData());
+    }
+
+    @Override
+    protected void saveAdditional(@NotNull CompoundTag compoundTag)
+    {
+        super.saveAdditional(compoundTag);
+        compoundTag.putInt("progress", progress);
+    }
+
+    @Override
+    public void load(@NotNull CompoundTag compoundTag)
+    {
+        super.load(compoundTag);
+        progress = compoundTag.getInt("progress");
     }
 }

@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.blockentities;
 
 import dev.architectury.fluid.FluidStack;
+import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.block.BlockIncubator;
 import net.creeperhost.chickens.containers.ContainerIncubator;
 import net.creeperhost.chickens.containers.SlotEgg;
@@ -15,6 +16,7 @@ import net.creeperhost.polylib.blockentity.BlockEntityInventory;
 import net.creeperhost.polylib.inventory.PolyFluidInventory;
 import net.creeperhost.polylib.inventory.PolyItemInventory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerChunkCache;
@@ -97,7 +99,7 @@ public class BlockEntityIncubator extends BlockEntityInventory
     public void tick()
     {
         if(level == null) return;
-//        if(level.isClientSide) return;
+        if(level.isClientSide) return;
 
         int random = level.getRandom().nextInt(0, 9);
         progress++;
@@ -154,6 +156,8 @@ public class BlockEntityIncubator extends BlockEntityInventory
                 {
                     //TODO use a random to decide if we hatch or not
                     ItemStack chicken = ItemChicken.of(itemChickenEgg.getType(stack));
+                    ChickenStats chickenStats = new ChickenStats(stack);
+                    chickenStats.write(chicken);
                     if (chicken != null && !chicken.isEmpty())
                     {
                         setItem(random, chicken);
@@ -204,6 +208,13 @@ public class BlockEntityIncubator extends BlockEntityInventory
     {
         this.lightLevel = lightLevel;
         setChanged();
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int i, @NotNull ItemStack itemStack, @NotNull Direction direction)
+    {
+        if(!itemStack.isEmpty() && itemStack.getItem() instanceof ItemChicken) return true;
+        return false;
     }
 
     @Override

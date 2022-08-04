@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.item;
 
+import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.init.ModItems;
@@ -142,5 +143,10 @@ public class ItemChickenEgg extends Item
             list.add(Component.literal("Missed: " + getMissedCycles(itemStack)));
             list.add(Component.literal("Viable: " + isViable(itemStack)));
         }
+
+        ChickenStats chickenStats = new ChickenStats(itemStack);
+        list.add(Component.literal(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
+        list.add(Component.literal(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
+        list.add(Component.literal(ChatFormatting.DARK_PURPLE + "Strength: " + chickenStats.getStrength()));
     }
 }
