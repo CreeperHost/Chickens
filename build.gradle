@@ -42,6 +42,8 @@ allprojects {
             name 'JEI'
             url 'https://dvs1.progwml6.com/files/maven'
         }
+
+        maven { url = 'https://modmaven.dev/' } // mek
     }
 
     tasks.withType(JavaCompile) {

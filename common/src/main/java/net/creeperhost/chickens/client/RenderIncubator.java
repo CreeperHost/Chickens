@@ -28,17 +28,17 @@ public class RenderIncubator implements BlockEntityRenderer<BlockEntityIncubator
                 double offsetX = 0.25D;
                 double offsetZ = 0.25D;
 
-                if(i1 <= 3)
+                if(i1 <= 2)
                 {
                     offsetX = offsetX * i1;
                 }
-                if(i1 > 3 && i1 <= 6)
+                if(i1 > 2 && i1 <= 5)
                 {
                     int z = i1 -3;
                     offsetX = offsetX * z;
                     offsetZ = offsetZ * 2;
                 }
-                if(i1 > 6 && i1 <= 9)
+                if(i1 > 5 && i1 <= 8)
                 {
                     int z = i1 -6;
                     offsetX = offsetX * z;
@@ -46,7 +46,7 @@ public class RenderIncubator implements BlockEntityRenderer<BlockEntityIncubator
                 }
 
 
-                poseStack.translate(offsetX, 0.3D, offsetZ);
+                poseStack.translate(offsetX + 0.25D, 0.3D, offsetZ);
                 float rotation = (float) (blockEntity.getLevel().getGameTime() % 80);
 
                 poseStack.scale(.2f, .2f, .2f);

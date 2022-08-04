@@ -8,6 +8,7 @@ import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.init.ModSounds;
 import net.creeperhost.chickens.item.ItemChicken;
+import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.chickens.polylib.SlotInputFiltered;
 import net.creeperhost.polylib.blockentity.BlockEntityInventory;
 import net.creeperhost.polylib.containers.slots.SlotOutput;
@@ -73,7 +74,7 @@ public class BlockEntityRoost extends BlockEntityInventory
                     ChickenStats chickenStats = new ChickenStats(getItem(0));
                     int gain = chickenStats.getGain();
                     int chickens = getItem(0).getCount();
-                    ItemStack itemToLay = chickensRegistryItem.createLayItem();
+                    ItemStack itemToLay = ItemChickenEgg.of(chickensRegistryItem);
                     if (gain >= 5)
                     {
                         itemToLay.grow(chickensRegistryItem.createLayItem().getCount());

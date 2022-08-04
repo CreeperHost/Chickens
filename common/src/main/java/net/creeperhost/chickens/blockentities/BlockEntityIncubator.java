@@ -3,6 +3,7 @@ package net.creeperhost.chickens.blockentities;
 import dev.architectury.fluid.FluidStack;
 import net.creeperhost.chickens.block.BlockIncubator;
 import net.creeperhost.chickens.containers.ContainerIncubator;
+import net.creeperhost.chickens.containers.SlotEgg;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
@@ -20,6 +21,7 @@ import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
@@ -51,7 +53,15 @@ public class BlockEntityIncubator extends BlockEntityInventory
     public BlockEntityIncubator(BlockPos blockPos, BlockState blockState)
     {
         super(ModBlocks.INCUBATOR_TILE.get(), blockPos, blockState);
-        setInventory(new PolyItemInventory(11));
+        setInventory(new PolyItemInventory(10)
+        {
+            @Override
+            public int getMaxStackSize()
+            {
+                return 1;
+            }
+
+        });
         setContainerDataSize(3);
 
         getInventoryOptional().ifPresent(polyItemInventory ->
@@ -61,12 +71,12 @@ public class BlockEntityIncubator extends BlockEntityInventory
             {
                 for (int k = 0; k < 3; ++k)
                 {
+                    this.addSlot(new SlotEgg(polyItemInventory, i, 61 + k * 18, l * 18 + 17));
                     i++;
-                    this.addSlot(new SlotInputFiltered(polyItemInventory, i, 61 + k * 18, l * 18 + 17, new ItemStack(ModItems.CHICKEN_EGG.get())));
                 }
             }
 
-            this.addSlot(new SlotInputFiltered(polyItemInventory, 10, 150, 54, new ItemStack(Items.WATER_BUCKET)));
+            this.addSlot(new SlotInputFiltered(polyItemInventory, 9, 150, 54, new ItemStack(Items.WATER_BUCKET)));
         });
     }
 
@@ -96,10 +106,10 @@ public class BlockEntityIncubator extends BlockEntityInventory
             progress = 0;
             if(fluidTank.getFluidStack().isEmpty())
             {
-                if (!getItem(10).isEmpty() && getItem(10).is(Items.WATER_BUCKET))
+                if (!getItem(9).isEmpty() && getItem(9).is(Items.WATER_BUCKET))
                 {
                     fluidTank.setFluidStack(FluidStack.create(Fluids.WATER, 1000));
-                    setItem(10, new ItemStack(Items.BUCKET));
+                    setItem(9, new ItemStack(Items.BUCKET));
                 }
             }
             if (isActive() && (temp < (lightLevel * incrementSize)))
