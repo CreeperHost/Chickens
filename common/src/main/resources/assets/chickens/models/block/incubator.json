@@ -4,7 +4,7 @@
 	"textures": {
 		"0": "chickens:blocks/slat_side",
 		"1": "chickens:blocks/glass_gray",
-		"2": "chickens:blocks/redstone_lamp",
+		"2": "minecraft:block/redstone_lamp",
 		"particle": "chickens:blocks/slat_side"
 	},
 	"elements": [

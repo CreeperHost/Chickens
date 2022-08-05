@@ -98,10 +98,12 @@
   "gui.breeding.time":"%1$s%%",
   "gui.drops":"Chicken Drop,",
   "gui.throws":"Color Egg Throwing",
+  "chickens.screen.ovoscope": "Ovoscope",
 
   "block.chickens.breeder": "Breeder",
   "block.chickens.roost": "Roost",
   "block.chickens.incubator": "Incubator",
-  "block.chickens.egg_cracker": "Egg Cracker"
+  "block.chickens.egg_cracker": "Egg Cracker",
+  "block.chickens.ovoscope": "Ovoscope"
 
 }

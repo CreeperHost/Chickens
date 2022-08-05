@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "chickens:block/collector"
+      "model": "chickens:block/ovoscope"
     },
     "facing=south": {
-      "model": "chickens:block/collector",
+      "model": "chickens:block/ovoscope",
       "y": 180
     },
     "facing=west": {
-      "model": "chickens:block/collector",
+      "model": "chickens:block/ovoscope",
       "y": 270
     },
     "facing=east": {
-      "model": "chickens:block/collector",
+      "model": "chickens:block/ovoscope",
       "y": 90
     }
   }

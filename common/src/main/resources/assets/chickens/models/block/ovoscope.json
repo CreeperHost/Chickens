@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "particle": "chickens:blocks/plain_face",
+    "down": "chickens:blocks/plain_face",
+    "up": "chickens:blocks/plain_face",
+    "north": "chickens:blocks/plain_face",
+    "east": "chickens:blocks/ovoscope_east",
+    "south": "chickens:blocks/plain_face",
+    "west": "chickens:blocks/ovoscope_west"
+  }
+}
