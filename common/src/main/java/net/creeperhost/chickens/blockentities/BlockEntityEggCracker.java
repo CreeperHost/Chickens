@@ -1,9 +1,11 @@
 package net.creeperhost.chickens.blockentities;
 
 import net.creeperhost.chickens.containers.ContainerEggCracker;
+import net.creeperhost.chickens.containers.slots.SlotEgg;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.polylib.blockentity.BlockEntityInventory;
+import net.creeperhost.polylib.containers.slots.SlotOutput;
 import net.creeperhost.polylib.inventory.PolyItemInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -26,7 +28,7 @@ public class BlockEntityEggCracker extends BlockEntityInventory
         setInventory(new PolyItemInventory(10));
         getInventoryOptional().ifPresent(polyItemInventory ->
         {
-            this.addSlot(new Slot(polyItemInventory, 0, 26, 34));
+            this.addSlot(new SlotEgg(polyItemInventory, 0, 26, 34));
 
             int i = 0;
             for (int l = 0; l < 3; ++l)
@@ -34,7 +36,7 @@ public class BlockEntityEggCracker extends BlockEntityInventory
                 for (int k = 0; k < 3; ++k)
                 {
                     i++;
-                    this.addSlot(new Slot(polyItemInventory, i, 105 + k * 18, l * 18 + 17));
+                    this.addSlot(new SlotOutput(polyItemInventory, i, 105 + k * 18, l * 18 + 17));
                 }
             }
         });
