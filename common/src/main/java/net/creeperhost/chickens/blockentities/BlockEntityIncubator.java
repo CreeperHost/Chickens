@@ -125,7 +125,9 @@ public class BlockEntityIncubator extends BlockEntityInventory
                     }
                     else
                     {
-                        fluidTank.getFluidStack().setAmount(amount);
+                        FluidStack fluidStack = fluidTank.getFluidStack().copy();
+                        fluidStack.setAmount(amount);
+                        fluidTank.setFluidStack(fluidStack);
                     }
                 }
             }

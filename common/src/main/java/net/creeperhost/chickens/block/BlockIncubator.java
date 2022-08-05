@@ -45,6 +45,7 @@ public class BlockIncubator extends BlockBase
         if (!level.isClientSide)
         {
             BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            if(blockEntity instanceof BlockEntityIncubator blockEntityIncubator) blockEntityIncubator.sync();
             MenuRegistry.openExtendedMenu((ServerPlayer) player, (MenuProvider) blockEntity, packetBuffer -> packetBuffer.writeBlockPos(blockEntity.getBlockPos()));
             return InteractionResult.SUCCESS;
         }
