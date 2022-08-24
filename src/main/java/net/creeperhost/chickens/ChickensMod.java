@@ -46,7 +46,12 @@ public class ChickensMod
 
     private void loaded(final FMLCommonSetupEvent event)
     {
-        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem));
+        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> {
+            if(chickensRegistryItem.canSpawn())
+            {
+                ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem);
+            }
+        });
     }
 
     private void clientInit(final FMLClientSetupEvent event)

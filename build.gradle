@@ -34,7 +34,7 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             mods {
-                quantumstorage {
+                chickens {
                     source sourceSets.main
                 }
             }
@@ -45,7 +45,7 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             mods {
-                quantumstorage {
+                chickens {
                     source sourceSets.main
                 }
             }
@@ -63,7 +63,7 @@ minecraft {
             args '--mod', 'chickens', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
 
             mods {
-                quantumstorage {
+                chickens {
                     source sourceSets.main
                 }
             }

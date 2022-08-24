@@ -17,7 +17,7 @@ authors="CreeperHost, gigabit101" #optional
 [[dependencies.chickens]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19]"
+    versionRange="[1.19.2]"
     ordering="NONE"
     side="BOTH"
 

@@ -14,14 +14,12 @@ import net.minecraft.core.Registry;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -47,33 +45,11 @@ public class ModEntities
 
     public static void registerSpawn(Supplier<EntityType<EntityChickensChicken>> entityType, ChickensRegistryItem chickensRegistryItem)
     {
-        if(chickensRegistryItem.canSpawn())
-        {
-            BiomeModifications.addProperties(ModEntities::canSpawnBiome, (biomeContext, mutable) -> mutable.getSpawnProperties().addSpawn(MobCategory.MONSTER,
-                    new MobSpawnSettings.SpawnerData(entityType.get(), 10, 4, 4)));
-
-            SpawnPlacements.register(entityType.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    (p_21781_, p_21782_, p_21783_, p_21784_, p_21785_) -> checkAnimalSpawnRules(p_21781_, p_21782_, p_21783_, p_21784_, p_21785_, chickensRegistryItem));
-        }
+        SpawnPlacements.register(entityType.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkAnimalSpawnRules);
     }
 
-    public static boolean canSpawnBiome(BiomeModifications.BiomeContext biomeContext)
+    public static boolean checkAnimalSpawnRules(EntityType<? extends Entity> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource random)
     {
-        if(biomeContext.hasTag(BiomeTags.IS_NETHER)) return false;
-        if(biomeContext.hasTag(BiomeTags.IS_END)) return false;
-        if(biomeContext.hasTag(BiomeTags.IS_OCEAN)) return false;
-        return true;
-    }
-
-
-    public static boolean checkAnimalSpawnRules(EntityType<?> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource random, ChickensRegistryItem chickensRegistryItem)
-    {
-        return levelAccessor.getBlockState(blockPos.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON) && isBrightEnoughToSpawn(levelAccessor, blockPos);
-
-    }
-
-    public static boolean isBrightEnoughToSpawn(BlockAndTintGetter blockAndTintGetter, BlockPos blockPos)
-    {
-        return blockAndTintGetter.getRawBrightness(blockPos, 0) > 8;
+        return worldIn.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) && worldIn.getRawBrightness(pos, 0) > 8;
     }
 }
