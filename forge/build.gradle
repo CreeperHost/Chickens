@@ -30,12 +30,12 @@ dependencies {
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
     modApi("net.creeperhost:polylib-forge:${rootProject.polylib_version}")
 
-    modCompileOnlyApi("mezz.jei:jei-1.19.2-common-api:${project.jei_version}")
-    modCompileOnlyApi("mezz.jei:jei-1.19.2-forge-api:${project.jei_version}")
+    modCompileOnlyApi("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
+    modCompileOnlyApi("mezz.jei:jei-${project.minecraft_version}-forge-api:${project.jei_version}")
 
-//    modApi("mezz.jei:jei-1.19-forge:${project.jei_version}")
+    modRuntimeOnly("mezz.jei:jei-${project.minecraft_version}-forge:${project.jei_version}")
+
 //    modApi("mekanism:Mekanism:${project.mekanism_version}")
-
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
