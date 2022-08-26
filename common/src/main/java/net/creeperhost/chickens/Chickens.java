@@ -42,7 +42,7 @@ public class Chickens
 
         if (Platform.isFabric())
         {
-            ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem));
+            ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier.get(), chickensRegistryItem));
         }
 
         //We need to do this late or the entities are not registered yet

@@ -45,7 +45,7 @@ public class ChickensModForge
 
     private void commonLoaded(final FMLCommonSetupEvent event)
     {
-        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem));
+        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier.get(), chickensRegistryItem));
     }
 
     private void clientInit(final FMLClientSetupEvent event)

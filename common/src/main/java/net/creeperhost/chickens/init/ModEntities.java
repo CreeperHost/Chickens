@@ -15,11 +15,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -37,47 +37,16 @@ public class ModEntities
         }
     });
 
-    public static void registerSpawn(Supplier<EntityType<EntityChickensChicken>> entityType, ChickensRegistryItem chickensRegistryItem)
+    public static void registerSpawn(EntityType<?> entityType, ChickensRegistryItem chickensRegistryItem)
     {
         if (chickensRegistryItem.canSpawn())
         {
-            SpawnRegistry.registerSpawn(entityType::get, biomeContext -> canSpawnBiome(biomeContext, chickensRegistryItem), ModEntities::checkAnimalSpawnRules, 1, 2, 25);
+            SpawnRegistry.registerSpawnPlacement(() -> entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkAnimalSpawnRules);
         }
     }
 
-    public static boolean canSpawnBiome(BiomeModifications.BiomeContext biomeContext, ChickensRegistryItem chickensRegistryItem)
+    public static boolean checkAnimalSpawnRules(EntityType<? extends Entity> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource random)
     {
-        if (chickensRegistryItem.getSpawnType() == SpawnType.NONE) return false;
-
-        if (chickensRegistryItem.getSpawnType() == SpawnType.HELL && biomeContext.hasTag(BiomeTags.IS_NETHER))
-            return true;
-        if (chickensRegistryItem.getSpawnType() == SpawnType.SNOW && biomeContext.hasTag(BiomeTags.ONLY_ALLOWS_SNOW_AND_GOLD_RABBITS))
-            return true;
-        if (chickensRegistryItem.getSpawnType() == SpawnType.NORMAL)
-        {
-            if (biomeContext.hasTag(BiomeTags.IS_NETHER)) return false;
-            if (biomeContext.hasTag(BiomeTags.IS_END)) return false;
-            if (biomeContext.hasTag(BiomeTags.ONLY_ALLOWS_SNOW_AND_GOLD_RABBITS)) return false;
-            if (biomeContext.hasTag(BiomeTags.IS_OCEAN)) return false;
-
-            return true;
-        }
-        return false;
-    }
-
-
-    public static boolean checkAnimalSpawnRules(EntityType<?> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource random)
-    {
-        if (!levelAccessor.getFluidState(blockPos.below()).isEmpty()) return false;
-        if (levelAccessor.getBlockState(blockPos.below()).isAir()) return false;
-        if (!levelAccessor.getBlockState(blockPos.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON)) return false;
-        if (!isBrightEnoughToSpawn(levelAccessor, blockPos)) return false;
-
-        return true;
-    }
-
-    public static boolean isBrightEnoughToSpawn(BlockAndTintGetter blockAndTintGetter, BlockPos blockPos)
-    {
-        return blockAndTintGetter.getRawBrightness(blockPos, 0) > 8;
+        return worldIn.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) && worldIn.getRawBrightness(pos, 0) > 8;
     }
 }
