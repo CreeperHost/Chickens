@@ -12,15 +12,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class ConfigHandler
 {
     public static final File configDir = new File("config/chickens");
     public static final File ChickensMainFile = new File(configDir, "main_chickens.cfg");
     public static final File ChickensFile = new File(configDir, "chickens.json");
+    public static Map<ChickensRegistryItem, String> MAP = new HashMap<>();
 
     private static JsonConfig config;
 
@@ -126,8 +125,9 @@ public class ConfigHandler
 
                         ChickensRegistryItem chickensRegistryItem = new ChickensRegistryItem(new ResourceLocation(ChickensMod.MODID, name), name, new ResourceLocation("chickens", "textures/entity/" + name + ".png"), stack1, 0, 0);
 
-                        chickensRegistryItem.setDropItem(stack1);
-                        chickensRegistryItem.setLayItem(stack1);
+                        MAP.put(chickensRegistryItem, stack);
+//                        chickensRegistryItem.setDropItem(stack1);
+//                        chickensRegistryItem.setLayItem(stack1);
 
                         ChickensRegistryItem parent1 = ChickensRegistry.getByRegistryName(parent1Name);
                         ChickensRegistryItem parent2 = ChickensRegistry.getByRegistryName(parent2Name);
