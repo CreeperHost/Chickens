@@ -27,11 +27,12 @@ public class ChickensMod
     {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ConfigHandler.LoadConfigs(ModChickens.generateDefaultChickens());
+
         ModBlocks.BLOCKS.register(eventBus);
         ModItems.ITEMS.register(eventBus);
         ModBlocks.TILES_ENTITIES.register(eventBus);
         ModContainers.CONTAINERS.register(eventBus);
-        ConfigHandler.LoadConfigs(ModChickens.generateDefaultChickens());
         ModEntities.ENTITIES.register(eventBus);
         registerLiquidEggs();
         eventBus.addListener(this::clientInit);
