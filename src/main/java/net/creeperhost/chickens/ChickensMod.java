@@ -51,7 +51,7 @@ public class ChickensMod
 
     private void commonInit(final FMLCommonSetupEvent event)
     {
-        ConfigHandler.MAP.forEach((chickensRegistryItem, s) ->
+        event.enqueueWork(() -> ConfigHandler.MAP.forEach((chickensRegistryItem, s) ->
         {
             ItemStack stack = new ItemStack(Registry.ITEM.get(new ResourceLocation(s)));
             if(stack.isEmpty())
@@ -60,7 +60,7 @@ public class ChickensMod
             }
             chickensRegistryItem.setLayItem(stack);
             chickensRegistryItem.setDropItem(stack);
-        });
+        }));
     }
 
     private void clientInit(final FMLClientSetupEvent event)
