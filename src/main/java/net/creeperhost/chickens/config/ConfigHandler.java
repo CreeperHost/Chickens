@@ -142,8 +142,7 @@ public class ConfigHandler
                         ChickensRegistry.register(chickensRegistryItem);
                     } catch (Exception e)
                     {
-                        ChickensMod.LOGGER.error("Exception caused when loading chicken with name " + stringJsonElementEntry.getKey());
-                        e.printStackTrace();
+                        ChickensMod.LOGGER.error("Exception caused when loading chicken with name " + stringJsonElementEntry.getKey(), e);
                     }
                 }
             });
