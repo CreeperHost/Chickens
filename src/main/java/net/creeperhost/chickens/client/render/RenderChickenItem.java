@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 public class RenderChickenItem extends BlockEntityWithoutLevelRenderer  implements ItemPropertyFunction
@@ -33,8 +34,16 @@ public class RenderChickenItem extends BlockEntityWithoutLevelRenderer  implemen
     public void renderByItem(ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay)
     {
         Minecraft mc = Minecraft.getInstance();
-        EntityType<?> entityType = Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(ItemChicken.getTypeFromStack(itemStack)));
-        EntityChickensChicken chicken = (EntityChickensChicken) entityType.create(Minecraft.getInstance().level);
+        String s = ItemChicken.getTypeFromStack(itemStack);
+        Level level = Minecraft.getInstance().level;
+        if(level == null) return;
+
+        if(s == null) return;
+
+        EntityType<?> entityType = Registry.ENTITY_TYPE.get(new ResourceLocation(s));
+        if(entityType == null) return;
+
+        EntityChickensChicken chicken = (EntityChickensChicken) entityType.create(level);
         //Force the head rot in position to stop it bouncing
         chicken.yHeadRot = 0;
 
