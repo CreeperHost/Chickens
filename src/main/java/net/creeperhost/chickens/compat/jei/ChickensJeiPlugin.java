@@ -85,9 +85,11 @@ public class ChickensJeiPlugin implements IModPlugin
 
                 ItemStack parent1 = new ItemStack(ModItems.CHICKEN_ITEM.get());
                 ItemChicken.applyEntityIdToItemStack(parent1, chicken.getParent1().getRegistryName());
+                if(parent1 == null || parent1.isEmpty() || !(parent1.getItem() instanceof ItemChicken)) continue;
 
                 ItemStack parent2 = new ItemStack(ModItems.CHICKEN_ITEM.get());
                 ItemChicken.applyEntityIdToItemStack(parent2, chicken.getParent2().getRegistryName());
+                if(parent2 == null || parent2.isEmpty() || !(parent2.getItem() instanceof ItemChicken)) continue;
 
                 result.add(new ChickenBreedingCategory.Recipe(parent1, parent2, itemstack, ChickensRegistry.getChildChance(chicken)));
             }
