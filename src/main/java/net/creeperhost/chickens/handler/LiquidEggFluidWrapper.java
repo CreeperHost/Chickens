@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.handler;
 
+import net.creeperhost.chickens.item.ItemLiquidEgg;
 import net.creeperhost.chickens.registry.LiquidEggRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -28,12 +29,12 @@ public class LiquidEggFluidWrapper implements IFluidHandler, IFluidHandlerItem, 
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability)
     {
-//        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-//            return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-//        }
-//        if (capability == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY) {
-//            return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.cast(this);
-//        }
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return LazyOptional.of(() -> this).cast();
+        }
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY) {
+            return LazyOptional.of(() -> this).cast();
+        }
         return LazyOptional.empty();
     }
 
@@ -41,20 +42,24 @@ public class LiquidEggFluidWrapper implements IFluidHandler, IFluidHandlerItem, 
     @Override
     public int getTanks()
     {
-        return 0;
+        return 1;
     }
 
     @NotNull
     @Override
     public FluidStack getFluidInTank(int tank)
     {
-        return null;
+        if(container.getItem() instanceof ItemLiquidEgg itemLiquidEgg)
+        {
+            return new FluidStack(itemLiquidEgg.getFluid(container), 1000);
+        }
+        return FluidStack.EMPTY;
     }
 
     @Override
     public int getTankCapacity(int tank)
     {
-        return 0;
+        return 1000;
     }
 
     @Override
@@ -77,16 +82,18 @@ public class LiquidEggFluidWrapper implements IFluidHandler, IFluidHandlerItem, 
         FluidStack fluidStack = getFluid();
         if (!resource.isFluidEqual(fluidStack))
         {
-            return null;
+            return FluidStack.EMPTY;
         }
-
         return drain(resource.getAmount(), action);
     }
 
     private FluidStack getFluid()
     {
-        Fluid fluid = LiquidEggRegistry.findById(container.getDamageValue()).getFluid();
-        return new FluidStack(fluid, 1000);
+        if(container.getItem() instanceof ItemLiquidEgg itemLiquidEgg)
+        {
+            return new FluidStack(itemLiquidEgg.getFluid(container), 1000);
+        }
+        return FluidStack.EMPTY;
     }
 
     @Nullable
@@ -95,7 +102,7 @@ public class LiquidEggFluidWrapper implements IFluidHandler, IFluidHandlerItem, 
     {
         if (container.getCount() < 1 || maxDrain < 1000)
         {
-            return null;
+            return FluidStack.EMPTY;
         }
 
         FluidStack fluidStack = getFluid();
@@ -110,7 +117,7 @@ public class LiquidEggFluidWrapper implements IFluidHandler, IFluidHandlerItem, 
      * @return empty stack - item is consumable
      */
     @Override
-    public ItemStack getContainer()
+    public @NotNull ItemStack getContainer()
     {
         return ItemStack.EMPTY;
     }
