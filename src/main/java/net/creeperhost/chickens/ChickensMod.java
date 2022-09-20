@@ -6,6 +6,8 @@ import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.registry.LiquidEggRegistry;
 import net.creeperhost.chickens.registry.LiquidEggRegistryItem;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -53,11 +55,19 @@ public class ChickensMod
     {
         event.enqueueWork(() -> ConfigHandler.MAP.forEach((chickensRegistryItem, s) ->
         {
-            ItemStack stack = new ItemStack(Registry.ITEM.get(new ResourceLocation(s)));
+            ItemStack stack = new ItemStack(Registry.ITEM.get(new ResourceLocation(s.getItem())));
             if(stack.isEmpty())
             {
-                LOGGER.error("unable to get itemstack for " + chickensRegistryItem.getRegistryName());
+                LOGGER.error("unable to get itemstack for " + chickensRegistryItem.getRegistryName() + " for itemstack: " + s);
             }
+            try
+            {
+                if(!s.getNbt().isEmpty())
+                {
+                    CompoundTag tag = TagParser.parseTag(s.getNbt());
+                    stack.setTag(tag);
+                }
+            } catch (Exception ignored){}
             chickensRegistryItem.setLayItem(stack);
             chickensRegistryItem.setDropItem(stack);
         }));

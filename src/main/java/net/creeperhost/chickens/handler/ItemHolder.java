@@ -5,7 +5,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.creeperhost.chickens.ChickensMod;
 import net.minecraft.core.Registry;
+import net.minecraft.data.structures.NbtToSnbt;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -61,6 +65,21 @@ public class ItemHolder
         this.nbtData = null;
     }
 
+    public ItemHolder(String itemID, String nbt)
+    {
+        this.itemID = itemID;
+//        CompoundTag compoundTag = new CompoundTag();
+        try
+        {
+            CompoundTag compoundTag = TagParser.parseTag(nbt);
+            this.nbtData = compoundTag;
+        } catch (Exception e)
+        {
+            this.nbtData = null;
+            e.printStackTrace();
+        }
+    }
+
     public boolean hasSource()
     {
         return this.source != null;
@@ -101,8 +120,6 @@ public class ItemHolder
      */
     public ItemStack getStack()
     {
-
-
         if (!isComplete)
         {
 

@@ -118,7 +118,6 @@ public class ChickensRegistryItem
         return layItem.getStack();
     }
 
-
     public ItemStack createDropItem()
     {
         if (dropItem != null)

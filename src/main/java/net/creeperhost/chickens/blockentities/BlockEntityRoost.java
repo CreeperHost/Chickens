@@ -169,6 +169,7 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
             int gain = chickenStats.getGain();
             int chickens = inventory.getStackInSlot(0).getCount();
             ItemStack itemToLay = chickensRegistryItem.createLayItem();
+
             if (gain >= 5)
             {
                 itemToLay.grow(chickensRegistryItem.createLayItem().getCount());

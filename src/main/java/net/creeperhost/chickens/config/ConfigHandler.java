@@ -2,6 +2,7 @@ package net.creeperhost.chickens.config;
 
 import com.google.gson.JsonObject;
 import net.creeperhost.chickens.ChickensMod;
+import net.creeperhost.chickens.data.ItemData;
 import net.creeperhost.chickens.handler.ItemHolder;
 import net.creeperhost.chickens.handler.SpawnType;
 import net.creeperhost.chickens.registry.ChickensRegistry;
@@ -19,7 +20,7 @@ public class ConfigHandler
     public static final File configDir = new File("config/chickens");
     public static final File ChickensMainFile = new File(configDir, "main_chickens.cfg");
     public static final File ChickensFile = new File(configDir, "chickens.json");
-    public static Map<ChickensRegistryItem, String> MAP = new HashMap<>();
+    public static Map<ChickensRegistryItem, ItemData> MAP = new HashMap<>();
 
     private static JsonConfig config;
 
@@ -119,15 +120,18 @@ public class ConfigHandler
                         boolean enabled = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonPrimitive("is_enabled").getAsBoolean();
                         float layCoefficient = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonPrimitive("lay_coefficient").getAsFloat();
                         String stack = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonObject("lay_item").getAsJsonPrimitive("itemID").getAsString();
+                        String nbt = "";
+                        if(stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonObject("lay_item").has("nbt"))
+                        {
+                            nbt = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonObject("lay_item").getAsJsonObject("nbt").toString();
+                        }
                         String parent1Name = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonPrimitive("parent_1").getAsString();
                         String parent2Name = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonPrimitive("parent_2").getAsString();
                         ItemStack stack1 = new ItemStack(Registry.ITEM.get(new ResourceLocation(stack)));
 
                         ChickensRegistryItem chickensRegistryItem = new ChickensRegistryItem(new ResourceLocation(ChickensMod.MODID, name), name, new ResourceLocation("chickens", "textures/entity/" + name + ".png"), stack1, 0, 0);
 
-                        MAP.put(chickensRegistryItem, stack);
-//                        chickensRegistryItem.setDropItem(stack1);
-//                        chickensRegistryItem.setLayItem(stack1);
+                        MAP.put(chickensRegistryItem, new ItemData(stack, nbt));
 
                         ChickensRegistryItem parent1 = ChickensRegistry.getByRegistryName(parent1Name);
                         ChickensRegistryItem parent2 = ChickensRegistry.getByRegistryName(parent2Name);
