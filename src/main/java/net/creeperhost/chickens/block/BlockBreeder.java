@@ -28,7 +28,7 @@ public class BlockBreeder extends BaseEntityBlock
 
     public BlockBreeder()
     {
-        super(Properties.of(Material.WOOD).strength(2.0F));
+        super(Properties.of(Material.WOOD).strength(2.0F).noOcclusion());
         this.registerDefaultState(getStateDefinition().any().setValue(IS_BREEDING, false).setValue(HAS_SEEDS, false));
     }
 
