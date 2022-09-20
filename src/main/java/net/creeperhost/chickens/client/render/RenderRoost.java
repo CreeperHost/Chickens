@@ -27,6 +27,7 @@ public class RenderRoost implements BlockEntityRenderer<BlockEntityRoost>
         if(blockEntityRoost != null && !blockEntityRoost.inventory.getStackInSlot(0).isEmpty())
         {
             ItemStack itemStack = blockEntityRoost.inventory.getStackInSlot(0);
+            if((itemStack.getItem() instanceof ItemChicken)) return;
 
             Minecraft mc = Minecraft.getInstance();
             EntityType<?> entityType = Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(ItemChicken.getTypeFromStack(itemStack)));
