@@ -128,29 +128,14 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
     {
         if(level != null && !level.isClientSide)
         {
-            if (!inventory.getStackInSlot(0).isEmpty() && progress <= 1000)
+            if (canRun())
             {
-                progress++;
-            } else
-            {
-                ChickensRegistryItem chickensRegistryItem = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(inventory.getStackInSlot(0)));
-                if (chickensRegistryItem != null)
+                if(progress <= 1000){
+                    progress++;
+                }
+                else
                 {
-                    ChickenStats chickenStats = new ChickenStats(inventory.getStackInSlot(0));
-                    int gain = chickenStats.getGain();
-                    int chickens = inventory.getStackInSlot(0).getCount();
-                    ItemStack itemToLay = chickensRegistryItem.createLayItem();
-                    if (gain >= 5)
-                    {
-                        itemToLay.grow(chickensRegistryItem.createLayItem().getCount());
-                    }
-                    if (gain >= 10)
-                    {
-                        itemToLay.grow(chickensRegistryItem.createLayItem().getCount());
-                    }
-                    int finalCount = itemToLay.getCount() * chickens;
-                    itemToLay.setCount(finalCount);
-                    ItemStack inserted = InventoryHelper.insertItemStacked(inventory, itemToLay, false);
+                    ItemStack inserted = InventoryHelper.insertItemStacked(inventory, getOutputStack(), false);
                     if(inserted.isEmpty())
                     {
                         level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
@@ -160,7 +145,43 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
                     }
                 }
             }
+            else
+            {
+                progress = 0;
+            }
         }
+    }
+
+    public boolean canRun()
+    {
+        if(inventory.getStackInSlot(0).isEmpty()) return false;
+        if(!(inventory.getStackInSlot(0).getItem() instanceof ItemChicken)) return false;
+        ItemStack insert = InventoryHelper.insertItemStacked(inventory, getOutputStack(), true);
+        return insert.isEmpty();
+    }
+
+    public ItemStack getOutputStack()
+    {
+        ChickensRegistryItem chickensRegistryItem = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(inventory.getStackInSlot(0)));
+        if (chickensRegistryItem != null)
+        {
+            ChickenStats chickenStats = new ChickenStats(inventory.getStackInSlot(0));
+            int gain = chickenStats.getGain();
+            int chickens = inventory.getStackInSlot(0).getCount();
+            ItemStack itemToLay = chickensRegistryItem.createLayItem();
+            if (gain >= 5)
+            {
+                itemToLay.grow(chickensRegistryItem.createLayItem().getCount());
+            }
+            if (gain >= 10)
+            {
+                itemToLay.grow(chickensRegistryItem.createLayItem().getCount());
+            }
+            int finalCount = itemToLay.getCount() * chickens;
+            itemToLay.setCount(finalCount);
+            return itemToLay;
+        }
+        return ItemStack.EMPTY;
     }
 
     public void spawnParticle(Level worldIn, double posX, double posY, double posZ, Random rand)
