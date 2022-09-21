@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -44,11 +45,9 @@ public class RenderRoost implements BlockEntityRenderer<BlockEntityRoost>
 
 
             EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
-            entityRenderDispatcher.setRenderShadow(false);
-            entityRenderDispatcher.setRenderHitBoxes(false);
             MultiBufferSource.BufferSource irendertypebuffer$impl = mc.renderBuffers().bufferSource();
             RenderSystem.runAsFancy(() -> {
-                entityRenderDispatcher.render(chicken, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, poseStack, irendertypebuffer$impl, 15728880);
+                entityRenderDispatcher.getRenderer(chicken).render(chicken, 0.0F, 0.0F, poseStack, irendertypebuffer$impl, 15728880);
             });
 
             poseStack.popPose();

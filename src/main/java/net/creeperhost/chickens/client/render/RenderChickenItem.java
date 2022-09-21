@@ -48,6 +48,7 @@ public class RenderChickenItem extends BlockEntityWithoutLevelRenderer  implemen
         if(!(entity instanceof EntityChickensChicken)) return;
 
         EntityChickensChicken chicken = (EntityChickensChicken) entityType.create(level);
+        if(chicken == null) return;
         //Force the head rot in position to stop it bouncing
         chicken.yHeadRot = 0;
 
@@ -55,14 +56,14 @@ public class RenderChickenItem extends BlockEntityWithoutLevelRenderer  implemen
         poseStack.translate(0.5F, 0.0F, 0.5F);
 
         EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
-        entityRenderDispatcher.setRenderShadow(false);
-        entityRenderDispatcher.setRenderHitBoxes(false);
         MultiBufferSource.BufferSource irendertypebuffer$impl = mc.renderBuffers().bufferSource();
         RenderSystem.runAsFancy(() -> {
-            entityRenderDispatcher.render(chicken, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, poseStack, irendertypebuffer$impl, 15728880);
+            entityRenderDispatcher.getRenderer(chicken).render(chicken, 0.0F, 0.0F, poseStack, irendertypebuffer$impl, 15728880);
         });
 
         poseStack.popPose();
+        RenderSystem.applyModelViewMatrix();
+
     }
 
     public static RenderChickenItem getInstance()
