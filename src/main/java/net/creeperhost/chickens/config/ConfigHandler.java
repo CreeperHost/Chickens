@@ -125,11 +125,14 @@ public class ConfigHandler
                         {
                             nbt = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonObject("lay_item").getAsJsonObject("nbt").toString();
                         }
+                        String spawn_type = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonPrimitive("spawn_type").getAsString();
+
                         String parent1Name = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonPrimitive("parent_1").getAsString();
                         String parent2Name = stringJsonElementEntry.getValue().getAsJsonObject().getAsJsonPrimitive("parent_2").getAsString();
                         ItemStack stack1 = new ItemStack(Registry.ITEM.get(new ResourceLocation(stack)));
 
                         ChickensRegistryItem chickensRegistryItem = new ChickensRegistryItem(new ResourceLocation(ChickensMod.MODID, name), name, new ResourceLocation("chickens", "textures/entity/" + name + ".png"), stack1, 0, 0);
+                        SpawnType spawnType = SpawnType.valueOf(spawn_type);
 
                         MAP.put(chickensRegistryItem, new ItemData(stack, nbt));
 
@@ -142,6 +145,7 @@ public class ConfigHandler
 
                         chickensRegistryItem.setEnabled(enabled);
                         chickensRegistryItem.setLayCoefficient(layCoefficient);
+                        chickensRegistryItem.setSpawnType(spawnType);
 
                         ChickensRegistry.register(chickensRegistryItem);
                     } catch (Exception e)
