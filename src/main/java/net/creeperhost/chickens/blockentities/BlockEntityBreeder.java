@@ -61,7 +61,7 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
             if(slot == 0 && stack.is(ModItems.CHICKEN_ITEM.get())) return true;
             if(slot == 1 && stack.is(ModItems.CHICKEN_ITEM.get())) return true;
             if(slot == 2 && stack.is(Items.WHEAT_SEEDS)) return true;
-            return super.isItemValid(slot, stack);
+            return false;
         }
 
         @NotNull
