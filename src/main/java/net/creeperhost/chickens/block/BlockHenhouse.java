@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.block;
 
 import net.creeperhost.chickens.blockentities.BlockEntityHenhouse;
+import net.creeperhost.chickens.blockentities.BlockEntityRoost;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -71,12 +73,19 @@ public class BlockHenhouse extends BaseEntityBlock
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState1, boolean p_51542_) {
-        if (!blockState.is(blockState1.getBlock())) {
+    public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState blockState1, boolean p_51542_)
+    {
+        if (!blockState.is(blockState1.getBlock()))
+        {
             BlockEntity blockentity = level.getBlockEntity(blockPos);
-            if (blockentity instanceof Container) {
-                Containers.dropContents(level, blockPos, (Container)blockentity);
-                level.updateNeighbourForOutputSignal(blockPos, this);
+            if (blockentity instanceof BlockEntityRoost blockEntityRoost)
+            {
+                for (int i = 0; i < blockEntityRoost.inventory.getSlots(); i++)
+                {
+                    if(blockEntityRoost.inventory.getStackInSlot(i).isEmpty()) continue;
+                    ItemStack stack = blockEntityRoost.inventory.getStackInSlot(i);
+                    Containers.dropItemStack(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), stack);
+                }
             }
             super.onRemove(blockState, level, blockPos, blockState1, p_51542_);
         }

@@ -1,10 +1,12 @@
 package net.creeperhost.chickens.block;
 
 import net.creeperhost.chickens.blockentities.BlockEntityBreeder;
+import net.creeperhost.chickens.blockentities.BlockEntityRoost;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -19,6 +21,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockBreeder extends BaseEntityBlock
@@ -82,12 +85,19 @@ public class BlockBreeder extends BaseEntityBlock
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState1, boolean p_51542_) {
-        if (!blockState.is(blockState1.getBlock())) {
+    public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState blockState1, boolean p_51542_)
+    {
+        if (!blockState.is(blockState1.getBlock()))
+        {
             BlockEntity blockentity = level.getBlockEntity(blockPos);
-            if (blockentity instanceof Container) {
-                Containers.dropContents(level, blockPos, (Container)blockentity);
-                level.updateNeighbourForOutputSignal(blockPos, this);
+            if (blockentity instanceof BlockEntityRoost blockEntityRoost)
+            {
+                for (int i = 0; i < blockEntityRoost.inventory.getSlots(); i++)
+                {
+                    if(blockEntityRoost.inventory.getStackInSlot(i).isEmpty()) continue;
+                    ItemStack stack = blockEntityRoost.inventory.getStackInSlot(i);
+                    Containers.dropItemStack(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), stack);
+                }
             }
             super.onRemove(blockState, level, blockPos, blockState1, p_51542_);
         }
