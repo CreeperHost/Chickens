@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 
@@ -20,10 +21,16 @@ public class RenderChickenItem
         Minecraft mc = Minecraft.getInstance();
         if (mc == null) return;
         if (mc.level == null) return;
+        String s = ItemChicken.getTypeFromStack(itemStack);
+        if(s == null || s.isEmpty()) return;
 
-        EntityType<?> entityType = Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(ItemChicken.getTypeFromStack(itemStack)));
+        EntityType<?> entityType = Registry.ENTITY_TYPE.get(new ResourceLocation(s));
+        if(entityType == null) return;
 
-        EntityChickensChicken chicken = (EntityChickensChicken) entityType.create(mc.level);
+        Entity entity = entityType.create(mc.level);
+        if(entity == null) return;
+
+        EntityChickensChicken chicken = (EntityChickensChicken) entity;
         if (chicken == null) return;
         //Force the head rot in position to stop it bouncing
         chicken.yHeadRot = 0;
@@ -38,11 +45,9 @@ public class RenderChickenItem
         if (mc.getEntityRenderDispatcher() != null)
         {
             EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
-            entityRenderDispatcher.setRenderShadow(false);
-            entityRenderDispatcher.setRenderHitBoxes(false);
 
             MultiBufferSource.BufferSource irendertypebuffer$impl = mc.renderBuffers().bufferSource();
-            entityRenderDispatcher.render(chicken, 0.5D, 0.0D, 0.5D, 1.0F, 1.0F, poseStack, irendertypebuffer$impl, combinedLight);
+            entityRenderDispatcher.getRenderer(chicken).render(chicken, 0.0F, 0.0F, poseStack, irendertypebuffer$impl, combinedLight);
         }
 
         poseStack.popPose();
