@@ -37,6 +37,8 @@ public class RenderChickenItem
 
         poseStack.pushPose();
 
+        poseStack.translate(0.5F, 0.0F, 0.5F);
+
         if (transformType == ItemTransforms.TransformType.GUI)
         {
             Lighting.setupForFlatItems();
