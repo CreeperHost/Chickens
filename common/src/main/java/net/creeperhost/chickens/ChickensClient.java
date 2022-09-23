@@ -37,7 +37,7 @@ public class ChickensClient
                 }
                 else
                 {
-                    return itemColoredEgg.getType(itemStack).getFgColor();
+                    return itemColoredEgg.getType(itemStack).getBgColor();
                 }
             }
             return 0;
@@ -50,6 +50,5 @@ public class ChickensClient
 
         BlockEntityRendererRegistry.register(ModBlocks.INCUBATOR_TILE.get(), context -> new RenderIncubator());
         RenderTypeRegistry.register(RenderType.translucent(), ModBlocks.INCUBATOR.get());
-
     }
 }
