@@ -12,4 +12,14 @@ public class ItemHolderData
         this.itemID = itemID;
         this.nbt = nbt;
     }
+
+    public String getItemID()
+    {
+        return itemID;
+    }
+
+    public String getNbt()
+    {
+        return nbt;
+    }
 }

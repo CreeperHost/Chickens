@@ -8,10 +8,16 @@ import dev.architectury.platform.Platform;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import net.creeperhost.chickens.api.ChickenAPI;
 import net.creeperhost.chickens.api.ChickenTransformationRecipe;
+import net.creeperhost.chickens.api.ChickensRegistry;
+import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.creeperhost.chickens.config.ChickenConfig;
 import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.network.PacketHandler;
+import net.creeperhost.chickens.polylib.ItemHolder;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -27,7 +33,27 @@ public class Chickens
     public static void init()
     {
         Config.init(Constants.CHICKENS_CONFIG_JSON);
-//        ConfigHandler.LoadConfigs(ModChickens.generateDefaultChickens());
+        for (ChickenConfig chickenConfig : Config.INSTANCE.chickens)
+        {
+            ResourceLocation texture = new ResourceLocation("chickens", "textures/entity/" + new ResourceLocation(chickenConfig.name).getPath() + ".png");
+            //Special case for the vanilla chicken as we don't want to ship this texture
+            if(chickenConfig.name.equalsIgnoreCase(ChickensRegistry.VANILLA_CHICKEN.toString()))
+            {
+                texture = new ResourceLocation("minecraft", "textures/entity/chicken.png");
+            }
+
+            ChickensRegistryItem chickensRegistryItem = new ChickensRegistryItem(
+                    new ResourceLocation(chickenConfig.name),
+                    new ResourceLocation(chickenConfig.name).getPath(),
+                    texture,
+                    new ItemHolder(chickenConfig.layitem.getItemID(), chickenConfig.layitem.getNbt()),
+                    0,
+                    0,
+                    ChickensRegistry.getByResourceLocation(new ResourceLocation(chickenConfig.parent_1)),
+                    ChickensRegistry.getByResourceLocation(new ResourceLocation(chickenConfig.parent_2))
+            );
+            ChickensRegistry.register(chickensRegistryItem);
+        }
         ModBlocks.BLOCKS.register();
         ModEntities.ENTITIES.register();
         ModBlocks.TILES_ENTITIES.register();

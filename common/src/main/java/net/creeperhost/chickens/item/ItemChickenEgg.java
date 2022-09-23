@@ -130,7 +130,7 @@ public class ItemChickenEgg extends Item
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag)
     {
-        if(getType(itemStack) != null)
+        if(getType(itemStack) != null && tooltipFlag.isAdvanced())
         {
             ChickensRegistryItem chickensRegistryItem = getType(itemStack);
             list.add(Component.literal(ChatFormatting.AQUA + "Registry name: " + ChatFormatting.WHITE + chickensRegistryItem.getRegistryName().toString()));

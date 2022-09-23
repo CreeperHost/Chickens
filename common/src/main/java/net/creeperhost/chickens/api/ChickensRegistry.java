@@ -18,6 +18,8 @@ public class ChickensRegistry
 
     public static void register(ChickensRegistryItem entity)
     {
+//        if(items.containsKey(entity.getRegistryName())) return;
+
         validate(entity);
         items.put(entity.getRegistryName(), entity);
         STRING_TO_ITEM.put(entity.getRegistryName().toString(), entity);
