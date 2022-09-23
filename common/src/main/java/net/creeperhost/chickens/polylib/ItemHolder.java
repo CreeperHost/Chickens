@@ -185,4 +185,9 @@ public class ItemHolder
     {
         return this.itemID + ":" + this.stackSize + (this.nbtData != null ? ":" + this.nbtData.toString() : "");
     }
+
+    public ItemHolderData toData()
+    {
+        return new ItemHolderData(itemID, nbtData == null ? "" : nbtData.toString());
+    }
 }

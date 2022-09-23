@@ -8,7 +8,7 @@ import dev.architectury.platform.Platform;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import net.creeperhost.chickens.api.ChickenAPI;
 import net.creeperhost.chickens.api.ChickenTransformationRecipe;
-import net.creeperhost.chickens.config.ConfigHandler;
+import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.network.PacketHandler;
@@ -26,7 +26,8 @@ public class Chickens
 
     public static void init()
     {
-        ConfigHandler.LoadConfigs(ModChickens.generateDefaultChickens());
+        Config.init(Constants.CHICKENS_CONFIG_JSON);
+//        ConfigHandler.LoadConfigs(ModChickens.generateDefaultChickens());
         ModBlocks.BLOCKS.register();
         ModEntities.ENTITIES.register();
         ModBlocks.TILES_ENTITIES.register();

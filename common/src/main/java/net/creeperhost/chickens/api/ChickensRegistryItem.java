@@ -8,19 +8,19 @@ import org.jetbrains.annotations.Nullable;
 
 public class ChickensRegistryItem
 {
-    private final ResourceLocation registryName;
+    public ResourceLocation registryName;
 
-    private final String entityName;
-    private ItemHolder layItem;
-    private ItemHolder dropItem;
-    private final int bgColor;
-    private final int fgColor;
-    private final ResourceLocation texture;
-    private ChickensRegistryItem parent1;
-    private ChickensRegistryItem parent2;
-    private SpawnType spawnType;
-    private boolean isEnabled = true;
-    private float layCoefficient = 1.0f;
+    public String entityName;
+    public ItemHolder layItem;
+    public ItemHolder dropItem;
+    public int bgColor;
+    public int fgColor;
+    public ResourceLocation texture;
+    public ChickensRegistryItem parent1;
+    public ChickensRegistryItem parent2;
+    public SpawnType spawnType;
+    public boolean isEnabled = true;
+    public float layCoefficient = 1.0f;
 
     public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor, int fgColor)
     {
@@ -220,4 +220,5 @@ public class ChickensRegistryItem
     {
         return parent1 != null && parent2 != null;
     }
+
 }
