@@ -16,7 +16,7 @@ public class ModRecipes
         registerTransformationRecipe(new ItemStack(Items.BOOK), ChickensRegistry.SMART_CHICKEN_ID);
 
         registerTransformationRecipe(new ItemStack(Items.WHITE_DYE), new ResourceLocation(Chickens.MOD_ID, "white_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.ORANGE_BANNER), new ResourceLocation(Chickens.MOD_ID, "orange_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.ORANGE_DYE), new ResourceLocation(Chickens.MOD_ID, "orange_chicken"));
         registerTransformationRecipe(new ItemStack(Items.MAGENTA_DYE), new ResourceLocation(Chickens.MOD_ID, "magenta_chicken"));
         registerTransformationRecipe(new ItemStack(Items.LIGHT_BLUE_DYE), new ResourceLocation(Chickens.MOD_ID, "light_blue_chicken"));
         registerTransformationRecipe(new ItemStack(Items.YELLOW_DYE), new ResourceLocation(Chickens.MOD_ID, "yellow_chicken"));
