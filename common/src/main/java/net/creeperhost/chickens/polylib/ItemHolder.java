@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import net.creeperhost.chickens.Chickens;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +21,6 @@ public class ItemHolder
 
     private String itemID;
     private CompoundTag nbtData;
-    private JsonObject nbtRawJson;
 
     private boolean isComplete = false;
 
@@ -59,6 +59,19 @@ public class ItemHolder
     {
         this.itemID = itemID;
         this.nbtData = null;
+    }
+
+    public ItemHolder(String itemID, String nbt)
+    {
+        this.itemID = itemID;
+        try
+        {
+            this.nbtData = TagParser.parseTag(nbt);
+        } catch (Exception e)
+        {
+            this.nbtData = null;
+            e.printStackTrace();
+        }
     }
 
     public ResourceLocation getRegistryName(Item item)
@@ -138,9 +151,17 @@ public class ItemHolder
     {
         itemID = data.has("itemID") ? data.get("itemID").getAsString() : getRegistryName(Items.AIR).toString();
         stackSize = data.has("qty") ? data.get("qty").getAsInt() : 1;
-
-        nbtRawJson = data.has("nbt") ? data.get("nbt").getAsJsonObject() : null;
-
+        String nbtString = data.has("nbt") ? data.get("nbt").getAsString() : null;
+        if(nbtString != null && !nbtString.isEmpty())
+        {
+            try
+            {
+                nbtData = TagParser.parseTag(nbtString);
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
         return this;
     }
 
