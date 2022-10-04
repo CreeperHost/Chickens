@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -60,7 +61,7 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
         {
             if(slot == 0 && stack.is(ModItems.CHICKEN_ITEM.get())) return true;
             if(slot == 1 && stack.is(ModItems.CHICKEN_ITEM.get())) return true;
-            if(slot == 2 && stack.is(Items.WHEAT_SEEDS)) return true;
+            if(slot == 2 && stack.is(Tags.Items.SEEDS)) return true;
             return false;
         }
 
@@ -115,7 +116,9 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
     public void tick()
     {
         boolean canWork = (!inventory.getStackInSlot(0).isEmpty() && !inventory.getStackInSlot(1).isEmpty() && !inventory.getStackInSlot(2).isEmpty());
-        if(level != null && !level.isClientSide && canWork)
+        if(level == null) return;
+        if(level.isClientSide) return;
+        if(canWork)
         {
             if (progress <= 1000)
             {
@@ -136,7 +139,7 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
                 ChickenStats babyStats = increaseStats(chickenStack, inventory.getStackInSlot(0), inventory.getStackInSlot(1), level.random);
                 babyStats.write(chickenStack);
                 chickenStack.setCount(1);
-                ItemStack inserted = InventoryHelper.insertItemStacked(inventory, chickenStack, false);
+                ItemStack inserted = moveOutput(chickenStack);
                 if(inserted.isEmpty())
                 {
                     level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
@@ -150,6 +153,34 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
         {
             progress = 0;
         }
+    }
+
+    public ItemStack moveOutput(ItemStack stack)
+    {
+        for (int i = 3; i < 5; i++)
+        {
+            if(inventory.getStackInSlot(i).isEmpty())
+            {
+                inventory.setStackInSlot(i, stack);
+                return ItemStack.EMPTY;
+            }
+            else
+            {
+                if(ItemStack.isSameItemSameTags(stack, inventory.getStackInSlot(i)))
+                {
+                    int count = inventory.getStackInSlot(i).getCount();
+                    int max = 16;
+                    if(count < max)
+                    {
+                        int newCount = count + 1;
+                        stack.setCount(newCount);
+                        inventory.setStackInSlot(i, stack);
+                        return ItemStack.EMPTY;
+                    }
+                }
+            }
+        }
+        return stack;
     }
 
     public void spawnParticle(Level worldIn, double posX, double posY, double posZ, Random rand)
@@ -177,12 +208,34 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
         ChickenStats parent1Stats = new ChickenStats(parent1);
         ChickenStats parent2Stats = new ChickenStats(parent2);
 
+        if(isCrossBreed(baby, parent1, parent2))
+        {
+            return new ChickenStats(baby);
+        }
+
         babyStats.setGrowth(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getGrowth(), parent2Stats.getGrowth(), rand));
         babyStats.setGain(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getGain(), parent2Stats.getGain(), rand));
         babyStats.setStrength(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getStrength(), parent2Stats.getStrength(), rand));
 
         return babyStats;
     }
+
+    private static boolean isCrossBreed(ItemStack baby, ItemStack parent1, ItemStack parent2)
+    {
+        ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemSpawnEgg.getTypeFromStack(parent1));
+        ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemSpawnEgg.getTypeFromStack(parent2));
+
+        ChickensRegistryItem chickensRegistryBaby = ChickensRegistry.getByRegistryName(ItemSpawnEgg.getTypeFromStack(baby));
+
+        if(chickensRegistryBaby.getRegistryName().equals(chickensRegistryItem1.getRegistryName())
+                || chickensRegistryBaby.getRegistryName().equals(chickensRegistryItem2.getRegistryName()))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
 
     private static int calculateNewStat(int thisStrength, int mateStrength, int stat1, int stat2, Random rand)
     {

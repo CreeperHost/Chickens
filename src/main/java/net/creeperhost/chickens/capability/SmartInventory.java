@@ -16,15 +16,11 @@ public class SmartInventory extends ItemStackHandler
     @Nonnull
     public ItemStack insertItemInternal(int slot, @Nonnull ItemStack stack, boolean simulate)
     {
-        if (stack.isEmpty())
-            return ItemStack.EMPTY;
-
-        if (!isItemValid(slot, stack))
-            return stack;
-
-        validateSlotIndex(slot);
+        if (stack.isEmpty()) return ItemStack.EMPTY;
 
         ItemStack existing = this.stacks.get(slot);
+
+        if(!ItemStack.isSameItemSameTags(existing, stack)) return stack;
 
         int limit = getStackLimit(slot, stack);
 
