@@ -135,7 +135,7 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
                 }
                 else
                 {
-                    ItemStack inserted = InventoryHelper.insertItemStacked(inventory, getOutputStack(), false);
+                    ItemStack inserted = moveOutput(getOutputStack(), false);//InventoryHelper.insertItemStacked(inventory, getOutputStack(), false);
                     if(inserted.isEmpty())
                     {
                         level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
@@ -152,11 +152,39 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
         }
     }
 
+    public ItemStack moveOutput(ItemStack stack, boolean simulate)
+    {
+        for (int i = 1; i < 4; i++)
+        {
+            if(inventory.getStackInSlot(i).isEmpty())
+            {
+                if(!simulate) inventory.setStackInSlot(i, stack);
+                return ItemStack.EMPTY;
+            }
+            else
+            {
+                if(ItemStack.isSameItemSameTags(stack, inventory.getStackInSlot(i)))
+                {
+                    int count = inventory.getStackInSlot(i).getCount();
+                    int max = stack.getMaxStackSize();
+                    if(count < max)
+                    {
+                        int newCount = count + 1;
+                        stack.setCount(newCount);
+                        if(!simulate) inventory.setStackInSlot(i, stack);
+                        return ItemStack.EMPTY;
+                    }
+                }
+            }
+        }
+        return stack;
+    }
+
     public boolean canRun()
     {
         if(inventory.getStackInSlot(0).isEmpty()) return false;
         if(!(inventory.getStackInSlot(0).getItem() instanceof ItemChicken)) return false;
-        ItemStack insert = InventoryHelper.insertItemStacked(inventory, getOutputStack(), true);
+        ItemStack insert = moveOutput(getOutputStack(), true);//InventoryHelper.insertItemStacked(inventory, getOutputStack(), true);
         return insert.isEmpty();
     }
 
