@@ -1,6 +1,7 @@
+1.0.12
+    Chicken catcher will now work with baby chickens correctly
 1.0.11
     Fixed not all types of seeds being able to be added via pipes
     Fixed Breeder putting new chickens in the wrong slots, closes #18
     Fixed Crossed breded chickens getting their parents stats
     Fixed issue that could cause no chicken to be added to the inventory when breeding
-

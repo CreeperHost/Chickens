@@ -28,6 +28,8 @@ public class ItemChickenCatcher extends Item
             Level level = livingEntity.getLevel();
             ItemStack chicken = new ItemStack(ModItems.CHICKEN_ITEM.get());
             ItemChicken.applyEntityIdToItemStack(chicken, entityChickensChicken.getType().getRegistryName());
+            if(chicken.getTag() != null)
+                chicken.getTag().putBoolean("baby", entityChickensChicken.isBaby());
 
             ChickenStats chickenStats = new ChickenStats(entityChickensChicken.getGain(), entityChickensChicken.getGrowth(), entityChickensChicken.getStrength());
             chickenStats.write(chicken);

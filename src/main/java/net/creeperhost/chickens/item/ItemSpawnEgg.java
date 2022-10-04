@@ -96,6 +96,9 @@ public class ItemSpawnEgg extends Item implements IColorSource
     {
         ResourceLocation entityName = ResourceLocation.tryParse(getTypeFromStack(stack));
         EntityChickensChicken entity = (EntityChickensChicken) Registry.ENTITY_TYPE.get(entityName).create(worldIn);
+        if(entity != null && stack.getTag() != null && stack.getTag().contains("baby"))
+            entity.setBaby(stack.getTag().getBoolean("baby"));
+
         ChickenStats chickenStats = new ChickenStats(stack);
         if (entity == null) return;
 
