@@ -152,9 +152,10 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
         }
     }
 
+    //TODO I hate all of this but its a quick fix
     public ItemStack moveOutput(ItemStack stack, boolean simulate)
     {
-        for (int i = 1; i < 4; i++)
+        for (int i = 1; i <= 4; i++)
         {
             if(inventory.getStackInSlot(i).isEmpty())
             {
@@ -165,11 +166,25 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
             {
                 if(ItemStack.isSameItemSameTags(stack, inventory.getStackInSlot(i)))
                 {
+                    int startStackSize = stack.getCount();
                     int count = inventory.getStackInSlot(i).getCount();
                     int max = stack.getMaxStackSize();
                     if(count < max)
                     {
-                        int newCount = count + 1;
+                        if(startStackSize + count > max)
+                        {
+                            int fitSize = max - count;
+                            if(fitSize > startStackSize)
+                            {
+                                int returnSize = startStackSize - fitSize;
+                                stack.setCount(fitSize);
+                                if(!simulate) inventory.setStackInSlot(i, stack);
+                                ItemStack returnStack = stack.copy();
+                                returnStack.setCount(returnSize);
+                                return returnStack;
+                            }
+                        }
+                        int newCount = count + stack.getCount();
                         stack.setCount(newCount);
                         if(!simulate) inventory.setStackInSlot(i, stack);
                         return ItemStack.EMPTY;
