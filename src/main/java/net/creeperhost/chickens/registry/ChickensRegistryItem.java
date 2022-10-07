@@ -191,7 +191,6 @@ public class ChickensRegistryItem
         layItem = itemHolder;
     }
 
-    @Deprecated
     public void setLayItem(ItemStack itemstack)
     {
         setLayItem(new ItemHolder(itemstack, false));

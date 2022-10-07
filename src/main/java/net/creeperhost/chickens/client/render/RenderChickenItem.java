@@ -20,9 +20,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class RenderChickenItem extends BlockEntityWithoutLevelRenderer  implements ItemPropertyFunction
+public class RenderChickenItem extends BlockEntityWithoutLevelRenderer implements ItemPropertyFunction
 {
     public static RenderChickenItem instance;
 
@@ -32,8 +33,10 @@ public class RenderChickenItem extends BlockEntityWithoutLevelRenderer  implemen
     }
 
     @Override
-    public void renderByItem(ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay)
+    public void renderByItem(ItemStack itemStack, ItemTransforms.@NotNull TransformType transformType, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int combinedLight, int combinedOverlay)
     {
+        if(!(itemStack.getItem() instanceof ItemChicken)) return;
+
         Minecraft mc = Minecraft.getInstance();
         String s = ItemChicken.getTypeFromStack(itemStack);
         Level level = Minecraft.getInstance().level;
@@ -76,7 +79,7 @@ public class RenderChickenItem extends BlockEntityWithoutLevelRenderer  implemen
     }
 
     @Override
-    public float call(ItemStack stack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int pSed)
+    public float call(@NotNull ItemStack stack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int pSed)
     {
         return 1F;
     }
