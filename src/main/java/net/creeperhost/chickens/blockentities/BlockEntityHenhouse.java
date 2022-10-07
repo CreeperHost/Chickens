@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +33,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockEntityHenhouse extends BaseContainerBlockEntity
+public class BlockEntityHenhouse extends BlockEntity implements MenuProvider
 {
     public static final int hayBaleEnergy = 100;
 
@@ -223,13 +224,14 @@ public class BlockEntityHenhouse extends BaseContainerBlockEntity
 
             if (!stack.isEmpty())
             {
-                this.level.addFreshEntity(new ItemEntity(level, this.getBlockPos().getX(), this.getBlockPos().getY() + 1, this.getBlockPos().getZ(), stack));
+                if(level != null)
+                    this.level.addFreshEntity(new ItemEntity(level, this.getBlockPos().getX(), this.getBlockPos().getY() + 1, this.getBlockPos().getZ(), stack));
             }
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compound)
+    protected void saveAdditional(@NotNull CompoundTag compound)
     {
         super.saveAdditional(compound);
         compound.putInt("energy", energy);
@@ -237,23 +239,11 @@ public class BlockEntityHenhouse extends BaseContainerBlockEntity
     }
 
     @Override
-    public void load(CompoundTag compound)
+    public void load(@NotNull CompoundTag compound)
     {
         super.load(compound);
         energy = compound.getInt("energy");
         inventory.deserializeNBT(compound);
-    }
-
-    @Override
-    protected Component getDefaultName()
-    {
-        return new TranslatableComponent("container.henhouse");
-    }
-
-    @Override
-    protected AbstractContainerMenu createMenu(int id, Inventory inventory)
-    {
-        return new ContainerHenhouse(id, inventory, this);
     }
 
     public int getEnergy()
@@ -273,49 +263,15 @@ public class BlockEntityHenhouse extends BaseContainerBlockEntity
     }
 
     @Override
-    public int getContainerSize()
+    public @NotNull Component getDisplayName()
     {
-        return inventory.getSlots();
+        return new TranslatableComponent("container.henhouse");
     }
 
+    @org.jetbrains.annotations.Nullable
     @Override
-    public boolean isEmpty()
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player)
     {
-        return false;
-    }
-
-    @Override
-    public ItemStack getItem(int slot)
-    {
-        return inventory.getStackInSlot(slot);
-    }
-
-    @Override
-    public ItemStack removeItem(int slot, int amount)
-    {
-        return inventory.extractItem(slot, amount, false);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int slot)
-    {
-        return inventory.extractItem(slot, 64, false);
-    }
-
-    @Override
-    public void setItem(int slot, ItemStack stack)
-    {
-        inventory.setStackInSlot(slot, stack);
-    }
-
-    @Override
-    public boolean stillValid(Player p_18946_)
-    {
-        return true;
-    }
-
-    @Override
-    public void clearContent()
-    {
+        return new ContainerHenhouse(id, inventory, this);
     }
 }

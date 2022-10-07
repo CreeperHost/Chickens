@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by setyc on 06.03.2016.
@@ -29,7 +30,7 @@ public class GuiHenhouse extends AbstractContainerScreen<ContainerHenhouse>
     }
 
     @Override
-    public void renderBg(PoseStack poseStack, float partialTicks, int mouseX, int mouseY)
+    public void renderBg(@NotNull PoseStack poseStack, float partialTicks, int mouseX, int mouseY)
     {
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
         int i = (width - imageWidth) / 2;
@@ -43,8 +44,9 @@ public class GuiHenhouse extends AbstractContainerScreen<ContainerHenhouse>
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+    public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
+        renderBg(poseStack, partialTicks, mouseX, mouseY);
         super.render(poseStack, mouseX, mouseY, partialTicks);
         renderTooltip(poseStack, mouseX, mouseY);
     }
