@@ -213,23 +213,6 @@ public class BlockEntityHenhouse extends BlockEntity implements MenuProvider
         return (inventory.getSlotLimit(dirtSlotIndex) - dirtStack.getCount()) * hayBaleEnergy;
     }
 
-    /**
-     * Drop all contents
-     */
-    public void dropContents()
-    {
-        for (int i = 0; i < this.inventory.getSlots(); ++i)
-        {
-            ItemStack stack = this.inventory.extractItem(i, this.inventory.getSlotLimit(i), false);
-
-            if (!stack.isEmpty())
-            {
-                if(level != null)
-                    this.level.addFreshEntity(new ItemEntity(level, this.getBlockPos().getX(), this.getBlockPos().getY() + 1, this.getBlockPos().getZ(), stack));
-            }
-        }
-    }
-
     @Override
     protected void saveAdditional(@NotNull CompoundTag compound)
     {
