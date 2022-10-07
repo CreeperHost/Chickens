@@ -13,6 +13,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,34 +30,33 @@ public class ChickenDropsCategory implements IRecipeCategory<ChickenDropsCategor
     }
 
     @Override
-    public Component getTitle()
+    public @NotNull Component getTitle()
     {
         return TITLE;
     }
 
     @Override
-    public IDrawable getBackground()
+    public @NotNull IDrawable getBackground()
     {
         return guiHelper.drawableBuilder(new ResourceLocation(ChickensMod.MODID, "textures/gui/drops.png"), 0, 0, 82, 54).addPadding(0, 20, 0, 0).build();
     }
 
-    @SuppressWarnings("removal")
     @Override
-    public IDrawable getIcon()
+    public @NotNull IDrawable getIcon()
     {
         return guiHelper.createDrawable(new ResourceLocation(ChickensMod.MODID, "textures/gui/drops_icon.png"), 0, 0, 16, 16);
     }
 
     @SuppressWarnings("removal")
     @Override
-    public ResourceLocation getUid()
+    public @NotNull ResourceLocation getUid()
     {
         return UID;
     }
 
     @SuppressWarnings("removal")
     @Override
-    public Class getRecipeClass()
+    public @NotNull Class getRecipeClass()
     {
         return Recipe.class;
     }
@@ -74,7 +74,7 @@ public class ChickenDropsCategory implements IRecipeCategory<ChickenDropsCategor
 
     @SuppressWarnings("removal")
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, Recipe recipe, IIngredients ingredients)
+    public void setRecipe(IRecipeLayout recipeLayout, @NotNull Recipe recipe, @NotNull IIngredients ingredients)
     {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 

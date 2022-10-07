@@ -55,7 +55,7 @@ public class ChickensJeiPlugin implements IModPlugin
             ItemStack itemstack = new ItemStack(ModItems.CHICKEN_ITEM.get(), 1);
             ItemChicken.applyEntityIdToItemStack(itemstack, chicken.getRegistryName());
 
-            result.add(new ChickenLayingCategory.Recipe(itemstack, chicken.createLayItem(), chicken.getMinLayTime(), chicken.getMaxLayTime()));
+            result.add(new ChickenLayingCategory.Recipe(itemstack, chicken.createLayItem()));
         }
         return result;
     }

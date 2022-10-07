@@ -17,6 +17,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,40 +34,39 @@ public class ChickenLayingCategory implements IRecipeCategory<ChickenLayingCateg
     }
 
     @Override
-    public Component getTitle()
+    public @NotNull Component getTitle()
     {
         return TITLE;
     }
 
     @Override
-    public IDrawable getBackground()
+    public @NotNull IDrawable getBackground()
     {
         return guiHelper.drawableBuilder(new ResourceLocation(ChickensMod.MODID, "textures/gui/laying.png"), 0, 0, 82, 54).addPadding(0, 20, 0, 0).build();
     }
 
-    @SuppressWarnings("removal")
     @Override
-    public IDrawable getIcon()
+    public @NotNull IDrawable getIcon()
     {
         return guiHelper.createDrawable(new ResourceLocation(ChickensMod.MODID, "textures/gui/laying_icon.png"), 0, 0, 16, 16);
     }
 
     @SuppressWarnings("removal")
     @Override
-    public ResourceLocation getUid()
+    public @NotNull ResourceLocation getUid()
     {
         return UID;
     }
 
     @SuppressWarnings("removal")
     @Override
-    public Class getRecipeClass()
+    public @NotNull Class getRecipeClass()
     {
         return Recipe.class;
     }
 
     @Override
-    public void draw(Recipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY)
+    public void draw(@NotNull Recipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull PoseStack stack, double mouseX, double mouseY)
     {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, stack, mouseX, mouseY);
 
@@ -87,7 +87,7 @@ public class ChickenLayingCategory implements IRecipeCategory<ChickenLayingCateg
 
     @SuppressWarnings("removal")
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, Recipe recipe, IIngredients ingredients)
+    public void setRecipe(IRecipeLayout recipeLayout, @NotNull Recipe recipe, @NotNull IIngredients ingredients)
     {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
@@ -100,15 +100,11 @@ public class ChickenLayingCategory implements IRecipeCategory<ChickenLayingCateg
     {
         private final ItemStack chicken;
         private final ItemStack egg;
-        private final int minTime;
-        private final int maxTime;
 
-        public Recipe(ItemStack chicken, ItemStack egg, int minTime, int maxTime)
+        public Recipe(ItemStack chicken, ItemStack egg)
         {
             this.chicken = chicken;
             this.egg = egg;
-            this.minTime = minTime;
-            this.maxTime = maxTime;
         }
     }
 }
