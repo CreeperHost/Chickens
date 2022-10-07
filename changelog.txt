@@ -1,4 +1,7 @@
-    1.0.14
+1.0.15
+    Fix Hoppers being able to insert into wrong slots
+    Fix canRun not checking if the itemstack is correct
+1.0.14
     Fix stacksize issues with the Roost
     Fix not outputting to all 4 output slots
 1.0.13

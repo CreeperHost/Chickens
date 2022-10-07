@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.compat.jei;
 
 import net.creeperhost.chickens.ChickensMod;
+import net.creeperhost.chickens.data.ChickenStats;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.registry.ChickensRegistry;
@@ -64,7 +65,6 @@ public class ChickensJeiPlugin implements IModPlugin
         List<ChickenDropsCategory.Recipe> result = new ArrayList<>();
         for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
         {
-
             ItemStack itemstack = new ItemStack(ModItems.CHICKEN_ITEM.get());
             ItemChicken.applyEntityIdToItemStack(itemstack, chicken.getRegistryName());
 

@@ -23,6 +23,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -32,6 +33,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
@@ -45,7 +47,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockEntityBreeder extends BaseContainerBlockEntity
+public class BlockEntityBreeder extends BlockEntity implements MenuProvider
 {
     public SmartInventory inventory = new SmartInventory(6)
     {
@@ -59,9 +61,9 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack)
         {
-            if(slot == 0 && stack.is(ModItems.CHICKEN_ITEM.get())) return true;
-            if(slot == 1 && stack.is(ModItems.CHICKEN_ITEM.get())) return true;
-            if(slot == 2 && stack.is(Tags.Items.SEEDS)) return true;
+            if((slot == 0 && stack.is(ModItems.CHICKEN_ITEM.get()))) return true;
+            if((slot == 1 && stack.is(ModItems.CHICKEN_ITEM.get()))) return true;
+            if((slot == 2 && stack.is(Tags.Items.SEEDS))) return true;
             return false;
         }
 
@@ -76,7 +78,6 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate)
         {
-            if(slot <= 2) return ItemStack.EMPTY;
             return super.extractItem(slot, amount, simulate);
         }
     };
@@ -115,7 +116,7 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
 
     public void tick()
     {
-        boolean canWork = (!inventory.getStackInSlot(0).isEmpty() && !inventory.getStackInSlot(1).isEmpty() && !inventory.getStackInSlot(2).isEmpty());
+        boolean canWork = (inventory.getStackInSlot(0).getItem() instanceof ItemChicken && (inventory.getStackInSlot(1).getItem() instanceof ItemChicken) && (inventory.getStackInSlot(2).is(Tags.Items.SEEDS)));
         if(level == null) return;
         if(level.isClientSide) return;
         if(canWork)
@@ -265,18 +266,6 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
         }
     }
 
-    @Override
-    public Component getDefaultName()
-    {
-        return new TextComponent("chickens.container.breeder");
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int id, Inventory inventory)
-    {
-        return new ContainerBreeder(id, inventory, this, containerData);
-    }
-
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, final @Nullable Direction side)
@@ -289,49 +278,7 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
     }
 
     @Override
-    public int getContainerSize()
-    {
-        return inventory.getSlots();
-    }
-
-    @Override
-    public boolean isEmpty()
-    {
-        return false;
-    }
-
-    @Override
-    public ItemStack getItem(int slot)
-    {
-        return inventory.getStackInSlot(slot);
-    }
-
-    @Override
-    public ItemStack removeItem(int slot, int amount)
-    {
-        return inventory.extractItem(slot, amount, false);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int slot)
-    {
-        return inventory.extractItem(slot, 64, false);
-    }
-
-    @Override
-    public void setItem(int slot, ItemStack stack)
-    {
-        inventory.setStackInSlot(slot, stack);
-    }
-
-    @Override
-    public boolean stillValid(Player player)
-    {
-        return true;
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag compound)
+    protected void saveAdditional(@NotNull CompoundTag compound)
     {
         super.saveAdditional(compound);
         compound.merge(inventory.serializeNBT());
@@ -339,7 +286,7 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
     }
 
     @Override
-    public void load(CompoundTag compound)
+    public void load(@NotNull CompoundTag compound)
     {
         super.load(compound);
         inventory.deserializeNBT(compound);
@@ -347,5 +294,15 @@ public class BlockEntityBreeder extends BaseContainerBlockEntity
     }
 
     @Override
-    public void clearContent() {}
+    public @NotNull Component getDisplayName()
+    {
+        return new TextComponent("chickens.container.breeder");
+    }
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player)
+    {
+        return new ContainerBreeder(id, inventory, this, containerData);
+    }
 }
