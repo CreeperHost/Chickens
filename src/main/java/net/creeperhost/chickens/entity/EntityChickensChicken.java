@@ -20,6 +20,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -37,7 +38,7 @@ public class EntityChickensChicken extends Chicken
     private static final String CHICKEN_GROWTH_NBT = "Growth";
     private static final String CHICKEN_GAIN_NBT = "Gain";
     private static final String CHICKEN_STRENGTH_NBT = "Strength";
-    private EntityType<?> entityType;
+    private final EntityType<?> entityType;
 
     static
     {
@@ -128,7 +129,7 @@ public class EntityChickensChicken extends Chicken
     }
 
     @Override
-    public EntityChickensChicken getBreedOffspring(ServerLevel serverLevel, AgeableMob ageable)
+    public EntityChickensChicken getBreedOffspring(@NotNull ServerLevel serverLevel, @NotNull AgeableMob ageable)
     {
         EntityChickensChicken mateChicken = (EntityChickensChicken) ageable;
 
@@ -208,7 +209,7 @@ public class EntityChickensChicken extends Chicken
 
                 itemToLay = BlockEntityHenhouse.pushItemStack(itemToLay, level, new Vec3(getX(), getY(), getZ()));
 
-                if (!itemToLay.isEmpty())
+                if (itemToLay != null && !itemToLay.isEmpty())
                 {
                     ItemEntity itemEntity = new ItemEntity(level, getX(), getY(), getZ(), chickenDescription.createLayItem());
                     level.addFreshEntity(itemEntity);
@@ -274,7 +275,7 @@ public class EntityChickensChicken extends Chicken
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tagCompound)
+    public void addAdditionalSaveData(@NotNull CompoundTag tagCompound)
     {
         super.addAdditionalSaveData(tagCompound);
         tagCompound.putString(TYPE_NBT, getChickenTypeInternal());
@@ -285,7 +286,7 @@ public class EntityChickensChicken extends Chicken
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tagCompound)
+    public void readAdditionalSaveData(@NotNull CompoundTag tagCompound)
     {
         super.readAdditionalSaveData(tagCompound);
         setChickenTypeInternal(tagCompound.getString(TYPE_NBT));
