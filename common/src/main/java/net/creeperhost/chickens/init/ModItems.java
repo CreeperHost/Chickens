@@ -33,9 +33,6 @@ public class ModItems
     public static final RegistrySupplier<Item> CHICKEN_ITEM = ITEMS.register("chicken_item", () -> ChickensExpectPlatform.createNewChickenItem(new Item.Properties().tab(CREATIVE_MODE_TAB).stacksTo(1)));
     public static final RegistrySupplier<Item> CATCHER_ITEM = ITEMS.register("catcher", () -> new ItemChickenCatcher(new Item.Properties().tab(CREATIVE_MODE_TAB)));
 
-    @Deprecated
-    public static final RegistrySupplier<Item> FLUID_EGG = ITEMS.register("fluid_egg", () -> new ItemFluidEgg());
-
     public static final RegistrySupplier<Item> CHICKEN_EGG = ITEMS.register("chicken_egg", () -> new ItemChickenEgg());
 
     //ItemBlocks
