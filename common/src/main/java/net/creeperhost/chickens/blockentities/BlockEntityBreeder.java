@@ -67,6 +67,7 @@ public class BlockEntityBreeder extends BlockEntityInventory
         boolean canWork = (getItem(0).getItem() instanceof ItemChicken && (getItem(1).getItem() instanceof ItemChicken) && (getItem(2).is(CommonTags.SEEDS)));
         if(level == null) return;
         if(level.isClientSide) return;
+        updateBlockState(level, getBlockPos(), canWork);
         if(canWork)
         {
             if (progress <= 1000)
@@ -83,11 +84,15 @@ public class BlockEntityBreeder extends BlockEntityInventory
                     progress = 0;
                     return;
                 }
-                ItemStack chickenStack = new ItemStack(ModItems.CHICKEN_ITEM.get());
-                ItemChicken.applyEntityIdToItemStack(chickenStack, baby.getRegistryName());
+                ItemStack chickenStack = ItemChickenEgg.of(baby);
+
                 ChickenStats babyStats = increaseStats(chickenStack, getItem(0), getItem(1), level.random);
                 babyStats.write(chickenStack);
-                chickenStack.setCount(1);
+
+                ChickenStats chickenStats = new ChickenStats(getItem(0));
+                int count = Math.max(1, ((1 + chickenStats.getGain()) / 3));
+
+                chickenStack.setCount(count);
                 ItemStack inserted = moveOutput(chickenStack);
                 if(inserted.isEmpty())
                 {
