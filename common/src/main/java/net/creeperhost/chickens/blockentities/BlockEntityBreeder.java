@@ -64,49 +64,43 @@ public class BlockEntityBreeder extends BlockEntityInventory
 
     public void tick()
     {
-        boolean canWork = (!getItem(0).isEmpty() && !getItem(1).isEmpty() && !getItem(2).isEmpty());
-        if (level != null && !level.isClientSide)
+        boolean canWork = (getItem(0).getItem() instanceof ItemChicken && (getItem(1).getItem() instanceof ItemChicken) && (getItem(2).is(CommonTags.SEEDS)));
+        if(level == null) return;
+        if(level.isClientSide) return;
+        if(canWork)
         {
-            updateBlockState(level, getBlockPos(), canWork);
-            if(canWork)
+            if (progress <= 1000)
             {
-                if (progress <= 1000)
+                progress++;
+            } else
+            {
+                ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(0)));
+                ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(1)));
+
+                ChickensRegistryItem baby = ChickensRegistry.getRandomChild(chickensRegistryItem1, chickensRegistryItem2);
+                if(baby == null)
                 {
-                    progress++;
+                    progress = 0;
+                    return;
                 }
-                else
+                ItemStack chickenStack = new ItemStack(ModItems.CHICKEN_ITEM.get());
+                ItemChicken.applyEntityIdToItemStack(chickenStack, baby.getRegistryName());
+                ChickenStats babyStats = increaseStats(chickenStack, getItem(0), getItem(1), level.random);
+                babyStats.write(chickenStack);
+                chickenStack.setCount(1);
+                ItemStack inserted = moveOutput(chickenStack);
+                if(inserted.isEmpty())
                 {
-                    ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(0)));
-                    ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(1)));
-
-                    ChickensRegistryItem baby = ChickensRegistry.getRandomChild(chickensRegistryItem1, chickensRegistryItem2);
-                    if (baby == null)
+                    int random = level.getRandom().nextInt(1, 4);
+                    if(random == 4)
                     {
-                        progress = 0;
-                        return;
+                        damageChicken(0);
+                        damageChicken(1);
                     }
-                    ItemStack chickenStack = ItemChickenEgg.of(baby);
-                    ChickenStats babyStats = increaseStats(chickenStack, getItem(0), getItem(1), level.random);
-                    babyStats.write(chickenStack);
-
-                    ChickenStats chickenStats = new ChickenStats(getItem(0));
-                    int count = Math.max(1, ((1 + chickenStats.getGain()) / 3));
-                    chickenStack.setCount(count);
-                    ItemStack inserted = getInventoryOptional().get().addItem(chickenStack);
-                    if (inserted.isEmpty())
-                    {
-                        int random = level.getRandom().nextInt(1, 4);
-                        if(random == 4)
-                        {
-                            damageChicken(0);
-                            damageChicken(1);
-                        }
-
-                        level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
-                        spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
-                        getItem(2).shrink(1);
-                        progress = 0;
-                    }
+                    level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
+                    spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
+                    getItem(2).shrink(1);
+                    progress = 0;
                 }
             }
         }
@@ -115,6 +109,34 @@ public class BlockEntityBreeder extends BlockEntityInventory
             progress = 0;
         }
         setContainerDataValue(0, progress);
+    }
+
+    public ItemStack moveOutput(ItemStack stack)
+    {
+        for (int i = 3; i < 5; i++)
+        {
+            if(getItem(i).isEmpty())
+            {
+                setItem(i, stack);
+                return ItemStack.EMPTY;
+            }
+            else
+            {
+                if(ItemStack.isSameItemSameTags(stack, getItem(i)))
+                {
+                    int count = getItem(i).getCount();
+                    int max = 16;
+                    if(count < max)
+                    {
+                        int newCount = count + 1;
+                        stack.setCount(newCount);
+                        setItem(i, stack);
+                        return ItemStack.EMPTY;
+                    }
+                }
+            }
+        }
+        return stack;
     }
 
     public void damageChicken(int slot)
