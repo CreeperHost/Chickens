@@ -76,19 +76,4 @@ public class BlockBreeder extends BlockBase
     {
         return new BlockEntityBreeder(blockPos, blockState);
     }
-
-    @Override
-    public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState blockState1, boolean p_51542_)
-    {
-        if (!blockState.is(blockState1.getBlock()))
-        {
-            BlockEntity blockentity = level.getBlockEntity(blockPos);
-            if (blockentity instanceof Container)
-            {
-                Containers.dropContents(level, blockPos, (Container) blockentity);
-                level.updateNeighbourForOutputSignal(blockPos, this);
-            }
-            super.onRemove(blockState, level, blockPos, blockState1, p_51542_);
-        }
-    }
 }
