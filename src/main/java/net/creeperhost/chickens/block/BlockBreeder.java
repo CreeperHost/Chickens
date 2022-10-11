@@ -90,12 +90,12 @@ public class BlockBreeder extends BaseEntityBlock
         if (!blockState.is(blockState1.getBlock()))
         {
             BlockEntity blockentity = level.getBlockEntity(blockPos);
-            if (blockentity instanceof BlockEntityRoost blockEntityRoost)
+            if (blockentity instanceof BlockEntityBreeder blockEntityBreeder)
             {
-                for (int i = 0; i < blockEntityRoost.inventory.getSlots(); i++)
+                for (int i = 0; i < blockEntityBreeder.inventory.getSlots(); i++)
                 {
-                    if(blockEntityRoost.inventory.getStackInSlot(i).isEmpty()) continue;
-                    ItemStack stack = blockEntityRoost.inventory.getStackInSlot(i);
+                    if(blockEntityBreeder.inventory.getStackInSlot(i).isEmpty()) continue;
+                    ItemStack stack = blockEntityBreeder.inventory.getStackInSlot(i);
                     Containers.dropItemStack(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), stack);
                 }
             }
