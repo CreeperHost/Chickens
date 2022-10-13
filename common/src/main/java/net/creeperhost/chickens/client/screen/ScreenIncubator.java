@@ -4,10 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.containers.ContainerIncubator;
-import net.creeperhost.chickens.containers.slots.SlotEgg;
 import net.creeperhost.chickens.network.PacketHandler;
 import net.creeperhost.chickens.network.packets.PacketIncubator;
-import net.creeperhost.polylib.client.fluid.ScreenFluidRenderer;
 import net.creeperhost.polylib.client.screenbuilder.ScreenBuilder;
 import net.creeperhost.polylib.inventory.PolyFluidInventory;
 import net.minecraft.client.gui.components.Button;
@@ -36,7 +34,7 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
     {
         screenBuilder.drawDefaultBackground(this, poseStack, leftPos, topPos, imageWidth, imageHeight, 256, 256);
         screenBuilder.drawPlayerSlots(this, poseStack, leftPos + imageWidth / 2, topPos + 83, true, 256, 256);
-        
+
 
         int i = 0;
         for (int l = 0; l < 3; ++l)
