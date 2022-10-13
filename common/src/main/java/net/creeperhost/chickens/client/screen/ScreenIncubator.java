@@ -47,6 +47,12 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
         }
         screenBuilder.drawSlot(this, poseStack, leftPos + imageWidth - 28, topPos + 62, 256, 256);
 
+        screenBuilder.drawBar(this, poseStack, leftPos + 7, topPos + 7, 71,  containerIncubator.getTemp(), 60, mouseX, mouseY, Component.literal(containerIncubator.getTemp() + "c"));
+        drawBarOverlay(poseStack, leftPos + 7, topPos + 7, 71);
+        PolyFluidInventory polyFluidInventory = containerIncubator.getBlockEntityIncubator().fluidTank;
+        screenBuilder.drawTankWithOverlay(this, poseStack, polyFluidInventory.getFluidStack(), polyFluidInventory.getCapacity(),
+                (leftPos + imageWidth) - 30, topPos + 5, 50, mouseX, mouseY);
+
     }
 
     @Override
@@ -69,14 +75,6 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
         super.render(poseStack, mouseX, mouseY, partialTicks);
 
         font.draw(poseStack, String.valueOf(containerIncubator.getLightLevel()), leftPos + 36, topPos + 38, 0);
-
-
-        screenBuilder.drawBar(this, poseStack, leftPos + 7, topPos + 7, 71,  containerIncubator.getTemp(), 60, mouseX, mouseY, Component.literal(containerIncubator.getTemp() + "c"));
-        drawBarOverlay(poseStack, leftPos + 7, topPos + 7, 71);
-        PolyFluidInventory polyFluidInventory = containerIncubator.getBlockEntityIncubator().fluidTank;
-        screenBuilder.drawTankWithOverlay(this, poseStack, polyFluidInventory.getFluidStack(), polyFluidInventory.getCapacity(),
-                (leftPos + imageWidth) - 30, topPos + 5, 50, mouseX, mouseY);
-
 
         renderTooltip(poseStack, mouseX, mouseY);
     }
