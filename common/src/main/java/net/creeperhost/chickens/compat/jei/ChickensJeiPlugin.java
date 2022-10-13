@@ -47,7 +47,8 @@ public class ChickensJeiPlugin implements IModPlugin
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration)
     {
-        registration.useNbtForSubtypes(ModItems.CHICKEN_ITEM.get(), ModItems.CHICKEN_EGG.get());
+        registration.registerSubtypeInterpreter(ModItems.CHICKEN_ITEM.get(), ChickenSubtypeInterpreter.INSTANCE);
+        registration.useNbtForSubtypes(ModItems.CHICKEN_EGG.get());
     }
 
     @Override
