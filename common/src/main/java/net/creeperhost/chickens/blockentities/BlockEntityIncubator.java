@@ -76,7 +76,7 @@ public class BlockEntityIncubator extends BlockEntityInventory
                 }
             }
 
-            this.addSlot(new SlotInputFiltered(polyItemInventory, 9, 150, 54, new ItemStack(Items.WATER_BUCKET)));
+            this.addSlot(new SlotInputFiltered(polyItemInventory, 9, 149, 63, new ItemStack(Items.WATER_BUCKET)));
         });
     }
 

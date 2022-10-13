@@ -4,9 +4,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.containers.ContainerIncubator;
+import net.creeperhost.chickens.containers.slots.SlotEgg;
 import net.creeperhost.chickens.network.PacketHandler;
 import net.creeperhost.chickens.network.packets.PacketIncubator;
 import net.creeperhost.polylib.client.fluid.ScreenFluidRenderer;
+import net.creeperhost.polylib.client.screenbuilder.ScreenBuilder;
+import net.creeperhost.polylib.inventory.PolyFluidInventory;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -16,6 +19,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
 {
+    ScreenBuilder screenBuilder = new ScreenBuilder();
+
     private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(Chickens.MOD_ID, "textures/gui/incubator.png");
     private final ContainerIncubator containerIncubator;
 
@@ -29,10 +34,21 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
     @Override
     public void renderBg(@NotNull PoseStack poseStack, float partialTicks, int mouseX, int mouseY)
     {
-        RenderSystem.setShaderTexture(0, GUI_TEXTURE);
-        int i = (width - imageWidth) / 2;
-        int j = (height - imageHeight) / 2;
-        blit(poseStack, i, j, 0, 0, imageWidth, imageHeight);
+        screenBuilder.drawDefaultBackground(this, poseStack, leftPos, topPos, imageWidth, imageHeight, 256, 256);
+        screenBuilder.drawPlayerSlots(this, poseStack, leftPos + imageWidth / 2, topPos + 83, true, 256, 256);
+        
+
+        int i = 0;
+        for (int l = 0; l < 3; ++l)
+        {
+            for (int k = 0; k < 3; ++k)
+            {
+                screenBuilder.drawSlot(this, poseStack, leftPos + 60 + k * 18, topPos + l * 18 + 16, 256, 256);
+                i++;
+            }
+        }
+        screenBuilder.drawSlot(this, poseStack, leftPos + imageWidth - 28, topPos + 62, 256, 256);
+
     }
 
     @Override
@@ -53,56 +69,26 @@ public class ScreenIncubator extends AbstractContainerScreen<ContainerIncubator>
     {
         this.renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, partialTicks);
+
         font.draw(poseStack, String.valueOf(containerIncubator.getLightLevel()), leftPos + 36, topPos + 38, 0);
-        drawBar(poseStack, leftPos + 7, topPos + 7, 71, containerIncubator.getTemp(), 60, mouseX, mouseY);
-        drawTank(poseStack, leftPos + 150, topPos + 9, 38, containerIncubator.getTemp(), 60, mouseX, mouseY);
+
+
+        screenBuilder.drawBar(this, poseStack, leftPos + 7, topPos + 7, 71,  containerIncubator.getTemp(), 60, mouseX, mouseY, Component.literal(containerIncubator.getTemp() + "c"));
+        drawBarOverlay(poseStack, leftPos + 7, topPos + 7, 71);
+        PolyFluidInventory polyFluidInventory = containerIncubator.getBlockEntityIncubator().fluidTank;
+        screenBuilder.drawTankWithOverlay(this, poseStack, polyFluidInventory.getFluidStack(), polyFluidInventory.getCapacity(),
+                (leftPos + imageWidth) - 30, topPos + 5, 50, mouseX, mouseY);
+
 
         renderTooltip(poseStack, mouseX, mouseY);
     }
 
 
-    public void drawBar(PoseStack poseStack, int x, int y, int height, int value, int maxValue, int mouseX, int mouseY)
+    public void drawBarOverlay(PoseStack poseStack, int x, int y, int height)
     {
         poseStack.pushPose();
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
-
-        int draw = (int) ((double) value / (double) maxValue * (height - 2));
-        blit(poseStack, x + 1, y + height - draw - 1, 176, height - draw, 12, draw, 256, 256);
         blit(poseStack, x + 1, y - 10, 188, 0, 16, height);
-
-        if (isInRect(x, y, 14, height, mouseX, mouseY))
-        {
-            renderTooltip(poseStack, Component.literal(containerIncubator.getTemp() + "c"), mouseX, mouseY);
-        }
         poseStack.popPose();
-    }
-
-    public void drawTank(PoseStack poseStack, int x, int y, int height, int value, int maxValue, int mouseX, int mouseY)
-    {
-        poseStack.pushPose();
-        RenderSystem.setShaderTexture(0, GUI_TEXTURE);
-
-        ScreenFluidRenderer screenFluidRenderer = new ScreenFluidRenderer(1000, 14, height, 16);
-        screenFluidRenderer.render(x, y, containerIncubator.getBlockEntityIncubator().fluidTank.getFluidStack());
-
-        if (isInRect(x, y, 14, height, mouseX, mouseY))
-        {
-            int stored = (int) containerIncubator.getBlockEntityIncubator().fluidTank.getFluidStack().getAmount();
-            if(stored > 0)
-            {
-                renderTooltip(poseStack, Component.literal(stored + "mb of Water"), mouseX, mouseY);
-            }
-            else
-            {
-                renderTooltip(poseStack, Component.literal("Empty"), mouseX, mouseY);
-            }
-        }
-        poseStack.popPose();
-    }
-
-
-    public boolean isInRect(int x, int y, int xSize, int ySize, int mouseX, int mouseY)
-    {
-        return ((mouseX >= x && mouseX <= x + xSize) && (mouseY >= y && mouseY <= y + ySize));
     }
 }
