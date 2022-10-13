@@ -22,10 +22,12 @@ import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
@@ -106,12 +108,17 @@ public class BlockEntityIncubator extends BlockEntityInventory
             progress = 0;
             if(fluidTank.getFluidStack().isEmpty())
             {
-                if (!getItem(9).isEmpty() && getItem(9).is(Items.WATER_BUCKET))
+                if (!getItem(9).isEmpty())
                 {
-                    fluidTank.setFluidStack(FluidStack.create(Fluids.WATER, 1000));
-                    setItem(9, new ItemStack(Items.BUCKET));
+                    if(getItem(9).is(Items.WATER_BUCKET))
+                    {
+                        fluidTank.setFluidStack(FluidStack.create(Fluids.WATER, 1000));
+                        setItem(9, new ItemStack(Items.BUCKET));
+                    }
+
                 }
             }
+
             if (isActive() && (temp < (lightLevel * incrementSize)))
             {
                 fluidProgress++;
@@ -125,9 +132,10 @@ public class BlockEntityIncubator extends BlockEntityInventory
                     }
                     else
                     {
-                        FluidStack fluidStack = fluidTank.getFluidStack().copy();
-                        fluidStack.setAmount(amount);
-                        fluidTank.setFluidStack(fluidStack);
+                        long current = fluidTank.getFluidStack().getAmount();
+                        FluidStack newStack = FluidStack.create(Fluids.WATER, --current);
+                        fluidTank.setFluidStack(newStack);
+                        sync();
                     }
                 }
             }
