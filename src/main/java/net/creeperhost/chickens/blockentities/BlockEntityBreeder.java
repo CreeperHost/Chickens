@@ -158,7 +158,7 @@ public class BlockEntityBreeder extends BlockEntity implements MenuProvider
 
     public ItemStack moveOutput(ItemStack stack)
     {
-        for (int i = 3; i < 5; i++)
+        for (int i = 3; i <= 5; i++)
         {
             if(inventory.getStackInSlot(i).isEmpty())
             {

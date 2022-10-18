@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.17] - 2022-10-18
+### Fixed
+- Allow breeder to output to all slots
+
 ## [1.0.17] - 2022-10-11
 ### Fixed
 - Breeder not dropping inventory
