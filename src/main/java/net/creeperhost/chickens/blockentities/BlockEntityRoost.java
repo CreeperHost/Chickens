@@ -169,7 +169,7 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
                     int startStackSize = stack.getCount();
                     int count = inventory.getStackInSlot(i).getCount();
                     int max = stack.getMaxStackSize();
-                    if(count < max)
+                    if(count <= max)
                     {
                         if(startStackSize + count > max)
                         {
@@ -184,10 +184,13 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
                                 return returnStack;
                             }
                         }
-                        int newCount = count + stack.getCount();
-                        stack.setCount(newCount);
-                        if(!simulate) inventory.setStackInSlot(i, stack);
-                        return ItemStack.EMPTY;
+                        else
+                        {
+                            int newCount = count + stack.getCount();
+                            stack.setCount(newCount);
+                            if (!simulate) inventory.setStackInSlot(i, stack);
+                            return ItemStack.EMPTY;
+                        }
                     }
                 }
             }
