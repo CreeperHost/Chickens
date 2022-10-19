@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "chickens:items/chicken/zincchicken"
+        "layer0": "chickens:entity/smart_chicken"
     }
 }
