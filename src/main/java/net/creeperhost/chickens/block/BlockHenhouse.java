@@ -78,7 +78,7 @@ public class BlockHenhouse extends BaseEntityBlock
         if (!blockState.is(blockState1.getBlock()))
         {
             BlockEntity blockentity = level.getBlockEntity(blockPos);
-            if (blockentity instanceof BlockEntityRoost blockEntityRoost)
+            if (blockentity instanceof BlockEntityHenhouse blockEntityRoost)
             {
                 for (int i = 0; i < blockEntityRoost.inventory.getSlots(); i++)
                 {

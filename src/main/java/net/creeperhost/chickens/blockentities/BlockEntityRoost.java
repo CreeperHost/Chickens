@@ -20,6 +20,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -50,6 +51,7 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
         {
             super.onContentsChanged(slot);
             setChanged();
+            if(slot == 0) progress = 0;
         }
 
         @Override
@@ -130,8 +132,8 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
         {
             if (canRun())
             {
-                if(progress <= 1000){
-                    progress++;
+                if(progress <= 1000) {
+                    progress += getProgressValue(inventory.getStackInSlot(0));
                 }
                 else
                 {
@@ -150,6 +152,14 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
                 progress = 0;
             }
         }
+    }
+
+    public int getProgressValue(ItemStack itemStack)
+    {
+        ChickenStats chickenStats = new ChickenStats(itemStack);
+        int count = itemStack.getCount();
+        int value = (chickenStats.getGrowth() + count) +1;
+        return Math.min(value, 50);
     }
 
     //TODO I hate all of this but its a quick fix

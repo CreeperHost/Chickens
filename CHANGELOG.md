@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.21] - 2022.11.01
+### Fixed
+- Gain now also make the roost run faster
+- Fix Henhouse dropping items when removed.
+- Fix Henhouse not picking up drops
+- Fix Henhouse power not syncing
+
 ## [1.0.20] - 2022.11.01
 ### Fixed
 - Issue that allowed chickens to inherit stats from other chicken types

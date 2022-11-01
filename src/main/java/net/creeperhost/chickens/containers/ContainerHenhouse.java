@@ -6,6 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
@@ -14,16 +16,18 @@ import org.jetbrains.annotations.NotNull;
 public class ContainerHenhouse extends ContainerBase
 {
     public final BlockEntityHenhouse tileEntityHenhouse;
+    private final ContainerData data;
 
     public ContainerHenhouse(int id, Inventory playerInv, FriendlyByteBuf extraData)
     {
-        this(id, playerInv, (BlockEntityHenhouse) Minecraft.getInstance().level.getBlockEntity(extraData.readBlockPos()));
+        this(id, playerInv, (BlockEntityHenhouse) Minecraft.getInstance().level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(1));
     }
 
-    public ContainerHenhouse(int id, Inventory playerInv, BlockEntityHenhouse tileEntityHenhouse)
+    public ContainerHenhouse(int id, Inventory playerInv, BlockEntityHenhouse tileEntityHenhouse, ContainerData data)
     {
         super(ModContainers.HENHOUSE_CONTAINER.get(), id);
         this.tileEntityHenhouse = tileEntityHenhouse;
+        this.data = data;
 
         this.addSlot(new SlotItemHandler(tileEntityHenhouse.inventory, BlockEntityHenhouse.hayBaleSlotIndex, 25, 19)
         {
@@ -64,11 +68,17 @@ public class ContainerHenhouse extends ContainerBase
         {
             this.addSlot(new Slot(playerInv, i1, 8 + i1 * 18, 142));
         }
+        addDataSlots(data);
     }
 
     @Override
     public boolean stillValid(Player player)
     {
         return true;
+    }
+
+    public int getEnergy()
+    {
+        return this.data.get(0);
     }
 }

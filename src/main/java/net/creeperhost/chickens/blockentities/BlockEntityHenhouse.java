@@ -13,6 +13,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -56,6 +58,31 @@ public class BlockEntityHenhouse extends BlockEntity implements MenuProvider
         {
             super.onContentsChanged(slot);
             setChanged();
+        }
+    };
+
+    public final ContainerData containerData = new SimpleContainerData(1)
+    {
+        @Override
+        public int get(int index)
+        {
+            if (index == 0)
+            {
+                return getEnergy();
+            }
+            throw new IllegalArgumentException("Invalid index: " + index);
+        }
+
+        @Override
+        public void set(int index, int value)
+        {
+            throw new IllegalStateException("Cannot set values through IIntArray");
+        }
+
+        @Override
+        public int getCount()
+        {
+            return 1;
         }
     };
 
@@ -164,8 +191,7 @@ public class BlockEntityHenhouse extends BlockEntity implements MenuProvider
         {
             if (energy == 0)
             {
-                assert !inventory.getStackInSlot(hayBaleSlotIndex).isEmpty();
-//                inventory.insertItem(hayBaleSlotIndex, 1, false);
+                inventory.extractItem(hayBaleSlotIndex, 1, false);
                 energy += hayBaleEnergy;
             }
 
@@ -255,6 +281,6 @@ public class BlockEntityHenhouse extends BlockEntity implements MenuProvider
     @Override
     public AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player)
     {
-        return new ContainerHenhouse(id, inventory, this);
+        return new ContainerHenhouse(id, inventory, this, containerData);
     }
 }

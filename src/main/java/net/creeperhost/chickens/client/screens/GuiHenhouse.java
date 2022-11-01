@@ -13,19 +13,16 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Created by setyc on 06.03.2016.
- */
 @OnlyIn(Dist.CLIENT)
 public class GuiHenhouse extends AbstractContainerScreen<ContainerHenhouse>
 {
     private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ChickensMod.MODID, "textures/gui/henhouse.png");
-    private final BlockEntityHenhouse tileEntityHenhouse;
+    private final ContainerHenhouse containerHenhouse;
 
     public GuiHenhouse(ContainerHenhouse containerHenhouse, Inventory playerInv, Component title)
     {
         super(containerHenhouse, playerInv, title);
-        this.tileEntityHenhouse = containerHenhouse.tileEntityHenhouse;
+        this.containerHenhouse = containerHenhouse;
         this.imageHeight = 166;
     }
 
@@ -37,7 +34,8 @@ public class GuiHenhouse extends AbstractContainerScreen<ContainerHenhouse>
         int j = (height - imageHeight) / 2;
         blit(poseStack, i, j, 0, 0, imageWidth, imageHeight);
 
-        int energy = tileEntityHenhouse.getEnergy();
+        int energy = containerHenhouse.getEnergy();
+        System.out.println(energy);
         final int BAR_HEIGHT = 57;
         int offset = BAR_HEIGHT - (energy * BAR_HEIGHT / BlockEntityHenhouse.hayBaleEnergy);
         blit(poseStack, i + 75, j + 14 + offset, 195, offset, 12, BAR_HEIGHT - offset);
