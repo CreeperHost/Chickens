@@ -14,6 +14,7 @@ import net.creeperhost.chickens.registry.ChickensRegistryItem;
 import net.creeperhost.chickens.util.InventoryHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -209,34 +210,48 @@ public class BlockEntityBreeder extends BlockEntity implements MenuProvider
         ChickenStats parent1Stats = new ChickenStats(parent1);
         ChickenStats parent2Stats = new ChickenStats(parent2);
 
-        if(isCrossBreed(baby, parent1, parent2))
+        boolean mutatingStats = getChickenFromStack(parent1).getRegistryName() == getChickenFromStack(parent2).getRegistryName() && getChickenFromStack(baby).getRegistryName() == getChickenFromStack(parent1).getRegistryName();
+
+        if(mutatingStats)
         {
-            return new ChickenStats(baby);
+            babyStats.setGrowth(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getGrowth(), parent2Stats.getGrowth(), rand));
+            babyStats.setGain(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getGain(), parent2Stats.getGain(), rand));
+            babyStats.setStrength(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getStrength(), parent2Stats.getStrength(), rand));
+            return babyStats;
         }
-
-        babyStats.setGrowth(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getGrowth(), parent2Stats.getGrowth(), rand));
-        babyStats.setGain(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getGain(), parent2Stats.getGain(), rand));
-        babyStats.setStrength(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getStrength(), parent2Stats.getStrength(), rand));
-
-        return babyStats;
+        else if(getChickenFromStack(parent1).getRegistryName() == getChickenFromStack(baby).getRegistryName())
+        {
+            inheritStats(babyStats, parent1Stats);
+            return babyStats;
+        }
+        else if(getChickenFromStack(parent2).getRegistryName() == getChickenFromStack(baby).getRegistryName())
+        {
+            inheritStats(babyStats, parent2Stats);
+            return babyStats;
+        }
+        return new ChickenStats(baby);
     }
 
-    private static boolean isCrossBreed(ItemStack baby, ItemStack parent1, ItemStack parent2)
+    private static void inheritStats(ChickenStats babyStats, ChickenStats parent1Stats)
     {
-        ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemSpawnEgg.getTypeFromStack(parent1));
-        ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemSpawnEgg.getTypeFromStack(parent2));
-
-        ChickensRegistryItem chickensRegistryBaby = ChickensRegistry.getByRegistryName(ItemSpawnEgg.getTypeFromStack(baby));
-
-        if(chickensRegistryBaby.getRegistryName().equals(chickensRegistryItem1.getRegistryName())
-                || chickensRegistryBaby.getRegistryName().equals(chickensRegistryItem2.getRegistryName()))
-        {
-            return false;
-        }
-
-        return true;
+        babyStats.setGrowth(parent1Stats.getGrowth());
+        babyStats.setGain(parent1Stats.getGain());
+        babyStats.setStrength(parent1Stats.getStrength());
+    }
+    
+    public static ResourceLocation getRegistryName(ItemStack stack)
+    {
+        return Registry.ITEM.getKey(stack.getItem());
     }
 
+    private static ChickensRegistryItem getChickenFromStack(ItemStack stack)
+    {
+        if(stack.getItem() instanceof ItemChicken)
+        {
+            return ChickensRegistry.getByRegistryName(ItemSpawnEgg.getTypeFromStack(stack));
+        }
+        return null;
+    }
 
     private static int calculateNewStat(int thisStrength, int mateStrength, int stat1, int stat2, Random rand)
     {

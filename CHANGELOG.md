@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.20] - 2022.11.01
+### Fixed
+- Issue that allowed chickens to inherit stats from other chicken types
+
 ## [1.0.19] - 2022-10-19
 ### Fixed
 - Missing texture particle of chicken item
