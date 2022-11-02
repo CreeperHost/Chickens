@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemChickenCatcher extends Item
 {
@@ -21,7 +22,7 @@ public class ItemChickenCatcher extends Item
     }
 
     @Override
-    public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand hand)
+    public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack itemStack, @NotNull Player player, @NotNull LivingEntity livingEntity, @NotNull InteractionHand hand)
     {
         if(livingEntity instanceof EntityChickensChicken entityChickensChicken)
         {
@@ -29,7 +30,10 @@ public class ItemChickenCatcher extends Item
             ItemStack chicken = new ItemStack(ModItems.CHICKEN_ITEM.get());
             ItemChicken.applyEntityIdToItemStack(chicken, entityChickensChicken.getType().getRegistryName());
             if(chicken.getTag() != null)
+            {
                 chicken.getTag().putBoolean("baby", entityChickensChicken.isBaby());
+                chicken.getTag().putInt("love", entityChickensChicken.getInLoveTime());
+            }
 
             ChickenStats chickenStats = new ChickenStats(entityChickensChicken.getGain(), entityChickensChicken.getGrowth(), entityChickensChicken.getStrength());
             chickenStats.write(chicken);

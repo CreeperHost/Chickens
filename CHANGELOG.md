@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.22] - 2022.11.02
+### Fixed
+- Save inLove state to nbt
+
 ## [1.0.21] - 2022.11.01
 ### Fixed
 - Gain now also make the roost run faster
