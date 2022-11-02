@@ -79,6 +79,7 @@ public class BlockEntityBreeder extends BlockEntity implements MenuProvider
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate)
         {
+            if(slot <= 2) return ItemStack.EMPTY;
             return super.extractItem(slot, amount, simulate);
         }
     };
