@@ -120,7 +120,7 @@ public class ItemChicken extends Item
         if (Screen.hasShiftDown())
         {
             components.add(Component.translatable("entity.ChickensChicken.growth").append(" " + chickenStats.getGrowth()).withStyle(ChatFormatting.DARK_PURPLE));
-            components.add(Component.translatable("entity.ChickensChicken.gain").append(" " + chickenStats.getLifespan()).withStyle(ChatFormatting.DARK_PURPLE));
+            components.add(Component.translatable("entity.ChickensChicken.gain").append(" " + chickenStats.getGain()).withStyle(ChatFormatting.DARK_PURPLE));
             components.add(Component.translatable("entity.ChickensChicken.strength").append(" " + chickenStats.getStrength()).withStyle(ChatFormatting.DARK_PURPLE));
             components.add(Component.translatable("entity.ChickensChicken.lifespan").append(" " + chickenStats.getLifespan() + "%").withStyle(ChatFormatting.DARK_PURPLE));
         }
