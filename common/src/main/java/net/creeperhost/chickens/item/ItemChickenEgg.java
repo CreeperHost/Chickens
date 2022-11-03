@@ -145,8 +145,8 @@ public class ItemChickenEgg extends Item
         }
 
         ChickenStats chickenStats = new ChickenStats(itemStack);
-        list.add(Component.literal(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
-        list.add(Component.literal(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
-        list.add(Component.literal(ChatFormatting.DARK_PURPLE + "Strength: " + chickenStats.getStrength()));
+        list.add(Component.translatable("entity.ChickensChicken.growth").append(" " + chickenStats.getGrowth()).withStyle(ChatFormatting.DARK_PURPLE));
+        list.add(Component.translatable("entity.ChickensChicken.gain").append(" " + chickenStats.getLifespan()).withStyle(ChatFormatting.DARK_PURPLE));
+        list.add(Component.translatable("entity.ChickensChicken.strength").append(" " + chickenStats.getStrength()).withStyle(ChatFormatting.DARK_PURPLE));
     }
 }
