@@ -71,7 +71,7 @@ public class BlockEntityIncubator extends BlockEntityInventory
             {
                 for (int k = 0; k < 3; ++k)
                 {
-                    this.addSlot(new SlotEgg(polyItemInventory, i, 61 + k * 18, l * 18 + 17));
+                    this.addSlot(new SlotEgg(polyItemInventory, i, 61 + k * 18, l * 18 + 17, 1));
                     i++;
                 }
             }

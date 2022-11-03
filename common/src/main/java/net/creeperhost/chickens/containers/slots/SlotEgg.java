@@ -8,9 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class SlotEgg extends SlotInput
 {
-    public SlotEgg(Container container, int i, int j, int k)
+    int stackSize;
+    public SlotEgg(Container container, int i, int j, int k, int stackSize)
     {
         super(container, i, j, k);
+        this.stackSize = stackSize;
     }
 
     @Override
@@ -22,12 +24,12 @@ public class SlotEgg extends SlotInput
     @Override
     public int getMaxStackSize(@NotNull ItemStack itemStack)
     {
-        return 1;
+        return stackSize;
     }
 
     @Override
     public int getMaxStackSize()
     {
-        return 1;
+        return stackSize;
     }
 }

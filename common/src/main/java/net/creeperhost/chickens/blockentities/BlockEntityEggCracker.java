@@ -32,7 +32,7 @@ public class BlockEntityEggCracker extends BlockEntityInventory
         setInventory(new PolyItemInventory(10));
         getInventoryOptional().ifPresent(polyItemInventory ->
         {
-            this.addSlot(new SlotEgg(polyItemInventory, 0, 26, 34));
+            this.addSlot(new SlotEgg(polyItemInventory, 0, 26, 34, 64));
 
             int i = 0;
             for (int l = 0; l < 3; ++l)
@@ -86,7 +86,7 @@ public class BlockEntityEggCracker extends BlockEntityInventory
                 else
                 {
                     Fluid fluid = itemChickenEgg.getType(getItem(0)).getDropItemHolder().getFluid();
-                    long amount = itemChickenEgg.getType(getItem(0)).getDropItemHolder().getAmount();
+                    long amount = 1000;//itemChickenEgg.getType(getItem(0)).getDropItemHolder().getAmount();
                     if(fluid != Fluids.EMPTY)
                     {
                         if(fluidTank.getFluidStack().isEmpty())
@@ -138,6 +138,7 @@ public class BlockEntityEggCracker extends BlockEntityInventory
     @Override
     protected AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory)
     {
+        sync();
         return new ContainerEggCracker(i, inventory, this, getContainerData());
     }
 
