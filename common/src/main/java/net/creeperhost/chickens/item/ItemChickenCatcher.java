@@ -38,13 +38,18 @@ public class ItemChickenCatcher extends Item
 
             ChickenStats chickenStats = new ChickenStats(entityChickensChicken.getGain(), entityChickensChicken.getGrowth(), entityChickensChicken.getStrength(), entityChickensChicken.getLifeSpan());
             chickenStats.write(chicken);
+            if(chicken.getTag() != null)
+            {
+                chicken.getTag().putBoolean("baby", entityChickensChicken.isBaby());
+                chicken.getTag().putInt("love", entityChickensChicken.getInLoveTime());
+            }
 
             ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), chicken);
             level.addFreshEntity(itemEntity);
             livingEntity.remove(Entity.RemovalReason.DISCARDED);
             return InteractionResult.PASS;
         }
-        else if (livingEntity instanceof Chicken)
+        else if (livingEntity instanceof Chicken chicken)
         {
             ItemStack stack = new ItemStack(ModItems.CHICKEN_ITEM.get());
             ItemChicken.applyEntityIdToItemStack(stack, ChickensRegistry.VANILLA_CHICKEN);
@@ -52,6 +57,11 @@ public class ItemChickenCatcher extends Item
             //Vanilla chickens don't have any stats so lets create set them to default
             ChickenStats chickenStats = new ChickenStats(1,1, 1, 100);
             chickenStats.write(stack);
+            if(stack.getTag() != null)
+            {
+                stack.getTag().putBoolean("baby", chicken.isBaby());
+                stack.getTag().putInt("love", chicken.getInLoveTime());
+            }
 
             ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), stack);
             level.addFreshEntity(itemEntity);
