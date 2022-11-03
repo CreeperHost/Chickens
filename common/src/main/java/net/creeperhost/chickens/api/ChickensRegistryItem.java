@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 public class ChickensRegistryItem
 {
     public ResourceLocation registryName;
-
     public String entityName;
     public ItemHolder layItem;
     public ItemHolder dropItem;

@@ -7,7 +7,6 @@ public class ChickenStats
     public int gain;
     public int growth;
     public int strength;
-
     public int lifespan;
 
     public ChickenStats(int gain, int growth, int strength, int lifespan)

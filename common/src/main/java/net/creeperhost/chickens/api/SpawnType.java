@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.api;
 
+@Deprecated
 public enum SpawnType
 {
     NORMAL, SNOW, NONE, HELL;
