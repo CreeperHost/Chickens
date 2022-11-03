@@ -57,7 +57,7 @@ public class ItemChickenEgg extends Item
 
     public ChickensRegistryItem getType(ItemStack stack)
     {
-        if(!stack.hasTag()) return null;
+        if(stack.getTag() == null) return null;
 
         ResourceLocation resourceLocation = ResourceLocation.tryParse(stack.getTag().getString("chickentype"));
         if(resourceLocation == null || resourceLocation.toString().isEmpty()) return null;
@@ -76,7 +76,7 @@ public class ItemChickenEgg extends Item
     {
         if(stack.getItem() instanceof ItemChickenEgg)
         {
-            if (stack.hasTag() && stack.getTag().contains("progress"))
+            if (stack.getTag() != null && stack.getTag().contains("progress"))
             {
                 return stack.getTag().getInt("progress");
             }
