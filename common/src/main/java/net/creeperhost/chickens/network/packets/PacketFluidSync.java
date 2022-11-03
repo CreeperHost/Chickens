@@ -3,6 +3,7 @@ package net.creeperhost.chickens.network.packets;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.FluidStackHooks;
 import dev.architectury.networking.NetworkManager;
+import net.creeperhost.chickens.blockentities.BlockEntityEggCracker;
 import net.creeperhost.chickens.blockentities.BlockEntityIncubator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -40,9 +41,13 @@ public class PacketFluidSync
             Level level = context.get().getPlayer().getLevel();
             if(level == null) return;
 
-            if(level.getBlockEntity(blockPos) != null && level.getBlockEntity(blockPos) instanceof BlockEntityIncubator blockEntityIncubator)
+            if(level.getBlockEntity(blockPos) != null)
             {
-                blockEntityIncubator.fluidTank.setFluidStack(fluidStack);
+                if(level.getBlockEntity(blockPos) instanceof BlockEntityIncubator blockEntityIncubator)
+                    blockEntityIncubator.fluidTank.setFluidStack(fluidStack);
+
+                if(level.getBlockEntity(blockPos) instanceof BlockEntityEggCracker blockEntityEggCracker)
+                    blockEntityEggCracker.fluidTank.setFluidStack(fluidStack);
             }
         });
     }

@@ -3,6 +3,7 @@ package net.creeperhost.chickens.client.screen;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.creeperhost.chickens.containers.ContainerEggCracker;
 import net.creeperhost.polylib.client.screenbuilder.ScreenBuilder;
+import net.creeperhost.polylib.inventory.PolyFluidInventory;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -33,12 +34,16 @@ public class ScreenEggCracker extends AbstractContainerScreen<ContainerEggCracke
         {
             for (int k = 0; k < 3; ++k)
             {
-                screenBuilder.drawSlot(this, poseStack, leftPos + 104 + k * 18, topPos + l * 18 + 16, 256, 256);
+                screenBuilder.drawSlot(this, poseStack, leftPos + 90 + k * 18, topPos + l * 18 + 16, 256, 256);
                 i++;
             }
         }
 
         screenBuilder.drawProgressBar(this, poseStack, containerEggCracker.getProgress(), 100, leftPos + 60, topPos + 33, mouseX, mouseY);
+
+        PolyFluidInventory polyFluidInventory = containerEggCracker.blockEntityEggCracker.fluidTank;
+        screenBuilder.drawTankWithOverlay(this, poseStack, polyFluidInventory.getFluidStack(), polyFluidInventory.getCapacity(),
+                (leftPos + imageWidth) - 26, topPos + 15, 50, mouseX, mouseY);
     }
 
     @Override

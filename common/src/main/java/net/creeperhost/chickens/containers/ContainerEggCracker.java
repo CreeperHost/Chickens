@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class ContainerEggCracker extends PolyContainer
 {
     ContainerData containerData;
-    BlockPos blockPos;
+    public BlockEntityEggCracker blockEntityEggCracker;
 
     public ContainerEggCracker(int id, Inventory playerInv, FriendlyByteBuf extraData)
     {
@@ -27,6 +27,7 @@ public class ContainerEggCracker extends PolyContainer
     {
         super(ModContainers.EGG_CRACKER.get(), id);
         this.containerData = containerData;
+        this.blockEntityEggCracker = blockEntityEggCracker;
         blockEntityEggCracker.getSlots().forEach(this::addSlot);
 
 
