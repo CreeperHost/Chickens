@@ -35,8 +35,8 @@ public class ChickenConfig
                 chickensRegistryItem.bgColor,
                 chickensRegistryItem.isEnabled(),
                 chickensRegistryItem.layCoefficient,
-                chickensRegistryItem.layItem != null ? chickensRegistryItem.layItem.toData() : new ItemHolderData("", ""),
-                chickensRegistryItem.dropItem != null ? chickensRegistryItem.dropItem.toData() : new ItemHolderData("", ""),
+                chickensRegistryItem.layItem != null ? chickensRegistryItem.layItem.toData() : new ItemHolderData("", "", ""),
+                chickensRegistryItem.dropItem != null ? chickensRegistryItem.dropItem.toData() : new ItemHolderData("","", ""),
                 chickensRegistryItem.getSpawnType().name(),
                 chickensRegistryItem.getParent1() != null ? chickensRegistryItem.getParent1().registryName.toString() : "",
                 chickensRegistryItem.getParent2() != null ? chickensRegistryItem.getParent2().registryName.toString() : ""

@@ -2,18 +2,25 @@ package net.creeperhost.chickens.polylib;
 
 public class ItemHolderData
 {
-    String itemID;
+    String type;
+    String id;
     String nbt;
 
-    public ItemHolderData(String itemID, String nbt)
+    public ItemHolderData(String type, String id, String nbt)
     {
-        this.itemID = itemID;
+        this.type = type;
+        this.id = id;
         this.nbt = nbt;
     }
 
-    public String getItemID()
+    public String getType()
     {
-        return itemID;
+        return type;
+    }
+
+    public String getId()
+    {
+        return id;
     }
 
     public String getNbt()

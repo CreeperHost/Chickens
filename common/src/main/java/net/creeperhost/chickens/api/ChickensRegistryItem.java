@@ -141,6 +141,7 @@ public class ChickensRegistryItem
 
     public boolean isDye()
     {
+        if(layItem == null || layItem.getStack() == null) return false;
         return layItem.getStack().is(CommonTags.DYE);
     }
 

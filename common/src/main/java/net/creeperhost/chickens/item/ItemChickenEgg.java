@@ -136,7 +136,14 @@ public class ItemChickenEgg extends Item
             list.add(Component.literal(ChatFormatting.AQUA + "Registry name: " + ChatFormatting.WHITE + chickensRegistryItem.getRegistryName().toString()));
             if(chickensRegistryItem.getLayItemHolder().getItem() != null)
             {
-                list.add(Component.literal(ChatFormatting.GOLD + "Item: " + ChatFormatting.WHITE + Registry.ITEM.getKey(chickensRegistryItem.getLayItemHolder().getItem())));
+                if(chickensRegistryItem.getLayItemHolder().getType().equals("item"))
+                {
+                    list.add(Component.literal(ChatFormatting.GOLD + "Item: " + ChatFormatting.WHITE + Registry.ITEM.getKey(chickensRegistryItem.getLayItemHolder().getItem())));
+                }
+                else
+                {
+                    list.add(Component.literal(ChatFormatting.GOLD + "Fluid: " + ChatFormatting.WHITE + Registry.FLUID.getKey(chickensRegistryItem.getLayItemHolder().getFluid())));
+                }
             }
             list.add(Component.literal(ChatFormatting.BLUE + "ChickenType: " + ChatFormatting.WHITE + chickensRegistryItem.getEntityName()));
             list.add(Component.literal(ChatFormatting.LIGHT_PURPLE + "Progress: " + ChatFormatting.WHITE + getProgress(itemStack)));

@@ -11,6 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ public class ItemHolder
 {
     private String source = null;
 
+    private String type;
     private String itemID;
     private CompoundTag nbtData;
 
@@ -34,6 +37,7 @@ public class ItemHolder
 
     public ItemHolder()
     {
+        type = "item";
         itemID = getRegistryName(Items.AIR).toString();
         nbtData = null;
         stack = ItemStack.EMPTY;
@@ -41,6 +45,7 @@ public class ItemHolder
 
     public ItemHolder(Item itemIn)
     {
+        type = "item";
         itemID = getRegistryName(itemIn).toString();
         nbtData = null;
         stack = ItemStack.EMPTY;
@@ -48,6 +53,7 @@ public class ItemHolder
 
     public ItemHolder(ItemStack stackIn, boolean isFinal)
     {
+        type = "item";
         itemID = getRegistryName(stackIn.getItem()).toString();
         stack = stackIn;
         nbtData = stackIn.hasTag() ? stackIn.getTag() : null;
@@ -55,14 +61,16 @@ public class ItemHolder
         isComplete = isFinal;
     }
 
-    public ItemHolder(String itemID, int qty)
+    public ItemHolder(String type, String itemID, int qty)
     {
+        this.type = type;
         this.itemID = itemID;
         this.nbtData = null;
     }
 
-    public ItemHolder(String itemID, String nbt)
+    public ItemHolder(String type, String itemID, String nbt)
     {
+        this.type = type;
         this.itemID = itemID;
         try
         {
@@ -77,6 +85,11 @@ public class ItemHolder
     public ResourceLocation getRegistryName(Item item)
     {
         return Registry.ITEM.getKey(item);
+    }
+
+    public ResourceLocation getRegistryName(Fluid fluid)
+    {
+        return Registry.FLUID.getKey(fluid);
     }
 
     public boolean hasSource()
@@ -98,7 +111,16 @@ public class ItemHolder
     @Nullable
     public Item getItem()
     {
+        if(this.itemID == null) return ItemStack.EMPTY.getItem();
+
         return Registry.ITEM.get(new ResourceLocation(this.itemID));
+    }
+
+    public Fluid getFluid()
+    {
+        if(this.itemID == null) return Fluids.EMPTY;
+
+        return Registry.FLUID.get(new ResourceLocation(this.itemID));
     }
 
     public int getStackSize()
@@ -135,7 +157,6 @@ public class ItemHolder
 
     private void handleItemNotFound()
     {
-
         if (!ErroredItems.containsKey(this.itemID)) ErroredItems.put(this.itemID, 1);
         else ErroredItems.replace(this.itemID, ErroredItems.get(this.itemID) + 1);
 
@@ -180,6 +201,11 @@ public class ItemHolder
         return data;
     }
 
+    public String getType()
+    {
+        return type;
+    }
+
     @Override
     public String toString()
     {
@@ -188,6 +214,6 @@ public class ItemHolder
 
     public ItemHolderData toData()
     {
-        return new ItemHolderData(itemID, nbtData == null ? "" : nbtData.toString());
+        return new ItemHolderData(type, itemID, nbtData == null ? "" : nbtData.toString());
     }
 }
