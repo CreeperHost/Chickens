@@ -96,7 +96,7 @@
   "gui.laying.time":"%1$s-%2$smin.",
   "gui.breeding":"Chicken Breeding",
   "gui.breeding.time":"%1$s%%",
-  "gui.drops":"Chicken Drop,",
+  "gui.drops":"Chicken Drop",
   "gui.throws":"Color Egg Throwing",
   "gui.henhousing":"Henhouse Byproduct",
 
@@ -109,5 +109,7 @@
   "block.chickens.henhouse_jungle":"Jungle Henhouse",
   "block.chickens.henhouse_spruce":"Spruce Henhouse",
   "block.chickens.breeder": "Breeder",
-  "block.chickens.roost": "Roost"
+  "block.chickens.roost": "Roost",
+
+  "gui.hold.shift.tooltip" : "Hold <Shift> for stats"
 }

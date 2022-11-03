@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
+
+## [1.0.24] - 2022.11.3
+### Fixed
+- Allow JEI categories to be localised
+- Allow Chickens tooltips to be localised
+
 ## [1.0.23] - 2022.11.02
 ### Fixed
 - Stop input slots on breeder allowing items to be pulled out via automation

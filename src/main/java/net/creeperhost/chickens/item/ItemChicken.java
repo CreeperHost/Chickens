@@ -23,6 +23,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.IItemRenderProperties;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -36,7 +37,7 @@ public class ItemChicken extends Item
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> subItems)
+    public void fillItemCategory(@NotNull CreativeModeTab tab, @NotNull NonNullList<ItemStack> subItems)
     {
         if(this.allowdedIn(tab))
         {
@@ -50,7 +51,7 @@ public class ItemChicken extends Item
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext useOnContext)
+    public @NotNull InteractionResult useOn(UseOnContext useOnContext)
     {
         Level level = useOnContext.getLevel();
         if(!level.isClientSide)
@@ -68,24 +69,24 @@ public class ItemChicken extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @org.jetbrains.annotations.Nullable Level level, List<Component> components, TooltipFlag tooltipFlag)
+    public void appendHoverText(@NotNull ItemStack itemStack, @org.jetbrains.annotations.Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag tooltipFlag)
     {
         super.appendHoverText(itemStack, level, components, tooltipFlag);
         ChickenStats chickenStats = new ChickenStats(itemStack);
         if(Screen.hasShiftDown())
         {
-            components.add(new TextComponent(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
-            components.add(new TextComponent(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
-            components.add(new TextComponent(ChatFormatting.DARK_PURPLE + "Strength: " + chickenStats.getStrength()));
+            components.add(new TranslatableComponent("entity.ChickensChicken.top.growth").append(" " + chickenStats.getGrowth()).withStyle(ChatFormatting.DARK_PURPLE));
+            components.add(new TranslatableComponent("entity.ChickensChicken.top.gain").append(" " + chickenStats.getGain()).withStyle(ChatFormatting.DARK_PURPLE));
+            components.add(new TranslatableComponent("entity.ChickensChicken.top.strength").append(" " + chickenStats.getStrength()).withStyle(ChatFormatting.DARK_PURPLE));
         }
         else
         {
-            components.add(new TextComponent("Hold <Shift> for stats"));
+            components.add(new TranslatableComponent("gui.hold.shift.tooltip"));
         }
     }
 
     @Override
-    public Component getName(ItemStack stack)
+    public @NotNull Component getName(@NotNull ItemStack stack)
     {
         ChickensRegistryItem chickenDescription = ChickensRegistry.getByRegistryName(getTypeFromStack(stack));
         if(chickenDescription == null) return new TextComponent("nul1");

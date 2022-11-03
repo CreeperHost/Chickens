@@ -14,6 +14,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -25,7 +26,7 @@ import java.util.List;
 public class ChickenLayingCategory implements IRecipeCategory<ChickenLayingCategory.Recipe>
 {
     public static final ResourceLocation UID = new ResourceLocation(ChickensMod.MODID, "chicken_laying");
-    public static final Component TITLE = new TextComponent("Chicken Laying");
+    public static final Component TITLE = new TranslatableComponent("gui.laying");
     IGuiHelper guiHelper;
 
     public ChickenLayingCategory(IGuiHelper guiHelper)
