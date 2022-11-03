@@ -40,7 +40,10 @@ public class BlockEntityEggCracker extends BlockEntityInventory
                 }
             }
         });
+        setContainerDataSize(1);
     }
+
+    int progress = 50;
 
     public void tick()
     {
@@ -48,20 +51,27 @@ public class BlockEntityEggCracker extends BlockEntityInventory
         if(level.isClientSide) return;
         if(!getItem(0).isEmpty() && getItem(0).getItem() instanceof ItemChickenEgg itemChickenEgg)
         {
-            ItemStack drop = itemChickenEgg.getType(getItem(0)).getDropItemHolder().getStack();
-            if(!drop.isEmpty())
+            progress++;
+            if(progress >= 100)
             {
-                if(itemChickenEgg.isViable(getItem(0)))
+                ItemStack drop = itemChickenEgg.getType(getItem(0)).getDropItemHolder().getStack();
+                if (!drop.isEmpty())
                 {
-                    ItemStack stack = getInventoryOptional().get().addItem(drop);
-                    if(stack.isEmpty()) getItem(0).shrink(1);
+                    if (itemChickenEgg.isViable(getItem(0)))
+                    {
+                        ItemStack stack = getInventoryOptional().get().addItem(drop);
+                        if (stack.isEmpty()) getItem(0).shrink(1);
+                    }
+                    else
+                    {
+                        getItem(0).shrink(1);
+                    }
                 }
-                else
-                {
-                    getItem(0).shrink(1);
-                }
+                progress = 0;
             }
         }
+        if(getItem(0).isEmpty() && progress > 0) progress = 0;
+        setContainerDataValue(0, progress);
     }
 
     @Override
@@ -73,6 +83,6 @@ public class BlockEntityEggCracker extends BlockEntityInventory
     @Override
     protected AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory)
     {
-        return new ContainerEggCracker(i, inventory, this, new SimpleContainerData(0));
+        return new ContainerEggCracker(i, inventory, this, getContainerData());
     }
 }

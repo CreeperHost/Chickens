@@ -50,4 +50,9 @@ public class ContainerEggCracker extends PolyContainer
     {
         return true;
     }
+
+    public int getProgress()
+    {
+        return containerData.get(0);
+    }
 }

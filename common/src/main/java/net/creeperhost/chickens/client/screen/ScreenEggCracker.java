@@ -14,8 +14,6 @@ import org.jetbrains.annotations.NotNull;
 public class ScreenEggCracker extends AbstractContainerScreen<ContainerEggCracker>
 {
     ScreenBuilder screenBuilder = new ScreenBuilder();
-
-//    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(Chickens.MOD_ID, "textures/gui/egg_cracker.png");
     private final ContainerEggCracker containerEggCracker;
 
     public ScreenEggCracker(ContainerEggCracker containerEggCracker, Inventory playerInv, Component title)
@@ -43,7 +41,7 @@ public class ScreenEggCracker extends AbstractContainerScreen<ContainerEggCracke
             }
         }
 
-        screenBuilder.drawProgressBar(this, poseStack, 50, 100, leftPos + 60, topPos + 33, mouseX, mouseY);
+        screenBuilder.drawProgressBar(this, poseStack, containerEggCracker.getProgress(), 100, leftPos + 60, topPos + 33, mouseX, mouseY);
     }
 
     @Override
@@ -58,10 +56,5 @@ public class ScreenEggCracker extends AbstractContainerScreen<ContainerEggCracke
         super.render(poseStack, mouseX, mouseY, partialTicks);
 
         renderTooltip(poseStack, mouseX, mouseY);
-    }
-
-    public boolean isInRect(int x, int y, int xSize, int ySize, int mouseX, int mouseY)
-    {
-        return ((mouseX >= x && mouseX <= x + xSize) && (mouseY >= y && mouseY <= y + ySize));
     }
 }
