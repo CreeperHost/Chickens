@@ -108,5 +108,8 @@
   "block.chickens.incubator": "Incubator",
   "block.chickens.egg_cracker": "Egg Cracker",
   "block.chickens.ovoscope": "Ovoscope",
-  "screen.shift.tooltip" : "Hold <Shift> for stats"
+  "screen.shift.tooltip" : "Hold <Shift> for stats",
+
+  "advancement.hard_boiled.title" : "Hard Boiled",
+  "advancement.hard_boiled.desc" : "Make an egg no longer viable for hatching"
 }
