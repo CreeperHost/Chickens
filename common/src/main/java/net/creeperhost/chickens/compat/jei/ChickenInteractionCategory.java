@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChickenInteractionCategory implements IRecipeCategory<ChickenTransformationRecipe>
 {
-    public static final Component TITLE = Component.literal("Chicken Interaction");
+    public static final Component TITLE = Component.translatable("gui.chicken.interaction");
     IGuiHelper guiHelper;
 
     public ChickenInteractionCategory(IGuiHelper guiHelper)

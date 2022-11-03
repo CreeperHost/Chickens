@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChickenLayingCategory implements IRecipeCategory<ChickenLayingCategory.Recipe>
 {
-    public static final Component TITLE = Component.literal("Chicken Laying");
+    public static final Component TITLE = Component.translatable("gui.laying");
     IGuiHelper guiHelper;
 
     public ChickenLayingCategory(IGuiHelper guiHelper)

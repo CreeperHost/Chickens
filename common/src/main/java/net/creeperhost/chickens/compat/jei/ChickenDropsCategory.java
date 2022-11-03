@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChickenDropsCategory implements IRecipeCategory<ChickenDropsCategory.Recipe>
 {
-    public static final Component TITLE = Component.literal("Chicken Drops");
+    public static final Component TITLE = Component.translatable("gui.drops");
     IGuiHelper guiHelper;
 
     public ChickenDropsCategory(IGuiHelper guiHelper)
