@@ -82,6 +82,7 @@
   "entity.ChickensChicken.growth":"Growth",
   "entity.ChickensChicken.gain":"Gain",
   "entity.ChickensChicken.strength":"Strength",
+  "entity.ChickensChicken.lifespan":"Lifespan",
 
   "entity.ChickensChicken.top.tier":"Tier",
   "entity.ChickensChicken.top.layProgress":"Next egg in",
@@ -104,6 +105,6 @@
   "block.chickens.roost": "Roost",
   "block.chickens.incubator": "Incubator",
   "block.chickens.egg_cracker": "Egg Cracker",
-  "block.chickens.ovoscope": "Ovoscope"
-
+  "block.chickens.ovoscope": "Ovoscope",
+  "screen.shift.tooltip" : "Hold <Shift> for stats"
 }

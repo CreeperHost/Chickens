@@ -119,14 +119,14 @@ public class ItemChicken extends Item
         ChickenStats chickenStats = new ChickenStats(itemStack);
         if (Screen.hasShiftDown())
         {
-            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Growth: " + chickenStats.getGrowth()));
-            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Gain: " + chickenStats.getGain()));
-            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Strength: " + chickenStats.getStrength()));
-            components.add(Component.literal(ChatFormatting.DARK_PURPLE + "Lifespan: " + chickenStats.getLifespan() + "%"));
+            components.add(Component.translatable("entity.ChickensChicken.growth").append(" " + chickenStats.getGrowth()).withStyle(ChatFormatting.DARK_PURPLE));
+            components.add(Component.translatable("entity.ChickensChicken.gain").append(" " + chickenStats.getLifespan()).withStyle(ChatFormatting.DARK_PURPLE));
+            components.add(Component.translatable("entity.ChickensChicken.strength").append(" " + chickenStats.getStrength()).withStyle(ChatFormatting.DARK_PURPLE));
+            components.add(Component.translatable("entity.ChickensChicken.lifespan").append(chickenStats.getLifespan() + "%").withStyle(ChatFormatting.DARK_PURPLE));
         }
         else
         {
-            components.add(Component.literal("Hold <Shift> for stats"));
+            components.add(Component.translatable("screen.shift.tooltip"));
         }
     }
 
