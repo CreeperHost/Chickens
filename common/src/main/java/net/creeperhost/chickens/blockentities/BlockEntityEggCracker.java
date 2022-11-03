@@ -43,7 +43,7 @@ public class BlockEntityEggCracker extends BlockEntityInventory
         setContainerDataSize(1);
     }
 
-    int progress = 50;
+    int progress = 0;
 
     public void tick()
     {
