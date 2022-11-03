@@ -4,12 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.Constants;
-import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.init.ModChickens;
-import net.creeperhost.chickens.polylib.ItemHolder;
-import net.creeperhost.chickens.polylib.ItemHolderData;
-import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;

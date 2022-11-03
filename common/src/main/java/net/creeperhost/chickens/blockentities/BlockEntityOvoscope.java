@@ -2,7 +2,6 @@ package net.creeperhost.chickens.blockentities;
 
 import net.creeperhost.chickens.containers.ContainerOvoscope;
 import net.creeperhost.chickens.init.ModBlocks;
-import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.polylib.blockentity.BlockEntityInventory;
 import net.creeperhost.polylib.inventory.PolyItemInventory;

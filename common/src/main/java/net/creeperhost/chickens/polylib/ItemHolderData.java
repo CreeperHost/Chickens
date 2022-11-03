@@ -1,7 +1,5 @@
 package net.creeperhost.chickens.polylib;
 
-import java.util.List;
-
 public class ItemHolderData
 {
     String itemID;

@@ -1,7 +1,6 @@
 package net.creeperhost.chickens.block;
 
 import dev.architectury.registry.menu.MenuRegistry;
-import net.creeperhost.chickens.blockentities.BlockEntityIncubator;
 import net.creeperhost.chickens.blockentities.BlockEntityOvoscope;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

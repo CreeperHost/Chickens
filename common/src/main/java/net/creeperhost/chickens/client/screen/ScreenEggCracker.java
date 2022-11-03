@@ -1,13 +1,10 @@
 package net.creeperhost.chickens.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.containers.ContainerEggCracker;
 import net.creeperhost.polylib.client.screenbuilder.ScreenBuilder;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 

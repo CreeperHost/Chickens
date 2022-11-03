@@ -1,27 +1,15 @@
 package net.creeperhost.chickens.init;
 
-import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.ChickensExpectPlatform;
-import net.creeperhost.chickens.api.ChickensRegistry;
-import net.creeperhost.chickens.api.ChickensRegistryItem;
-import net.creeperhost.chickens.entity.EntityChickensChicken;
-import net.creeperhost.chickens.item.*;
-import net.minecraft.Util;
+import net.creeperhost.chickens.item.ItemChickenCatcher;
+import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.Supplier;
 
 public class ModItems
 {

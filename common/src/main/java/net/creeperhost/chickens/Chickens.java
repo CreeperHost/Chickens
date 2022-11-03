@@ -16,7 +16,6 @@ import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.network.PacketHandler;
 import net.creeperhost.chickens.polylib.ItemHolder;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
