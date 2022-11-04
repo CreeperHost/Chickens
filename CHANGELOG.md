@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [1.0.24] - 2022.11.3
+## [1.0.25] - 2022.11.04
+### Fixed
+- Chickens not dropping raw chicken or feathers
+
+## [1.0.24] - 2022.11.03
 ### Fixed
 - Allow JEI categories to be localised
 - Allow Chickens tooltips to be localised
