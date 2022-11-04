@@ -96,8 +96,8 @@ public class BlockEntityBreeder extends BlockEntityInventory
                 ItemStack inserted = moveOutput(chickenStack);
                 if(inserted.isEmpty())
                 {
-                    int random = level.getRandom().nextInt(1, 4);
-                    if(random == 4)
+                    int random = level.getRandom().nextInt(1, 5);
+                    if(random >= 4)
                     {
                         damageChicken(0);
                         damageChicken(1);
