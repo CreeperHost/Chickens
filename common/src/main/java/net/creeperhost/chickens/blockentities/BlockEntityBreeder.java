@@ -72,7 +72,7 @@ public class BlockEntityBreeder extends BlockEntityInventory
         {
             if (progress <= 1000)
             {
-                progress++;
+                progress += getProgressValue();
             } else
             {
                 ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(0)));
@@ -116,9 +116,21 @@ public class BlockEntityBreeder extends BlockEntityInventory
         setContainerDataValue(0, progress);
     }
 
+    public int getProgressValue()
+    {
+        int count = getItem(0).getCount() + getItem(1).getCount();
+        ChickenStats chickenStats1 = new ChickenStats(getItem(0));
+        ChickenStats chickenStats2 = new ChickenStats(getItem(1));
+
+        int progress = (chickenStats1.getGain() + chickenStats2.getGain()) + (count / 4);
+
+        if(progress > 50) progress = 50;
+        return progress;
+    }
+
     public ItemStack moveOutput(ItemStack stack)
     {
-        for (int i = 3; i < 5; i++)
+        for (int i = 3; i <= 5; i++)
         {
             if(getItem(i).isEmpty())
             {

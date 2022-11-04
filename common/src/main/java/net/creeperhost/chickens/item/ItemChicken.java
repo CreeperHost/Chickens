@@ -42,6 +42,15 @@ public class ItemChicken extends Item
             for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
             {
                 subItems.add(of(chicken));
+
+                //For testing
+                ItemStack stack = of(chicken);
+                ChickenStats chickenStats = new ChickenStats(stack);
+                chickenStats.setGain(10);
+                chickenStats.setGrowth(10);
+                chickenStats.setStrength(10);
+                chickenStats.write(stack);
+                subItems.add(stack);
             }
         }
     }
