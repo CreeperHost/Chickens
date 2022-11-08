@@ -20,7 +20,7 @@ public class SmartInventory extends ItemStackHandler
 
         ItemStack existing = this.stacks.get(slot);
 
-        if(!ItemStack.isSameItemSameTags(existing, stack)) return stack;
+        if(!existing.isEmpty() && !ItemStack.isSameItemSameTags(existing, stack)) return stack;
 
         int limit = getStackLimit(slot, stack);
 

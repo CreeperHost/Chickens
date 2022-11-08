@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - Chickens bounding box being the wrong height
 - Fluid eggs destroying blocks
+- More inventory fixes for Roost
 
 ## [1.0.25] - 2022.11.04
 ### Fixed

@@ -2,12 +2,10 @@ package net.creeperhost.chickens.util;
 
 import net.creeperhost.chickens.capability.SmartInventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 
 import static net.minecraftforge.items.ItemHandlerHelper.canItemStacksStackRelaxed;
-import static net.minecraftforge.items.ItemHandlerHelper.insertItem;
 
 public class InventoryHelper
 {
@@ -54,6 +52,24 @@ public class InventoryHelper
                         break;
                     }
                 }
+            }
+        }
+
+        return stack;
+    }
+
+    @Nonnull
+    public static ItemStack insertItem(SmartInventory dest, @Nonnull ItemStack stack, boolean simulate)
+    {
+        if (dest == null || stack.isEmpty())
+            return stack;
+
+        for (int i = 0; i < dest.getSlots(); i++)
+        {
+            stack = dest.insertItemInternal(i, stack, simulate);
+            if (stack.isEmpty())
+            {
+                return ItemStack.EMPTY;
             }
         }
 
