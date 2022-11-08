@@ -34,7 +34,7 @@ public class ModEntities
     {
         for (ChickensRegistryItem item : ChickensRegistry.getItems())
         {
-            EntityType<EntityChickensChicken> entityType = EntityType.Builder.of(EntityChickensChicken::new, MobCategory.CREATURE).sized(0.6F, 1.7F).clientTrackingRange(8).build(item.getEntityName());
+            EntityType<EntityChickensChicken> entityType = EntityType.Builder.of(EntityChickensChicken::new, MobCategory.CREATURE).sized(0.4F, 0.7F).clientTrackingRange(8).build(item.getEntityName());
             ENTITIES.register(item.getEntityName(), () -> entityType);
             if(item.canSpawn())
             {
