@@ -105,9 +105,13 @@ public class ItemLiquidEgg extends Item implements IColorSource
         ItemStack stack = useOnContext.getItemInHand();
         Level level = useOnContext.getLevel();
         Fluid fluid = getFluid(stack);
-        level.setBlock(clickedPos, fluid.defaultFluidState().createLegacyBlock(), 3);
-        useOnContext.getItemInHand().shrink(1);
-        return InteractionResult.SUCCESS;
+        if(level.getBlockState(clickedPos).isAir())
+        {
+            level.setBlock(clickedPos, fluid.defaultFluidState().createLegacyBlock(), 3);
+            useOnContext.getItemInHand().shrink(1);
+            return InteractionResult.SUCCESS;
+        }
+        return InteractionResult.FAIL;
     }
 
     public Fluid getFluid(ItemStack stack)
