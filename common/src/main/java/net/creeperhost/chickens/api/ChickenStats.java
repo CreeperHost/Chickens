@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.api;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 public class ChickenStats
@@ -24,10 +25,12 @@ public class ChickenStats
 
     public void write(ItemStack stack)
     {
-        stack.getOrCreateTag().putInt("gain", gain);
-        stack.getOrCreateTag().putInt("growth", growth);
-        stack.getOrCreateTag().putInt("strength", strength);
-        stack.getOrCreateTag().putInt("lifespan", lifespan);
+        CompoundTag tag =  new CompoundTag();
+        tag.putInt("gain", gain);
+        tag.putInt("growth", growth);
+        tag.putInt("strength", strength);
+        tag.putInt("lifespan", lifespan);
+        stack.getOrCreateTag().put("stats", tag);
     }
 
     public void read(ItemStack stack)
@@ -42,40 +45,13 @@ public class ChickenStats
         }
         else
         {
-            if (stack.getTag() != null)
+            if (stack.getTag() != null && stack.getTag().getCompound("stats") != null)
             {
-                if (stack.getTag().contains("gain"))
-                {
-                    gain = stack.getTag().getInt("gain");
-                }
-                else
-                {
-                    gain = 1;
-                }
-                if (stack.getTag().contains("growth"))
-                {
-                    growth = stack.getTag().getInt("growth");
-                }
-                else
-                {
-                    growth = 1;
-                }
-                if (stack.getTag().contains("strength"))
-                {
-                    strength = stack.getTag().getInt("strength");
-                }
-                else
-                {
-                    strength = 1;
-                }
-                if(stack.getTag().contains("lifespan"))
-                {
-                    lifespan = stack.getTag().getInt("lifespan");
-                }
-                else
-                {
-                    lifespan = 100;
-                }
+                CompoundTag tag = stack.getTag().getCompound("stats");
+                gain = tag.contains("gain") ? tag.getInt("gain") : 1;
+                growth = tag.contains("growth") ? tag.getInt("growth") : 1;
+                strength = tag.contains("strength") ? tag.getInt("strength") : 1;
+                lifespan = tag.contains("lifespan") ? tag.getInt("lifespan") : 100;
             }
         }
     }
