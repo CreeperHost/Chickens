@@ -94,7 +94,7 @@ public class ChickensJeiPlugin implements IModPlugin
         {
 
             ItemStack itemstack = ItemChicken.of(chicken);
-            result.add(new ChickenDropsCategory.Recipe(itemstack, chicken.createDropItem()));
+            result.add(new ChickenDropsCategory.Recipe(itemstack, chicken.createLayItem()));
         }
         return result;
     }

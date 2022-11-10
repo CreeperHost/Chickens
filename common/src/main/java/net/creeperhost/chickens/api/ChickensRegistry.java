@@ -99,20 +99,6 @@ public class ChickensRegistry
         return null;
     }
 
-    @Deprecated
-    public static List<ChickensRegistryItem> getPossibleChickensToSpawn(SpawnType spawnType)
-    {
-        List<ChickensRegistryItem> result = new ArrayList<ChickensRegistryItem>();
-        for (ChickensRegistryItem chicken : items.values())
-        {
-            if (chicken.canSpawn() && chicken.getSpawnType() == spawnType && chicken.isEnabled())
-            {
-                result.add(chicken);
-            }
-        }
-        return result;
-    }
-
     public static float getChildChance(ChickensRegistryItem child)
     {
         if (child.getTier() <= 1)
@@ -179,39 +165,5 @@ public class ChickensRegistry
         }
         maxChance += 1;
         return maxChance;
-    }
-
-    @Deprecated
-    public static boolean isAnyIn(SpawnType spawnType)
-    {
-        for (ChickensRegistryItem chicken : items.values())
-        {
-            if (chicken.canSpawn() && chicken.isEnabled() && chicken.getSpawnType() == spawnType)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Deprecated
-    @Nullable
-    public static ChickensRegistryItem getSmartChicken()
-    {
-        return items.get(SMART_CHICKEN_ID);
-    }
-
-    @Deprecated
-    public static Collection<ChickensRegistryItem> getDisabledItems()
-    {
-        List<ChickensRegistryItem> result = new ArrayList<ChickensRegistryItem>();
-        for (ChickensRegistryItem chicken : items.values())
-        {
-            if (!chicken.isEnabled())
-            {
-                result.add(chicken);
-            }
-        }
-        return result;
     }
 }

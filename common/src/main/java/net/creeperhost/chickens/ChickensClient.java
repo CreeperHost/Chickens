@@ -27,18 +27,7 @@ public class ChickensClient
         {
             if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
             {
-                if(itemColoredEgg.getType(itemStack).isDye())
-                {
-                    if(itemColoredEgg.getType(itemStack).getLayItemHolder().getItem() instanceof DyeItem dyeItem)
-                    {
-                        DyeColor dyeColor = dyeItem.getDyeColor();
-                        return dyeColor.getFireworkColor();
-                    }
-                }
-                else
-                {
-                    return itemColoredEgg.getType(itemStack).getBgColor();
-                }
+                return itemColoredEgg.getType(itemStack).getBgColor();
             }
             return 0;
         }, ModItems.CHICKEN_EGG);

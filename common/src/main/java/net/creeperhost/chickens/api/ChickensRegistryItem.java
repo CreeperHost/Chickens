@@ -11,43 +11,32 @@ public class ChickensRegistryItem
     public ResourceLocation registryName;
     public String entityName;
     public ItemHolder layItem;
-    public ItemHolder dropItem;
     public int bgColor;
-    public int fgColor;
     public ResourceLocation texture;
     public ChickensRegistryItem parent1;
     public ChickensRegistryItem parent2;
-    public SpawnType spawnType;
     public boolean isEnabled = true;
     public float layCoefficient = 1.0f;
 
-    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor, int fgColor)
+    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor)
     {
-        this(registryName, entityName, texture, layItem, bgColor, fgColor, null, null);
+        this(registryName, entityName, texture, layItem, bgColor, null, null);
     }
 
-    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor, int fgColor, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2)
+    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2)
     {
-        this(registryName, entityName, texture, new ItemHolder(layItem, false), bgColor, fgColor, parent1, parent2);
+        this(registryName, entityName, texture, new ItemHolder(layItem, false), bgColor, parent1, parent2);
     }
 
-    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemHolder layItem, int bgColor, int fgColor, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2)
+    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemHolder layItem, int bgColor, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2)
     {
         this.registryName = registryName;
         this.entityName = entityName;
         this.layItem = layItem;
         this.bgColor = bgColor;
-        this.fgColor = fgColor;
         this.texture = texture;
-        this.spawnType = SpawnType.NORMAL;
         this.parent1 = parent1;
         this.parent2 = parent2;
-    }
-
-
-    public ItemHolder getDropItemHolder()
-    {
-        return this.dropItem == null ? this.layItem : this.dropItem;
     }
 
     public ItemHolder getLayItemHolder()
@@ -55,22 +44,6 @@ public class ChickensRegistryItem
         return this.layItem;
     }
 
-    public ChickensRegistryItem setDropItem(ItemHolder itemHolder)
-    {
-        dropItem = itemHolder;
-        return this;
-    }
-
-    public ChickensRegistryItem setDropItem(ItemStack itemstack)
-    {
-        return setDropItem(new ItemHolder(itemstack, false));
-    }
-
-    public ChickensRegistryItem setSpawnType(SpawnType type)
-    {
-        spawnType = type;
-        return this;
-    }
 
     public ChickensRegistryItem setLayCoefficient(float coef)
     {
@@ -100,11 +73,6 @@ public class ChickensRegistryItem
         return bgColor;
     }
 
-    public int getFgColor()
-    {
-        return fgColor;
-    }
-
     public ResourceLocation getTexture()
     {
         return texture;
@@ -115,15 +83,6 @@ public class ChickensRegistryItem
         return layItem.getStack();
     }
 
-
-    public ItemStack createDropItem()
-    {
-        if (dropItem != null)
-        {
-            return dropItem.getStack();
-        }
-        return createLayItem();
-    }
 
     public int getTier()
     {
@@ -145,11 +104,6 @@ public class ChickensRegistryItem
         return layItem.getStack().is(CommonTags.DYE);
     }
 
-    public boolean canSpawn()
-    {
-        return getTier() == 1 && spawnType != SpawnType.NONE;
-    }
-
     public ResourceLocation getRegistryName()
     {
         return registryName;
@@ -163,16 +117,6 @@ public class ChickensRegistryItem
     public int getMaxLayTime()
     {
         return 2 * getMinLayTime();
-    }
-
-    public SpawnType getSpawnType()
-    {
-        return spawnType;
-    }
-
-    public boolean isImmuneToFire()
-    {
-        return spawnType == SpawnType.HELL;
     }
 
     public void setEnabled(boolean enabled)
@@ -190,7 +134,6 @@ public class ChickensRegistryItem
         layItem = itemHolder;
     }
 
-    @Deprecated
     public void setLayItem(ItemStack itemstack)
     {
         setLayItem(new ItemHolder(itemstack, false));

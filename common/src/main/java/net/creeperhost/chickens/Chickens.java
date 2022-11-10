@@ -45,9 +45,8 @@ public class Chickens
                     new ResourceLocation(chickenConfig.name),
                     new ResourceLocation(chickenConfig.name).getPath(),
                     texture,
-                    new ItemHolder(chickenConfig.layitem.getType(), chickenConfig.layitem.getId(), chickenConfig.layitem.getNbt()),
-                    0,
-                    0,
+                    new ItemHolder(chickenConfig.lay_item.getType(), chickenConfig.lay_item.getId(), chickenConfig.lay_item.getNbt()),
+                    chickenConfig.colour,
                     ChickensRegistry.getByResourceLocation(new ResourceLocation(chickenConfig.parent_1)),
                     ChickensRegistry.getByResourceLocation(new ResourceLocation(chickenConfig.parent_2))
             );

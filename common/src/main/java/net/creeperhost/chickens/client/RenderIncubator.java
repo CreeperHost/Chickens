@@ -17,6 +17,8 @@ public class RenderIncubator implements BlockEntityRenderer<BlockEntityIncubator
     @Override
     public void render(@NotNull BlockEntityIncubator blockEntity, float f, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i, int j)
     {
+        if(blockEntity.getLevel() == null) return;
+
         for (int i1 = 0; i1 < blockEntity.getContainerSize(); i1++)
         {
             if(blockEntity.getItem(i1).isEmpty()) continue;

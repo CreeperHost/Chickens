@@ -69,7 +69,7 @@ public class BlockEntityEggCracker extends BlockEntityInventory
             progress++;
             if(progress >= 100)
             {
-                ItemStack drop = itemChickenEgg.getType(getItem(0)).getDropItemHolder().getStack();
+                ItemStack drop = itemChickenEgg.getType(getItem(0)).getLayItemHolder().getStack();
                 if (!drop.isEmpty())
                 {
                     if (itemChickenEgg.isViable(getItem(0)))
@@ -85,7 +85,7 @@ public class BlockEntityEggCracker extends BlockEntityInventory
                 }
                 else
                 {
-                    Fluid fluid = itemChickenEgg.getType(getItem(0)).getDropItemHolder().getFluid();
+                    Fluid fluid = itemChickenEgg.getType(getItem(0)).getLayItemHolder().getFluid();
                     long amount = 1000;//itemChickenEgg.getType(getItem(0)).getDropItemHolder().getAmount();
                     if(fluid != Fluids.EMPTY)
                     {
