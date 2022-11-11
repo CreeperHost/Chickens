@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.compat.jei;
 
+import mezz.jei.api.constants.RecipeTypes;
 import net.creeperhost.chickens.ChickensMod;
 import net.creeperhost.chickens.data.ChickenStats;
 import net.creeperhost.chickens.init.ModItems;
@@ -14,6 +15,9 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +40,6 @@ public class ChickensJeiPlugin implements IModPlugin
     public void registerItemSubtypes(ISubtypeRegistration registration)
     {
         registration.registerSubtypeInterpreter(ModItems.CHICKEN_ITEM.get(), ChickenSubtypeInterpreter.INSTANCE);
-//        registration.useNbtForSubtypes(ModItems.SPAWN_EGG.get(), ModItems.COLOURED_EGG.get(), ModItems.LIQUID_EGG.get(), ModItems.CHICKEN_ITEM.get());
     }
 
     @SuppressWarnings("removal")
@@ -46,6 +49,21 @@ public class ChickensJeiPlugin implements IModPlugin
         registry.addRecipes(getBreedingRecipes(), ChickenBreedingCategory.UID);
         registry.addRecipes(getDropRecipes(), ChickenDropsCategory.UID);
         registry.addRecipes(getLayingRecipes(), ChickenLayingCategory.UID);
+
+        registry.addRecipes(getSmeltingRecipes(), RecipeTypes.SMELTING.getUid());
+    }
+
+    private List<SmeltingRecipe> getSmeltingRecipes()
+    {
+        List<SmeltingRecipe> result = new ArrayList<>();
+        for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
+        {
+            ItemStack itemstack = new ItemStack(ModItems.CHICKEN_ITEM.get(), 1);
+            ItemChicken.applyEntityIdToItemStack(itemstack, chicken.getRegistryName());
+
+            result.add(new SmeltingRecipe(chicken.getRegistryName(), "test", Ingredient.of(itemstack), new ItemStack(Items.COOKED_CHICKEN), 0.35F, 200));
+        }
+        return result;
     }
 
     private List<ChickenLayingCategory.Recipe> getLayingRecipes()

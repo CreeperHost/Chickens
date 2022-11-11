@@ -18,6 +18,8 @@ public class ChickenSubtypeInterpreter implements IIngredientSubtypeInterpreter<
 
         if(itemStack.getItem() instanceof ItemChicken)
         {
+            String name = ItemChicken.getTypeFromStack(itemStack);
+            if(name == null || name.isEmpty() || name.equalsIgnoreCase("null")) return IIngredientSubtypeInterpreter.NONE;
             return ItemChicken.getTypeFromStack(itemStack);
         }
 

@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.27] 2022.11.11
+### Added
+- Furnace recipe for cooking chicken items into cooked chicken
+- ItemTag for chicken items chickens:chickens
+### Fixed
+- issue allowing non-chicken items to enter slot 0 in the Roost
+
 ## [1.0.26]
 ### Fixed
 - Chickens bounding box being the wrong height

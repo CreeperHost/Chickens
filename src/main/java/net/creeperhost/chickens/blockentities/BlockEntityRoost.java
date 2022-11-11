@@ -4,6 +4,7 @@ import net.creeperhost.chickens.capability.SmartInventory;
 import net.creeperhost.chickens.containers.ContainerRoost;
 import net.creeperhost.chickens.data.ChickenStats;
 import net.creeperhost.chickens.init.ModBlocks;
+import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.registry.ChickensRegistry;
 import net.creeperhost.chickens.registry.ChickensRegistryItem;
@@ -57,9 +58,8 @@ public class BlockEntityRoost extends BlockEntity implements MenuProvider
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack)
         {
-            if(stack.getItem() instanceof ItemChicken && slot == 0) return true;
-            if(stack.getItem() instanceof ItemChicken && slot > 0) return false;
-            return super.isItemValid(slot, stack);
+            if(slot == 0) return stack.is(ModItems.CHICKEN_ITEM.get());
+            return false;
         }
 
         @NotNull
