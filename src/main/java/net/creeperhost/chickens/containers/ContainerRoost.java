@@ -15,6 +15,7 @@ import net.minecraft.world.inventory.Slot;
 public class ContainerRoost extends ContainerBase
 {
     ContainerData containerData;
+    BlockEntityRoost roost;
 
     public ContainerRoost(int id, Inventory playerInv, FriendlyByteBuf extraData)
     {
@@ -25,6 +26,7 @@ public class ContainerRoost extends ContainerBase
     {
         super(ModContainers.ROOST_CONTAINER.get(), id);
         this.containerData = containerData;
+        this.roost = blockEntityBreeder;
 
         addSlot(new SlotChicken(blockEntityBreeder.inventory, 0, 26, 20));
 
@@ -50,7 +52,7 @@ public class ContainerRoost extends ContainerBase
     @Override
     public boolean stillValid(Player player)
     {
-        return true;
+        return player.level.getBlockEntity(roost.getBlockPos()) != null;
     }
 
     public int getProgress()

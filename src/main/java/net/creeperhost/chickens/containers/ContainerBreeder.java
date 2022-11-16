@@ -16,6 +16,7 @@ import net.minecraft.world.inventory.Slot;
 public class ContainerBreeder extends ContainerBase
 {
     ContainerData containerData;
+    BlockEntityBreeder breeder;
 
     public ContainerBreeder(int id, Inventory playerInv, FriendlyByteBuf extraData)
     {
@@ -26,6 +27,7 @@ public class ContainerBreeder extends ContainerBase
     {
         super(ModContainers.BREEDER_CONTAINER.get(), id);
         this.containerData = containerData;
+        this.breeder = blockEntityBreeder;
 
         addSlot(new SlotChicken(blockEntityBreeder.inventory, 0, 44, 20));
         addSlot(new SlotChicken(blockEntityBreeder.inventory, 1, 62, 20));
@@ -54,7 +56,7 @@ public class ContainerBreeder extends ContainerBase
     @Override
     public boolean stillValid(Player player)
     {
-        return true;
+        return player.level.getBlockEntity(breeder.getBlockPos()) != null;
     }
 
     public int getProgress()

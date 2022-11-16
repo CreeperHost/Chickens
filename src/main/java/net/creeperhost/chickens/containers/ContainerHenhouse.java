@@ -74,7 +74,7 @@ public class ContainerHenhouse extends ContainerBase
     @Override
     public boolean stillValid(Player player)
     {
-        return true;
+        return player.level.getBlockEntity(tileEntityHenhouse.getBlockPos()) != null;
     }
 
     public int getEnergy()
