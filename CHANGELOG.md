@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.29] 2022.11.16
+### Fixed
+- Issue not allowing fluid eggs to place on replaceable blocks/fluids
+
 ## [1.0.28] 2022.11.16
 ### Fixed
 - Issue that could cause a crash with Roost render
