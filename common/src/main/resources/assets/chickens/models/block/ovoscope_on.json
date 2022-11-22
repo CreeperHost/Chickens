@@ -3,7 +3,7 @@
 	"parent": "minecraft:block/orientable",
 	"textures": {
 		"3": "chickens:blocks/lamp",
-		"4": "chickens:blocks/glass_gray",
+		"4": "chickens:blocks/glass_yellow",
 		"particle": "chickens:blocks/plain_face",
 		"down": "chickens:blocks/plain_face",
 		"east": "chickens:blocks/ovoscope_east",
@@ -91,11 +91,11 @@
 			"from": [4, 2, 4],
 			"to": [12, 3, 12],
 			"faces": {
-				"north": {"uv": [8, 0, 16, 1], "rotation": 180, "texture": "#3"},
-				"east": {"uv": [15, 0, 16, 8], "rotation": 90, "texture": "#3"},
-				"south": {"uv": [8, 7, 16, 8], "texture": "#3"},
-				"west": {"uv": [8, 0, 9, 8], "rotation": 270, "texture": "#3"},
-				"up": {"uv": [8, 0, 16, 8], "texture": "#3"},
+				"north": {"uv": [8, 8, 16, 9], "rotation": 180, "texture": "#3"},
+				"east": {"uv": [15, 8, 16, 16], "rotation": 90, "texture": "#3"},
+				"south": {"uv": [8, 15, 16, 16], "texture": "#3"},
+				"west": {"uv": [8, 8, 9, 16], "rotation": 270, "texture": "#3"},
+				"up": {"uv": [8, 8, 16, 16], "texture": "#3"},
 				"down": {"uv": [0, 0, 8, 8], "texture": "#missing"}
 			}
 		},

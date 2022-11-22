@@ -39,5 +39,6 @@ public class ChickensClient
 
         BlockEntityRendererRegistry.register(ModBlocks.INCUBATOR_TILE.get(), context -> new RenderIncubator());
         RenderTypeRegistry.register(RenderType.translucent(), ModBlocks.INCUBATOR.get());
+        RenderTypeRegistry.register(RenderType.translucent(), ModBlocks.OVOSCOPE.get());
     }
 }
