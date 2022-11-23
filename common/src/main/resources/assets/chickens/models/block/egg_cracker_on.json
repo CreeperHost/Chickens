@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"1": "chickens:blocks/egg_cracker_01",
+		"1": "chickens:blocks/egg_cracker_animation",
 		"2": "chickens:blocks/egg_cracker_02",
 		"particle": "chickens:blocks/egg_cracker_02"
 	},
