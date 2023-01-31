@@ -51,7 +51,7 @@
 <ZenScript>
   val chicken_egg_quartz = <item:chickens:spawn_egg>.withTag({ChickenType:{id:"chickens:quartz_chicken"},gain:1,growth:1,strength:1});
 
-  craftingTable.addShaped( "recipe.fix", chicken_egg_quartz,[
+  craftingTable.addShaped( "recipe.chicken_egg_quartz", chicken_egg_quartz,[
 			[<item:minecraft:quartz>, <item:minecraft:quartz>, <item:minecraft:quartz>],
 			[<item:minecraft:quartz>, <item:minecraft:egg>, <item:minecraft:quartz>],
 			[<item:minecraft:quartz>, <item:minecraft:quartz>, <item:minecraft:quartz>]
