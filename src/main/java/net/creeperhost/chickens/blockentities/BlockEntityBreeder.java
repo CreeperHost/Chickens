@@ -18,12 +18,12 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -31,17 +31,13 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -186,7 +182,7 @@ public class BlockEntityBreeder extends BlockEntity implements MenuProvider
         return stack;
     }
 
-    public void spawnParticle(Level worldIn, double posX, double posY, double posZ, Random rand)
+    public void spawnParticle(Level worldIn, double posX, double posY, double posZ, RandomSource rand)
     {
         for (int i = 0; i < 16; ++i)
         {
@@ -205,7 +201,7 @@ public class BlockEntityBreeder extends BlockEntity implements MenuProvider
         }
     }
 
-    private static ChickenStats increaseStats(ItemStack baby, ItemStack parent1, ItemStack parent2, Random rand)
+    private static ChickenStats increaseStats(ItemStack baby, ItemStack parent1, ItemStack parent2, RandomSource rand)
     {
         ChickenStats babyStats = new ChickenStats(baby);
         ChickenStats parent1Stats = new ChickenStats(parent1);
@@ -254,7 +250,7 @@ public class BlockEntityBreeder extends BlockEntity implements MenuProvider
         return null;
     }
 
-    private static int calculateNewStat(int thisStrength, int mateStrength, int stat1, int stat2, Random rand)
+    private static int calculateNewStat(int thisStrength, int mateStrength, int stat1, int stat2, RandomSource rand)
     {
         int mutation = rand.nextInt(2) + 1;
         int newStatValue = (stat1 * thisStrength + stat2 * mateStrength) / (thisStrength + mateStrength) + mutation;
@@ -312,7 +308,7 @@ public class BlockEntityBreeder extends BlockEntity implements MenuProvider
     @Override
     public @NotNull Component getDisplayName()
     {
-        return new TextComponent("chickens.container.breeder");
+        return Component.translatable("chickens.container.breeder");
     }
 
     @org.jetbrains.annotations.Nullable

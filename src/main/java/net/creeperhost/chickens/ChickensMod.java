@@ -1,6 +1,5 @@
 package net.creeperhost.chickens;
 
-import net.creeperhost.chickens.compat.top.TheOneProbePlugin;
 import net.creeperhost.chickens.config.ConfigHandler;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.registry.LiquidEggRegistry;
@@ -44,9 +43,9 @@ public class ChickensMod
         eventBus.addListener(this::clientInit);
         eventBus.addListener(this::commonInit);
 
-        if (ModList.get().isLoaded("theoneprobe")) {
-            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TheOneProbePlugin.GetTheOneProbe::new);
-        }
+//        if (ModList.get().isLoaded("theoneprobe")) {
+//            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TheOneProbePlugin.GetTheOneProbe::new);
+//        }
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -70,6 +69,13 @@ public class ChickensMod
             } catch (Exception ignored){}
             chickensRegistryItem.setLayItem(stack);
             chickensRegistryItem.setDropItem(stack);
+
+            ModEntities.CHICKENS.forEach((chickensRegistryItem2, entityTypeSupplier) -> {
+                if(chickensRegistryItem2.canSpawn())
+                {
+                    ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem2);
+                }
+            });
         }));
     }
 

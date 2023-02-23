@@ -3,9 +3,12 @@ package net.creeperhost.chickens.item;
 import net.creeperhost.chickens.data.ChickenStats;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.ModItems;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +31,7 @@ public class ItemChickenCatcher extends Item
         {
             Level level = livingEntity.getLevel();
             ItemStack chicken = new ItemStack(ModItems.CHICKEN_ITEM.get());
-            ItemChicken.applyEntityIdToItemStack(chicken, entityChickensChicken.getType().getRegistryName());
+            ItemChicken.applyEntityIdToItemStack(chicken, getRegistryName(entityChickensChicken.getType()));
             if(chicken.getTag() != null)
             {
                 chicken.getTag().putBoolean("baby", entityChickensChicken.isBaby());
@@ -44,5 +47,10 @@ public class ItemChickenCatcher extends Item
             return InteractionResult.PASS;
         }
         return InteractionResult.PASS;
+    }
+
+    public ResourceLocation getRegistryName(EntityType<?> entityType)
+    {
+        return Registry.ENTITY_TYPE.getKey(entityType);
     }
 }

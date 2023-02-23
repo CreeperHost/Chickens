@@ -38,21 +38,21 @@ public class ItemHolder
 
     public ItemHolder()
     {
-        itemID = Items.AIR.getRegistryName().toString();
+        itemID = getRegistryName(Items.AIR).toString();
         nbtData = null;
         stack = ItemStack.EMPTY;
     }
 
     public ItemHolder(Item itemIn)
     {
-        itemID = itemIn.getRegistryName().toString();
+        itemID = getRegistryName(itemIn).toString();
         nbtData = null;
         stack = ItemStack.EMPTY;
     }
 
     public ItemHolder(ItemStack stackIn, boolean isFinal)
     {
-        itemID = stackIn.getItem().getRegistryName().toString();
+        itemID = getRegistryName(stackIn.getItem()).toString();
         stack = stackIn;
         nbtData = stackIn.hasTag() ? stackIn.getTag() : null;
         stackSize = stackIn.getCount();
@@ -78,6 +78,11 @@ public class ItemHolder
             this.nbtData = null;
             e.printStackTrace();
         }
+    }
+
+    public ResourceLocation getRegistryName(Item item)
+    {
+        return Registry.ITEM.getKey(item);
     }
 
     public boolean hasSource()
@@ -156,7 +161,7 @@ public class ItemHolder
 
     public ItemHolder readJsonObject(JsonObject data) throws NumberFormatException
     {
-        itemID = data.has("itemID") ? data.get("itemID").getAsString() : Items.AIR.getRegistryName().toString();
+        itemID = data.has("itemID") ? data.get("itemID").getAsString() : getRegistryName(Items.AIR).toString();
         stackSize = data.has("qty") ? data.get("qty").getAsInt() : 1;
 
         nbtRawJson = data.has("nbt") ? data.get("nbt").getAsJsonObject() : null;

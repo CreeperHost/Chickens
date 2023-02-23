@@ -1,33 +1,26 @@
 package net.creeperhost.chickens.compat.jei;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import net.creeperhost.chickens.ChickensMod;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ChickenBreedingCategory implements IRecipeCategory<ChickenBreedingCategory.Recipe>
 {
-    public static final ResourceLocation UID = new ResourceLocation(ChickensMod.MODID, "chicken_breeding");
-    public static final Component TITLE = new TranslatableComponent("gui.breeding");
+    public static final Component TITLE = Component.literal("Chicken Breeding");
     IGuiHelper guiHelper;
 
     public ChickenBreedingCategory(IGuiHelper guiHelper)
@@ -53,20 +46,19 @@ public class ChickenBreedingCategory implements IRecipeCategory<ChickenBreedingC
         return guiHelper.createDrawable(new ResourceLocation(ChickensMod.MODID, "textures/gui/breeding_icon.png"), 0, 0, 16, 16);
     }
 
-    @SuppressWarnings("removal")
     @Override
-    public @NotNull ResourceLocation getUid()
+    public @NotNull RecipeType<Recipe> getRecipeType()
     {
-        return UID;
+        return ChickensRecipeTypes.BREEDING;
     }
 
-    @SuppressWarnings("removal")
     @Override
-    public @NotNull Class getRecipeClass()
+    public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull Recipe recipe, @NotNull IFocusGroup focuses)
     {
-        return Recipe.class;
+        builder.addSlot(RecipeIngredientRole.INPUT, 10, 15).addIngredients(Ingredient.of(recipe.parent1));
+        builder.addSlot(RecipeIngredientRole.INPUT, 53, 15).addIngredients(Ingredient.of(recipe.parent2));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 33, 30).addIngredients(Ingredient.of(recipe.child));
     }
-
     @Override
     public void draw(@NotNull Recipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull PoseStack stack, double mouseX, double mouseY)
     {
@@ -74,32 +66,6 @@ public class ChickenBreedingCategory implements IRecipeCategory<ChickenBreedingC
 
         IDrawableStatic arrowDrawable = guiHelper.createDrawable(new ResourceLocation(ChickensMod.MODID, "textures/gui/breeding.png"), 82, 0, 7, 7);
         guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.BOTTOM, false);
-        Minecraft.getInstance().font.draw(stack, recipe.chance + "%", 5F, 60F, 0);
-    }
-
-    @SuppressWarnings("removal")
-    @Override
-    public void setIngredients(Recipe recipe, IIngredients ingredients)
-    {
-        List<Ingredient> list = new ArrayList<>();
-        list.add(Ingredient.of(recipe.parent1));
-        list.add(Ingredient.of(recipe.parent2));
-        ingredients.setInputIngredients(list);
-
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.child);
-    }
-
-    @SuppressWarnings("removal")
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, @NotNull Recipe recipe, @NotNull IIngredients ingredients)
-    {
-        IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-
-        guiItemStacks.init(0, true, 10, 15);
-        guiItemStacks.init(1, true, 53, 15);
-        guiItemStacks.init(2, false, 33, 30);
-
-        guiItemStacks.set(ingredients);
     }
 
     public static class Recipe

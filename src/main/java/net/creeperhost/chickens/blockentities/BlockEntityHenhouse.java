@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -274,7 +273,7 @@ public class BlockEntityHenhouse extends BlockEntity implements MenuProvider
     @Override
     public @NotNull Component getDisplayName()
     {
-        return new TranslatableComponent("container.henhouse");
+        return Component.translatable("container.henhouse");
     }
 
     @org.jetbrains.annotations.Nullable

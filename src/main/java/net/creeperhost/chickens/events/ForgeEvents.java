@@ -8,13 +8,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -22,23 +20,10 @@ import net.minecraftforge.fml.common.Mod;
 public class ForgeEvents
 {
     @SubscribeEvent
-    public static void onBiomeLoading(BiomeLoadingEvent event)
-    {
-        ModEntities.SPAWNABLE_CHICKENS.forEach(entityType ->
-        {
-            try
-            {
-                event.getSpawns().addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(entityType, 10, 4, 4));
-            }
-            catch (Exception ignored){}
-        });
-    }
-
-    @SubscribeEvent
     public static void playerInteractEvent(PlayerInteractEvent.EntityInteract event)
     {
-        Player player = event.getPlayer();
-        Level level = event.getWorld();
+        Player player = event.getEntity();
+        Level level = event.getLevel();
         if(!player.getItemInHand(event.getHand()).isEmpty() && player.getItemInHand(event.getHand()).getItem() == Items.BOOK)
         {
             Entity entity = event.getTarget();

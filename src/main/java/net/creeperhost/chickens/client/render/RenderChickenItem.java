@@ -45,7 +45,7 @@ public class RenderChickenItem extends BlockEntityWithoutLevelRenderer implement
         if(s == null) return;
 
         EntityType<?> entityType = Registry.ENTITY_TYPE.get(new ResourceLocation(s));
-        if(entityType == null) return;
+        if(entityType == EntityType.PIG) return;
 
         Entity entity = entityType.create(level);
         if(!(entity instanceof EntityChickensChicken)) return;

@@ -5,7 +5,6 @@ import net.creeperhost.chickens.blockentities.BlockEntityRoost;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
@@ -62,7 +61,7 @@ public class BlockHenhouse extends BaseEntityBlock
     public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter blockGetter, List<Component> components, TooltipFlag tooltipFlag)
     {
         super.appendHoverText(itemStack, blockGetter, components, tooltipFlag);
-        components.add(new TranslatableComponent("block.chickens.henhouse.tooltip"));
+        components.add(Component.literal("block.chickens.henhouse.tooltip"));
     }
 
     @Nullable
@@ -96,7 +95,7 @@ public class BlockHenhouse extends BaseEntityBlock
     {
         if (!level.isClientSide)
         {
-            NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) level.getBlockEntity(blockPos), blockPos);
+            NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) level.getBlockEntity(blockPos), blockPos);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.SUCCESS;
