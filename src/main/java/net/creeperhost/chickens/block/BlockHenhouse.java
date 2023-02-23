@@ -61,7 +61,7 @@ public class BlockHenhouse extends BaseEntityBlock
     public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter blockGetter, List<Component> components, TooltipFlag tooltipFlag)
     {
         super.appendHoverText(itemStack, blockGetter, components, tooltipFlag);
-        components.add(Component.literal("block.chickens.henhouse.tooltip"));
+        components.add(Component.translatable("block.chickens.henhouse.tooltip"));
     }
 
     @Nullable
