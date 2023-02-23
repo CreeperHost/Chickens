@@ -68,12 +68,10 @@ public class ChickensMod
             chickensRegistryItem.setLayItem(stack);
             chickensRegistryItem.setDropItem(stack);
 
-            ModEntities.CHICKENS.forEach((chickensRegistryItem2, entityTypeSupplier) -> {
-                if(chickensRegistryItem2.canSpawn())
-                {
-                    ModEntities.registerSpawn(entityTypeSupplier, chickensRegistryItem2);
-                }
-            });
+            if(chickensRegistryItem.canSpawn())
+            {
+                ModEntities.registerSpawn(ModEntities.CHICKENS.get(chickensRegistryItem), chickensRegistryItem);
+            }
         }));
     }
 

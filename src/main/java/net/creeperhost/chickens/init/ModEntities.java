@@ -38,6 +38,7 @@ public class ModEntities
 
     public static void registerSpawn(Supplier<EntityType<EntityChickensChicken>> entityType, ChickensRegistryItem chickensRegistryItem)
     {
+        ChickensMod.LOGGER.info("Registering spawn for " + entityType.get().getDescriptionId());
         SpawnPlacements.register(entityType.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkAnimalSpawnRules);
     }
 
