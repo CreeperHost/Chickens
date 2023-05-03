@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -29,10 +30,10 @@ public class LiquidEggFluidWrapper implements IFluidHandler, IFluidHandlerItem, 
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability)
     {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        if (capability == ForgeCapabilities.FLUID_HANDLER_ITEM) {
             return LazyOptional.of(() -> this).cast();
         }
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY) {
+        if (capability == ForgeCapabilities.FLUID_HANDLER) {
             return LazyOptional.of(() -> this).cast();
         }
         return LazyOptional.empty();
