@@ -27,6 +27,7 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,18 +35,25 @@ import java.util.List;
 
 public class ItemLiquidEgg extends Item implements IColorSource
 {
-    LiquidEggRegistryItem liquidEggRegistryItem;
 
-    public ItemLiquidEgg(LiquidEggRegistryItem liquidEggRegistryItem)
+    public ItemLiquidEgg(Item.Properties properties)
     {
-        super(new Item.Properties().tab(ChickensCreativeTabs.CHICKENS_BLOCKS));
-        this.liquidEggRegistryItem = liquidEggRegistryItem;
+        super(properties);
     }
 
     @Override
     public int getColorFromItemStack(ItemStack stack, int renderPass)
     {
-        return IClientFluidTypeExtensions.of(liquidEggRegistryItem.getFluid()).getTintColor();
+        if (!stack.hasTag()) return 0;
+        String[] strings = stack.getTag().get("id").toString().replace("\"", "").split(":");
+
+        ResourceLocation resourceLocation = new ResourceLocation(strings[0], strings[1]);
+        Fluid fluid = Registry.FLUID.get(resourceLocation);
+        if (fluid != null)
+        {
+            return IClientFluidTypeExtensions.of(fluid).getTintColor();
+        }
+        return 0;
     }
 
     @Override
@@ -69,7 +77,20 @@ public class ItemLiquidEgg extends Item implements IColorSource
 
     public static ItemStack of(LiquidEggRegistryItem liquidEggRegistryItem)
     {
-        return new ItemStack(ModItems.FLUID_EGGS.get(liquidEggRegistryItem).get());
+        ItemStack stack = new ItemStack(ModItems.LIQUID_EGG.get());
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("id", ForgeRegistries.FLUIDS.getKey(liquidEggRegistryItem.getFluid()).toString());
+        stack.setTag(compoundTag);
+        return stack;
+    }
+
+    public static ItemStack of(FluidStack fluidStack)
+    {
+        ItemStack stack = new ItemStack(ModItems.LIQUID_EGG.get());
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("id", ForgeRegistries.FLUIDS.getKey(fluidStack.getFluid()).toString());
+        stack.setTag(compoundTag);
+        return stack;
     }
 
     @Override

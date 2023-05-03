@@ -23,14 +23,8 @@ public class ModItems
 
     public static final RegistryObject<Item> SPAWN_EGG = ITEMS.register("spawn_egg", () -> new ItemSpawnEgg(new Item.Properties().tab(ChickensCreativeTabs.CHICKENS_SPAWN_EGGS)));
     public static final RegistryObject<Item> COLOURED_EGG = ITEMS.register("colored_egg", () -> new ItemColoredEgg(new Item.Properties().tab(ChickensCreativeTabs.CHICKENS_BLOCKS)));
-    public static final Map<LiquidEggRegistryItem, Supplier<Item>> FLUID_EGGS = Util.make(new LinkedHashMap<>(), map ->
-    {
-        for (LiquidEggRegistryItem value : LiquidEggRegistry.getAll())
-        {
-            String name = Registry.FLUID.getKey(value.getFluid()).getPath();
-            map.put(value, ITEMS.register(name + "_fluid_egg", () -> new ItemLiquidEgg(value)));
-        }
-    });
+    public static final RegistryObject<Item> LIQUID_EGG = ITEMS.register("liquid_egg", () -> new ItemLiquidEgg(new Item.Properties().tab(ChickensCreativeTabs.CHICKENS_BLOCKS)));
+
 
     public static final RegistryObject<Item> ANALYZER = ITEMS.register("analyzer", () -> new ItemAnalyzer(new Item.Properties().tab(ChickensCreativeTabs.CHICKENS_BLOCKS).stacksTo(1)));
     public static final RegistryObject<Item> CHICKEN_ITEM = ITEMS.register("chicken_item", () -> new ItemChicken(new Item.Properties().tab(ChickensCreativeTabs.CHICKENS_TAB).stacksTo(16)));

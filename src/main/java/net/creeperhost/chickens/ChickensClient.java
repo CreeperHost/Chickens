@@ -5,8 +5,6 @@ import net.creeperhost.chickens.client.render.RenderRoost;
 import net.creeperhost.chickens.handler.ItemColorHandler;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
-import net.creeperhost.chickens.registry.LiquidEggRegistry;
-import net.creeperhost.chickens.registry.LiquidEggRegistryItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -21,18 +19,7 @@ public class ChickensClient
     {
         ItemProperties.register(ModItems.CHICKEN_ITEM.get(), new ResourceLocation(ChickensMod.MODID, ""), RenderChickenItem.getInstance());
 
-        Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), ModItems.SPAWN_EGG.get(), ModItems.COLOURED_EGG.get());
-        for (LiquidEggRegistryItem liquidEggRegistryItem : LiquidEggRegistry.getAll())
-        {
-            try
-            {
-                if(ModItems.FLUID_EGGS.get(liquidEggRegistryItem) != null)
-                    Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), ModItems.FLUID_EGGS.get(liquidEggRegistryItem).get());
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
+        Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), ModItems.SPAWN_EGG.get(), ModItems.COLOURED_EGG.get(), ModItems.LIQUID_EGG.get());
         BlockEntityRenderers.register(ModBlocks.ROOST_TILE.get(), p_173571_ -> new RenderRoost());
     }
 }
