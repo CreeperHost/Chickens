@@ -150,6 +150,10 @@ public class BlockEntityBreeder extends BlockEntity implements MenuProvider
                     inventory.getStackInSlot(2).shrink(1);
                     progress = 0;
                 }
+                else
+                {
+                    level.setBlock(getBlockPos(), level.getBlockState(getBlockPos()).setValue(BlockBreeder.HAS_SEEDS, false).setValue(BlockBreeder.IS_BREEDING, true), 4);
+                }
             }
         }
         else
