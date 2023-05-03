@@ -45,12 +45,11 @@ public class ModEntities
 
     public static boolean checkAnimalSpawnRules(EntityType<? extends Entity> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource random)
     {
-        boolean overworld = worldIn.getBiome(pos).is(BiomeTags.IS_OVERWORLD);
-        if(overworld)
+        boolean nether = worldIn.dimensionType().piglinSafe();
+        if(nether)
         {
-            return worldIn.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) && worldIn.getRawBrightness(pos, 0) > 8;
+            return !worldIn.getBlockState(pos.below()).is(Blocks.NETHER_WART_BLOCK);
         }
-        System.out.println(pos);
-        return true;
+        return worldIn.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) && worldIn.getRawBrightness(pos, 0) > 8;
     }
 }
