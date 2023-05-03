@@ -1,0 +1,61 @@
+@To make a custom chicken:
+
+# You need a chicken factory, this can be imported directly from ZenScript.
+# After a import, use a function createChicken to make a custom chicken
+# Model: ChickenFactory.createChicken(String name, CTColor color, IItemStack item);
+# Example: Bedrock Chicken
+<ZenScript>
+  import mods.contenttweaker.ChickenFactory;
+  import mods.contenttweaker.Color;
+
+  val chickenRepresentation = ChickenFactory.createChicken("bedrocked_chicken", Color.fromInt(0xffffff), <item:minecraft:bedrock>);
+
+  chickenRepresentation.setForegroundColor(Color.fromInt(0xabcdef));
+  chickenRepresentation.register();
+</ZenScript>
+# Now you can use a Bedrock chicken
+
+
+@Use a custom chicken
+# You can config a chicken custom using a mods.contenttweaker.Chicken
+# To config it you need create a object chicken and alter your parameters
+# Exists two methods to alter this: chicken.name = newValue or chicken.setName(newValue)
+# Parameters that you can modify: (name -> Type)
+# name -> String
+# layItem -> ItemStack
+# dropItem -> ItemStack
+# backgroundColor -> CTColor
+# foregroundColor -> CTColor
+# textureLocation -> CTResourceLocation
+# spawnType -> String
+# layCoefficient -> float
+# parentOne -> CTResourceLocation
+# parentTwo -> CTResourceLocation
+
+<ZenScript>
+  chickenRep.layItem = <minecraft:iron_ingot>;
+  print(chickenRep.layItem.displayName);
+  chickenRep.setLayItem(<minecraft:gold_ingot>);
+  print(chickenRep.getLayItem().displayName);
+</ZenScript>
+
+
+@To make a custom chicken recipe it is possible to use addShaped as in the example below:
+
+# Add a recipe for a chicken egg quartz
+# Model: craftingTable.addShaped(recipeName, output, ingredients, recipeFunction); 
+# recipeName is a String
+# output is a ItemStack
+# ingredients is a Ingredient[][]
+# recipeFunction is a optional RecipeFunctionMatrix
+<ZenScript>
+  val chicken_egg_quartz = <item:chickens:spawn_egg>.withTag({ChickenType:{id:"chickens:quartz_chicken"},gain:1,growth:1,strength:1});
+
+  craftingTable.addShaped( "recipe.chicken_egg_quartz", chicken_egg_quartz,[
+			[<item:minecraft:quartz>, <item:minecraft:quartz>, <item:minecraft:quartz>],
+			[<item:minecraft:quartz>, <item:minecraft:egg>, <item:minecraft:quartz>],
+			[<item:minecraft:quartz>, <item:minecraft:quartz>, <item:minecraft:quartz>]
+  ]);
+</ZenScript>
+# Quartz chicken egg now it's craftable
+
