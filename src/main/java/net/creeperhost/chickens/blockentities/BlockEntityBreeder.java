@@ -4,14 +4,12 @@ import net.creeperhost.chickens.block.BlockBreeder;
 import net.creeperhost.chickens.capability.SmartInventory;
 import net.creeperhost.chickens.containers.ContainerBreeder;
 import net.creeperhost.chickens.data.ChickenStats;
-import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemSpawnEgg;
 import net.creeperhost.chickens.registry.ChickensRegistry;
 import net.creeperhost.chickens.registry.ChickensRegistryItem;
-import net.creeperhost.chickens.util.InventoryHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -36,8 +34,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -286,7 +284,7 @@ public class BlockEntityBreeder extends BlockEntity implements MenuProvider
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, final @Nullable Direction side)
     {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        if (cap == ForgeCapabilities.ITEM_HANDLER)
         {
             return LazyOptional.of(() -> inventory).cast();
         }
