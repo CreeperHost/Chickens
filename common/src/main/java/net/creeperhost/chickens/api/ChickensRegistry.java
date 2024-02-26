@@ -2,8 +2,8 @@ package net.creeperhost.chickens.api;
 
 import net.creeperhost.chickens.Chickens;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class ChickensRegistry

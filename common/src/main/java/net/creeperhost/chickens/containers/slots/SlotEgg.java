@@ -6,6 +6,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated
 public class SlotEgg extends SlotInput
 {
     int stackSize;

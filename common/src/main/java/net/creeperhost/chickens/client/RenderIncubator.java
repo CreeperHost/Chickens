@@ -2,7 +2,7 @@ package net.creeperhost.chickens.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-import net.creeperhost.chickens.blockentities.BlockEntityIncubator;
+import net.creeperhost.chickens.blockentities.IncubatorBlockEntity;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.minecraft.client.Minecraft;
@@ -12,18 +12,18 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class RenderIncubator implements BlockEntityRenderer<BlockEntityIncubator>
+public class RenderIncubator implements BlockEntityRenderer<IncubatorBlockEntity>
 {
     @Override
-    public void render(@NotNull BlockEntityIncubator blockEntity, float f, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i, int j)
+    public void render(@NotNull IncubatorBlockEntity blockEntity, float f, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i, int j)
     {
         if(blockEntity.getLevel() == null) return;
 
-        for (int i1 = 0; i1 < blockEntity.getContainerSize(); i1++)
+        for (int i1 = 0; i1 < blockEntity.getContainer().getContainerSize(); i1++)
         {
-            if(blockEntity.getItem(i1).isEmpty()) continue;
+            if(blockEntity.getContainer().getItem(i1).isEmpty()) continue;
 
-            ItemStack stack = blockEntity.getItem(i1);
+            ItemStack stack = blockEntity.getContainer().getItem(i1);
             if(stack.getItem() instanceof ItemChickenEgg || stack.getItem() instanceof ItemChicken)
             {
                 poseStack.pushPose();

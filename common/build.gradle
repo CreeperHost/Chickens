@@ -1,11 +1,3 @@
-architectury {
-    common(rootProject.enabled_platforms.split(","))
-}
-
-loom {
-    accessWidenerPath = file("src/main/resources/chickens.accesswidener")
-}
-
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
@@ -16,6 +8,22 @@ dependencies {
 
     modApi("mezz.jei:jei-${project.minecraft_version}-common:${project.jei_version}")
     modApi("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
+}
+
+architectury {
+    common(rootProject.enabled_platforms.split(","))
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/chickens.accesswidener")
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir "src/generated/resources"
+        }
+    }
 }
 
 publishing {

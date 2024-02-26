@@ -7,29 +7,28 @@ license = "Insert License Here"
 modId = "chickens"
 version = "${version}"
 displayName = "Chickens"
-authors = "Me!"
+authors = "CreeperHost"
 description = '''
-This is an example description! Tell everyone what your mod is about!
 '''
 #logoFile = ""
 
-[[dependencies.examplemod]]
+[[dependencies.chickens]]
 modId = "forge"
 mandatory = true
-versionRange = "[41,)"
+versionRange = "[43,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.examplemod]]
+[[dependencies.chickens]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19,)"
+versionRange = "[1.19.2,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.examplemod]]
+[[dependencies.chickens]]
 modId = "architectury"
 mandatory = true
-versionRange = "[5.7.28,)"
+versionRange = "[6.4.62,)"
 ordering = "AFTER"
 side = "BOTH"

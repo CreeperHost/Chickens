@@ -97,7 +97,7 @@ public class ItemChickenEgg extends Item
         if(stack.getItem() instanceof ItemChickenEgg)
         {
             int value = stack.getOrCreateTag().getInt("missed");
-            stack.getOrCreateTag().putInt("missed", ++value);
+            stack.getOrCreateTag().putInt("missed", value + 1);
         }
     }
 

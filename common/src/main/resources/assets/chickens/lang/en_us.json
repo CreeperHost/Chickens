@@ -111,5 +111,17 @@
   "screen.shift.tooltip" : "Hold <Shift> for stats",
 
   "advancement.hard_boiled.title" : "Hard Boiled",
-  "advancement.hard_boiled.desc" : "Make an egg no longer viable for hatching"
+  "advancement.hard_boiled.desc" : "Make an egg no longer viable for hatching",
+
+  "gui.chickens.incubator.water_slot" : "Add water to tank.",
+  "gui.chickens.incubator.heat" : "Heat:",
+  "gui.chickens.incubator.increase_heat" : "Increase heat setting",
+  "gui.chickens.incubator.decrease_heat" : "Decrease heat setting",
+  "gui.chickens.incubator.temperature.info" : "Incubator Temperature",
+  "gui.chickens.incubator.temperature.temp" : " %sc",
+  "gui.chickens.incubator.temperature.hot" : "Too Hot!",
+  "gui.chickens.incubator.temperature.cold" : "Too Cold!",
+  "gui.chickens.incubator.hygrometer.info" : "Incubator Humidity",
+  "gui.chickens.incubator.hygrometer.value" : " %s%%",
+  "gui.chickens.incubator.hygrometer.dry" : "Too Dry!, Water tank is empty!"
 }

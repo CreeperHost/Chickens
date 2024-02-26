@@ -125,7 +125,7 @@ public class EntityChickensChicken extends Chicken
     @Override
     protected float getSoundVolume()
     {
-        return 5.0F;
+        return 1.0F;
     }
 
     @Override

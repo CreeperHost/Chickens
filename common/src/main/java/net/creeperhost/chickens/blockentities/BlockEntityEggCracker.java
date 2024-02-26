@@ -6,7 +6,6 @@ import net.creeperhost.chickens.containers.slots.SlotEgg;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.chickens.network.PacketHandler;
-import net.creeperhost.chickens.network.packets.PacketFluidSync;
 import net.creeperhost.polylib.blockentity.BlockEntityInventory;
 import net.creeperhost.polylib.containers.slots.SlotOutput;
 import net.creeperhost.polylib.inventory.PolyFluidInventory;
@@ -147,7 +146,7 @@ public class BlockEntityEggCracker extends BlockEntityInventory
         if(level == null) return;
         if(level.isClientSide) return;
 
-        ((ServerChunkCache) level.getChunkSource()).chunkMap.getPlayers(new ChunkPos(this.getBlockPos()), false).
-                forEach(serverPlayer -> PacketHandler.HANDLER.sendToPlayer(serverPlayer, new PacketFluidSync(getBlockPos(), fluidTank.getFluidStack())));
+//        ((ServerChunkCache) level.getChunkSource()).chunkMap.getPlayers(new ChunkPos(this.getBlockPos()), false).
+//                forEach(serverPlayer -> PacketHandler.HANDLER.sendToPlayer(serverPlayer, new PacketFluidSync(getBlockPos(), fluidTank.getFluidStack())));
     }
 }

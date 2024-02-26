@@ -3,7 +3,6 @@ package net.creeperhost.chickens.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.creeperhost.chickens.Chickens;
-import net.creeperhost.chickens.Constants;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.init.ModChickens;
 import org.apache.commons.io.IOUtils;
@@ -20,6 +19,7 @@ public class Config
 {
     public static Config INSTANCE;
 
+    public boolean enableEnergy = true;
     public List<ChickenConfig> chickens = new ArrayList<>();
 
     public Config()
@@ -34,9 +34,9 @@ public class Config
     {
         try
         {
-            if(!Constants.CHICKENS_CONFIG_DIR.exists())
+            if(!Chickens.CHICKENS_CONFIG_DIR.exists())
             {
-                Constants.CHICKENS_CONFIG_DIR.mkdir();
+                Chickens.CHICKENS_CONFIG_DIR.mkdir();
                 Chickens.LOGGER.info("Chickens config folder does not exist, creating...");
             }
             if (!file.exists())
