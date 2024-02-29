@@ -4,6 +4,7 @@ import net.creeperhost.chickens.blockentities.IncubatorBlockEntity;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
 import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.IncubatorMenu;
+import net.creeperhost.polylib.blocks.RedstoneActivatedBlock;
 import net.creeperhost.polylib.client.modulargui.ModularGui;
 import net.creeperhost.polylib.client.modulargui.ModularGuiContainer;
 import net.creeperhost.polylib.client.modulargui.elements.*;
@@ -13,14 +14,17 @@ import net.creeperhost.polylib.client.modulargui.lib.container.ContainerGuiProvi
 import net.creeperhost.polylib.client.modulargui.lib.container.ContainerScreenAccess;
 import net.creeperhost.polylib.client.modulargui.lib.geometry.Align;
 import net.creeperhost.polylib.client.modulargui.lib.geometry.Constraint;
+import net.creeperhost.polylib.client.modulargui.lib.geometry.GuiParent;
 import net.creeperhost.polylib.client.modulargui.sprite.PolyTextures;
 import net.creeperhost.polylib.helpers.MathUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static net.creeperhost.polylib.client.modulargui.lib.geometry.Constraint.*;
 import static net.creeperhost.polylib.client.modulargui.lib.geometry.GeoParam.*;
@@ -106,7 +110,7 @@ public class IncubatorGui extends ContainerGuiProvider<IncubatorMenu> {
                     .constrain(TOP, relative(thermometer.get(TOP), -3))
                     .constrain(BOTTOM, relative(energySlot.get(TOP), -2))
                     .constrain(LEFT, relative(energySlot.get(LEFT), 0))
-                    .constrain(RIGHT,  relative(energySlot.get(RIGHT), 0));
+                    .constrain(RIGHT, relative(energySlot.get(RIGHT), 0));
             energyBar.primary
                     .setCapacity(tile.energy::getMaxEnergyStored)
                     .setEnergy(menu.energy::get);
@@ -130,7 +134,7 @@ public class IncubatorGui extends ContainerGuiProvider<IncubatorMenu> {
                 .autoHeight();
         heatLabel.constrain(TOP, midPoint(eggsBorder.get(TOP), eggsBorder.get(BOTTOM), heatLabel.ySize() / -2));
 
-        GuiButton.vanillaAnimated(root, Component.literal("\u2191 \u2191"))
+        GuiButton incButton = GuiButton.vanillaAnimated(root, Component.literal("\u2191 \u2191"))
                 .setDisabled(() -> menu.heatSetting.get() >= 15)
                 .onPress(() -> tile.sendDataValueToServer(tile.heatSetting, menu.heatSetting.get() + 1))
                 .setTooltip(Component.translatable("gui.chickens.incubator.increase_heat"))
@@ -139,7 +143,7 @@ public class IncubatorGui extends ContainerGuiProvider<IncubatorMenu> {
                 .constrain(RIGHT, relative(tank.container.get(LEFT), -5))
                 .constrain(HEIGHT, literal(14));
 
-        GuiButton.vanillaAnimated(root, Component.literal("\u2193 \u2193"))
+        GuiButton decButton = GuiButton.vanillaAnimated(root, Component.literal("\u2193 \u2193"))
                 .setDisabled(() -> menu.heatSetting.get() <= 0)
                 .onPress(() -> tile.sendDataValueToServer(tile.heatSetting, menu.heatSetting.get() - 1))
                 .setTooltip(Component.translatable("gui.chickens.incubator.decrease_heat"))
@@ -147,6 +151,9 @@ public class IncubatorGui extends ContainerGuiProvider<IncubatorMenu> {
                 .constrain(LEFT, relative(eggsBorder.get(RIGHT), 5))
                 .constrain(RIGHT, relative(tank.container.get(LEFT), -5))
                 .constrain(HEIGHT, literal(14));
+
+        GuiButton rsButton = GuiButton.redstoneButton(root, tile);
+        Constraints.placeOutside(rsButton, title, Constraints.LayoutPos.MIDDLE_RIGHT, 2, 1);
 
     }
 

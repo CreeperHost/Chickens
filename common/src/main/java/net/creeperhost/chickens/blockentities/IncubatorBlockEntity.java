@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.blockentities;
 
 import dev.architectury.fluid.FluidStack;
+import net.creeperhost.chickens.ChickensPlatform;
 import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.IncubatorMenu;
@@ -8,6 +9,7 @@ import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.polylib.blocks.PolyBlockEntity;
+import net.creeperhost.polylib.blocks.RedstoneActivatedBlock;
 import net.creeperhost.polylib.data.serializable.BooleanData;
 import net.creeperhost.polylib.data.serializable.FloatData;
 import net.creeperhost.polylib.data.serializable.IntData;
@@ -19,6 +21,7 @@ import net.creeperhost.polylib.inventory.item.SimpleItemInventory;
 import net.creeperhost.polylib.inventory.power.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
@@ -26,17 +29,16 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
-public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBlock, ItemInventoryBlock, MenuProvider, PolyEnergyBlock {
+public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBlock, ItemInventoryBlock, MenuProvider, PolyEnergyBlock, RedstoneActivatedBlock {
     public static int HEAT_INCREMENT = 4; //TODO Does this need to be moved to a place like Constants?
-    public static int DEFAULT_TEMP = 10; //TODO Should we tie this to the current biome / time of day?
     public static int TEMP_MAX = 40;
     public static int TEMP_MIN = 35;
     public static int MIN_HUMIDITY = 50;
-    public static int DEFAULT_HUMIDITY = 20; //TODO Should we tie this to the current biome / time of day?
 
     public final PolyTank tank = new PolyTank(FluidManager.BUCKET * 16L, e -> e.getFluid().isSame(Fluids.WATER), this::setChanged);
     public final SimpleItemInventory inventory = new SimpleItemInventory(this, 11)
@@ -47,10 +49,9 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
 
     public final PolyEnergyStorage energy = new PolyBlockEnergyStorage(this, 128000);
 
-    public final IntData temperature = register("temperature", new IntData(DEFAULT_TEMP), SAVE_BOTH);
-    public final FloatData humidity = register("humidity", new FloatData(DEFAULT_HUMIDITY), SAVE_BOTH);
+    public final IntData temperature = register("temperature", new IntData(10), SAVE_BOTH);
+    public final FloatData humidity = register("humidity", new FloatData(20), SAVE_BOTH);
     public final IntData heatSetting = (IntData) register("heat_setting", new IntData(0), SAVE_BOTH, CLIENT_CONTROL).setValidator(e -> e >= 0 && e <= 15);
-    public final BooleanData active = register("active", new BooleanData(false), SAVE, SYNC);
 
     public IncubatorBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(ModBlocks.INCUBATOR_TILE.get(), blockPos, blockState);
@@ -66,8 +67,12 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
         //Logic update occurs every 20 ticks
         if (!onInterval(20)) return;
 
-        updateHeat();
-        updateHumidity();
+        Holder<Biome> biome = level.getBiome(getBlockPos());
+        int localTemperature = ChickensPlatform.getBiomeTemperature(biome);
+        int localHumidity = ChickensPlatform.getBiomeHumidity(biome);
+
+        updateHeat(localTemperature);
+        updateHumidity(localTemperature, localHumidity);
         updateIncubation();
     }
 
@@ -85,16 +90,20 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
         }
     }
 
-    private void updateHeat() {
-        int targetHeat = heatSetting.get() * HEAT_INCREMENT;
-        int energy = Math.max(temperature.get() - DEFAULT_TEMP, 0) * 10;
-        if (isTileEnabled() && consumeEnergy(energy)) {
+    private void updateHeat(int localTemperature) {
+        int targetHeat = localTemperature + (heatSetting.get() * HEAT_INCREMENT);
+        int energy = Math.max(temperature.get() - localTemperature, 0) * 10;
+
+        if (localTemperature > temperature.get()) {
+            temperature.inc();
+        }
+        else if (isTileEnabled() && consumeEnergy(energy)) {
             if (temperature.get() < targetHeat) {
                 temperature.inc();
-            } else if (temperature.get() > targetHeat && temperature.get() > DEFAULT_TEMP) {
+            } else if (temperature.get() > targetHeat && temperature.get() > localTemperature) {
                 temperature.dec();
             }
-        } else if (temperature.get() > DEFAULT_TEMP) {
+        } else if (temperature.get() > localTemperature) {
             temperature.dec();
         }
     }
@@ -104,15 +113,20 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
         return energy.extractEnergy(amount, false) == amount;
     }
 
-    private void updateHumidity() {
+    private void updateHumidity(int localTemperature, int localHumidity) {
         //Humidity Drain based on temperature
-        float rate = ((temperature.get() - DEFAULT_TEMP) / 10F) * (humidity.get() / 100F);
+        float rate = ((temperature.get() - localTemperature) / 10F) * (humidity.get() / 100F);
         if (rate > 0) {
             humidity.subtract(rate);
+            //Humidity will never go lower than the local value.
+            humidity.set(Math.max(humidity.get(), localHumidity));
             if (humidity.get() < 0) humidity.set(0F);
-        } else if (humidity.get() < DEFAULT_HUMIDITY) {
+        } else if (humidity.get() < localHumidity) {
             humidity.inc();
+        } else if (humidity.get() > localHumidity) {
+            humidity.dec();
         }
+
 
         //For simplicity, lets just say the incubator contains 1 cubic meter of air.
         //1 cubic meter of air at sea level weighs = 1.3kg.
@@ -121,7 +135,7 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
         //That means 1mb of water results in a humidity increase of 2.5%
         //This is loosely based on a psychrometric chart.
 
-        if (humidity.get() >= MIN_HUMIDITY || tank.isEmpty()) return;
+        if (humidity.get() >= MIN_HUMIDITY || tank.isEmpty() || !isTileEnabled()) return;
         float needed = MIN_HUMIDITY - humidity.get();
         float needWater = needed / 2.5F; //Convert that to water
         int minExtract = (int) Math.ceil(needWater); //Round that up to the nearest int value

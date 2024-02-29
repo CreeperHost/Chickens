@@ -54,13 +54,6 @@ public class IncubatorBlock extends PolyEntityBlock {
     }
 
     @Override
-    public void neighborChanged(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Block block, @NotNull BlockPos blockPos2, boolean bl) {
-        if (!level.isClientSide && level.getBlockEntity(blockPos) instanceof IncubatorBlockEntity incubator) {
-            incubator.active.set(level.hasNeighborSignal(blockPos));
-        }
-    }
-
-    @Override
     public boolean skipRendering(BlockState blockState, BlockState blockState2, Direction direction) {
         return true;
     }

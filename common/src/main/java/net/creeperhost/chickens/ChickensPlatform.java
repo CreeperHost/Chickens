@@ -2,11 +2,13 @@ package net.creeperhost.chickens;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 
 import java.nio.file.Path;
 
-public class ChickensExpectPlatform
+public class ChickensPlatform
 {
     /**
      * We can use {@link Platform#getConfigFolder()} but this is just an example of {@link ExpectPlatform}.
@@ -31,6 +33,16 @@ public class ChickensExpectPlatform
     @ExpectPlatform
     public static Item createNewChickenItem(Item.Properties properties)
     {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getBiomeTemperature(Holder<Biome> biome) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getBiomeHumidity(Holder<Biome> biome) {
         throw new AssertionError();
     }
 }
