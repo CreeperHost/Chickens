@@ -123,5 +123,7 @@
   "gui.chickens.incubator.temperature.cold" : "Too Cold!",
   "gui.chickens.incubator.hygrometer.info" : "Incubator Humidity",
   "gui.chickens.incubator.hygrometer.value" : " %s%%",
-  "gui.chickens.incubator.hygrometer.dry" : "Too Dry!, Water tank is empty!"
+  "gui.chickens.incubator.hygrometer.dry" : "Too Dry!, Water tank is empty!",
+
+  "gui.chickens.cracker.fluid_slot" : "Drain Fluid"
 }

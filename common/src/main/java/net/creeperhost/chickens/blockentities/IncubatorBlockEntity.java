@@ -10,7 +10,6 @@ import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.polylib.blocks.PolyBlockEntity;
 import net.creeperhost.polylib.blocks.RedstoneActivatedBlock;
-import net.creeperhost.polylib.data.serializable.BooleanData;
 import net.creeperhost.polylib.data.serializable.FloatData;
 import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.helpers.MathUtil;
@@ -40,7 +39,7 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
     public static int TEMP_MIN = 35;
     public static int MIN_HUMIDITY = 50;
 
-    public final PolyTank tank = new PolyTank(FluidManager.BUCKET * 16L, e -> e.getFluid().isSame(Fluids.WATER), this::setChanged);
+    public final PolyTank tank = new PolyBlockTank(this, FluidManager.BUCKET * 16L, e -> e.getFluid().isSame(Fluids.WATER));
     public final SimpleItemInventory inventory = new SimpleItemInventory(this, 11)
             .setMaxStackSize(1)
             .setSlotValidator(9, stack -> FluidManager.isFluidItem(stack) && FluidManager.getHandler(stack).getFluidInTank(0).getFluid() == Fluids.WATER)
@@ -207,6 +206,20 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
     }
 
     @Override
+    public void writeExtraData(CompoundTag nbt) {
+        nbt.put("fluid_tank", tank.serialize(new CompoundTag()));
+        inventory.serialize(nbt);
+        energy.serialize(nbt);
+    }
+
+    @Override
+    public void readExtraData(CompoundTag nbt) {
+        tank.deserialize(nbt.getCompound("fluid_tank"));
+        inventory.deserialize(nbt);
+        energy.deserialize(nbt);
+    }
+
+    @Override
     public @Nullable PolyFluidHandler getFluidHandler(@Nullable Direction direction) {
         return tank;
     }
@@ -219,20 +232,6 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
     @Override
     public IPolyEnergyStorage getEnergyStorage(Direction side) {
         return Config.INSTANCE.enableEnergy ? energy : null;
-    }
-
-    @Override
-    public void writeExtraData(CompoundTag nbt) {
-        nbt.put("fluid_tank", tank.serialize(new CompoundTag()));
-        inventory.serialize(nbt);
-        energy.serialize(nbt);
-    }
-
-    @Override
-    public void readExtraData(CompoundTag nbt) {
-        tank.deserialize(nbt.getCompound("fluid_tank"));
-        inventory.deserialize(nbt);
-        energy.deserialize(nbt);
     }
 
     @Nullable

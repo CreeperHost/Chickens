@@ -1,7 +1,10 @@
 package net.creeperhost.chickens.forge;
 
 import net.creeperhost.chickens.Chickens;
+import net.creeperhost.chickens.client.screen.BreederGui;
+import net.creeperhost.chickens.client.screen.EggCrackerGui;
 import net.creeperhost.chickens.client.screen.IncubatorGui;
+import net.creeperhost.chickens.client.screen.OvoscopeGui;
 import net.creeperhost.polylib.PolyLib;
 import net.creeperhost.polylib.forge.datagen.providers.DynamicTextureProvider;
 import net.minecraft.data.DataGenerator;
@@ -25,6 +28,9 @@ public class DataGenEventHandler {
             gen.addProvider(true, textureProvider);
 
             textureProvider.addDynamicTexture(new ResourceLocation(PolyLib.MOD_ID, "textures/gui/dynamic/gui_vanilla"), new ResourceLocation(Chickens.MOD_ID, "textures/gui/incubator"), IncubatorGui.GUI_WIDTH, IncubatorGui.GUI_HEIGHT, 4, 4, 4, 4);
+            textureProvider.addDynamicTexture(new ResourceLocation(PolyLib.MOD_ID, "textures/gui/dynamic/gui_vanilla"), new ResourceLocation(Chickens.MOD_ID, "textures/gui/breeder"), BreederGui.GUI_WIDTH, BreederGui.GUI_HEIGHT, 4, 4, 4, 4);
+            textureProvider.addDynamicTexture(new ResourceLocation(PolyLib.MOD_ID, "textures/gui/dynamic/gui_vanilla"), new ResourceLocation(Chickens.MOD_ID, "textures/gui/egg_cracker"), EggCrackerGui.GUI_WIDTH, EggCrackerGui.GUI_HEIGHT, 4, 4, 4, 4);
+            textureProvider.addDynamicTexture(new ResourceLocation(PolyLib.MOD_ID, "textures/gui/dynamic/gui_vanilla"), new ResourceLocation(Chickens.MOD_ID, "textures/gui/ovoscope"), OvoscopeGui.GUI_WIDTH, OvoscopeGui.GUI_HEIGHT, 4, 4, 4, 4);
         }
     }
 }

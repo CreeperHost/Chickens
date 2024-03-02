@@ -1,0 +1,254 @@
+package net.creeperhost.chickens.blockentities;
+
+import net.creeperhost.chickens.containers.BreederMenu;
+import net.creeperhost.chickens.init.ModBlocks;
+import net.creeperhost.chickens.init.ModItems;
+import net.creeperhost.chickens.polylib.CommonTags;
+import net.creeperhost.polylib.blocks.PolyBlockEntity;
+import net.creeperhost.polylib.inventory.item.ItemInventoryBlock;
+import net.creeperhost.polylib.inventory.item.SerializableContainer;
+import net.creeperhost.polylib.inventory.item.SimpleItemInventory;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
+
+public class BreederBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider
+{
+    public final SimpleItemInventory inventory = new SimpleItemInventory(this, 6)
+            .setMaxStackSize(1)
+            .setSlotValidator(0, e -> e.is(CommonTags.SEEDS))
+            .setSlotValidator(1, e -> e.is(ModItems.CHICKEN_ITEM.get()))
+            .setSlotValidator(2, e -> e.is(ModItems.CHICKEN_ITEM.get()));
+
+    public BreederBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlocks.BREEDER_TILE.get(), pos, state);
+    }
+
+    @Override
+    public SerializableContainer getContainer(@Nullable Direction side) {
+        return inventory;
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return new BreederMenu(i, inventory, this);
+    }
+
+    //    public int progress = 0;
+//
+//    public BlockEntityBreeder(BlockPos blockPos, BlockState blockState)
+//    {
+//        super(ModBlocks.BREEDER_TILE.get(), blockPos, blockState);
+//        setInventory(new PolyItemInventory(6));
+//        getInventoryOptional().ifPresent(polyItemInventory ->
+//        {
+//            addSlot(new SlotInputFiltered(polyItemInventory, 0, 44, 20, new ItemStack(ModItems.CHICKEN_ITEM.get())));
+//            addSlot(new SlotInputFiltered(polyItemInventory, 1, 62, 20, new ItemStack(ModItems.CHICKEN_ITEM.get())));
+//            addSlot(new SlotInputFilteredTag(polyItemInventory, 2, 8, 20, CommonTags.SEEDS));
+//
+//            for (int i = 0; i < 3; ++i)
+//            {
+//                addSlot(new SlotOutput(polyItemInventory, i + 3, 116 + i * 18, 20));
+//            }
+//        });
+//        setContainerDataSize(1);
+//    }
+//
+//    public void updateBlockState(Level level, BlockPos blockPos, boolean canWork)
+//    {
+//        BlockState current = level.getBlockState(blockPos);
+//        if(current != null)
+//        {
+//            boolean hasSeeds = !getItem(0).isEmpty();
+//            level.setBlock(blockPos, current.setValue(BlockBreeder.HAS_SEEDS, hasSeeds).setValue(BlockBreeder.IS_BREEDING, canWork), 3);
+//        }
+//    }
+//
+//    public void tick()
+//    {
+//        boolean canWork = (getItem(0).getItem() instanceof ItemChicken && (getItem(1).getItem() instanceof ItemChicken) && (getItem(2).is(CommonTags.SEEDS)));
+//        if(level == null) return;
+//        if(level.isClientSide) return;
+//        updateBlockState(level, getBlockPos(), canWork);
+//        if(canWork)
+//        {
+//            if (progress <= 1000)
+//            {
+//                progress += getProgressValue();
+//            } else
+//            {
+//                ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(0)));
+//                ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(getItem(1)));
+//
+//                ChickensRegistryItem baby = ChickensRegistry.getRandomChild(chickensRegistryItem1, chickensRegistryItem2);
+//                if(baby == null)
+//                {
+//                    progress = 0;
+//                    return;
+//                }
+//                ItemStack chickenStack = ItemChickenEgg.of(baby);
+//
+//                ChickenStats babyStats = increaseStats(chickenStack, getItem(0), getItem(1), level.random);
+//                babyStats.write(chickenStack);
+//
+//                ChickenStats chickenStats = new ChickenStats(getItem(0));
+//                int count = Math.max(1, ((1 + chickenStats.getGain()) / 3));
+//
+//                chickenStack.setCount(count);
+//                ItemStack inserted = moveOutput(chickenStack);
+//                if(inserted.isEmpty())
+//                {
+//                    int random = level.getRandom().nextInt(1, 5);
+//                    if(random >= 4)
+//                    {
+//                        damageChicken(0);
+//                        damageChicken(1);
+//                    }
+//                    level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
+//                    spawnParticle(level, getBlockPos().getX(), getBlockPos().getY() + 1, getBlockPos().getZ(), level.random);
+//                    getItem(2).shrink(1);
+//                    progress = 0;
+//                }
+//            }
+//        }
+//        else
+//        {
+//            progress = 0;
+//        }
+//        setContainerDataValue(0, progress);
+//    }
+//
+//    public int getProgressValue()
+//    {
+//        int count = getItem(0).getCount() + getItem(1).getCount();
+//        ChickenStats chickenStats1 = new ChickenStats(getItem(0));
+//        ChickenStats chickenStats2 = new ChickenStats(getItem(1));
+//
+//        int progress = (chickenStats1.getGain() + chickenStats2.getGain()) + (count / 4);
+//
+//        if(progress > 50) progress = 50;
+//        return progress;
+//    }
+//
+//    public ItemStack moveOutput(ItemStack stack)
+//    {
+//        for (int i = 3; i <= 5; i++)
+//        {
+//            if(getItem(i).isEmpty())
+//            {
+//                setItem(i, stack);
+//                return ItemStack.EMPTY;
+//            }
+//            else
+//            {
+//                if(ItemStack.isSameItemSameTags(stack, getItem(i)))
+//                {
+//                    int count = getItem(i).getCount();
+//                    int max = 16;
+//                    if(count < max)
+//                    {
+//                        int newCount = count + 1;
+//                        stack.setCount(newCount);
+//                        setItem(i, stack);
+//                        return ItemStack.EMPTY;
+//                    }
+//                }
+//            }
+//        }
+//        return stack;
+//    }
+//
+//    public void damageChicken(int slot)
+//    {
+//        if(!getItem(slot).isEmpty() && getItem(slot).getItem() instanceof ItemChicken)
+//        {
+//            ItemStack copy = getItem(slot).copy();
+//
+//            ChickenStats chickenStats = new ChickenStats(copy);
+//            int life = chickenStats.getLifespan() - 1;
+//            if(life > 0)
+//            {
+//                chickenStats.setLifespan(life);
+//                chickenStats.write(copy);
+//                setItem(slot, copy);
+//            }
+//            else
+//            {
+//                setItem(slot, ItemStack.EMPTY);
+//            }
+//        }
+//    }
+//
+//    public void spawnParticle(Level worldIn, double posX, double posY, double posZ, RandomSource rand)
+//    {
+//        for (int i = 0; i < 16; ++i)
+//        {
+//            int j = rand.nextInt(2) * 2 - 1;
+//            int k = rand.nextInt(2) * 2 - 1;
+//            double d0 = posX + 0.5D + 0.25D * (double) j;
+//            double d1 = ((float) posY + rand.nextFloat());
+//            double d2 = posZ + 0.5D + 0.25D * (double) k;
+//            double d3 = (rand.nextFloat() * (float) j);
+//            double d4 = (rand.nextFloat() - 0.5D) * 0.125D;
+//            double d5 = (rand.nextFloat() * (float) k);
+//            if (worldIn instanceof ServerLevel serverLevel)
+//            {
+//                serverLevel.addParticle(ParticleTypes.HEART, d0, d1, d2, d3, d4, d5);
+//            }
+//        }
+//    }
+//
+//    private static ChickenStats increaseStats(ItemStack baby, ItemStack parent1, ItemStack parent2, RandomSource rand)
+//    {
+//        ChickenStats babyStats = new ChickenStats(baby);
+//        ChickenStats parent1Stats = new ChickenStats(parent1);
+//        ChickenStats parent2Stats = new ChickenStats(parent2);
+//
+//        babyStats.setGrowth(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getGrowth(), parent2Stats.getGrowth(), rand));
+//        babyStats.setGain(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getGain(), parent2Stats.getGain(), rand));
+//        babyStats.setStrength(calculateNewStat(parent1Stats.getStrength(), parent2Stats.getStrength(), parent1Stats.getStrength(), parent2Stats.getStrength(), rand));
+//
+//        return babyStats;
+//    }
+//
+//    private static int calculateNewStat(int thisStrength, int mateStrength, int stat1, int stat2, RandomSource rand)
+//    {
+//        int mutation = rand.nextInt(2) + 1;
+//        int newStatValue = (stat1 * thisStrength + stat2 * mateStrength) / (thisStrength + mateStrength) + mutation;
+//        if (newStatValue <= 1) return 1;
+//        if (newStatValue >= 10) return 10;
+//        return newStatValue;
+//    }
+//
+//    @Override
+//    protected Component getDefaultName()
+//    {
+//        return Component.literal("Breeder");
+//    }
+//
+//    @Override
+//    protected AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory)
+//    {
+//        return new ContainerBreeder(i, inventory, this, getContainerData());
+//    }
+//
+//    @Override
+//    protected void saveAdditional(@NotNull CompoundTag compoundTag)
+//    {
+//        super.saveAdditional(compoundTag);
+//        compoundTag.putInt("progress", progress);
+//    }
+//
+//    @Override
+//    public void load(@NotNull CompoundTag compoundTag)
+//    {
+//        super.load(compoundTag);
+//        progress = compoundTag.getInt("progress");
+//    }
+}

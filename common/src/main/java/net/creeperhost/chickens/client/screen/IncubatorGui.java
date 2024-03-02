@@ -4,7 +4,6 @@ import net.creeperhost.chickens.blockentities.IncubatorBlockEntity;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
 import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.IncubatorMenu;
-import net.creeperhost.polylib.blocks.RedstoneActivatedBlock;
 import net.creeperhost.polylib.client.modulargui.ModularGui;
 import net.creeperhost.polylib.client.modulargui.ModularGuiContainer;
 import net.creeperhost.polylib.client.modulargui.elements.*;
@@ -14,17 +13,14 @@ import net.creeperhost.polylib.client.modulargui.lib.container.ContainerGuiProvi
 import net.creeperhost.polylib.client.modulargui.lib.container.ContainerScreenAccess;
 import net.creeperhost.polylib.client.modulargui.lib.geometry.Align;
 import net.creeperhost.polylib.client.modulargui.lib.geometry.Constraint;
-import net.creeperhost.polylib.client.modulargui.lib.geometry.GuiParent;
 import net.creeperhost.polylib.client.modulargui.sprite.PolyTextures;
 import net.creeperhost.polylib.helpers.MathUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static net.creeperhost.polylib.client.modulargui.lib.geometry.Constraint.*;
 import static net.creeperhost.polylib.client.modulargui.lib.geometry.GeoParam.*;

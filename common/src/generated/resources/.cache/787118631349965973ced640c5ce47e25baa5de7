@@ -1,2 +1,5 @@
-// 1.19.2	2024-02-26T15:21:19.489150112	dynamic-textures:chickens
+// 1.19.2	2024-03-02T12:30:02.514545267	dynamic-textures:chickens
+f12e7265f0da8b2f4d4b1239fbd78ddbaa588734 assets/chickens/textures/gui/breeder.png
+c28dc887abc6dd149d0b657f9f90453ebc04ea2a assets/chickens/textures/gui/egg_cracker.png
 1808ef3f2599bf29af8b2d5f4a8d07630d3ce1e0 assets/chickens/textures/gui/incubator.png
+f09847061a7860158d477dfda28826dcf8c041ef assets/chickens/textures/gui/ovoscope.png

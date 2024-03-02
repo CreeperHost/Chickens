@@ -1,7 +1,6 @@
 package net.creeperhost.chickens.block;
 
 import dev.architectury.registry.menu.MenuRegistry;
-import net.creeperhost.chickens.blockentities.IncubatorBlockEntity;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.polylib.blocks.PolyEntityBlock;
 import net.minecraft.core.BlockPos;

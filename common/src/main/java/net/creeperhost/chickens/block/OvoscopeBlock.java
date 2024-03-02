@@ -1,7 +1,8 @@
 package net.creeperhost.chickens.block;
 
 import dev.architectury.registry.menu.MenuRegistry;
-import net.creeperhost.chickens.blockentities.BlockEntityOvoscope;
+import net.creeperhost.chickens.init.ModBlocks;
+import net.creeperhost.polylib.blocks.PolyEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,31 +15,25 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class BlockOvoscope extends BlockBase
-{
+public class OvoscopeBlock extends PolyEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public BlockOvoscope()
-    {
+    public OvoscopeBlock() {
         super(Properties.of(Material.METAL).strength(2.0F));
         this.registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH));
+        this.setBlockEntity(ModBlocks.OVOSCOPE_TILE::get, true);
     }
 
     @Override
-    public InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult)
-    {
-        if (!level.isClientSide)
-        {
+    public InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
+        if (!level.isClientSide) {
             BlockEntity blockEntity = level.getBlockEntity(blockPos);
             MenuRegistry.openExtendedMenu((ServerPlayer) player, (MenuProvider) blockEntity, packetBuffer -> packetBuffer.writeBlockPos(blockEntity.getBlockPos()));
             return InteractionResult.SUCCESS;
@@ -46,34 +41,13 @@ public class BlockOvoscope extends BlockBase
         return InteractionResult.SUCCESS;
     }
 
-    @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type)
-    {
-        return (level1, blockPos, blockState, t) ->
-        {
-            if (t instanceof BlockEntityOvoscope ovoscope)
-            {
-                ovoscope.tick();
-            }
-        };
-    }
-
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context)
-    {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
-    {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
-    }
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState)
-    {
-        return new BlockEntityOvoscope(blockPos, blockState);
     }
 }
