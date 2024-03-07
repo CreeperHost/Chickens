@@ -66,9 +66,10 @@ public class ItemHolder
         this.type = type;
         this.itemID = itemID;
         this.nbtData = null;
+        this.stackSize = qty;
     }
 
-    public ItemHolder(String type, String itemID, String nbt)
+    public ItemHolder(String type, String itemID, String nbt, int qty)
     {
         this.type = type;
         this.itemID = itemID;
@@ -80,6 +81,7 @@ public class ItemHolder
             this.nbtData = null;
             e.printStackTrace();
         }
+        this.stackSize = qty;
     }
 
     public ResourceLocation getRegistryName(Item item)
@@ -214,6 +216,6 @@ public class ItemHolder
 
     public ItemHolderData toData()
     {
-        return new ItemHolderData(type, itemID, nbtData == null ? "" : nbtData.toString());
+        return new ItemHolderData(type, itemID, nbtData == null ? "" : nbtData.toString(), stackSize);
     }
 }

@@ -1,10 +1,15 @@
 package net.creeperhost.chickens.blockentities;
 
+import dev.architectury.fluid.FluidStack;
+import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.EggCrackerMenu;
-import net.creeperhost.chickens.containers.IncubatorMenu;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.polylib.blocks.PolyBlockEntity;
+import net.creeperhost.polylib.blocks.RedstoneActivatedBlock;
+import net.creeperhost.polylib.data.serializable.IntData;
+import net.creeperhost.polylib.helpers.ContainerUtil;
 import net.creeperhost.polylib.inventory.fluid.*;
 import net.creeperhost.polylib.inventory.item.ItemInventoryBlock;
 import net.creeperhost.polylib.inventory.item.SerializableContainer;
@@ -12,25 +17,114 @@ import net.creeperhost.polylib.inventory.item.SimpleItemInventory;
 import net.creeperhost.polylib.inventory.power.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
-public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider, PolyFluidBlock, PolyEnergyBlock
-{
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Predicate;
+
+public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider, PolyFluidBlock, PolyEnergyBlock, RedstoneActivatedBlock {
+    public static final int MAX_PROGRESS = 100;
+    public static final int ENERGY_RATE = 20; //RF/t
+
     public final PolyTank tank = new PolyBlockTank(this, FluidManager.BUCKET * 16L);
     public final PolyEnergyStorage energy = new PolyBlockEnergyStorage(this, 128000);
-    public final SimpleItemInventory inventory = new SimpleItemInventory(this, 12)
-            .setMaxStackSize(1)
+    public final SimpleItemInventory inventory = new SimpleItemInventory(this, 9)
             .setSlotValidator(0, stack -> stack.getItem() instanceof ItemChickenEgg)
-            .setSlotValidator(10, FluidManager::isFluidItem)
-            .setSlotValidator(11, stack -> EnergyManager.isEnergyItem(stack) && EnergyManager.getHandler(stack).canExtract());
+            .setSlotValidator(7, FluidManager::isFluidItem)
+            .setSlotValidator(8, stack -> EnergyManager.isEnergyItem(stack) && EnergyManager.getHandler(stack).canExtract());
+
+    public final IntData progress = register("temperature", new IntData(10), SAVE_BOTH);
 
     public EggCrackerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.EGG_CRACKER_TILE.get(), pos, state);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (level.isClientSide()) return;
+
+        //Update Energy
+        if (Config.INSTANCE.enableEnergy) {
+            EnergyManager.transferEnergy(inventory.getItem(8), energy);
+        }
+
+        //Update Fluid Slot
+        ItemStack fluidItem = inventory.getItem(7);
+        PolyFluidHandlerItem itemFluidHandler = FluidManager.getHandler(fluidItem);
+        if (!FluidManager.transferFluid(tank, itemFluidHandler).isEmpty()) {
+            inventory.setItem(7, itemFluidHandler.getContainer());
+        }
+
+        //Can Run?
+        ItemStack input = inventory.getItem(0);
+        if (!(input.getItem() instanceof ItemChickenEgg eggItem)) {
+            progress.set(0);
+            return;
+        }
+
+        //Update Progress
+        if (progress.get() < MAX_PROGRESS) {
+            if (consumeEnergy() && isTileEnabled()) {
+                progress.inc();
+            }
+            return;
+        }
+
+        ChickensRegistryItem type = eggItem.getType(input);
+        ItemStack drop = type.getLayItemHolder().getStack();
+        if (!drop.isEmpty()) {
+            if (eggItem.isViable(input)) {
+                int remaining = ContainerUtil.insertStack(drop, inventory, true);
+                if (remaining == 0) {
+                    ContainerUtil.insertStack(drop, inventory);
+                    input.shrink(1);
+                    progress.set(0);
+                }
+            } else {
+                input.shrink(1);
+                progress.set(0);
+            }
+        } else {
+            Fluid fluid = type.getLayItemHolder().getFluid();
+            int amount = type.getLayItemHolder().getAmount();
+            FluidStack fluidStack = FluidStack.create(fluid, amount);
+            if (fluidStack.isEmpty()) return;
+
+            if (tank.isEmpty() || tank.fill(fluidStack, true) == fluidStack.getAmount()) {
+                tank.fill(fluidStack, false);
+                input.shrink(1);
+                progress.set(0);
+            }
+        }
+    }
+
+    private boolean consumeEnergy() {
+        return !Config.INSTANCE.enableEnergy || energy.extractEnergy(ENERGY_RATE, false) == ENERGY_RATE;
+    }
+
+    @Override
+    public void writeExtraData(CompoundTag nbt) {
+        nbt.put("fluid_tank", tank.serialize(new CompoundTag()));
+        inventory.serialize(nbt);
+        energy.serialize(nbt);
+    }
+
+    @Override
+    public void readExtraData(CompoundTag nbt) {
+        tank.deserialize(nbt.getCompound("fluid_tank"));
+        inventory.deserialize(nbt);
+        energy.deserialize(nbt);
     }
 
     @Override
@@ -53,139 +147,4 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
         return new EggCrackerMenu(i, inventory, this);
     }
-
-
-
-
-    //        @Override
-//    protected AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory)
-//    {
-//        sync();
-//        return new ContainerEggCracker(i, inventory, this, getContainerData());
-//    }
-
-    //    public BlockEntityEggCracker(BlockPos blockPos, BlockState blockState)
-//    {
-//        super(ModBlocks.EGG_CRACKER_TILE.get(), blockPos, blockState);
-//        setInventory(new PolyItemInventory(10));
-//        getInventoryOptional().ifPresent(polyItemInventory ->
-//        {
-//            this.addSlot(new SlotEgg(polyItemInventory, 0, 26, 34, 64));
-//
-//            int i = 0;
-//            for (int l = 0; l < 3; ++l)
-//            {
-//                for (int k = 0; k < 3; ++k)
-//                {
-//                    i++;
-//                    this.addSlot(new SlotOutput(polyItemInventory, i, 91 + k * 18, l * 18 + 17));
-//                }
-//            }
-//        });
-//        setContainerDataSize(1);
-//    }
-//
-//    public final PolyFluidInventory fluidTank = new PolyFluidInventory(16000)
-//    {
-//        @Override
-//        public void setChanged()
-//        {
-//            super.setChanged();
-//            BlockEntityEggCracker.this.setChanged();
-//            sync();
-//        }
-//    };
-//
-//    int progress = 0;
-//
-//    public void tick()
-//    {
-//        if(level == null) return;
-//        if(level.isClientSide) return;
-//        if(!getItem(0).isEmpty() && getItem(0).getItem() instanceof ItemChickenEgg itemChickenEgg)
-//        {
-//            progress++;
-//            if(progress >= 100)
-//            {
-//                ItemStack drop = itemChickenEgg.getType(getItem(0)).getLayItemHolder().getStack();
-//                if (!drop.isEmpty())
-//                {
-//                    if (itemChickenEgg.isViable(getItem(0)))
-//                    {
-//                        ItemStack stack = getInventoryOptional().get().addItem(drop);
-//                        if (stack.isEmpty()) getItem(0).shrink(1);
-//                    }
-//                    else
-//                    {
-//                        getItem(0).shrink(1);
-//                    }
-//                    progress = 0;
-//                }
-//                else
-//                {
-//                    Fluid fluid = itemChickenEgg.getType(getItem(0)).getLayItemHolder().getFluid();
-//                    long amount = 1000;//itemChickenEgg.getType(getItem(0)).getDropItemHolder().getAmount();
-//                    if(fluid != Fluids.EMPTY)
-//                    {
-//                        if(fluidTank.getFluidStack().isEmpty())
-//                        {
-//                            fluidTank.setFluidStack(FluidStack.create(fluid, amount));
-//                            getItem(0).shrink(1);
-//                            progress = 0;
-//                        }
-//                        else if(fluidTank.getFluidStack().getFluid() == fluid)
-//                        {
-//                            long stored = fluidTank.getFluidStack().getAmount();
-//                            long freeSpace = fluidTank.getCapacity() - stored;
-//                            if(freeSpace > amount)
-//                            {
-//                                long newValue = stored + amount;
-//                                fluidTank.setFluidStack(FluidStack.create(fluid, newValue));
-//                                getItem(0).shrink(1);
-//                                progress = 0;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        if(getItem(0).isEmpty() && progress > 0) progress = 0;
-//        setContainerDataValue(0, progress);
-//    }
-//
-//    @Override
-//    protected void saveAdditional(@NotNull CompoundTag compoundTag)
-//    {
-//        super.saveAdditional(compoundTag);
-//        compoundTag.merge(fluidTank.serializeNBT());
-//    }
-//
-//    @Override
-//    public void load(@NotNull CompoundTag compoundTag)
-//    {
-//        super.load(compoundTag);
-//        fluidTank.deserializeNBT(compoundTag);
-//    }
-//
-//    @Override
-//    protected Component getDefaultName()
-//    {
-//        return Component.literal("Egg Cracker");
-//    }
-//
-//    @Override
-//    protected AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory)
-//    {
-//        sync();
-//        return new ContainerEggCracker(i, inventory, this, getContainerData());
-//    }
-//
-//    public void sync()
-//    {
-//        if(level == null) return;
-//        if(level.isClientSide) return;
-//
-////        ((ServerChunkCache) level.getChunkSource()).chunkMap.getPlayers(new ChunkPos(this.getBlockPos()), false).
-////                forEach(serverPlayer -> PacketHandler.HANDLER.sendToPlayer(serverPlayer, new PacketFluidSync(getBlockPos(), fluidTank.getFluidStack())));
-//    }
 }

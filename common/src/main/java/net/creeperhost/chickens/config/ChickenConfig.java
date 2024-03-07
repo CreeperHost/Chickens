@@ -31,7 +31,7 @@ public class ChickenConfig
                 chickensRegistryItem.bgColor,
                 chickensRegistryItem.isEnabled(),
                 chickensRegistryItem.layCoefficient,
-                chickensRegistryItem.layItem != null ? chickensRegistryItem.layItem.toData() : new ItemHolderData("", "", ""),
+                chickensRegistryItem.layItem != null ? chickensRegistryItem.layItem.toData() : new ItemHolderData("", "", "", 0),
                 chickensRegistryItem.getParent1() != null ? chickensRegistryItem.getParent1().registryName.toString() : "",
                 chickensRegistryItem.getParent2() != null ? chickensRegistryItem.getParent2().registryName.toString() : ""
         );
