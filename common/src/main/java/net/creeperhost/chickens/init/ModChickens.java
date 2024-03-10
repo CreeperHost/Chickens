@@ -6,6 +6,7 @@ import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.api.SpawnType;
 import net.creeperhost.chickens.polylib.ItemHolder;
+import net.creeperhost.polylib.inventory.fluid.FluidManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
@@ -100,10 +101,10 @@ public class ModChickens
         ChickensRegistryItem snowballChicken = new ChickensRegistryItem(new ResourceLocation(Chickens.MOD_ID, "snowball_chicken"), "snowball_chicken", new ResourceLocation("chickens", "textures/entity/snowball_chicken.png"), new ItemStack(Items.SNOWBALL), 0x33bbff, blueChicken, logChicken);
         chickens.add(snowballChicken);
 
-        ChickensRegistryItem waterChicken = new ChickensRegistryItem(new ResourceLocation(Chickens.MOD_ID, "water_chicken"), "water_chicken", new ResourceLocation("chickens", "textures/entity/water_chicken.png"), new ItemHolder("fluid", "minecraft:water", 1000), 0x000099, gunpowderChicken, snowballChicken);
+        ChickensRegistryItem waterChicken = new ChickensRegistryItem(new ResourceLocation(Chickens.MOD_ID, "water_chicken"), "water_chicken", new ResourceLocation("chickens", "textures/entity/water_chicken.png"), new ItemHolder("fluid", "minecraft:water", (int) FluidManager.BUCKET), 0x000099, gunpowderChicken, snowballChicken);
         chickens.add(waterChicken);
 
-        ChickensRegistryItem lavaChicken = new ChickensRegistryItem(new ResourceLocation(Chickens.MOD_ID, "lava_chicken"), "lava_chicken", new ResourceLocation("chickens", "textures/entity/lava_chicken.png"), new ItemHolder("fluid", "minecraft:lava", 1000), 0xcc3300, coalChicken, quartzChicken);
+        ChickensRegistryItem lavaChicken = new ChickensRegistryItem(new ResourceLocation(Chickens.MOD_ID, "lava_chicken"), "lava_chicken", new ResourceLocation("chickens", "textures/entity/lava_chicken.png"), new ItemHolder("fluid", "minecraft:lava", (int) FluidManager.BUCKET), 0xcc3300, coalChicken, quartzChicken);
         chickens.add(lavaChicken);
 
         ChickensRegistryItem clayChicken = new ChickensRegistryItem(new ResourceLocation(Chickens.MOD_ID, "clay_chicken"), "clay_chicken", new ResourceLocation("chickens", "textures/entity/clay_chicken.png"), new ItemStack(Items.CLAY_BALL), 0xcccccc, snowballChicken, sandChicken);

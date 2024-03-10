@@ -42,9 +42,9 @@ public class EggCrackerMenu extends PolyBlockContainerMenu<EggCrackerBlockEntity
 
         input.addSlot(new PolySlot(tile.inventory, 0));
         output.addSlots(6, 1, slot -> new PolySlot(tile.inventory, slot).output());
-        fluidSlot.addSlot(new PolySlot(tile.inventory, 7));
+        fluidSlot.addSlot(new PolySlot(tile.inventory, 7).setStackLimit(e -> 1));
         if (Config.INSTANCE.enableEnergy) {
-            energySlot.addSlot(new PolySlot(tile.inventory, 8));
+            energySlot.addSlot(new PolySlot(tile.inventory, 8).setStackLimit(e -> 1));
         }
     }
 }

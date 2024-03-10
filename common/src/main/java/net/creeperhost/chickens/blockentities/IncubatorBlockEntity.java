@@ -14,6 +14,7 @@ import net.creeperhost.polylib.data.serializable.FloatData;
 import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.helpers.MathUtil;
 import net.creeperhost.polylib.inventory.fluid.*;
+import net.creeperhost.polylib.inventory.item.ContainerAccessControl;
 import net.creeperhost.polylib.inventory.item.ItemInventoryBlock;
 import net.creeperhost.polylib.inventory.item.SerializableContainer;
 import net.creeperhost.polylib.inventory.item.SimpleItemInventory;
@@ -95,8 +96,7 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
 
         if (localTemperature > temperature.get()) {
             temperature.inc();
-        }
-        else if (isTileEnabled() && consumeEnergy(energy)) {
+        } else if (isTileEnabled() && consumeEnergy(energy)) {
             if (temperature.get() < targetHeat) {
                 temperature.inc();
             } else if (temperature.get() > targetHeat && temperature.get() > localTemperature) {
@@ -226,7 +226,23 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
 
     @Override
     public SerializableContainer getContainer(@Nullable Direction side) {
-        return inventory;
+        return new ContainerAccessControl(inventory, 0, Config.INSTANCE.enableEnergy ? 11 : 10)
+                .containerRemoveCheck((slot, stack) -> {
+                    if (slot <= 8) {
+                        if (!(stack.getItem() instanceof ItemChickenEgg eggItem)) {
+                            return true;
+                        }
+                        return !eggItem.isViable(stack);
+                    } else if (slot == 9) {
+                        PolyFluidHandlerItem handler = FluidManager.getHandler(stack);
+                        if (handler == null) return true;
+                        return handler.drain(FluidStack.create(Fluids.WATER, FluidManager.BUCKET), true).isEmpty();
+                    } else if (slot == 10) {
+                        IPolyEnergyStorage energy = EnergyManager.getHandler(stack);
+                        return energy == null || !energy.canExtract() || energy.getEnergyStored() == 0;
+                    }
+                    return true;
+                });
     }
 
     @Override

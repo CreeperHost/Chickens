@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.blockentities;
 
 import dev.architectury.fluid.FluidStack;
+import io.netty.util.collection.IntObjectHashMap;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.EggCrackerMenu;
@@ -11,6 +12,7 @@ import net.creeperhost.polylib.blocks.RedstoneActivatedBlock;
 import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.helpers.ContainerUtil;
 import net.creeperhost.polylib.inventory.fluid.*;
+import net.creeperhost.polylib.inventory.item.ContainerAccessControl;
 import net.creeperhost.polylib.inventory.item.ItemInventoryBlock;
 import net.creeperhost.polylib.inventory.item.SerializableContainer;
 import net.creeperhost.polylib.inventory.item.SimpleItemInventory;
@@ -20,6 +22,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -28,8 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider, PolyFluidBlock, PolyEnergyBlock, RedstoneActivatedBlock {
@@ -43,7 +45,7 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
             .setSlotValidator(7, FluidManager::isFluidItem)
             .setSlotValidator(8, stack -> EnergyManager.isEnergyItem(stack) && EnergyManager.getHandler(stack).canExtract());
 
-    public final IntData progress = register("temperature", new IntData(10), SAVE_BOTH);
+    public final IntData progress = register("progress", new IntData(10), SAVE_BOTH);
 
     public EggCrackerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.EGG_CRACKER_TILE.get(), pos, state);
@@ -129,7 +131,26 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
 
     @Override
     public SerializableContainer getContainer(@Nullable Direction side) {
-        return inventory;
+        ContainerAccessControl ac = new ContainerAccessControl(inventory, 0, Config.INSTANCE.enableEnergy ? 9 : 8)
+                .containerInsertCheck((slot, stack) -> slot == 0 || slot > 6)
+                .slotRemoveCheck(0, stack -> false)
+                .slotInsertCheck(7, stack -> stack.getCount() == 1 && inventory.getItem(7).isEmpty()) //TODO This limiting slot to 1 item can be done better with a custom SidedInvWrapper, though not sure about fabric...
+                .slotRemoveCheck(7, stack -> {
+                    PolyFluidHandlerItem handler = FluidManager.getHandler(stack);
+                    if (handler == null) return true;
+                    if (handler.getTanks() == 1 && handler.getFluidInTank(0).getAmount() >= handler.getTankCapacity(0)) return true;
+                    if (tank.isEmpty()) return false;
+                    return handler.fill(FluidStack.create(tank.getFluid(), FluidManager.BUCKET), true) == 0;
+                });
+
+        if (Config.INSTANCE.enableEnergy) {
+            ac.slotInsertCheck(8, stack -> stack.getCount() == 1 && inventory.getItem(8).isEmpty());
+            ac.slotRemoveCheck(8, stack -> {
+                IPolyEnergyStorage energy = EnergyManager.getHandler(stack);
+                return energy == null || !energy.canExtract() || energy.getEnergyStored() == 0;
+            });
+        }
+        return ac;
     }
 
     @Override
@@ -139,7 +160,7 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
 
     @Override
     public IPolyEnergyStorage getEnergyStorage(@Nullable Direction side) {
-        return energy;
+        return Config.INSTANCE.enableEnergy ? energy : null;
     }
 
     @Nullable

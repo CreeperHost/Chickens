@@ -20,12 +20,10 @@
     ]
   },
   "mixins": [
-    "chickens.mixins.json",
-    "chickens-common.mixins.json"
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.19",
-    "architectury": ">=5.7.28"
+    "minecraft": ">=1.19.2",
+    "architectury": ">=6.4.62"
   }
 }

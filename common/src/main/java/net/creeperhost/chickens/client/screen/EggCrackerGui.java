@@ -113,8 +113,8 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
                     .setEnergy(menu.energy::get);
         }
 
-//        Constraints.placeInside(new GuiRectangle(playInv.container).fill(0xFF000000).constrain(WIDTH, literal(50)).constrain(HEIGHT, literal(50)), root, Constraints.LayoutPos.BOTTOM_LEFT);
-//        Constraints.placeInside(new GuiRectangle(root).fill(0xFF000000).constrain(WIDTH, literal(500)).constrain(HEIGHT, literal(500)), root, Constraints.LayoutPos.BOTTOM_RIGHT);
+        GuiButton rsButton = GuiButton.redstoneButton(root, tile);
+        Constraints.placeOutside(rsButton, tank.container, Constraints.LayoutPos.TOP_LEFT, -2, 12);
     }
 
     private void reverseEggDropChallenge(GuiElement<?> root, EggCrackerMenu menu, GuiSlots inputSlot, GuiSlots outputSlots) {
@@ -175,7 +175,7 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
             render.rect(-0.5, -0.5, 8, 1, 0xFFFFFFFF);
             render.pose().popPose();
 
-            Material eggMat = ChickenGuiTextures.get("elements/egg_drop");
+            Material eggMat = ChickenGuiTextures.get("elements/egg");
             Material eggCrackedMat = ChickenGuiTextures.get("elements/egg_cracked");
 
             float dropAnim = Math.min(1, (1F - (float) Math.cos(animation * Math.PI * 0.5)) * 2F);

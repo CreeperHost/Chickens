@@ -19,11 +19,6 @@ public class ChickensPlatformImpl
         return FabricLoader.getInstance().getConfigDir();
     }
 
-    public static Class getChickenItemClass()
-    {
-        return ItemChicken.class;
-    }
-
     public static Item createNewChickenItem(Item.Properties properties)
     {
         return new ItemChicken(properties);

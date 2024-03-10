@@ -12,11 +12,20 @@ loom {
 }
 
 configurations {
+//    common
+//    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+//    compileClasspath.extendsFrom common
+//    runtimeClasspath.extendsFrom common
+//    developmentFabric.extendsFrom common
+
     common
+    shadowLib
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon.extendsFrom shadowLib
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
+    implementation.extendsFrom shadowLib
 }
 
 dependencies {
@@ -26,15 +35,11 @@ dependencies {
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modApi("net.creeperhost:polylib-fabric:${rootProject.polylib_version}")
 
-//    modApi("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
-//    modApi("mezz.jei:jei-${project.minecraft_version}-fabric-api:${project.jei_version}")
-//    modApi("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}")
-
-    modCompileOnlyApi "mezz.jei:jei-${rootProject.minecraft_version}-fabric-api:${rootProject.jei_version}"
-    modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-fabric:${rootProject.jei_version}"
-
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+
+    //    modCompileOnlyApi "mezz.jei:jei-${rootProject.minecraft_version}-fabric-api:${rootProject.jei_version}"
+//    modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-fabric:${rootProject.jei_version}"
 }
 
 processResources {

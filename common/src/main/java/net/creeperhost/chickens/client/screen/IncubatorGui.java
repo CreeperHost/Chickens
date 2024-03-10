@@ -149,8 +149,7 @@ public class IncubatorGui extends ContainerGuiProvider<IncubatorMenu> {
                 .constrain(HEIGHT, literal(14));
 
         GuiButton rsButton = GuiButton.redstoneButton(root, tile);
-        Constraints.placeOutside(rsButton, title, Constraints.LayoutPos.MIDDLE_RIGHT, 2, 1);
-
+        Constraints.placeOutside(rsButton, tank.container, Constraints.LayoutPos.TOP_LEFT, -2, 12);
     }
 
     public GuiElement<?> createThermometer(GuiElement<?> root, IncubatorMenu menu) {
