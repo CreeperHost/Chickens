@@ -125,5 +125,11 @@
   "gui.chickens.incubator.hygrometer.value" : " %s%%",
   "gui.chickens.incubator.hygrometer.dry" : "Too Dry!, Water tank is empty!",
 
-  "gui.chickens.cracker.fluid_slot" : "Drain Fluid"
+  "gui.chickens.cracker.fluid_slot" : "Drain Fluid",
+
+  "gui.chickens.ovoscope.viable" : "Viable",
+  "gui.chickens.ovoscope.non_viable" : "Non Viable",
+
+  "gui.chickens.breeder.chicken_slot" : "Add Chickens!",
+  "gui.chickens.breeder.seed_slot" : "Add Seeds!"
 }

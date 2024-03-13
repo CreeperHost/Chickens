@@ -59,7 +59,31 @@ public class BreederGui extends ContainerGuiProvider<BreederMenu> {
                 .constrain(HEIGHT, literal(8));
         Constraints.placeInside(invTitle, playInv.container, Constraints.LayoutPos.TOP_LEFT, 0, -10);
 
+        GuiSlots seeds = GuiSlots.singleSlot(root, screenAccess, menu.seeds)
+                .setEmptyIcon(ChickenGuiTextures.get("slot/seeds"))
+                .setTooltip(Component.translatable("gui.chickens.breeder.seed_slot"))
+                .constrain(LEFT, match(playInv.container.get(LEFT)))
+                .constrain(TOP, relative(title.get(BOTTOM), 6));
 
+        GuiSlots outputs = new GuiSlots(root, screenAccess, menu.output, 3)
+                .constrain(RIGHT, match(playInv.container.get(RIGHT)))
+                .constrain(TOP, match(seeds.get(TOP)));
+
+        GuiTexture plus = new GuiTexture(root, ChickenGuiTextures.get("elements/plus_icon"));
+        Constraints.size(plus, 16, 16);
+        Constraints.placeOutside(plus, seeds, Constraints.LayoutPos.MIDDLE_RIGHT, 2, 0);
+
+        GuiSlots chickens = new GuiSlots(root, screenAccess, menu.chickens, 2)
+                .setEmptyIcon(ChickenGuiTextures.get("slot/chicken"))
+                .setTooltip(Component.translatable("gui.chickens.breeder.chicken_slot"));
+        Constraints.placeOutside(chickens, plus, Constraints.LayoutPos.MIDDLE_RIGHT, 2, 0);
+
+        GuiProgressIcon progress = new GuiProgressIcon(root)
+                .setProgress(() -> menu.progress.get() / (double) BreederBlockEntity.MAX_PROGRESS)
+                .setBackground(ChickenGuiTextures.get("elements/breeder_progress_empty"))
+                .setAnimated(ChickenGuiTextures.get("elements/breeder_progress"));
+        Constraints.size(progress, 26, 16);
+        Constraints.placeOutside(progress, chickens, Constraints.LayoutPos.MIDDLE_RIGHT, 4, 0);
     }
 
     public static class Screen extends ModularGuiContainer<BreederMenu> {

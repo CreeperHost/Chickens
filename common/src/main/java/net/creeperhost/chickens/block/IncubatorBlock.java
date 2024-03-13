@@ -54,7 +54,7 @@ public class IncubatorBlock extends PolyEntityBlock {
 
     @Override
     public boolean skipRendering(BlockState blockState, BlockState blockState2, Direction direction) {
-        return true;
+        return false;
     }
 
     @Override

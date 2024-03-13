@@ -5,6 +5,7 @@ import net.creeperhost.chickens.blockentities.BreederBlockEntity;
 import net.creeperhost.chickens.blockentities.EggCrackerBlockEntity;
 import net.creeperhost.chickens.blockentities.OvoscopeBlockEntity;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
+import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.BreederMenu;
 import net.creeperhost.chickens.containers.OvoscopeMenu;
 import net.creeperhost.chickens.item.ItemChickenEgg;
@@ -20,6 +21,7 @@ import net.creeperhost.polylib.client.modulargui.lib.geometry.Align;
 import net.creeperhost.polylib.client.modulargui.lib.geometry.Constraint;
 import net.creeperhost.polylib.client.modulargui.lib.geometry.GuiParent;
 import net.creeperhost.polylib.client.modulargui.sprite.Material;
+import net.creeperhost.polylib.client.modulargui.sprite.PolyTextures;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +37,7 @@ import static net.creeperhost.polylib.client.modulargui.lib.geometry.GeoParam.*;
  */
 public class OvoscopeGui extends ContainerGuiProvider<OvoscopeMenu> {
     public static final int GUI_WIDTH = 176;
-    public static final int GUI_HEIGHT = 140;
+    public static final int GUI_HEIGHT = 160;
 
     @Override
     public GuiElement<?> createRootElement(ModularGui gui) {
@@ -73,23 +75,59 @@ public class OvoscopeGui extends ContainerGuiProvider<OvoscopeMenu> {
 
         GuiTexture slotTex = new GuiTexture(root, () -> ChickenGuiTextures.get("elements/ovoscope_slot" + (menu.scanning.get() ? "_active" : "")));
         Constraints.size(slotTex, 22, 22);
-        Constraints.placeInside(slotTex, root, Constraints.LayoutPos.TOP_CENTER, 0, 20);
+        Constraints.placeInside(slotTex, root, Constraints.LayoutPos.TOP_CENTER, 0, 28);
 
         GuiSlots inputSlot = GuiSlots.singleSlot(slotTex, screenAccess, menu.input)
                 .setSlotTexture(integer -> null);
         Constraints.center(inputSlot, slotTex);
 
-        Constraints.bind(new Scanner(root, inputSlot, menu), slotTex, 1);
+        Constraints.bind(new Scanner(root, menu), slotTex, 1);
+
+        GuiTexture viableTex = new GuiTexture(root, ChickenGuiTextures.get("elements/viable_arrow"))
+                .setTooltipDelay(0)
+                .setTooltip(Component.translatable("gui.chickens.ovoscope.viable"));
+        Constraints.size(viableTex, 24, 16);
+        Constraints.placeOutside(viableTex, inputSlot, Constraints.LayoutPos.MIDDLE_RIGHT, 4, 0);
+
+        GuiSlots viableSlot = GuiSlots.singleSlot(root, screenAccess, menu.viable);
+        Constraints.placeOutside(viableSlot, viableTex, Constraints.LayoutPos.MIDDLE_RIGHT, 2, 0);
+
+        GuiTexture nonViableTex = new GuiTexture(root, ChickenGuiTextures.get("elements/non_viable_arrow"))
+                .setTooltipDelay(0)
+                .setTooltip(Component.translatable("gui.chickens.ovoscope.non_viable"));
+        Constraints.size(nonViableTex, 24, 16);
+        Constraints.placeOutside(nonViableTex, inputSlot, Constraints.LayoutPos.MIDDLE_LEFT, -4, 0);
+
+        GuiSlots nonViableSlot = GuiSlots.singleSlot(root, screenAccess, menu.nonViable);
+        Constraints.placeOutside(nonViableSlot, nonViableTex, Constraints.LayoutPos.MIDDLE_LEFT, -2, 0);
+
+        if (Config.INSTANCE.enableEnergy) {
+            GuiSlots energySlot = GuiSlots.singleSlot(root, screenAccess, menu.energySlot)
+                    .setEmptyIcon(PolyTextures.get("slots/energy"))
+                    .constrain(LEFT, match(playInv.container.get(LEFT)))
+                    .constrain(BOTTOM, relative(invTitle.get(TOP), -2));
+
+            var energyBar = GuiEnergyBar.simpleBar(root);
+            energyBar.container
+                    .constrain(TOP, relative(root.get(TOP), 5))
+                    .constrain(BOTTOM, relative(energySlot.get(TOP), -1))
+                    .constrain(LEFT, relative(energySlot.get(LEFT), 0))
+                    .constrain(RIGHT, relative(energySlot.get(RIGHT), 0));
+            energyBar.primary
+                    .setCapacity(tile.energy::getMaxEnergyStored)
+                    .setEnergy(menu.energy::get);
+        }
+
+        GuiButton rsButton = GuiButton.redstoneButton(root, tile);
+        Constraints.placeInside(rsButton, root, Constraints.LayoutPos.TOP_RIGHT, -4, 4);
     }
 
     public static class Scanner extends GuiElement<Scanner> implements ForegroundRender {
         private static final Random randy = new Random();
-        private final GuiSlots inputSlot;
         private final OvoscopeMenu menu;
 
-        public Scanner(@NotNull GuiParent<?> parent, GuiSlots inputSlot, OvoscopeMenu menu) {
+        public Scanner(@NotNull GuiParent<?> parent, OvoscopeMenu menu) {
             super(parent);
-            this.inputSlot = inputSlot;
             this.menu = menu;
         }
 
@@ -102,7 +140,7 @@ public class OvoscopeGui extends ContainerGuiProvider<OvoscopeMenu> {
             ChickensRegistryItem type = eggItem.getType(stack);
             if (type == null) return;
             int colour = type.getBgColor();
-            randy.setSeed(stack.hashCode());
+            randy.setSeed(menu.scanCount.get());
             int pIndex = randy.nextInt(1, 4);
             boolean viable = eggItem.isViable(stack);
 //            float progress = Math.max(0, -1F + ((System.currentTimeMillis() % 2000) / 1000F));
@@ -111,8 +149,6 @@ public class OvoscopeGui extends ContainerGuiProvider<OvoscopeMenu> {
             float barWidth = (Math.min(1, progress * 8) - Math.max(0, (progress - (7/8F)) * 8)) * 9;
             float barPos = Math.min(Math.max(progress - (1/8F), 0), 6/8F) / 0.75F;
             barPos = (float) Math.sin(barPos * Math.PI) * 16F;
-            System.out.println(barPos);
-
 
             render.pose().pushPose();
             render.pose().translate(0, 0, 300);

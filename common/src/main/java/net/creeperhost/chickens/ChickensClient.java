@@ -13,6 +13,7 @@ import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.init.ModScreens;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;

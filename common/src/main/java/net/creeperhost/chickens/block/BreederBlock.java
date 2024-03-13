@@ -4,6 +4,7 @@ import dev.architectury.registry.menu.MenuRegistry;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.polylib.blocks.PolyEntityBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -25,7 +26,7 @@ public class BreederBlock extends PolyEntityBlock {
     public static final BooleanProperty HAS_SEEDS = BooleanProperty.create("has_seeds");
 
     public BreederBlock() {
-        super(Properties.of(Material.WOOD).strength(2.0F));
+        super(Properties.of(Material.WOOD).noOcclusion().strength(2.0F));
         this.registerDefaultState(getStateDefinition().any().setValue(IS_BREEDING, false).setValue(HAS_SEEDS, false));
         this.setBlockEntity(ModBlocks.BREEDER_TILE::get, true);
     }
@@ -48,5 +49,10 @@ public class BreederBlock extends PolyEntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(IS_BREEDING, HAS_SEEDS);
+    }
+
+    @Override
+    public boolean skipRendering(BlockState blockState, BlockState blockState2, Direction direction) {
+        return false;
     }
 }
