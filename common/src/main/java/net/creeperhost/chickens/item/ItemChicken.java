@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -34,26 +35,26 @@ public class ItemChicken extends Item
         super(properties);
     }
 
-    @Override
-    public void fillItemCategory(@NotNull CreativeModeTab tab, @NotNull NonNullList<ItemStack> subItems)
-    {
-        if (this.allowedIn(tab))
-        {
-            for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
-            {
-                subItems.add(of(chicken));
-
-                //For testing
-                ItemStack stack = of(chicken);
-                ChickenStats chickenStats = new ChickenStats(stack);
-                chickenStats.setGain(10);
-                chickenStats.setGrowth(10);
-                chickenStats.setStrength(10);
-                chickenStats.write(stack);
-                subItems.add(stack);
-            }
-        }
-    }
+//    @Override
+//    public void fillItemCategory(@NotNull CreativeModeTab tab, @NotNull NonNullList<ItemStack> subItems)
+//    {
+//        if (this.allowedIn(tab))
+//        {
+//            for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
+//            {
+//                subItems.add(of(chicken));
+//
+//                //For testing
+//                ItemStack stack = of(chicken);
+//                ChickenStats chickenStats = new ChickenStats(stack);
+//                chickenStats.setGain(10);
+//                chickenStats.setGrowth(10);
+//                chickenStats.setStrength(10);
+//                chickenStats.write(stack);
+//                subItems.add(stack);
+//            }
+//        }
+//    }
 
     public static ItemStack of(ChickensRegistryItem chickensRegistryItem)
     {
@@ -96,7 +97,7 @@ public class ItemChicken extends Item
     public static void spawn(ItemStack stack, Level worldIn, BlockPos pos)
     {
         ResourceLocation entityName = ResourceLocation.tryParse(getTypeFromStack(stack));
-        EntityChickensChicken entity = (EntityChickensChicken) Registry.ENTITY_TYPE.get(entityName).create(worldIn);
+        EntityChickensChicken entity = (EntityChickensChicken) BuiltInRegistries.ENTITY_TYPE.get(entityName).create(worldIn);
         ChickenStats chickenStats = new ChickenStats(stack);
         if (entity == null) return;
 

@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.creeperhost.chickens.Chickens;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
@@ -86,12 +87,12 @@ public class ItemHolder
 
     public ResourceLocation getRegistryName(Item item)
     {
-        return Registry.ITEM.getKey(item);
+        return BuiltInRegistries.ITEM.getKey(item);
     }
 
     public ResourceLocation getRegistryName(Fluid fluid)
     {
-        return Registry.FLUID.getKey(fluid);
+        return BuiltInRegistries.FLUID.getKey(fluid);
     }
 
     public boolean hasSource()
@@ -115,14 +116,14 @@ public class ItemHolder
     {
         if(this.itemID == null) return ItemStack.EMPTY.getItem();
 
-        return Registry.ITEM.get(new ResourceLocation(this.itemID));
+        return BuiltInRegistries.ITEM.get(new ResourceLocation(this.itemID));
     }
 
     public Fluid getFluid()
     {
         if(this.itemID == null) return Fluids.EMPTY;
 
-        return Registry.FLUID.get(new ResourceLocation(this.itemID));
+        return BuiltInRegistries.FLUID.get(new ResourceLocation(this.itemID));
     }
 
     public int getStackSize()

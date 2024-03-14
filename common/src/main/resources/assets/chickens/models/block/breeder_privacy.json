@@ -2,10 +2,10 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
-    "particle": "chickens:blocks/curtain_side",
-    "side": "chickens:blocks/curtain_side",
-    "floor": "chickens:blocks/hay_floor",
-    "top": "chickens:blocks/plain_face"
+    "particle": "chickens:block/curtain_side",
+    "side": "chickens:block/curtain_side",
+    "floor": "chickens:block/hay_floor",
+    "top": "chickens:block/plain_face"
   },
   "elements": [
     {

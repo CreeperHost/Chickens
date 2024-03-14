@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +26,7 @@ public class EggCrackerBlock extends PolyEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public EggCrackerBlock() {
-        super(Properties.of(Material.METAL).strength(2.0F).noOcclusion());
+        super(Properties.of().mapColor(MapColor.METAL).strength(2.0F).noOcclusion());
         this.registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH));
         this.setBlockEntity(ModBlocks.EGG_CRACKER_TILE::get, true);
     }

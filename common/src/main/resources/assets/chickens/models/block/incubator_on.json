@@ -2,11 +2,11 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/cube_all",
 	"textures": {
-		"0": "chickens:blocks/slat_side",
-		"1": "chickens:blocks/glass_red",
-		"2": "chickens:blocks/lamp",
-		"3": "chickens:blocks/hay_floor",
-		"particle": "chickens:blocks/slat_side"
+		"0": "chickens:block/slat_side",
+		"1": "chickens:block/glass_red",
+		"2": "chickens:block/lamp",
+		"3": "chickens:block/hay_floor",
+		"particle": "chickens:block/slat_side"
 	},
 	"elements": [
 		{

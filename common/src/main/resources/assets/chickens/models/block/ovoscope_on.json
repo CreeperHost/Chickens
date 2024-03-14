@@ -2,12 +2,12 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/orientable",
 	"textures": {
-		"3": "chickens:blocks/lamp",
-		"4": "chickens:blocks/glass_yellow",
-		"particle": "chickens:blocks/plain_face",
-		"down": "chickens:blocks/plain_face",
-		"east": "chickens:blocks/ovoscope_east",
-		"west": "chickens:blocks/ovoscope_west"
+		"3": "chickens:block/lamp",
+		"4": "chickens:block/glass_yellow",
+		"particle": "chickens:block/plain_face",
+		"down": "chickens:block/plain_face",
+		"east": "chickens:block/ovoscope_east",
+		"west": "chickens:block/ovoscope_west"
 	},
 	"elements": [
 		{

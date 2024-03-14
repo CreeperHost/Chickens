@@ -27,6 +27,6 @@ public class ClientInit {
 
 
     private static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener(ChickenGuiTextures.getUploader());
+        event.registerReloadListener(ChickenGuiTextures.getAtlasHolder());
     }
 }

@@ -1,7 +1,7 @@
 package net.creeperhost.chickens.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.creeperhost.chickens.blockentities.IncubatorBlockEntity;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,14 +48,13 @@ public class RenderIncubator implements BlockEntityRenderer<IncubatorBlockEntity
                     offsetZ = offsetZ * 3;
                 }
 
-
                 poseStack.translate(offsetX + 0.25D, 0.3D, offsetZ);
                 float rotation = (float) (blockEntity.getLevel().getGameTime() % 80);
 
                 poseStack.scale(.2f, .2f, .2f);
-                poseStack.mulPose(Vector3f.YP.rotationDegrees(360f * rotation / 80f));
+                poseStack.mulPose(Axis.YP.rotationDegrees(360f * rotation / 80f));
 
-                Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.FIXED, i, j, poseStack, multiBufferSource, 0);
+                Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED, i, j, poseStack, multiBufferSource, blockEntity.getLevel(), 0);
                 poseStack.popPose();
             }
         }

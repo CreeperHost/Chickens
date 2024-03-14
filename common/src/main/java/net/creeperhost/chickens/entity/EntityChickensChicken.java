@@ -4,6 +4,7 @@ import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.init.ModSounds;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -64,7 +65,7 @@ public class EntityChickensChicken extends Chicken
 
     public ResourceLocation getRegistryName(EntityType<?> entityType)
     {
-        return Registry.ENTITY_TYPE.getKey(entityType);
+        return BuiltInRegistries.ENTITY_TYPE.getKey(entityType);
     }
 
     public static AttributeSupplier.Builder prepareAttributes()
@@ -143,7 +144,7 @@ public class EntityChickensChicken extends Chicken
     @Override
     protected SoundEvent getAmbientSound()
     {
-        return ModSounds.getRandomIdleSound(level);
+        return ModSounds.getRandomIdleSound(level());
     }
 
     public ChickensRegistryItem getChickenRegistryItem()
@@ -180,7 +181,7 @@ public class EntityChickensChicken extends Chicken
             return null;
         }
 
-        EntityChickensChicken newChicken = (EntityChickensChicken) entityType.create(level);
+        EntityChickensChicken newChicken = (EntityChickensChicken) entityType.create(level());
         newChicken.setChickenType(childToBeBorn.getRegistryName().toString());
 
         boolean mutatingStats = chickenDescription.getRegistryName() == mateChickenDescription.getRegistryName() && childToBeBorn.getRegistryName() == chickenDescription.getRegistryName();
@@ -228,7 +229,7 @@ public class EntityChickensChicken extends Chicken
     @Override
     public void tick()
     {
-        if (!this.level.isClientSide && !this.isBaby() && !this.isChickenJockey())
+        if (!this.level().isClientSide && !this.isBaby() && !this.isChickenJockey())
         {
             int newTimeUntilNextEgg = eggTime - 1;
             setTimeUntilNextEgg(newTimeUntilNextEgg);
@@ -249,8 +250,8 @@ public class EntityChickensChicken extends Chicken
 
                 if (!itemToLay.isEmpty())
                 {
-                    ItemEntity itemEntity = new ItemEntity(level, getX(), getY(), getZ(), chickenDescription.createLayItem());
-                    level.addFreshEntity(itemEntity);
+                    ItemEntity itemEntity = new ItemEntity(level(), getX(), getY(), getZ(), chickenDescription.createLayItem());
+                    level().addFreshEntity(itemEntity);
                     playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
                 }
 

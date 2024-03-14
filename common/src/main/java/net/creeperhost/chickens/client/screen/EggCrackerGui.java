@@ -1,6 +1,6 @@
 package net.creeperhost.chickens.client.screen;
 
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.blockentities.EggCrackerBlockEntity;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
@@ -154,7 +154,6 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
             if (type == null) return;
             int colour = type.getBgColor();
 
-            render.fill(xMin() + 1, yMax() - 1, xMax() - 1, yMax(), 0xFF8b8b8b);
             float animation = progress / (float) EggCrackerBlockEntity.MAX_PROGRESS;
             float maxAnimLen = 30;
             if (EggCrackerBlockEntity.MAX_PROGRESS > maxAnimLen) {
@@ -162,16 +161,19 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
                 animation = remain < maxAnimLen ? 1F - (remain / maxAnimLen) : 0;
             }
 
+            if (animation <= 0) return;
+            render.fill(xMin() + 1, yMax() - 1, xMax() - 1, yMax(), 0xFF8b8b8b);
+
             float doorAnim = (float) Math.sin(Math.min(animation * 1.1, 1) * Math.PI);
             render.pose().pushPose();
             render.pose().translate(xMin() + 1.5, yMax() - 0.5, 0);
-            render.pose().mulPose(Vector3f.ZP.rotationDegrees(doorAnim * 125));
+            render.pose().mulPose(Axis.ZP.rotationDegrees(doorAnim * 125));
             render.rect(-0.5, -0.5, 8, 1, 0xFFFFFFFF);
             render.pose().popPose();
 
             render.pose().pushPose();
             render.pose().translate(xMax() - 1.5, yMax() - 0.5, 0);
-            render.pose().mulPose(Vector3f.ZP.rotationDegrees(180 - (doorAnim * 125)));
+            render.pose().mulPose(Axis.ZP.rotationDegrees(180 - (doorAnim * 125)));
             render.rect(-0.5, -0.5, 8, 1, 0xFFFFFFFF);
             render.pose().popPose();
 
@@ -185,7 +187,7 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
             render.pose().pushPose();
             if (dropAnim < 1) {
                 render.pose().translate(xCenter(), yCenter() + yTravel, 0);
-                render.pose().mulPose(Vector3f.ZP.rotationDegrees(dropAnim * 180));
+                render.pose().mulPose(Axis.ZP.rotationDegrees(dropAnim * 180));
                 render.texRect(eggMat, -8D, -8D, 16D, 16D, colour | 0xFF000000);
             } else {
                 render.pose().translate(0, (sinkAnim * 2D), 0);

@@ -3,13 +3,13 @@
   "id": "chickens",
   "version": "${version}",
   "name": "Chickens",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "",
   "authors": [
-    "Me!"
+    "CreeperHost"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "",
+    "sources": ""
   },
   "license": "Insert License Here",
   "icon": "assets/examplemod/icon.png",
@@ -23,7 +23,8 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.19.2",
-    "architectury": ">=6.4.62"
+    "minecraft": ">=1.20",
+    "architectury": ">=9.0.7",
+    "polylib": ">=2000.0.3-build.97"
   }
 }

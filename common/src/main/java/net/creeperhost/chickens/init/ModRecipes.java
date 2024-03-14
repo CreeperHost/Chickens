@@ -4,6 +4,8 @@ import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.api.ChickenAPI;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -38,7 +40,7 @@ public class ModRecipes
         EntityType<?> entityType;
         try
         {
-            entityType = Registry.ENTITY_TYPE.get(resourceLocation);
+            entityType = BuiltInRegistries.ENTITY_TYPE.get(resourceLocation);
             ChickenAPI.registerTransformationRecipe(EntityType.CHICKEN, stack, entityType);
         }
         catch (Exception e)

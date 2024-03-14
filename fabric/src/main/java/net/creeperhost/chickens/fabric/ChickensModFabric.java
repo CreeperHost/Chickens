@@ -4,6 +4,8 @@ import dev.architectury.platform.Platform;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
 import net.creeperhost.chickens.init.ModItems;
+import net.creeperhost.polylib.PolyLib;
+import net.creeperhost.polylib.client.modulargui.sprite.PolyTextures;
 import net.creeperhost.polylib.fabric.client.ResourceReloadListenerWrapper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
@@ -20,7 +22,7 @@ public class ChickensModFabric implements ModInitializer {
         if(Platform.getEnv() == EnvType.CLIENT)
         {
             BuiltinItemRendererRegistry.INSTANCE.register(ModItems.CHICKEN_ITEM.get(), new ChickenDynamicItemRenderer());
-            ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ResourceReloadListenerWrapper(ChickenGuiTextures::getUploader, new ResourceLocation(Chickens.MOD_ID, "gui_atlas_reload")));
+            ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ResourceReloadListenerWrapper(ChickenGuiTextures::getAtlasHolder, new ResourceLocation(Chickens.MOD_ID, "gui_atlas_reload")));
         }
     }
 }

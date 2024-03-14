@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,6 +61,7 @@ public class Chickens
         ModEntities.ENTITIES.register();
         ModBlocks.TILES_ENTITIES.register();
         ModItems.ITEMS.register();
+        ModItems.TABS.register();
         ModContainers.CONTAINERS.register();
         ModSounds.SOUNDS.register();
         ClientLifecycleEvent.CLIENT_SETUP.register(ChickensClient::clientSetup);
@@ -82,12 +84,12 @@ public class Chickens
 
     private static EventResult onEntityInteract(Player player, Entity entity, InteractionHand interactionHand)
     {
-        Level level = player.getLevel();
+        Level level = player.level();
         if(!player.getItemInHand(interactionHand).isEmpty())
         {
             for (ChickenTransformationRecipe transformationRecipe : ChickenAPI.TRANSFORMATION_RECIPES)
             {
-                if(transformationRecipe.getEntityTypeIn() == entity.getType() && player.getItemInHand(interactionHand).sameItem(transformationRecipe.getStack()))
+                if(transformationRecipe.getEntityTypeIn() == entity.getType() && ItemStack.isSameItem(player.getItemInHand(interactionHand), transformationRecipe.getStack()))
                 {
                     Entity newEntity = transformationRecipe.getEntityTypeOut().create(level);
                     if(newEntity != null)

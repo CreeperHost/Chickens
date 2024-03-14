@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +26,7 @@ public class BreederBlock extends PolyEntityBlock {
     public static final BooleanProperty HAS_SEEDS = BooleanProperty.create("has_seeds");
 
     public BreederBlock() {
-        super(Properties.of(Material.WOOD).noOcclusion().strength(2.0F));
+        super(Properties.of().mapColor(MapColor.WOOD).noOcclusion().strength(2.0F));
         this.registerDefaultState(getStateDefinition().any().setValue(IS_BREEDING, false).setValue(HAS_SEEDS, false));
         this.setBlockEntity(ModBlocks.BREEDER_TILE::get, true);
     }

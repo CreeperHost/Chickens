@@ -12,20 +12,11 @@ loom {
 }
 
 configurations {
-//    common
-//    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-//    compileClasspath.extendsFrom common
-//    runtimeClasspath.extendsFrom common
-//    developmentFabric.extendsFrom common
-
     common
-    shadowLib
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-    shadowCommon.extendsFrom shadowLib
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
-    implementation.extendsFrom shadowLib
 }
 
 dependencies {
@@ -61,7 +52,7 @@ remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-//    archiveBaseName.set "${rootProject.archives_base_name}-${project.name}-${rootProject.minecraft_version}"
+    archiveBaseName.set "${rootProject.archives_base_name}-${project.name}-${rootProject.minecraft_version}"
     classifier null
 }
 
@@ -84,8 +75,7 @@ components.java {
 publishing {
     publications {
         mavenFabric(MavenPublication) {
-            artifactId = rootProject.archivesBaseName + "-fabric"
-//            artifactId = rootProject.archives_base_name + "-" + project.name
+            artifactId = rootProject.archives_base_name + "-" + project.name
             from components.java
         }
     }

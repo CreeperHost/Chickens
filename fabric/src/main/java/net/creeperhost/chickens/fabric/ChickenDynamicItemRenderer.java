@@ -5,12 +5,13 @@ import net.creeperhost.chickens.client.RenderChickenItem;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public class ChickenDynamicItemRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer
 {
     @Override
-    public void render(ItemStack itemStack, ItemTransforms.TransformType mode, PoseStack poseStack, MultiBufferSource vertexConsumers, int light, int overlay)
+    public void render(ItemStack itemStack, ItemDisplayContext mode, PoseStack poseStack, MultiBufferSource vertexConsumers, int light, int overlay)
     {
         RenderChickenItem.renderByItem(itemStack, mode, poseStack, vertexConsumers, light, overlay);
     }

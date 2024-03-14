@@ -7,6 +7,8 @@ import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -24,17 +26,17 @@ public class ItemChickenEgg extends Item
 {
     public ItemChickenEgg()
     {
-        super(new Item.Properties().tab(ModItems.CREATIVE_MODE_TAB_EGGS));
+        super(new Item.Properties());
     }
 
-    @Override
-    public void fillItemCategory(@NotNull CreativeModeTab creativeModeTab, @NotNull NonNullList<ItemStack> nonNullList)
-    {
-        if(this.allowedIn(creativeModeTab))
-        {
-            ChickensRegistry.getItems().forEach(chickensRegistryItem -> nonNullList.add(of(chickensRegistryItem)));
-        }
-    }
+//    @Override
+//    public void fillItemCategory(@NotNull CreativeModeTab creativeModeTab, @NotNull NonNullList<ItemStack> nonNullList)
+//    {
+//        if(this.allowedIn(creativeModeTab))
+//        {
+//            ChickensRegistry.getItems().forEach(chickensRegistryItem -> nonNullList.add(of(chickensRegistryItem)));
+//        }
+//    }
 
     @Override
     public Component getName(@NotNull ItemStack itemStack)
@@ -138,11 +140,11 @@ public class ItemChickenEgg extends Item
             {
                 if(chickensRegistryItem.getLayItemHolder().getType().equals("item"))
                 {
-                    list.add(Component.literal(ChatFormatting.GOLD + "Item: " + ChatFormatting.WHITE + Registry.ITEM.getKey(chickensRegistryItem.getLayItemHolder().getItem())));
+                    list.add(Component.literal(ChatFormatting.GOLD + "Item: " + ChatFormatting.WHITE + BuiltInRegistries.ITEM.getKey(chickensRegistryItem.getLayItemHolder().getItem())));
                 }
                 else
                 {
-                    list.add(Component.literal(ChatFormatting.GOLD + "Fluid: " + ChatFormatting.WHITE + Registry.FLUID.getKey(chickensRegistryItem.getLayItemHolder().getFluid())));
+                    list.add(Component.literal(ChatFormatting.GOLD + "Fluid: " + ChatFormatting.WHITE + BuiltInRegistries.FLUID.getKey(chickensRegistryItem.getLayItemHolder().getFluid())));
                 }
             }
             list.add(Component.literal(ChatFormatting.BLUE + "ChickenType: " + ChatFormatting.WHITE + chickensRegistryItem.getEntityName()));

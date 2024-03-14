@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[41,)"
+loaderVersion = "[46,)"
 #issueTrackerURL = ""
 license = "Insert License Here"
 
@@ -15,20 +15,27 @@ description = '''
 [[dependencies.chickens]]
 modId = "forge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "[46,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.chickens]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.2,)"
+versionRange = "[1.20, 1.20.1]"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.chickens]]
 modId = "architectury"
 mandatory = true
-versionRange = "[6.4.62,)"
+versionRange = "[9.0.7,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.chickens]]
+modId = "polylib"
+mandatory = true
+versionRange = "[1200.0.2,)"
 ordering = "AFTER"
 side = "BOTH"
