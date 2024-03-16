@@ -52,6 +52,8 @@ public class Chickens
                     texture,
                     new ItemHolder(chickenConfig.lay_item.getType(), chickenConfig.lay_item.getId(), chickenConfig.lay_item.getNbt(), chickenConfig.lay_item.getQuantity()),
                     chickenConfig.colour,
+                    chickenConfig.lay_coefficient,
+                    chickenConfig.breed_speed_multiplier,
                     ChickensRegistry.getByResourceLocation(new ResourceLocation(chickenConfig.parent_1)),
                     ChickensRegistry.getByResourceLocation(new ResourceLocation(chickenConfig.parent_2))
             );

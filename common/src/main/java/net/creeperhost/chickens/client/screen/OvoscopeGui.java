@@ -144,7 +144,7 @@ public class OvoscopeGui extends ContainerGuiProvider<OvoscopeMenu> {
             int pIndex = randy.nextInt(1, 4);
             boolean viable = eggItem.isViable(stack);
 //            float progress = Math.max(0, -1F + ((System.currentTimeMillis() % 2000) / 1000F));
-            float progress = menu.progress.get() / (float) OvoscopeBlockEntity.MAX_PROGRESS;
+            float progress = menu.progress.get() / (float) Config.INSTANCE.ovoscopeProcessTime;
 
             float barWidth = (Math.min(1, progress * 8) - Math.max(0, (progress - (7/8F)) * 8)) * 9;
             float barPos = Math.min(Math.max(progress - (1/8F), 0), 6/8F) / 0.75F;

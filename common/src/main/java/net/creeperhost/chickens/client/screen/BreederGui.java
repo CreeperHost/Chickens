@@ -2,6 +2,7 @@ package net.creeperhost.chickens.client.screen;
 
 import net.creeperhost.chickens.blockentities.BreederBlockEntity;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
+import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.BreederMenu;
 import net.creeperhost.polylib.client.modulargui.ModularGui;
 import net.creeperhost.polylib.client.modulargui.ModularGuiContainer;
@@ -79,7 +80,7 @@ public class BreederGui extends ContainerGuiProvider<BreederMenu> {
         Constraints.placeOutside(chickens, plus, Constraints.LayoutPos.MIDDLE_RIGHT, 2, 0);
 
         GuiProgressIcon progress = new GuiProgressIcon(root)
-                .setProgress(() -> menu.progress.get() / (double) BreederBlockEntity.MAX_PROGRESS)
+                .setProgress(() -> menu.progress.get() / (double) Config.INSTANCE.breederMaxProcessTime)
                 .setBackground(ChickenGuiTextures.get("elements/breeder_progress_empty"))
                 .setAnimated(ChickenGuiTextures.get("elements/breeder_progress"));
         Constraints.size(progress, 26, 16);

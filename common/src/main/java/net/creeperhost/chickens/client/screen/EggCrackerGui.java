@@ -122,7 +122,7 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
                 .setBackground(PolyTextures.get("widgets/progress_arrow_empty"))
                 .setAnimated(PolyTextures.get("widgets/progress_arrow_full"))
                 .setDirection(Direction.DOWN)
-                .setProgress(() -> menu.progress.get() / (double) EggCrackerBlockEntity.MAX_PROGRESS);
+                .setProgress(() -> menu.progress.get() / (double) Config.INSTANCE.crackerProcessTime);
         Constraints.size(arrow, 16, 22);
         Constraints.placeOutside(arrow, inputSlot, Constraints.LayoutPos.BOTTOM_CENTER, 0, 5);
 
@@ -146,7 +146,7 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
         @Override
         public void renderBehind(GuiRender render, double mouseX, double mouseY, float partialTicks) {
             ItemStack stack = menu.input.getSlot(0).getItem();
-            float progress = Math.min(menu.progress.get() + partialTicks, EggCrackerBlockEntity.MAX_PROGRESS);
+            float progress = Math.min(menu.progress.get() + partialTicks, Config.INSTANCE.crackerProcessTime);
             if (stack.isEmpty() || !(stack.getItem() instanceof ItemChickenEgg eggItem) || progress == 0) {
                 return;
             }
@@ -154,10 +154,10 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
             if (type == null) return;
             int colour = type.getBgColor();
 
-            float animation = progress / (float) EggCrackerBlockEntity.MAX_PROGRESS;
+            float animation = progress / (float) Config.INSTANCE.crackerProcessTime;
             float maxAnimLen = 30;
-            if (EggCrackerBlockEntity.MAX_PROGRESS > maxAnimLen) {
-                float remain = EggCrackerBlockEntity.MAX_PROGRESS - progress;
+            if (Config.INSTANCE.crackerProcessTime > maxAnimLen) {
+                float remain = Config.INSTANCE.crackerProcessTime - progress;
                 animation = remain < maxAnimLen ? 1F - (remain / maxAnimLen) : 0;
             }
 

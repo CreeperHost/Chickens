@@ -3,8 +3,8 @@
   "biomes": "#minecraft:is_nether",
   "spawners": {
     "type": "chickens:soulsand_chicken",
-    "maxCount": 4,
-    "minCount": 2,
-    "weight": 10
+    "maxCount": 12,
+    "minCount": 12,
+    "weight": 60
   }
 }

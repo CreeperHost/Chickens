@@ -35,8 +35,6 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider, PolyFluidBlock, PolyEnergyBlock, RedstoneActivatedBlock {
-    public static final int MAX_PROGRESS = 100;
-    public static final int ENERGY_RATE = 20; //RF/t
 
     public final PolyTank tank = new PolyBlockTank(this, FluidManager.BUCKET * 16L);
     public final PolyEnergyStorage energy = new PolyBlockEnergyStorage(this, 128000);
@@ -76,7 +74,7 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
         }
 
         //Update Progress
-        if (progress.get() < MAX_PROGRESS) {
+        if (progress.get() < Config.INSTANCE.crackerProcessTime) {
             if (consumeEnergy() && isTileEnabled()) {
                 progress.inc();
             }
@@ -112,7 +110,7 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
     }
 
     private boolean consumeEnergy() {
-        return !Config.INSTANCE.enableEnergy || energy.extractEnergy(ENERGY_RATE, false) == ENERGY_RATE;
+        return !Config.INSTANCE.enableEnergy || energy.extractEnergy(Config.INSTANCE.crackerEnergyRate, false) == Config.INSTANCE.crackerEnergyRate;
     }
 
     @Override

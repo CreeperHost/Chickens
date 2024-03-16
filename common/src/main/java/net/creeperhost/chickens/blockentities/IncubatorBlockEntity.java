@@ -92,7 +92,7 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
 
     private void updateHeat(int localTemperature) {
         int targetHeat = localTemperature + (heatSetting.get() * HEAT_INCREMENT);
-        int energy = Math.max(temperature.get() - localTemperature, 0) * 10;
+        int energy = (int) Math.ceil(Math.max(temperature.get() - localTemperature, 0) * 10 * Config.INSTANCE.incubatorEnergyMultiplier);
 
         if (localTemperature > temperature.get()) {
             temperature.inc();

@@ -9,6 +9,8 @@ import net.creeperhost.polylib.registry.SpawnRegistry;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
@@ -36,11 +38,14 @@ public class ModEntities {
 
     public static <T extends Animal> void registerSpawn(EntityType<T> entityType, ChickensRegistryItem chickensRegistryItem) {
         if (chickensRegistryItem.isEnabled()) {
-//            SpawnRegistry.registerSpawnPlacement(() -> entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkAnimalSpawnRules);
-            SpawnPlacements.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
-
-
-
+            SpawnPlacements.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkChickenSpawnRules);
         }
+    }
+
+    private static boolean checkChickenSpawnRules(EntityType<? extends Animal> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
+        if (!levelAccessor.getBiome(blockPos).is(BiomeTags.IS_OVERWORLD)) {
+            return true;//!levelAccessor.getBlockState(blockPos.below()).is(BlockTags.WART_BLOCKS);
+        }
+        return Animal.checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource);
     }
 }

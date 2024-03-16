@@ -27,8 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class OvoscopeBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider, PolyEnergyBlock, RedstoneActivatedBlock {
-    public static final int MAX_PROGRESS = 100;
-    public static final int ENERGY_RATE = 10; //RF/t
 
     public final PolyEnergyStorage energy = new PolyBlockEnergyStorage(this, 128000);
     public final SimpleItemInventory inventory = new SimpleItemInventory(this, 4)
@@ -75,7 +73,7 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements ItemInventor
             return;
         }
 
-        if (progress.get() < MAX_PROGRESS) {
+        if (progress.get() < Config.INSTANCE.ovoscopeProcessTime) {
             if (consumeEnergy() && isTileEnabled()) {
                 progress.inc();
                 scanning = true;
@@ -97,7 +95,7 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements ItemInventor
     }
 
     private boolean consumeEnergy() {
-        return !Config.INSTANCE.enableEnergy || energy.extractEnergy(ENERGY_RATE, false) == ENERGY_RATE;
+        return !Config.INSTANCE.enableEnergy || energy.extractEnergy(Config.INSTANCE.ovoscopeEnergyRate, false) == Config.INSTANCE.ovoscopeEnergyRate;
     }
 
     @Override

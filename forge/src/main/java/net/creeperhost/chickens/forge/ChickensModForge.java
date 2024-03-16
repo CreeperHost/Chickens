@@ -1,6 +1,7 @@
 package net.creeperhost.chickens.forge;
 
 import dev.architectury.platform.forge.EventBuses;
+import dev.architectury.registry.level.biome.BiomeModifications;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.init.ModEntities;
 import net.creeperhost.chickens.init.ModItems;
@@ -8,6 +9,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;

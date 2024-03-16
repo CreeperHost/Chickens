@@ -6,8 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public class ChickensRegistryItem
-{
+public class ChickensRegistryItem {
     public ResourceLocation registryName;
     public String entityName;
     public ItemHolder layItem;
@@ -16,151 +15,145 @@ public class ChickensRegistryItem
     public ChickensRegistryItem parent1;
     public ChickensRegistryItem parent2;
     public boolean isEnabled = true;
-    public float layCoefficient = 1.0f;
+    public float layCoefficient;
+    public float breedSpeedMultiplier;
 
-    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor)
-    {
-        this(registryName, entityName, texture, layItem, bgColor, null, null);
+    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor) {
+        this(registryName, entityName, texture, layItem, bgColor, 1, 1);
     }
 
-    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2)
-    {
-        this(registryName, entityName, texture, new ItemHolder(layItem, false), bgColor, parent1, parent2);
+    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor, float layCoefficient, float breedSpeedMultiplier) {
+        this(registryName, entityName, texture, layItem, bgColor, layCoefficient, breedSpeedMultiplier, null, null);
     }
 
-    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemHolder layItem, int bgColor, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2)
-    {
+    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2) {
+        this(registryName, entityName, texture, layItem, bgColor, 1, 1, parent1, parent2);
+    }
+
+    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemStack layItem, int bgColor, float layCoefficient, float breedSpeedMultiplier, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2) {
+        this(registryName, entityName, texture, new ItemHolder(layItem, false), bgColor, layCoefficient, breedSpeedMultiplier, parent1, parent2);
+    }
+
+    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemHolder layItem, int bgColor, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2) {
+        this(registryName, entityName, texture, layItem, bgColor, 1, 1, parent1, parent2);
+    }
+
+    public ChickensRegistryItem(ResourceLocation registryName, String entityName, ResourceLocation texture, ItemHolder layItem, int bgColor, float layCoefficient, float breedSpeedMultiplier, @Nullable ChickensRegistryItem parent1, @Nullable ChickensRegistryItem parent2) {
         this.registryName = registryName;
         this.entityName = entityName;
         this.layItem = layItem;
         this.bgColor = bgColor;
         this.texture = texture;
+        this.layCoefficient = layCoefficient;
+        this.breedSpeedMultiplier = breedSpeedMultiplier;
         this.parent1 = parent1;
         this.parent2 = parent2;
     }
 
-    public ItemHolder getLayItemHolder()
-    {
+    public ItemHolder getLayItemHolder() {
         return this.layItem;
     }
 
 
-    public ChickensRegistryItem setLayCoefficient(float coef)
-    {
+    public ChickensRegistryItem setLayCoefficient(float coef) {
         layCoefficient = coef;
         return this;
     }
 
-    public String getEntityName()
-    {
+    public ChickensRegistryItem setBreedSpeedMultiplier(float breedSpeedMultiplier) {
+        this.breedSpeedMultiplier = breedSpeedMultiplier;
+        return this;
+    }
+
+    public String getEntityName() {
         return entityName;
     }
 
     @Nullable
-    public ChickensRegistryItem getParent1()
-    {
+    public ChickensRegistryItem getParent1() {
         return parent1;
     }
 
     @Nullable
-    public ChickensRegistryItem getParent2()
-    {
+    public ChickensRegistryItem getParent2() {
         return parent2;
     }
 
-    public int getBgColor()
-    {
+    public int getBgColor() {
         return bgColor;
     }
 
-    public ResourceLocation getTexture()
-    {
+    public ResourceLocation getTexture() {
         return texture;
     }
 
-    public ItemStack createLayItem()
-    {
+    public ItemStack createLayItem() {
         return layItem.getStack();
     }
 
 
-    public int getTier()
-    {
-        if (parent1 == null || parent2 == null)
-        {
+    public int getTier() {
+        if (parent1 == null || parent2 == null) {
             return 1;
         }
         return Math.max(parent1.getTier(), parent2.getTier()) + 1;
     }
 
-    public boolean isChildOf(ChickensRegistryItem parent1, ChickensRegistryItem parent2)
-    {
+    public boolean isChildOf(ChickensRegistryItem parent1, ChickensRegistryItem parent2) {
         return this.parent1 == parent1 && this.parent2 == parent2 || this.parent1 == parent2 && this.parent2 == parent1;
     }
 
-    public boolean isDye()
-    {
-        if(layItem == null || layItem.getStack() == null) return false;
+    public boolean isDye() {
+        if (layItem == null || layItem.getStack() == null) return false;
         return layItem.getStack().is(CommonTags.DYE);
     }
 
-    public ResourceLocation getRegistryName()
-    {
+    public ResourceLocation getRegistryName() {
         return registryName;
     }
 
-    public int getMinLayTime()
-    {
+    public int getMinLayTime() {
         return (int) Math.max(6000 * getTier() * layCoefficient, 1.0f);
     }
 
-    public int getMaxLayTime()
-    {
+    public int getMaxLayTime() {
         return 2 * getMinLayTime();
     }
 
-    public void setEnabled(boolean enabled)
-    {
+    public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
 
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return !(!isEnabled || parent1 != null && !parent1.isEnabled() || parent2 != null && !parent2.isEnabled());
     }
 
-    public void setLayItem(ItemHolder itemHolder)
-    {
+    public void setLayItem(ItemHolder itemHolder) {
         layItem = itemHolder;
     }
 
-    public void setLayItem(ItemStack itemstack)
-    {
+    public void setLayItem(ItemStack itemstack) {
         setLayItem(new ItemHolder(itemstack, false));
     }
 
-    public void setNoParents()
-    {
+    public void setNoParents() {
         parent1 = null;
         parent2 = null;
     }
 
-    public ChickensRegistryItem setParentsNew(ChickensRegistryItem parent1, ChickensRegistryItem parent2)
-    {
+    public ChickensRegistryItem setParentsNew(ChickensRegistryItem parent1, ChickensRegistryItem parent2) {
         this.parent1 = parent1;
         this.parent2 = parent2;
         return this;
     }
 
     @Deprecated
-    public void setParents(ChickensRegistryItem parent1, ChickensRegistryItem parent2)
-    {
+    public void setParents(ChickensRegistryItem parent1, ChickensRegistryItem parent2) {
         this.parent1 = parent1;
         this.parent2 = parent2;
     }
 
-    public boolean isBreedable()
-    {
+    public boolean isBreedable() {
         return parent1 != null && parent2 != null;
     }
 

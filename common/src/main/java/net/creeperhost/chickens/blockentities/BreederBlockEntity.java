@@ -4,6 +4,7 @@ import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.block.BreederBlock;
+import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.BreederMenu;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
@@ -11,6 +12,7 @@ import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.chickens.polylib.CommonTags;
 import net.creeperhost.polylib.blocks.PolyBlockEntity;
+import net.creeperhost.polylib.data.serializable.FloatData;
 import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.helpers.ContainerUtil;
 import net.creeperhost.polylib.inventory.item.ContainerAccessControl;
@@ -34,14 +36,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class BreederBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider {
-    public static final int MAX_PROGRESS = 1000;
 
     public final SimpleItemInventory inventory = new SimpleItemInventory(this, 6)
             .setSlotValidator(0, e -> e.is(CommonTags.SEEDS))
             .setSlotValidator(1, e -> e.is(ModItems.CHICKEN_ITEM.get()))
             .setSlotValidator(2, e -> e.is(ModItems.CHICKEN_ITEM.get()));
 
-    public final IntData progress = register("progress", new IntData(10), SAVE_BOTH);
+    public final FloatData progress = register("progress", new FloatData(0), SAVE_BOTH);
 
     public BreederBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.BREEDER_TILE.get(), pos, state);
@@ -59,20 +60,22 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
         boolean canWork = chicken1.getItem() instanceof ItemChicken && chicken2.getItem() instanceof ItemChicken && seeds.is(CommonTags.SEEDS);
         setState(canWork);
         if (!canWork) {
-            progress.set(0);
+            progress.set(0F);
             return;
         }
 
-        if (progress.get() < MAX_PROGRESS) {
-            progress.add(getProgressIncrement());
+        ChickensRegistryItem regItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(chicken1));
+        ChickensRegistryItem regItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(chicken2));
+        float timeMultiplier = (regItem1 == null ? 1 : regItem1.breedSpeedMultiplier) * (regItem2 == null ? 1 : regItem2.breedSpeedMultiplier);
+
+        if (progress.get() < Config.INSTANCE.breederMaxProcessTime) {
+            progress.add(getProgressIncrement(timeMultiplier));
             return;
         }
 
-        ChickensRegistryItem chickensRegistryItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(chicken1));
-        ChickensRegistryItem chickensRegistryItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(chicken2));
-        ChickensRegistryItem baby = ChickensRegistry.getRandomChild(chickensRegistryItem1, chickensRegistryItem2);
+        ChickensRegistryItem baby = ChickensRegistry.getRandomChild(regItem1, regItem2);
         if (baby == null) {
-            progress.set(0);
+            progress.set(0F);
             return;
         }
         ItemStack chickenStack = ItemChickenEgg.of(baby);
@@ -95,7 +98,7 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
             level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
             serverLevel.sendParticles(ParticleTypes.HEART, getBlockPos().getX() + 0.5, getBlockPos().getY() + 1, getBlockPos().getZ() + 0.5, 8, 0.45, 0.45, 0.45, 0.0125);
             seeds.shrink(1);
-            progress.set(0);
+            progress.set(0F);
         }
     }
 
@@ -137,13 +140,13 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
         level.setBlock(getBlockPos(), getBlockState().setValue(BreederBlock.HAS_SEEDS, hasSeeds).setValue(BreederBlock.IS_BREEDING, canWork), 3);
     }
 
-    public int getProgressIncrement() {
+    public float getProgressIncrement(float speedMultiplier) {
         ChickenStats chickenStats1 = new ChickenStats(inventory.getItem(1));
         ChickenStats chickenStats2 = new ChickenStats(inventory.getItem(2));
 
-        int progress = (chickenStats1.getGain() + chickenStats2.getGain());
+        float progress = chickenStats1.getGain() + chickenStats2.getGain();
         if (progress > 50) progress = 50;
-        return progress;
+        return progress * speedMultiplier;
     }
 
     public void damageChicken(int slot) {
