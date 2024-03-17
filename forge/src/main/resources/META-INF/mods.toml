@@ -36,6 +36,6 @@ side = "BOTH"
 [[dependencies.chickens]]
 modId = "polylib"
 mandatory = true
-versionRange = "[1200.0.2,)"
+versionRange = "[1200.0.3,)"
 ordering = "AFTER"
 side = "BOTH"
