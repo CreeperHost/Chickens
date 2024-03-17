@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 public class BreederBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider {
 
     public final SimpleItemInventory inventory = new SimpleItemInventory(this, 6)
-            .setSlotValidator(0, e -> e.is(CommonTags.SEEDS))
+            .setSlotValidator(0, CommonTags::isSeeds)
             .setSlotValidator(1, e -> e.is(ModItems.CHICKEN_ITEM.get()))
             .setSlotValidator(2, e -> e.is(ModItems.CHICKEN_ITEM.get()));
 
@@ -57,7 +57,7 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
         ItemStack chicken1 = inventory.getItem(1);
         ItemStack chicken2 = inventory.getItem(2);
 
-        boolean canWork = chicken1.getItem() instanceof ItemChicken && chicken2.getItem() instanceof ItemChicken && seeds.is(CommonTags.SEEDS);
+        boolean canWork = chicken1.getItem() instanceof ItemChicken && chicken2.getItem() instanceof ItemChicken && CommonTags.isSeeds(seeds);
         setState(canWork);
         if (!canWork) {
             progress.set(0F);

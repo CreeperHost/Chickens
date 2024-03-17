@@ -1,4 +1,13 @@
- dependencies {
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+    id "maven-publish"
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/chickens.accesswidener")
+}
+
+dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
@@ -11,11 +20,7 @@
 }
 
 architectury {
-    common(rootProject.enabled_platforms.split(","))
-}
-
-loom {
-    accessWidenerPath = file("src/main/resources/chickens.accesswidener")
+    common("fabric", "forge", "neoforge")
 }
 
 sourceSets {

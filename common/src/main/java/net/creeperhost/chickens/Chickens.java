@@ -31,12 +31,12 @@ public class Chickens
 {
     public static final String MOD_ID = "chickens";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final File CHICKENS_CONFIG_DIR = new File("config/chickens");
-    public static final File CHICKENS_CONFIG_JSON = new File(CHICKENS_CONFIG_DIR, "chickens.json");
+    public static final File CONFIG_DIR = new File("config/chickens");
+    public static final File CONFIG_FILE = new File(CONFIG_DIR, "chickens.json");
 
     public static void init()
     {
-        Config.init(CHICKENS_CONFIG_JSON);
+        Config.init();
         for (ChickenConfig chickenConfig : Config.INSTANCE.chickens)
         {
             ResourceLocation texture = new ResourceLocation("chickens", "textures/entity/" + new ResourceLocation(chickenConfig.name).getPath() + ".png");
