@@ -15,8 +15,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
 public class OvoscopeMenu extends PolyBlockContainerMenu<OvoscopeBlockEntity> {
-    public final SlotGroup main = createSlotGroup(0, 1);
-    public final SlotGroup hotBar = createSlotGroup(0, 1);
+    public final SlotGroup main = Config.INSTANCE.enableEnergy ? createSlotGroup(0, 1, 4) : createSlotGroup(0, 1);
+    public final SlotGroup hotBar = Config.INSTANCE.enableEnergy ? createSlotGroup(0, 1, 4) : createSlotGroup(0, 1);
 
     public final SlotGroup input = createSlotGroup(1, 0);
     public final SlotGroup viable = createSlotGroup(2, 0);
@@ -48,8 +48,6 @@ public class OvoscopeMenu extends PolyBlockContainerMenu<OvoscopeBlockEntity> {
 
         if (Config.INSTANCE.enableEnergy) {
             energySlot.addSlot(new PolySlot(tile.inventory, 3).setStackLimit(e -> 1));
-            main.quickMoveTo.add(4);
-            hotBar.quickMoveTo.add(4);
         }
     }
 }

@@ -26,8 +26,8 @@ public class IncubatorMenu extends PolyBlockContainerMenu<IncubatorBlockEntity>
     public final DataSync<Integer> heatSetting;
     public final DataSync<Long> energy;
 
-    public final SlotGroup main = createSlotGroup(0, 1, 2);
-    public final SlotGroup hotBar = createSlotGroup(0, 1, 2);
+    public final SlotGroup main = Config.INSTANCE.enableEnergy ? createSlotGroup(0, 1, 2, 3) : createSlotGroup(0, 1, 2);
+    public final SlotGroup hotBar = Config.INSTANCE.enableEnergy ? createSlotGroup(0, 1, 2, 3) : createSlotGroup(0, 1, 2);
 
     public final SlotGroup eggSlots = createSlotGroup(1, 0);
     public final SlotGroup waterSlot = createSlotGroup(2, 0);
@@ -51,8 +51,6 @@ public class IncubatorMenu extends PolyBlockContainerMenu<IncubatorBlockEntity>
         waterSlot.addSlot(new PolySlot(tile.inventory, 9));
         if (Config.INSTANCE.enableEnergy){
             energySlot.addSlot(new PolySlot(tile.inventory, 10));
-            main.quickMoveTo.add(3);
-            hotBar.quickMoveTo.add(3);
         }
     }
 }
