@@ -6,7 +6,7 @@ import net.creeperhost.chickens.client.gui.EggCrackerGui;
 import net.creeperhost.chickens.client.gui.IncubatorGui;
 import net.creeperhost.chickens.client.gui.OvoscopeGui;
 import net.creeperhost.polylib.PolyLib;
-import net.creeperhost.polylib.forge.datagen.providers.DynamicTextureProvider;
+import net.creeperhost.polylib.neoforge.datagen.providers.DynamicTextureProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
