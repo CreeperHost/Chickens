@@ -1,4 +1,4 @@
-package net.creeperhost.chickens.client.screen;
+package net.creeperhost.chickens.client.gui;
 
 import com.mojang.math.Axis;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
@@ -21,7 +21,6 @@ import net.creeperhost.polylib.client.modulargui.lib.geometry.Direction;
 import net.creeperhost.polylib.client.modulargui.lib.geometry.GuiParent;
 import net.creeperhost.polylib.client.modulargui.sprite.Material;
 import net.creeperhost.polylib.client.modulargui.sprite.PolyTextures;
-import net.creeperhost.polylib.containers.slots.PolySlot;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;

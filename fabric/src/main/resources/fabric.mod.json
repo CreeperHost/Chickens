@@ -8,11 +8,11 @@
     "CreeperHost"
   ],
   "contact": {
-    "homepage": "",
-    "sources": ""
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/creeperhost-presents-chickens",
+    "sources": "https://github.com/CreeperHost/Chickens"
   },
-  "license": "Insert License Here",
-  "icon": "assets/examplemod/icon.png",
+  "license": "MIT License",
+  "icon": "assets/chickens/logo.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -25,6 +25,6 @@
     "fabric": "*",
     "minecraft": ">=1.20.2",
     "architectury": ">=10.0.17",
-    "polylib": ">=2002.0.3-build.128"
+    "polylib": ">=2002.0.3-build.129"
   }
 }

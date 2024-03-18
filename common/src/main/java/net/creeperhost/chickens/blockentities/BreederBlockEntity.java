@@ -13,7 +13,6 @@ import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.chickens.polylib.CommonTags;
 import net.creeperhost.polylib.blocks.PolyBlockEntity;
 import net.creeperhost.polylib.data.serializable.FloatData;
-import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.helpers.ContainerUtil;
 import net.creeperhost.polylib.inventory.item.ContainerAccessControl;
 import net.creeperhost.polylib.inventory.item.ItemInventoryBlock;

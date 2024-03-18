@@ -1,12 +1,9 @@
-package net.creeperhost.chickens.client.screen;
+package net.creeperhost.chickens.client.gui;
 
 import net.creeperhost.chickens.api.ChickensRegistryItem;
-import net.creeperhost.chickens.blockentities.BreederBlockEntity;
-import net.creeperhost.chickens.blockentities.EggCrackerBlockEntity;
 import net.creeperhost.chickens.blockentities.OvoscopeBlockEntity;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
 import net.creeperhost.chickens.config.Config;
-import net.creeperhost.chickens.containers.BreederMenu;
 import net.creeperhost.chickens.containers.OvoscopeMenu;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.creeperhost.polylib.client.modulargui.ModularGui;

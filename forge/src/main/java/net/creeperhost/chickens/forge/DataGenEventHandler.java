@@ -1,10 +1,10 @@
 package net.creeperhost.chickens.forge;
 
 import net.creeperhost.chickens.Chickens;
-import net.creeperhost.chickens.client.screen.BreederGui;
-import net.creeperhost.chickens.client.screen.EggCrackerGui;
-import net.creeperhost.chickens.client.screen.IncubatorGui;
-import net.creeperhost.chickens.client.screen.OvoscopeGui;
+import net.creeperhost.chickens.client.gui.BreederGui;
+import net.creeperhost.chickens.client.gui.EggCrackerGui;
+import net.creeperhost.chickens.client.gui.IncubatorGui;
+import net.creeperhost.chickens.client.gui.OvoscopeGui;
 import net.creeperhost.polylib.PolyLib;
 import net.creeperhost.polylib.forge.datagen.providers.DynamicTextureProvider;
 import net.minecraft.data.DataGenerator;

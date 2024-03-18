@@ -1,9 +1,9 @@
 package net.creeperhost.chickens.init;
 
-import net.creeperhost.chickens.client.screen.IncubatorGui;
-import net.creeperhost.chickens.client.screen.BreederGui;
-import net.creeperhost.chickens.client.screen.EggCrackerGui;
-import net.creeperhost.chickens.client.screen.OvoscopeGui;
+import net.creeperhost.chickens.client.gui.IncubatorGui;
+import net.creeperhost.chickens.client.gui.BreederGui;
+import net.creeperhost.chickens.client.gui.EggCrackerGui;
+import net.creeperhost.chickens.client.gui.OvoscopeGui;
 import net.minecraft.client.gui.screens.MenuScreens;
 
 public class ModScreens

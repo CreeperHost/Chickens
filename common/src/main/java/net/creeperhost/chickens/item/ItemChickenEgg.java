@@ -5,13 +5,9 @@ import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -28,15 +24,6 @@ public class ItemChickenEgg extends Item
     {
         super(new Item.Properties());
     }
-
-//    @Override
-//    public void fillItemCategory(@NotNull CreativeModeTab creativeModeTab, @NotNull NonNullList<ItemStack> nonNullList)
-//    {
-//        if(this.allowedIn(creativeModeTab))
-//        {
-//            ChickensRegistry.getItems().forEach(chickensRegistryItem -> nonNullList.add(of(chickensRegistryItem)));
-//        }
-//    }
 
     @Override
     public Component getName(@NotNull ItemStack itemStack)

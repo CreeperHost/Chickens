@@ -1,7 +1,6 @@
 package net.creeperhost.chickens.blockentities;
 
 import dev.architectury.fluid.FluidStack;
-import io.netty.util.collection.IntObjectHashMap;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.EggCrackerMenu;
@@ -20,9 +19,7 @@ import net.creeperhost.polylib.inventory.power.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -30,9 +27,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 
 public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider, PolyFluidBlock, PolyEnergyBlock, RedstoneActivatedBlock {
 
