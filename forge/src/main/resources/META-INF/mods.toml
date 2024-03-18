@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[46,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+issueTrackerURL = "https://github.com/CreeperHost/Chickens/issues"
+license = "MIT License"
 
 [[mods]]
 modId = "chickens"
@@ -10,7 +10,7 @@ displayName = "Chickens"
 authors = "CreeperHost"
 description = '''
 '''
-#logoFile = ""
+logoFile = "logo.png"
 
 [[dependencies.chickens]]
 modId = "forge"

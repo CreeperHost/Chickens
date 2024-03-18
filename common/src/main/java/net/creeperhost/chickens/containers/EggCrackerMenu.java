@@ -19,8 +19,8 @@ public class EggCrackerMenu extends PolyBlockContainerMenu<EggCrackerBlockEntity
     public final DataSync<Long> energy;
     public final DataSync<Integer> progress;
 
-    public final SlotGroup main = createSlotGroup(0, 1, 2, 3);
-    public final SlotGroup hotBar = createSlotGroup(0, 1, 2, 3);
+    public final SlotGroup main = createSlotGroup(0, 1, 2);
+    public final SlotGroup hotBar = createSlotGroup(0, 1, 2);
 
     public final SlotGroup input = createSlotGroup(1, 0);
     public final SlotGroup fluidSlot = createSlotGroup(2, 0);
@@ -45,6 +45,8 @@ public class EggCrackerMenu extends PolyBlockContainerMenu<EggCrackerBlockEntity
         fluidSlot.addSlot(new PolySlot(tile.inventory, 7).setStackLimit(e -> 1));
         if (Config.INSTANCE.enableEnergy) {
             energySlot.addSlot(new PolySlot(tile.inventory, 8).setStackLimit(e -> 1));
+            main.quickMoveTo.add(3);
+            hotBar.quickMoveTo.add(3);
         }
     }
 }

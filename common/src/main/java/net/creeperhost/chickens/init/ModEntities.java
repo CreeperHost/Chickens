@@ -5,17 +5,17 @@ import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
-import net.creeperhost.polylib.registry.SpawnRegistry;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.LinkedHashMap;
@@ -44,7 +44,7 @@ public class ModEntities {
 
     private static boolean checkChickenSpawnRules(EntityType<? extends Animal> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
         if (!levelAccessor.getBiome(blockPos).is(BiomeTags.IS_OVERWORLD)) {
-            return true;//!levelAccessor.getBlockState(blockPos.below()).is(BlockTags.WART_BLOCKS);
+            return true;
         }
         return Animal.checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource);
     }

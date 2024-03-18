@@ -26,8 +26,8 @@ public class IncubatorMenu extends PolyBlockContainerMenu<IncubatorBlockEntity>
     public final DataSync<Integer> heatSetting;
     public final DataSync<Long> energy;
 
-    public final SlotGroup main = createSlotGroup(0, 1, 2, 3);
-    public final SlotGroup hotBar = createSlotGroup(0, 1, 2, 3);
+    public final SlotGroup main = createSlotGroup(0, 1, 2);
+    public final SlotGroup hotBar = createSlotGroup(0, 1, 2);
 
     public final SlotGroup eggSlots = createSlotGroup(1, 0);
     public final SlotGroup waterSlot = createSlotGroup(2, 0);
@@ -51,67 +51,8 @@ public class IncubatorMenu extends PolyBlockContainerMenu<IncubatorBlockEntity>
         waterSlot.addSlot(new PolySlot(tile.inventory, 9));
         if (Config.INSTANCE.enableEnergy){
             energySlot.addSlot(new PolySlot(tile.inventory, 10));
+            main.quickMoveTo.add(3);
+            hotBar.quickMoveTo.add(3);
         }
     }
-
-
-//    public ContainerIncubator(int id, Inventory playerInv, FriendlyByteBuf extraData)
-//    {
-//        this(id, playerInv, (BlockEntityIncubator) Minecraft.getInstance().level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
-//    }
-//
-//    public ContainerIncubator(int id, Inventory playerInv, BlockEntityIncubator blockEntityIncubator, ContainerData containerData)
-//    {
-//        super(ModContainers.INCUBATOR.get(), id);
-//        this.containerData = containerData;
-//        this.blockPos = blockEntityIncubator.getBlockPos();
-//        this.blockEntityIncubator = blockEntityIncubator;
-//
-//        blockEntityIncubator.getSlots().forEach(this::addSlot);
-//
-//        for (int l = 0; l < 3; ++l)
-//        {
-//            for (int k = 0; k < 9; ++k)
-//            {
-//                this.addSlot(new Slot(playerInv, k + l * 9 + 9, 8 + k * 18, l * 18 + 84));
-//            }
-//        }
-//
-//        for (int i1 = 0; i1 < 9; ++i1)
-//        {
-//            this.addSlot(new Slot(playerInv, i1, 8 + i1 * 18, 142));
-//        }
-//        addDataSlots(containerData);
-//    }
-//
-//    @Override
-//    public boolean stillValid(@NotNull Player player)
-//    {
-//        return true;
-//    }
-//
-//    public int getLightLevel()
-//    {
-//        return containerData.get(0);
-//    }
-//
-//    public int getTemp()
-//    {
-//        return containerData.get(1);
-//    }
-//
-//    public int getTankStored()
-//    {
-//        return containerData.get(2);
-//    }
-//
-//    public BlockPos getBlockPos()
-//    {
-//        return blockPos;
-//    }
-//
-//    public BlockEntityIncubator getBlockEntityIncubator()
-//    {
-//        return blockEntityIncubator;
-//    }
 }

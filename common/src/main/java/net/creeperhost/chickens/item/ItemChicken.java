@@ -9,15 +9,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -34,27 +31,6 @@ public class ItemChicken extends Item
     {
         super(properties);
     }
-
-//    @Override
-//    public void fillItemCategory(@NotNull CreativeModeTab tab, @NotNull NonNullList<ItemStack> subItems)
-//    {
-//        if (this.allowedIn(tab))
-//        {
-//            for (ChickensRegistryItem chicken : ChickensRegistry.getItems())
-//            {
-//                subItems.add(of(chicken));
-//
-//                //For testing
-//                ItemStack stack = of(chicken);
-//                ChickenStats chickenStats = new ChickenStats(stack);
-//                chickenStats.setGain(10);
-//                chickenStats.setGrowth(10);
-//                chickenStats.setStrength(10);
-//                chickenStats.write(stack);
-//                subItems.add(stack);
-//            }
-//        }
-//    }
 
     public static ItemStack of(ChickensRegistryItem chickensRegistryItem)
     {

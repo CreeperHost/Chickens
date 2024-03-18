@@ -11,7 +11,6 @@ import net.creeperhost.chickens.blockentities.BreederBlockEntity;
 import net.creeperhost.chickens.blockentities.EggCrackerBlockEntity;
 import net.creeperhost.chickens.blockentities.IncubatorBlockEntity;
 import net.creeperhost.chickens.blockentities.OvoscopeBlockEntity;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;

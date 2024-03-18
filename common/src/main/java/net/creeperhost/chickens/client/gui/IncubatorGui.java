@@ -1,4 +1,4 @@
-package net.creeperhost.chickens.client.screen;
+package net.creeperhost.chickens.client.gui;
 
 import net.creeperhost.chickens.blockentities.IncubatorBlockEntity;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
