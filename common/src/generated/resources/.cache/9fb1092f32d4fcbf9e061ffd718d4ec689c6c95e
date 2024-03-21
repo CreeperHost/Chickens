@@ -1,0 +1,13 @@
+// 1.20.2	2024-03-21T12:04:18.392317588	Recipes
+9cf5955d56189f35cd4c7c62129f1a32b5ad927a data/chickens/advancements/recipes/food/cooked_chicken.json
+2a1854d561a0159a85745780c00b9c18f1a8af65 data/chickens/advancements/recipes/misc/breeder.json
+54503e64a5b6a57fcdbb8b4082250b15c76de153 data/chickens/advancements/recipes/misc/catcher.json
+e1a1917a23542d72eb75ce40df2a76fb07d52b94 data/chickens/advancements/recipes/misc/egg_cracker.json
+624b37054a46602278b2662025c8c376200ec846 data/chickens/advancements/recipes/misc/incubator.json
+54761ed598c0e7614aae834c55b4aa6086a541f8 data/chickens/advancements/recipes/misc/ovoscope.json
+24c4dd5b1c728e6d45105a919fc868058a457605 data/chickens/recipes/breeder.json
+8a3a465bd9a681ce54e4a25732256bb9587b052a data/chickens/recipes/catcher.json
+05cba43abc510826bf3b669dbbef2524e0e649b6 data/chickens/recipes/cooked_chicken.json
+f3a9f24b538084811bed451eda0d82f35d7bf3b3 data/chickens/recipes/egg_cracker.json
+5bdb529e83f5c3a85daf82c81d79e04c4cf7dad9 data/chickens/recipes/incubator.json
+0c6a5e0c2487a99161528a3dfd21243de11b56f8 data/chickens/recipes/ovoscope.json
