@@ -1,0 +1,5 @@
+// 1.20.2	2024-03-21T12:02:13.990468889	Loot Tables
+65ebdb83607d1caaa26b6d12574a40d88cf2585f data/chickens/loot_tables/blocks/breeder.json
+bc3be3b42cedd8c11fac76f4e862e14e13637f02 data/chickens/loot_tables/blocks/egg_cracker.json
+0fce98911c086d5a1e9673f9ea735f36b5356f27 data/chickens/loot_tables/blocks/incubator.json
+29eb7a642a982e92de351d4983ea4e77c98a2202 data/chickens/loot_tables/blocks/ovoscope.json

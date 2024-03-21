@@ -5,6 +5,7 @@ import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
+import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.client.RenderChickensChicken;
 import net.creeperhost.chickens.client.RenderIncubator;
 import net.creeperhost.chickens.init.ModBlocks;
@@ -25,7 +26,8 @@ public class ChickensClient
         {
             if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
             {
-                return itemColoredEgg.getType(itemStack).getBgColor();
+                ChickensRegistryItem item = itemColoredEgg.getType(itemStack);
+                return item == null ? 0xFFFFFFFF : item.getBgColor();
             }
             return 0;
         }, ModItems.CHICKEN_EGG);
