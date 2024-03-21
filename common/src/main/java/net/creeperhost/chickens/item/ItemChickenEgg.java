@@ -28,6 +28,9 @@ public class ItemChickenEgg extends Item
     @Override
     public Component getName(@NotNull ItemStack itemStack)
     {
+        if (getType(itemStack) == null) {
+            return Component.translatable("item.chickens.egg.name");
+        }
         String name = getType(itemStack).getEntityName().replace("_", " ") + " egg";
         String first = name.substring(0, 1).toUpperCase();
         String formatted = first + name.substring(1);

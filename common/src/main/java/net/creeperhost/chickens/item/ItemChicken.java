@@ -120,7 +120,7 @@ public class ItemChicken extends Item
     public Component getName(@NotNull ItemStack stack)
     {
         ChickensRegistryItem chickenDescription = ChickensRegistry.getByRegistryName(getTypeFromStack(stack));
-        if (chickenDescription == null) return Component.literal("nul1");
+        if (chickenDescription == null) return Component.translatable("item.chickens.chicken.name");
         return Component.translatable("entity.chickens." + chickenDescription.getEntityName());
     }
 

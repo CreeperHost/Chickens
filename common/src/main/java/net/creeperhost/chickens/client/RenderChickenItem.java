@@ -1,7 +1,10 @@
 package net.creeperhost.chickens.client;
 
+import com.google.common.collect.Iterables;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.creeperhost.chickens.api.ChickensRegistry;
+import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.minecraft.client.Minecraft;
@@ -22,7 +25,12 @@ public class RenderChickenItem
         if (mc == null) return;
         if (mc.level == null) return;
         String s = ItemChicken.getTypeFromStack(itemStack);
-        if(s == null || s.isEmpty()) return;
+        if(s == null || s.isEmpty()) {
+            ChickensRegistryItem item = Iterables.get(ChickensRegistry.getItems(), (int) ((System.currentTimeMillis() / 1000) % ChickensRegistry.getItems().size()));
+            s = item.registryName.toString();
+        }
+
+        if(s.isEmpty()) return;
 
         EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(s));
         if(entityType == null) return;

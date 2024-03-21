@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_breeder": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "chickens:breeder"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "chickens:incubator"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_breeder"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "chickens:incubator"
+    ]
+  },
+  "sends_telemetry_event": false
+}
