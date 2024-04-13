@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "net.creeperhost.chickens.fabric.ChickensModFabric"
+    ],
+    "jei_mod_plugin": [
+      "net.creeperhost.chickens.compat.jei.ChickensJeiPlugin"
     ]
   },
   "mixins": [
