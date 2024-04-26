@@ -16,6 +16,7 @@ import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.network.PacketHandler;
 import net.creeperhost.chickens.polylib.ItemHolder;
+import net.fabricmc.api.EnvType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -66,7 +67,10 @@ public class Chickens
         ModItems.TABS.register();
         ModContainers.CONTAINERS.register();
         ModSounds.SOUNDS.register();
-        ClientLifecycleEvent.CLIENT_SETUP.register(ChickensClient::clientSetup);
+
+        if (Platform.getEnv() == EnvType.CLIENT) {
+            ClientLifecycleEvent.CLIENT_SETUP.register(ChickensClient::clientSetup);
+        }
 
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
 
