@@ -65,7 +65,7 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
 
         //Can Run?
         ItemStack input = inventory.getItem(0);
-        if (!(input.getItem() instanceof ItemChickenEgg eggItem)) {
+        if (!(input.getItem() instanceof ItemChickenEgg eggItem) || eggItem.getType(input) == null) {
             progress.set(0);
             return;
         }

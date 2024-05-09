@@ -49,6 +49,7 @@ public class ItemChickenEgg extends Item
 
     public ChickensRegistryItem getType(ItemStack stack)
     {
+        if(stack.isEmpty()) return null;
         if(stack.getTag() == null) return null;
 
         ResourceLocation resourceLocation = ResourceLocation.tryParse(stack.getTag().getString("chickentype"));

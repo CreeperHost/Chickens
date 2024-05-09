@@ -150,6 +150,7 @@ public class ItemHolder
             else
             {
                 handleItemNotFound();
+                return ItemStack.EMPTY;
             }
         }
 
