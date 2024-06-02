@@ -39,11 +39,16 @@ public class ItemChickenEgg extends Item
 
     public static ItemStack of(ChickensRegistryItem chickensRegistryItem)
     {
+        return of(chickensRegistryItem, true);
+    }
+
+    public static ItemStack of(ChickensRegistryItem chickensRegistryItem, boolean viable)
+    {
         ItemStack stack = new ItemStack(ModItems.CHICKEN_EGG.get());
         stack.getOrCreateTag().putString("chickentype", chickensRegistryItem.getRegistryName().toString());
         stack.getOrCreateTag().putInt("progress", 0);
         stack.getOrCreateTag().putInt("missed", 0);
-        stack.getOrCreateTag().putBoolean("viable", true);
+        stack.getOrCreateTag().putBoolean("viable", viable);
         return stack;
     }
 
@@ -140,8 +145,8 @@ public class ItemChickenEgg extends Item
             }
             list.add(Component.literal(ChatFormatting.BLUE + "ChickenType: " + ChatFormatting.WHITE + chickensRegistryItem.getEntityName()));
             list.add(Component.literal(ChatFormatting.LIGHT_PURPLE + "Progress: " + ChatFormatting.WHITE + getProgress(itemStack)));
-            list.add(Component.literal("Missed: " + getMissedCycles(itemStack)));
-            list.add(Component.literal("Viable: " + isViable(itemStack)));
+//            list.add(Component.literal("Missed: " + getMissedCycles(itemStack)));
+//            list.add(Component.literal("Viable: " + isViable(itemStack)));
         }
 
         ChickenStats chickenStats = new ChickenStats(itemStack);

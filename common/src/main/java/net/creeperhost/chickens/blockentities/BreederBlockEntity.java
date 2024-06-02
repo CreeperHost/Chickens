@@ -77,7 +77,7 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
             progress.set(0F);
             return;
         }
-        ItemStack chickenStack = ItemChickenEgg.of(baby);
+        ItemStack chickenStack = ItemChickenEgg.of(baby, level.random.nextDouble() < Config.INSTANCE.incubateSuccessRate);
 
         ChickenStats babyStats = increaseStats(chickenStack, chicken1, chicken2, level.random);
         babyStats.write(chickenStack);
