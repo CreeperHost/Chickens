@@ -14,28 +14,28 @@ logoFile = "logo.png"
 
 [[dependencies.chickens]]
 modId = "neoforge"
-mandatory = true
+type="required"
 versionRange = "[20,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.chickens]]
 modId = "minecraft"
-mandatory = true
+type="required"
 versionRange = "[1.20.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.chickens]]
 modId = "architectury"
-mandatory = true
+type="required"
 versionRange = "[11.0.9,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.chickens]]
 modId = "polylib"
-mandatory = true
-versionRange = "[2002.0.3,)"
+type="required"
+versionRange = "[2004.0.3,)"
 ordering = "AFTER"
 side = "BOTH"
