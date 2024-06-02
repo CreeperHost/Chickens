@@ -154,6 +154,8 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
         //thats 1% chance per second, so on average 100 seconds form an egg to become non-viable at 0% humidity
         double deathChance = hVal * hVal * hVal * 0.01;
 
+        double failureChance = (1F - Config.INSTANCE.incubateSuccessRate) / 100F;
+
         RandomSource random = level.getRandom();
 
         for (int slot = 0; slot < 9; slot++) {
@@ -164,6 +166,7 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
 
             if (deathChance > random.nextDouble()) {
                 eggItem.setNotViable(stack);
+                eggItem.setProgress(stack, 0);
                 continue;
             }
 
@@ -173,6 +176,11 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
                     //Previously we were updating a single random egg every second.
                     //This keeps some randomness without multiplying hatching time by the number of eggs, which seems unrealistic.
                     if (random.nextBoolean()) continue;
+                    if (failureChance > random.nextDouble()) {
+                        eggItem.setNotViable(stack);
+                        eggItem.setProgress(stack, 0);
+                        continue;
+                    }
                     progress++;
                     eggItem.setProgress(stack, progress);
                 } else {

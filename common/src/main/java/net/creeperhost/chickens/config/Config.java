@@ -28,6 +28,9 @@ public class Config {
     public int crackerProcessTime = 100;
     public int ovoscopeProcessTime = 100;
 
+    public double onLaidViabilityChange = 0.97;
+    public double incubateSuccessRate = 0.97;
+
     public List<ChickenConfig> chickens = new ArrayList<>();
     public List<FabricSpawn> fabricSpawns = new ArrayList<>();
 
