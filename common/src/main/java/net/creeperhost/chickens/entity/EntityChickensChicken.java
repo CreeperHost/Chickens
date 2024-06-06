@@ -2,7 +2,9 @@ package net.creeperhost.chickens.entity;
 
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.init.ModSounds;
+import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -246,21 +248,10 @@ public class EntityChickensChicken extends Chicken
             if (newTimeUntilNextEgg <= 1)
             {
                 ChickensRegistryItem chickenDescription = getChickenRegistryItem();
-                ItemStack itemToLay = chickenDescription.createLayItem();
+                ItemStack eggStack = ItemChickenEgg.of(chickenDescription, level().random.nextDouble() < Config.INSTANCE.onLaidViabilityChange);
 
-                int gain = getGain();
-                if (gain >= 5)
-                {
-                    itemToLay.grow(chickenDescription.createLayItem().getCount());
-                }
-                if (gain >= 10)
-                {
-                    itemToLay.grow(chickenDescription.createLayItem().getCount());
-                }
-
-                if (!itemToLay.isEmpty())
-                {
-                    ItemEntity itemEntity = new ItemEntity(level(), getX(), getY(), getZ(), chickenDescription.createLayItem());
+                if (!eggStack.isEmpty()) {
+                    ItemEntity itemEntity = new ItemEntity(level(), getX(), getY(), getZ(), eggStack);
                     level().addFreshEntity(itemEntity);
                     playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
                 }

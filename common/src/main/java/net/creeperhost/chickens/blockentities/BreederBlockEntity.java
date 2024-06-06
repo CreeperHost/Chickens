@@ -77,7 +77,7 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
             progress.set(0F);
             return;
         }
-        ItemStack chickenStack = ItemChickenEgg.of(baby, level.random.nextDouble() < Config.INSTANCE.incubateSuccessRate);
+        ItemStack chickenStack = ItemChickenEgg.of(baby, level.random.nextDouble() < Config.INSTANCE.onLaidViabilityChange);
 
         ChickenStats babyStats = increaseStats(chickenStack, chicken1, chicken2, level.random);
         babyStats.write(chickenStack);
@@ -96,7 +96,9 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
             }
             level.playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundSource.NEUTRAL, 0.5F, 0.8F);
             serverLevel.sendParticles(ParticleTypes.HEART, getBlockPos().getX() + 0.5, getBlockPos().getY() + 1, getBlockPos().getZ() + 0.5, 8, 0.45, 0.45, 0.45, 0.0125);
-            seeds.shrink(1);
+            if (level.random.nextDouble() < Config.INSTANCE.breederFoodConsumptionChance) {
+                seeds.shrink(1);
+            }
             progress.set(0F);
         }
     }
