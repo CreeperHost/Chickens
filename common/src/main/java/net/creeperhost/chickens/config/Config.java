@@ -5,29 +5,19 @@ import com.google.gson.GsonBuilder;
 import dev.architectury.platform.Platform;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
-import net.creeperhost.chickens.blockentities.BreederBlockEntity;
-import net.creeperhost.chickens.blockentities.EggCrackerBlockEntity;
-import net.creeperhost.chickens.blockentities.IncubatorBlockEntity;
 import net.creeperhost.chickens.init.ModChickens;
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.world.entity.MobCategory;
-import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.charset.Charset;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Config
-{
-    public static Config INSTANCE;
+public class Config {
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+    public static Config INSTANCE = new Config();
 
     public boolean enableEnergy = true;
     public int crackerEnergyRate = 20;
@@ -38,17 +28,22 @@ public class Config
     public int crackerProcessTime = 100;
     public int ovoscopeProcessTime = 100;
 
+    public int eggItemMaxTimeOnGround = 15;
+
     public double onLaidViabilityChange = 0.97;
     public double incubateSuccessRate = 0.97;
+
+    public double breederFoodConsumptionChance = 0.50;
 
     public List<ChickenConfig> chickens = new ArrayList<>();
     public List<FabricSpawn> fabricSpawns = new ArrayList<>();
 
+    public Config() {}
 
-    public Config()
-    {
-        for (ChickensRegistryItem chickensRegistryItem : ModChickens.generateDefaultChickens())
-        {
+    private void generateDefaults() {
+        chickens.clear();
+        fabricSpawns.clear();
+        for (ChickensRegistryItem chickensRegistryItem : ModChickens.generateDefaultChickens()) {
             chickens.add(ChickenConfig.of(chickensRegistryItem));
         }
         if (Platform.isFabric()) {
@@ -60,54 +55,37 @@ public class Config
         }
     }
 
-    public static void init(File file)
-    {
-        try
-        {
-            if(!Chickens.CHICKENS_CONFIG_DIR.exists())
-            {
-                Chickens.CHICKENS_CONFIG_DIR.mkdir();
-                Chickens.LOGGER.info("Chickens config folder does not exist, creating...");
-            }
-            if (!file.exists())
-            {
-                Config.INSTANCE = new Config();
-                FileWriter tileWriter = new FileWriter(file);
-                tileWriter.write(saveConfig());
-                tileWriter.close();
-            }
-            else
-            {
-                Config.loadFromFile(file);
-            }
-        } catch (Exception ignored) {}
-    }
-
-    public static void loadFromFile(File file)
-    {
-        Gson gson = new Gson();
-        try
-        {
-            FileReader fileReader = new FileReader(file);
-            INSTANCE = gson.fromJson(fileReader, Config.class);
-        } catch (Exception ignored) {}
-    }
-
-    public static String saveConfig()
-    {
-        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-        return gson.toJson(INSTANCE);
-    }
-
-
-    public static void saveConfigToFile(File file)
-    {
-        try (FileOutputStream configOut = new FileOutputStream(file))
-        {
-            IOUtils.write(Config.saveConfig(), configOut, Charset.defaultCharset());
+    public static void init() {
+        if (!Chickens.CONFIG_FILE.exists()) {
+            INSTANCE.generateDefaults();
+            saveConfig();
         }
-        catch (Throwable ignored) {}
+        loadConfig();
     }
 
-    public record FabricSpawn(List<String> biomeTags, String type, int weight, int minCluster, int maxCluster) {}
+    public static void loadConfig() {
+        try (FileReader reader = new FileReader(Chickens.CONFIG_FILE)) {
+            INSTANCE = GSON.fromJson(reader, Config.class);
+        } catch (IOException e) {
+            Chickens.LOGGER.error("Failed to load config file, Will restore default config", e);
+            INSTANCE = new Config();
+            INSTANCE.generateDefaults();
+            saveConfig();
+        }
+    }
+
+    public static void saveConfig() {
+        if (!Chickens.CONFIG_FILE.getParentFile().exists() && !Chickens.CONFIG_FILE.getParentFile().mkdirs()) {
+            Chickens.LOGGER.error("Failed to create chickens config directory! {}", Chickens.CONFIG_FILE.getParentFile());
+        }
+
+        try (FileWriter writer = new FileWriter(Chickens.CONFIG_FILE)) {
+            GSON.toJson(INSTANCE, writer);
+        } catch (IOException e) {
+            Chickens.LOGGER.error("Failed to save config file!", e);
+        }
+    }
+
+    public record FabricSpawn(List<String> biomeTags, String type, int weight, int minCluster, int maxCluster) {
+    }
 }

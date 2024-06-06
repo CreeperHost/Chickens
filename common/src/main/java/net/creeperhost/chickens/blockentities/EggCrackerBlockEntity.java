@@ -72,7 +72,7 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
 
         //Update Progress
         if (progress.get() < Config.INSTANCE.crackerProcessTime) {
-            if (consumeEnergy() && isTileEnabled()) {
+            if (isTileEnabled() && consumeEnergy()) {
                 progress.inc();
             }
             return;

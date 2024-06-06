@@ -4,6 +4,7 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import net.creeperhost.chickens.api.ChickenAPI;
@@ -12,6 +13,7 @@ import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.config.ChickenConfig;
 import net.creeperhost.chickens.config.Config;
+import net.creeperhost.chickens.entity.EggTimer;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.network.PacketHandler;
@@ -32,12 +34,12 @@ public class Chickens
 {
     public static final String MOD_ID = "chickens";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final File CHICKENS_CONFIG_DIR = new File("config/chickens");
-    public static final File CHICKENS_CONFIG_JSON = new File(CHICKENS_CONFIG_DIR, "chickens.json");
+    public static final File CONFIG_DIR = new File("config/chickens");
+    public static final File CONFIG_FILE = new File(CONFIG_DIR, "chickens.json");
 
     public static void init()
     {
-        Config.init(CHICKENS_CONFIG_JSON);
+        Config.init();
         for (ChickenConfig chickenConfig : Config.INSTANCE.chickens)
         {
             ResourceLocation texture = new ResourceLocation("chickens", "textures/entity/" + new ResourceLocation(chickenConfig.name).getPath() + ".png");
@@ -76,6 +78,7 @@ public class Chickens
 
         InteractionEvent.INTERACT_ENTITY.register(Chickens::onEntityInteract);
         PacketHandler.init();
+        EggTimer.init();
 
         if (Platform.isFabric())
         {
