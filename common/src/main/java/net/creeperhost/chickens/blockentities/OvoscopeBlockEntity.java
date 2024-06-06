@@ -77,7 +77,7 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements ItemInventor
         }
 
         if (progress.get() < Config.INSTANCE.ovoscopeProcessTime) {
-            if (consumeEnergy() && isTileEnabled()) {
+            if (isTileEnabled() && consumeEnergy()) {
                 progress.inc();
                 scanning = true;
             } else {
