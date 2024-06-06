@@ -7,6 +7,10 @@ loom {
     accessWidenerPath = file("src/main/resources/chickens.accesswidener")
 }
 
+configurations {
+    shadowCommon
+}
+
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
@@ -17,6 +21,8 @@ dependencies {
 
     modApi("mezz.jei:jei-${project.minecraft_version}-common:${project.jei_version}")
     modApi("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
+
+//    modApi "curse.maven:jade-324717:5111964"
 }
 
 architectury {

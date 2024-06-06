@@ -1,26 +1,26 @@
 package net.creeperhost.chickens.neoforge;
 
+import dev.architectury.platform.Platform;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.init.ModEntities;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.DistExecutor;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod (Chickens.MOD_ID)
 public class ChickensModNeoForge
 {
-    public ChickensModNeoForge()
+    public ChickensModNeoForge(IEventBus iEventBus)
     {
-        // Submit our event bus to let architectury register our content on the right time
-        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         Chickens.init();
 
-        eventBus.addListener(this::commonLoaded);
+        // Submit our event bus to let architectury register our content on the right time
+        iEventBus.addListener(this::commonLoaded);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientInit.init(eventBus));
+        if(Platform.getEnv().isClient())
+        {
+            ClientInit.init(iEventBus);
+        }
     }
 
     private void commonLoaded(final FMLCommonSetupEvent event)

@@ -1,33 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
-}
-
-def generatedResources = project(":common").file("src/generated/resources/")
-
-loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-
-    mods {
-        forge {
-            sourceSet project(":forge").sourceSets.main
-        }
-    }
-
-    runs {
-        data {
-            data()
-            programArgs "--mod", "chickens"
-            programArgs "--all"
-            programArgs "--output", generatedResources.absolutePath
-            programArgs "--existing", project(":common").file("src/main/resources").absolutePath
-            programArgs "--existing-mod", "polylib"
-        }
-    }
-
-    forge {
-        convertAccessWideners = true
-        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-    }
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
 architectury {
@@ -35,12 +7,19 @@ architectury {
     forge()
 }
 
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
 configurations {
     common
+    shadowLib
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon.extendsFrom shadowLib
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+    developmentFabric.extendsFrom common
+    implementation.extendsFrom shadowLib
 }
 
 dependencies {
@@ -50,9 +29,6 @@ dependencies {
     modApi("net.creeperhost:polylib-forge:${rootProject.polylib_version}")
 
     modCompileOnlyApi "mezz.jei:jei-${rootProject.minecraft_version}-forge-api:${rootProject.jei_version}"
-//    modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-forge:${rootProject.jei_version}"
-
-//    modApi("mekanism:Mekanism:${project.mekanism_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

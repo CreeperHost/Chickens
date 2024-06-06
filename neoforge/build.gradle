@@ -16,7 +16,7 @@ configurations {
     shadowCommon.extendsFrom shadowLib
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+    developmentNeoForge.extendsFrom common
     implementation.extendsFrom shadowLib
     forgeRuntimeLibrary.extendsFrom shadowLib
 }
@@ -24,46 +24,20 @@ configurations {
 dependencies {
     neoForge("net.neoforged:neoforge:${rootProject.neoforge_version}")
     // Remove the next line if you don't want to depend on the API
-    modApi("dev.architectury:architectury-neoforge:${rootProject.architectury_version}")
-    modApi "net.creeperhost:polylib-neoforge:${polylib_version}"
+    modApi("dev.architectury:architectury-neoforge:${rootProject.architectury_version}") { transitive = false }
+    modApi("net.creeperhost:polylib-neoforge:${polylib_version}") { transitive = false }
 
 //    modCompileOnlyApi "mezz.jei:jei-${rootProject.minecraft_version}-neoforge-api:${rootProject.jei_version}"
 //    modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}"
 
 //    modApi("mekanism:Mekanism:${project.mekanism_version}")
 
+    modApi "curse.maven:jade-324717:5109393"
+
     common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
 }
-
-//def generatedResources = project(":common").file("src/generated/resources/")
-
-//loom {
-//    accessWidenerPath = project(":common").loom.accessWidenerPath
-//
-//    mods {
-//        forge {
-//            sourceSet project(":forge").sourceSets.main
-//        }
-//    }
-//
-//    runs {
-//        data {
-//            data()
-//            programArgs "--mod", "chickens"
-//            programArgs "--all"
-//            programArgs "--output", generatedResources.absolutePath
-//            programArgs "--existing", project(":common").file("src/main/resources").absolutePath
-//            programArgs "--existing-mod", "polylib"
-//        }
-//    }
-//
-//    forge {
-//        convertAccessWideners = true
-//        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-//    }
-//}
 
 processResources {
     inputs.property "version", project.version
