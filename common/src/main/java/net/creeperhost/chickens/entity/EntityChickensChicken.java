@@ -5,6 +5,7 @@ import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.init.ModSounds;
 import net.creeperhost.chickens.item.ItemChickenEgg;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
 public class EntityChickensChicken extends Chicken
@@ -241,14 +243,27 @@ public class EntityChickensChicken extends Chicken
     @Override
     public void tick()
     {
+        int nearby = getNearbyChickens(level());
+
         if (!this.level().isClientSide && !this.isBaby() && !this.isChickenJockey())
         {
+            if(getLifeSpan() <= 0)
+            {
+                remove(RemovalReason.KILLED);
+            }
+
             int newTimeUntilNextEgg = eggTime - 1;
             setTimeUntilNextEgg(newTimeUntilNextEgg);
             if (newTimeUntilNextEgg <= 1)
             {
+                int damage = Config.INSTANCE.lifespanReductionOnLay;
+                if(nearby > Config.INSTANCE.maxChickensInChunk) damage *= nearby;
+                setLifeSpan(getLifeSpan() -damage);
+
                 ChickensRegistryItem chickenDescription = getChickenRegistryItem();
-                ItemStack eggStack = ItemChickenEgg.of(chickenDescription, level().random.nextDouble() < Config.INSTANCE.onLaidViabilityChange);
+                boolean viable = level().random.nextDouble() < Config.INSTANCE.onLaidViabilityChange;
+                if(nearby > Config.INSTANCE.maxChickensInChunk) viable = false;
+                ItemStack eggStack = ItemChickenEgg.of(chickenDescription, viable);
 
                 if (!eggStack.isEmpty()) {
                     ItemEntity itemEntity = new ItemEntity(level(), getX(), getY(), getZ(), eggStack);
@@ -259,7 +274,19 @@ public class EntityChickensChicken extends Chicken
                 resetTimeUntilNextEgg();
             }
         }
+        if(level().isClientSide && nearby > Config.INSTANCE.maxChickensInChunk) fancy();
         super.tick();
+    }
+
+    private void fancy()
+    {
+        level().addParticle(ParticleTypes.SPORE_BLOSSOM_AIR, getX(), getY(), getZ(), 0, 0, 0);
+    }
+
+    private int getNearbyChickens(Level level)
+    {
+        AABB aabb = getBoundingBox().inflate(24, 5, 24);
+        return level.getEntities(this, aabb).size();
     }
 
     private void setTimeUntilNextEgg(int value)

@@ -34,6 +34,8 @@ public class Config {
     public double incubateSuccessRate = 0.97;
 
     public double breederFoodConsumptionChance = 0.50;
+    public double maxChickensInChunk = 10;
+    public int lifespanReductionOnLay = 2;
 
     public List<ChickenConfig> chickens = new ArrayList<>();
     public List<FabricSpawn> fabricSpawns = new ArrayList<>();
