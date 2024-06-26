@@ -69,7 +69,7 @@ public class ModChickens
 
         // Tier 2
         ChickensRegistryItem stringChicken = new ChickensRegistryItem(new ResourceLocation(Chickens.MOD_ID, "string_chicken"), "string_chicken", new ResourceLocation("chickens", "textures/entity/string_chicken.png"), new ItemStack(Items.STRING), 16777215, blackChicken, logChicken);
-        stringChicken.setLayItem(new ItemStack(Items.SPIDER_EYE));
+        stringChicken.setLayItem(new ItemStack(Items.STRING));
         chickens.add(stringChicken);
 
         ChickensRegistryItem glowstoneChicken = new ChickensRegistryItem(new ResourceLocation(Chickens.MOD_ID, "glowstone_chicken"), "glowstone_chicken", new ResourceLocation("chickens", "textures/entity/glowstone_chicken.png"), new ItemStack(Items.GLOWSTONE_DUST), 0xffff66, quartzChicken, yellowChicken);
