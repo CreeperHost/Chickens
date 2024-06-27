@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -118,7 +117,7 @@ public class ItemChicken extends Item
     }
 
     @Override
-    public Component getName(ItemStack stack)
+    public @NotNull Component getName(ItemStack stack)
     {
         ChickensRegistryItem chickenDescription = ChickensRegistry.getByRegistryName(getTypeFromStack(stack));
         if (chickenDescription == null) return Component.translatable("item.chickens.chicken.name");
@@ -127,26 +126,12 @@ public class ItemChicken extends Item
 
     public static void applyEntityIdToItemStack(ItemStack stack, ResourceLocation entityId)
     {
-        stack.set(ModComponentTypes.EGG_CHICKEN_TYPE.get(), entityId.toString());
-//        CompoundTag nbttagcompound = stack.hasTag() ? stack.getTag() : new CompoundTag();
-//        CompoundTag nbttagcompound1 = new CompoundTag();
-//        nbttagcompound1.putString("id", entityId.toString());
-//        nbttagcompound.put("ChickenType", nbttagcompound1);
-//        stack.setTag(nbttagcompound);
+        stack.set(ModComponentTypes.CHICKEN_TYPE.get(), entityId.toString());
     }
 
     @Nullable
     public static String getTypeFromStack(ItemStack stack)
     {
-        return stack.get(ModComponentTypes.EGG_CHICKEN_TYPE.get());
-//        CompoundTag nbttagcompound = stack.getTag();
-//
-//        if (nbttagcompound != null && nbttagcompound.contains("ChickenType", 10))
-//        {
-//            new CompoundTag();
-//            CompoundTag chickentag = nbttagcompound.getCompound("ChickenType");
-//            return chickentag.getString("id");
-//        }
-//        return null;
+        return stack.get(ModComponentTypes.CHICKEN_TYPE.get());
     }
 }

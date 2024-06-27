@@ -22,15 +22,15 @@ public class ChickensClient
     {
         ModScreens.init();
 
-        ColorHandlerRegistry.registerItemColors((itemStack, i) ->
-        {
-            if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
-            {
-                ChickensRegistryItem item = itemColoredEgg.getType(itemStack);
-                return item == null ? 0xFFFFFFFF : item.getBgColor();
-            }
-            return 0;
-        }, ModItems.CHICKEN_EGG);
+//        ColorHandlerRegistry.registerItemColors((itemStack, i) ->
+//        {
+//            if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
+//            {
+//                ChickensRegistryItem item = itemColoredEgg.getType(itemStack);
+//                return item == null ? 0xFFFFFFFF : item.getBgColor();
+//            }
+//            return 0;
+//        }, ModItems.CHICKEN_EGG);
 
         if (Platform.isFabric())
         {

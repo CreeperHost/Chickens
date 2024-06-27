@@ -11,6 +11,9 @@ import net.minecraft.network.codec.ByteBufCodecs;
 public class ModComponentTypes {
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.create(Chickens.MOD_ID, Registries.DATA_COMPONENT_TYPE);
 
+    public static final RegistrySupplier<DataComponentType<String>> CHICKEN_TYPE = COMPONENTS.register("chicken_type", () -> DataComponentType.<String>builder().
+            persistent(Codec.STRING.orElse("")).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
+
     public static final RegistrySupplier<DataComponentType<Integer>> CHICKENS_GAIN = COMPONENTS.register("gain", () -> DataComponentType.<Integer>builder().
             persistent(Codec.INT.orElse(0)).networkSynchronized(ByteBufCodecs.INT).build());
 
@@ -33,6 +36,6 @@ public class ModComponentTypes {
     public static final RegistrySupplier<DataComponentType<Integer>> EGG_PROGRESS = COMPONENTS.register("progress", () -> DataComponentType.<Integer>builder().
             persistent(Codec.INT.orElse(0)).networkSynchronized(ByteBufCodecs.INT).build());
 
-    public static final RegistrySupplier<DataComponentType<String>> EGG_CHICKEN_TYPE = COMPONENTS.register("chicken_type", () -> DataComponentType.<String>builder().
+    public static final RegistrySupplier<DataComponentType<String>> EGG_CHICKEN_TYPE = COMPONENTS.register("egg_chicken_type", () -> DataComponentType.<String>builder().
             persistent(Codec.STRING.orElse("")).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
 }
