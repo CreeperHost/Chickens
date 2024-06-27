@@ -18,7 +18,7 @@ public class ModTags {
         public static final TagKey<Item> CHICKENS = tag("chickens");
 
         private static TagKey<Item> tag(String name) {
-            return TagKey.create(Registries.ITEM, new ResourceLocation(Chickens.MOD_ID, name));
+            return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, name));
         }
     }
 

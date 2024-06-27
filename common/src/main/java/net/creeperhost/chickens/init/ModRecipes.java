@@ -15,22 +15,22 @@ public class ModRecipes
     {
         registerTransformationRecipe(new ItemStack(Items.BOOK), ChickensRegistry.SMART_CHICKEN_ID);
 
-        registerTransformationRecipe(new ItemStack(Items.WHITE_DYE), new ResourceLocation(Chickens.MOD_ID, "white_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.ORANGE_DYE), new ResourceLocation(Chickens.MOD_ID, "orange_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.MAGENTA_DYE), new ResourceLocation(Chickens.MOD_ID, "magenta_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.LIGHT_BLUE_DYE), new ResourceLocation(Chickens.MOD_ID, "light_blue_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.YELLOW_DYE), new ResourceLocation(Chickens.MOD_ID, "yellow_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.LIME_DYE), new ResourceLocation(Chickens.MOD_ID, "lime_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.PINK_DYE), new ResourceLocation(Chickens.MOD_ID, "pink_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.GRAY_DYE), new ResourceLocation(Chickens.MOD_ID, "gray_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.LIGHT_GRAY_DYE), new ResourceLocation(Chickens.MOD_ID, "light_gray_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.CYAN_DYE), new ResourceLocation(Chickens.MOD_ID, "cyan_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.PURPLE_DYE), new ResourceLocation(Chickens.MOD_ID, "purple_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.BLUE_DYE), new ResourceLocation(Chickens.MOD_ID, "blue_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.BROWN_DYE), new ResourceLocation(Chickens.MOD_ID, "brown_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.GREEN_DYE), new ResourceLocation(Chickens.MOD_ID, "green_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.RED_DYE), new ResourceLocation(Chickens.MOD_ID, "red_chicken"));
-        registerTransformationRecipe(new ItemStack(Items.BLACK_DYE), new ResourceLocation(Chickens.MOD_ID, "black_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.WHITE_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "white_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.ORANGE_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "orange_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.MAGENTA_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "magenta_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.LIGHT_BLUE_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "light_blue_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.YELLOW_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "yellow_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.LIME_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "lime_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.PINK_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "pink_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.GRAY_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "gray_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.LIGHT_GRAY_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "light_gray_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.CYAN_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "cyan_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.PURPLE_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "purple_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.BLUE_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "blue_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.BROWN_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "brown_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.GREEN_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "green_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.RED_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "red_chicken"));
+        registerTransformationRecipe(new ItemStack(Items.BLACK_DYE), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "black_chicken"));
     }
 
     public static void registerTransformationRecipe(ItemStack stack, ResourceLocation resourceLocation)

@@ -13,6 +13,8 @@ import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.data.serializable.LongData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class EggCrackerMenu extends PolyBlockContainerMenu<EggCrackerBlockEntity> {
     public final DataSync<FluidStack> tank;
@@ -46,5 +48,15 @@ public class EggCrackerMenu extends PolyBlockContainerMenu<EggCrackerBlockEntity
         if (Config.INSTANCE.enableEnergy) {
             energySlot.addSlot(new PolySlot(tile.inventory, 8).setStackLimit(e -> 1));
         }
+    }
+
+    @Override
+    public ItemStack quickMoveStack(Player player, int i) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return true;
     }
 }

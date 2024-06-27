@@ -38,7 +38,8 @@ public class ModEntities {
 
     public static <T extends Animal> void registerSpawn(EntityType<T> entityType, ChickensRegistryItem chickensRegistryItem) {
         if (chickensRegistryItem.isEnabled()) {
-            SpawnPlacements.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkChickenSpawnRules);
+            //TODO
+//            SpawnPlacements.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkChickenSpawnRules);
         }
     }
 

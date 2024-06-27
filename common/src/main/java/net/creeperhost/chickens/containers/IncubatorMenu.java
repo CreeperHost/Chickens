@@ -14,6 +14,8 @@ import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.data.serializable.LongData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Created by brandon3055 on 22/02/2024
@@ -52,5 +54,15 @@ public class IncubatorMenu extends PolyBlockContainerMenu<IncubatorBlockEntity>
         if (Config.INSTANCE.enableEnergy){
             energySlot.addSlot(new PolySlot(tile.inventory, 10));
         }
+    }
+
+    @Override
+    public ItemStack quickMoveStack(Player player, int i) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return true;
     }
 }

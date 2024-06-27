@@ -13,6 +13,8 @@ import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.data.serializable.LongData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class OvoscopeMenu extends PolyBlockContainerMenu<OvoscopeBlockEntity> {
     public final SlotGroup main = Config.INSTANCE.enableEnergy ? createSlotGroup(0, 1, 4) : createSlotGroup(0, 1);
@@ -49,5 +51,15 @@ public class OvoscopeMenu extends PolyBlockContainerMenu<OvoscopeBlockEntity> {
         if (Config.INSTANCE.enableEnergy) {
             energySlot.addSlot(new PolySlot(tile.inventory, 3).setStackLimit(e -> 1));
         }
+    }
+
+    @Override
+    public ItemStack quickMoveStack(Player player, int i) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return true;
     }
 }

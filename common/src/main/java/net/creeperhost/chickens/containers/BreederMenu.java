@@ -9,7 +9,10 @@ import net.creeperhost.polylib.containers.slots.PolySlot;
 import net.creeperhost.polylib.data.serializable.FloatData;
 import net.creeperhost.polylib.data.serializable.IntData;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.TickRateManager;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class BreederMenu extends PolyBlockContainerMenu<BreederBlockEntity> {
     public final SlotGroup main = createSlotGroup(0, 1, 2);
@@ -35,5 +38,15 @@ public class BreederMenu extends PolyBlockContainerMenu<BreederBlockEntity> {
         seeds.addSlot(new PolySlot(tile.inventory, 0));
         chickens.addSlots(2, 1, slot -> new PolySlot(tile.inventory, slot).setStackLimit(stack -> 1));
         output.addSlots(3, 3, slot -> new PolySlot(tile.inventory, slot).output());
+    }
+
+    @Override
+    public ItemStack quickMoveStack(Player player, int i) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return true;
     }
 }

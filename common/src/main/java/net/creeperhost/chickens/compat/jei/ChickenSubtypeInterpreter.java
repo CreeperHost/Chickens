@@ -13,9 +13,10 @@ public class ChickenSubtypeInterpreter implements IIngredientSubtypeInterpreter<
     private ChickenSubtypeInterpreter(){}
 
     @Override
-    public String apply(@NotNull ItemStack ingredient, @NotNull UidContext context)
+    public @NotNull String apply(@NotNull ItemStack ingredient, @NotNull UidContext context)
     {
-        if(!ingredient.hasTag()) return IIngredientSubtypeInterpreter.NONE;
+        //TODO
+//        if(!ingredient.hasTag()) return IIngredientSubtypeInterpreter.NONE;
 
         if(ingredient.getItem() instanceof ItemChicken)
         {
