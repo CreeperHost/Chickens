@@ -17,9 +17,6 @@ public class CommonTags {
     private static final Set<Item> SEED_ITEMS = Set.of(Items.BEETROOT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.WHEAT_SEEDS, Items.TORCHFLOWER_SEEDS, Items.PITCHER_POD);
 
     public static TagKey<Item> registerTag(String string) {
-        if (Platform.isForgeLike()) {
-            return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("forge", string));
-        }
         return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", string));
     }
 

@@ -4,6 +4,7 @@ import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
+import net.creeperhost.chickens.init.ModComponentTypes;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -83,13 +84,14 @@ public class ItemChicken extends Item
         entity.setGrowth(chickenStats.getGrowth());
         entity.setLifeSpan(chickenStats.getLifespan());
 
-        if(stack.getTag() != null)
-        {
-            if(stack.getTag().contains("baby"))
-                entity.setBaby(stack.getTag().getBoolean("baby"));
-            if(stack.getTag().contains("love"))
-                entity.setInLoveTime(stack.getTag().getInt("love"));
-        }
+        //TODO no idea what these are called now
+//        if(stack.getTag() != null)
+//        {
+//            if(stack.getTag().contains("baby"))
+//                entity.setBaby(stack.getTag().getBoolean("baby"));
+//            if(stack.getTag().contains("love"))
+//                entity.setInLoveTime(stack.getTag().getInt("love"));
+//        }
 
         entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         entity.setChickenType(getTypeFromStack(stack));
@@ -125,24 +127,26 @@ public class ItemChicken extends Item
 
     public static void applyEntityIdToItemStack(ItemStack stack, ResourceLocation entityId)
     {
-        CompoundTag nbttagcompound = stack.hasTag() ? stack.getTag() : new CompoundTag();
-        CompoundTag nbttagcompound1 = new CompoundTag();
-        nbttagcompound1.putString("id", entityId.toString());
-        nbttagcompound.put("ChickenType", nbttagcompound1);
-        stack.setTag(nbttagcompound);
+        stack.set(ModComponentTypes.EGG_CHICKEN_TYPE.get(), entityId.toString());
+//        CompoundTag nbttagcompound = stack.hasTag() ? stack.getTag() : new CompoundTag();
+//        CompoundTag nbttagcompound1 = new CompoundTag();
+//        nbttagcompound1.putString("id", entityId.toString());
+//        nbttagcompound.put("ChickenType", nbttagcompound1);
+//        stack.setTag(nbttagcompound);
     }
 
     @Nullable
     public static String getTypeFromStack(ItemStack stack)
     {
-        CompoundTag nbttagcompound = stack.getTag();
-
-        if (nbttagcompound != null && nbttagcompound.contains("ChickenType", 10))
-        {
-            new CompoundTag();
-            CompoundTag chickentag = nbttagcompound.getCompound("ChickenType");
-            return chickentag.getString("id");
-        }
-        return null;
+        return stack.get(ModComponentTypes.EGG_CHICKEN_TYPE.get());
+//        CompoundTag nbttagcompound = stack.getTag();
+//
+//        if (nbttagcompound != null && nbttagcompound.contains("ChickenType", 10))
+//        {
+//            new CompoundTag();
+//            CompoundTag chickentag = nbttagcompound.getCompound("ChickenType");
+//            return chickentag.getString("id");
+//        }
+//        return null;
     }
 }

@@ -1,5 +1,6 @@
 package net.creeperhost.chickens.api;
 
+import net.creeperhost.chickens.init.ModComponentTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
@@ -25,17 +26,15 @@ public class ChickenStats
 
     public void write(ItemStack stack)
     {
-        CompoundTag tag =  new CompoundTag();
-        tag.putInt("gain", gain);
-        tag.putInt("growth", growth);
-        tag.putInt("strength", strength);
-        tag.putInt("lifespan", lifespan);
-        stack.getOrCreateTag().put("stats", tag);
+        stack.set(ModComponentTypes.CHICKENS_GAIN.get(), gain);
+        stack.set(ModComponentTypes.CHICKENS_GROWTH.get(), growth);
+        stack.set(ModComponentTypes.CHICKENS_STRENGTH.get(), strength);
+        stack.set(ModComponentTypes.CHICKENS_LIFESPAN.get(), lifespan);
     }
 
     public void read(ItemStack stack)
     {
-        if (!stack.hasTag())
+        if (!stack.has(ModComponentTypes.CHICKENS_GAIN.get()))
         {
             gain = 1;
             growth = 1;
@@ -45,14 +44,10 @@ public class ChickenStats
         }
         else
         {
-            if (stack.getTag() != null && stack.getTag().getCompound("stats") != null)
-            {
-                CompoundTag tag = stack.getTag().getCompound("stats");
-                gain = tag.contains("gain") ? tag.getInt("gain") : 1;
-                growth = tag.contains("growth") ? tag.getInt("growth") : 1;
-                strength = tag.contains("strength") ? tag.getInt("strength") : 1;
-                lifespan = tag.contains("lifespan") ? tag.getInt("lifespan") : 100;
-            }
+            gain = stack.get(ModComponentTypes.CHICKENS_GAIN.get());
+            growth = stack.get(ModComponentTypes.CHICKENS_GROWTH.get());
+            strength = stack.get(ModComponentTypes.CHICKENS_STRENGTH.get());
+            lifespan = stack.get(ModComponentTypes.CHICKENS_LIFESPAN.get());
         }
     }
 

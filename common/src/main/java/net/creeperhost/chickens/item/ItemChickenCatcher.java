@@ -38,11 +38,12 @@ public class ItemChickenCatcher extends Item
 
             ChickenStats chickenStats = new ChickenStats(entityChickensChicken.getGain(), entityChickensChicken.getGrowth(), entityChickensChicken.getStrength(), entityChickensChicken.getLifeSpan());
             chickenStats.write(chicken);
-            if(chicken.getTag() != null)
-            {
-                chicken.getTag().putBoolean("baby", entityChickensChicken.isBaby());
-                chicken.getTag().putInt("love", entityChickensChicken.getInLoveTime());
-            }
+            //TODO no idea what these are called right now
+//            if(chicken.getTag() != null)
+//            {
+//                chicken.getTag().putBoolean("baby", entityChickensChicken.isBaby());
+//                chicken.getTag().putInt("love", entityChickensChicken.getInLoveTime());
+//            }
 
             ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), chicken);
             level.addFreshEntity(itemEntity);
@@ -57,11 +58,12 @@ public class ItemChickenCatcher extends Item
             //Vanilla chickens don't have any stats so lets create set them to default
             ChickenStats chickenStats = new ChickenStats(1,1, 1, 100);
             chickenStats.write(stack);
-            if(stack.getTag() != null)
-            {
-                stack.getTag().putBoolean("baby", chicken.isBaby());
-                stack.getTag().putInt("love", chicken.getInLoveTime());
-            }
+            //TODO
+//            if(stack.getTag() != null)
+//            {
+//                stack.getTag().putBoolean("baby", chicken.isBaby());
+//                stack.getTag().putInt("love", chicken.getInLoveTime());
+//            }
 
             ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), stack);
             level.addFreshEntity(itemEntity);

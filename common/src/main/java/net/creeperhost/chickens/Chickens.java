@@ -68,6 +68,7 @@ public class Chickens
         ModItems.TABS.register();
         ModContainers.CONTAINERS.register();
         ModSounds.SOUNDS.register();
+        ModComponentTypes.COMPONENTS.register();
 
         if (Platform.getEnv() == EnvType.CLIENT) {
             ClientLifecycleEvent.CLIENT_SETUP.register(ChickensClient::clientSetup);

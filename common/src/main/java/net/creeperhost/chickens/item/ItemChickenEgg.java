@@ -3,6 +3,7 @@ package net.creeperhost.chickens.item;
 import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.creeperhost.chickens.init.ModComponentTypes;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,7 +27,7 @@ public class ItemChickenEgg extends Item
     }
 
     @Override
-    public Component getName(@NotNull ItemStack itemStack)
+    public @NotNull Component getName(@NotNull ItemStack itemStack)
     {
         if (getType(itemStack) == null) {
             return Component.translatable("item.chickens.egg.name");
@@ -45,19 +46,19 @@ public class ItemChickenEgg extends Item
     public static ItemStack of(ChickensRegistryItem chickensRegistryItem, boolean viable)
     {
         ItemStack stack = new ItemStack(ModItems.CHICKEN_EGG.get());
-        stack.getOrCreateTag().putString("chickentype", chickensRegistryItem.getRegistryName().toString());
-        stack.getOrCreateTag().putInt("progress", 0);
-        stack.getOrCreateTag().putInt("missed", 0);
-        stack.getOrCreateTag().putBoolean("viable", viable);
+        stack.set(ModComponentTypes.EGG_CHICKEN_TYPE.get(), chickensRegistryItem.getRegistryName().toString());
+        stack.set(ModComponentTypes.EGG_PROGRESS.get(), 0);
+        stack.set(ModComponentTypes.EGG_MISSED.get(), 0);
+        stack.set(ModComponentTypes.EGG_VIABLE.get(), viable);
         return stack;
     }
 
     public ChickensRegistryItem getType(ItemStack stack)
     {
         if(stack.isEmpty()) return null;
-        if(stack.getTag() == null) return null;
+        if(!stack.has(ModComponentTypes.EGG_CHICKEN_TYPE.get())) return null;
 
-        ResourceLocation resourceLocation = ResourceLocation.tryParse(stack.getTag().getString("chickentype"));
+        ResourceLocation resourceLocation = ResourceLocation.tryParse(stack.get(ModComponentTypes.EGG_CHICKEN_TYPE.get()));//ResourceLocation.tryParse(stack.getTag().getString("chickentype"));
         if(resourceLocation == null || resourceLocation.toString().isEmpty()) return null;
         AtomicReference<ChickensRegistryItem> value = new AtomicReference<>(null);
         ChickensRegistry.getItems().forEach(chickensRegistryItem1 ->
@@ -72,61 +73,41 @@ public class ItemChickenEgg extends Item
 
     public int getProgress(ItemStack stack)
     {
-        if(stack.getItem() instanceof ItemChickenEgg)
+        if(stack.has(ModComponentTypes.EGG_PROGRESS.get()))
         {
-            if (stack.getTag() != null && stack.getTag().contains("progress"))
-            {
-                return stack.getTag().getInt("progress");
-            }
+            return stack.get(ModComponentTypes.EGG_PROGRESS.get());
         }
         return 0;
     }
 
     public void setProgress(ItemStack stack, int amount)
     {
-        if(stack.getItem() instanceof ItemChickenEgg)
-        {
-            stack.getOrCreateTag().putInt("progress", amount);
-        }
+        stack.set(ModComponentTypes.EGG_PROGRESS.get(), amount);
     }
 
     public void incrementMissed(ItemStack stack)
     {
-        if(stack.getItem() instanceof ItemChickenEgg)
-        {
-            int value = stack.getOrCreateTag().getInt("missed");
-            stack.getOrCreateTag().putInt("missed", value + 1);
-        }
+        int value = stack.get(ModComponentTypes.EGG_MISSED.get()) + 1;
+        stack.set(ModComponentTypes.EGG_MISSED.get(), value);
     }
 
     public int getMissedCycles(ItemStack stack)
     {
-        if(stack.getItem() instanceof ItemChickenEgg)
-        {
-            return stack.getOrCreateTag().getInt("missed");
-        }
-        return 0;
+        return stack.get(ModComponentTypes.EGG_MISSED.get());
     }
 
     public void setNotViable(ItemStack stack)
     {
-        if(stack.getItem() instanceof ItemChickenEgg)
-        {
-            stack.getOrCreateTag().putBoolean("viable", false);
-        }
+        stack.set(ModComponentTypes.EGG_VIABLE.get(), false);
     }
 
     public boolean isViable(ItemStack stack)
     {
-        if(stack.getItem() instanceof ItemChickenEgg)
-        {
-            return stack.getOrCreateTag().getBoolean("viable");
-        }
-        return false;
+        return stack.get(ModComponentTypes.EGG_VIABLE.get());
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag)
+    public void appendHoverText(@NotNull ItemStack itemStack, TooltipContext tooltipContext, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag)
     {
         if(getType(itemStack) != null && tooltipFlag.isAdvanced())
         {
