@@ -14,29 +14,32 @@ import net.creeperhost.chickens.polylib.CommonTags;
 import net.creeperhost.polylib.blocks.PolyBlockEntity;
 import net.creeperhost.polylib.data.serializable.FloatData;
 import net.creeperhost.polylib.helpers.ContainerUtil;
-import net.creeperhost.polylib.inventory.item.ContainerAccessControl;
-import net.creeperhost.polylib.inventory.item.ItemInventoryBlock;
-import net.creeperhost.polylib.inventory.item.SerializableContainer;
-import net.creeperhost.polylib.inventory.item.SimpleItemInventory;
+import net.creeperhost.polylib.inventory.items.BlockInventory;
+import net.creeperhost.polylib.inventory.items.ContainerAccessControl;
+import net.creeperhost.polylib.inventory.items.PolyInventoryBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BreederBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider {
+public class BreederBlockEntity extends PolyBlockEntity implements PolyInventoryBlock, MenuProvider {
 
-    public final SimpleItemInventory inventory = new SimpleItemInventory(this, 6)
+    public final BlockInventory inventory = new BlockInventory(this, 6)
             .setSlotValidator(0, CommonTags::isSeeds)
             .setSlotValidator(1, e -> e.is(ModItems.CHICKEN_ITEM.get()))
             .setSlotValidator(2, e -> e.is(ModItems.CHICKEN_ITEM.get()));
@@ -104,7 +107,7 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
     }
 
     @Override
-    public SerializableContainer getContainer(@Nullable Direction side) {
+    public Container getContainer(@Nullable Direction side) {
         if (side != Direction.DOWN) {
             //Allows extraction from any slot from sides or top
             return new ContainerAccessControl(inventory, 0, 6)
@@ -127,13 +130,15 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
     }
 
     @Override
-    public void writeExtraData(CompoundTag nbt) {
-        inventory.serialize(nbt);
+    public void writeExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
+        super.writeExtraData(provider, nbt);
+        inventory.serialize(provider, nbt);
     }
 
     @Override
-    public void readExtraData(CompoundTag nbt) {
-        inventory.deserialize(nbt);
+    public void readExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
+        super.readExtraData(provider, nbt);
+        inventory.deserialize(provider, nbt);
     }
 
     public void setState(boolean canWork) {
@@ -183,5 +188,15 @@ public class BreederBlockEntity extends PolyBlockEntity implements ItemInventory
         int newStatValue = (stat1 * thisStrength + stat2 * mateStrength) / (thisStrength + mateStrength) + mutation;
         if (newStatValue <= 1) return 1;
         return Math.min(newStatValue, 10);
+    }
+
+    @Override
+    public @NotNull Component getName() {
+        return Component.literal("breeder");
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.literal("breeder");
     }
 }

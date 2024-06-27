@@ -41,23 +41,23 @@ public class Chickens
         Config.init();
         for (ChickenConfig chickenConfig : Config.INSTANCE.chickens)
         {
-            ResourceLocation texture = new ResourceLocation("chickens", "textures/entity/" + new ResourceLocation(chickenConfig.name).getPath() + ".png");
+            ResourceLocation texture = ResourceLocation.fromNamespaceAndPath("chickens", "textures/entity/" + ResourceLocation.parse(chickenConfig.name).getPath() + ".png");
             //Special case for the vanilla chicken as we don't want to ship this texture
             if(chickenConfig.name.equalsIgnoreCase(ChickensRegistry.VANILLA_CHICKEN.toString()))
             {
-                texture = new ResourceLocation("minecraft", "textures/entity/chicken.png");
+                texture = ResourceLocation.withDefaultNamespace("textures/entity/chicken.png");
             }
 
             ChickensRegistryItem chickensRegistryItem = new ChickensRegistryItem(
-                    new ResourceLocation(chickenConfig.name),
-                    new ResourceLocation(chickenConfig.name).getPath(),
+                    ResourceLocation.parse(chickenConfig.name),
+                    ResourceLocation.parse(chickenConfig.name).getPath(),
                     texture,
                     new ItemHolder(chickenConfig.lay_item.getType(), chickenConfig.lay_item.getId(), chickenConfig.lay_item.getNbt(), chickenConfig.lay_item.getQuantity()),
                     chickenConfig.colour,
                     chickenConfig.lay_coefficient,
                     chickenConfig.breed_speed_multiplier,
-                    ChickensRegistry.getByResourceLocation(new ResourceLocation(chickenConfig.parent_1)),
-                    ChickensRegistry.getByResourceLocation(new ResourceLocation(chickenConfig.parent_2))
+                    ChickensRegistry.getByResourceLocation(ResourceLocation.parse(chickenConfig.parent_1)),
+                    ChickensRegistry.getByResourceLocation(ResourceLocation.parse(chickenConfig.parent_2))
             );
             ChickensRegistry.register(chickensRegistryItem);
         }

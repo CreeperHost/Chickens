@@ -37,13 +37,13 @@ public class ChickenBreedingCategory implements IRecipeCategory<ChickenBreedingC
     @Override
     public IDrawable getBackground()
     {
-        return guiHelper.drawableBuilder(new ResourceLocation(Chickens.MOD_ID, "textures/gui/breeding.png"), 0, 0, 82, 54).addPadding(0, 20, 0, 0).build();
+        return guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/gui/breeding.png"), 0, 0, 82, 54).addPadding(0, 20, 0, 0).build();
     }
 
     @Override
     public @NotNull IDrawable getIcon()
     {
-        return guiHelper.createDrawable(new ResourceLocation(Chickens.MOD_ID, "textures/gui/breeding_icon.png"), 0, 0, 16, 16);
+        return guiHelper.createDrawable(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/gui/breeding_icon.png"), 0, 0, 16, 16);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ChickenBreedingCategory implements IRecipeCategory<ChickenBreedingC
     @Override
     public void draw(@NotNull Recipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY)
     {
-        IDrawableStatic arrowDrawable = guiHelper.createDrawable(new ResourceLocation(Chickens.MOD_ID, "textures/gui/breeding.png"), 82, 0, 7, 7);
+        IDrawableStatic arrowDrawable = guiHelper.createDrawable(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/gui/breeding.png"), 82, 0, 7, 7);
         guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 

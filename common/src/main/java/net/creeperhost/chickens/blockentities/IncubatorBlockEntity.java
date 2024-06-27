@@ -14,16 +14,18 @@ import net.creeperhost.polylib.data.serializable.FloatData;
 import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.helpers.MathUtil;
 import net.creeperhost.polylib.inventory.fluid.*;
-import net.creeperhost.polylib.inventory.item.ContainerAccessControl;
-import net.creeperhost.polylib.inventory.item.ItemInventoryBlock;
-import net.creeperhost.polylib.inventory.item.SerializableContainer;
-import net.creeperhost.polylib.inventory.item.SimpleItemInventory;
+import net.creeperhost.polylib.inventory.items.BlockInventory;
+import net.creeperhost.polylib.inventory.items.ContainerAccessControl;
+import net.creeperhost.polylib.inventory.items.PolyInventoryBlock;
 import net.creeperhost.polylib.inventory.power.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -32,16 +34,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBlock, ItemInventoryBlock, MenuProvider, PolyEnergyBlock, RedstoneActivatedBlock {
+public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBlock, PolyInventoryBlock, MenuProvider, PolyEnergyBlock, RedstoneActivatedBlock {
     public static int HEAT_INCREMENT = 4; //TODO Does this need to be moved to a place like Constants?
     public static int TEMP_MAX = 40;
     public static int TEMP_MIN = 35;
     public static int MIN_HUMIDITY = 50;
 
     public final PolyTank tank = new PolyBlockTank(this, FluidManager.BUCKET * 16L, e -> e.getFluid().isSame(Fluids.WATER));
-    public final SimpleItemInventory inventory = new SimpleItemInventory(this, 11)
+    public final BlockInventory inventory = new BlockInventory(this, 11)
             .setMaxStackSize(1)
             .setSlotValidator(9, stack -> FluidManager.isFluidItem(stack) && FluidManager.getHandler(stack).getFluidInTank(0).getFluid() == Fluids.WATER)
             .setSlotValidator(10, stack -> EnergyManager.isEnergyItem(stack) && EnergyManager.getHandler(stack).canExtract())
@@ -217,17 +220,17 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
     }
 
     @Override
-    public void writeExtraData(CompoundTag nbt) {
-        nbt.put("fluid_tank", tank.serialize(new CompoundTag()));
-        inventory.serialize(nbt);
-        energy.serialize(nbt);
+    public void writeExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
+        tank.serialize(provider, nbt);
+        inventory.serialize(provider, nbt);
+        energy.serialize(provider, nbt);
     }
 
     @Override
-    public void readExtraData(CompoundTag nbt) {
-        tank.deserialize(nbt.getCompound("fluid_tank"));
-        inventory.deserialize(nbt);
-        energy.deserialize(nbt);
+    public void readExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
+        tank.deserialize(provider, nbt);
+        inventory.deserialize(provider, nbt);
+        energy.deserialize(provider, nbt);
     }
 
     @Override
@@ -236,7 +239,7 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
     }
 
     @Override
-    public SerializableContainer getContainer(@Nullable Direction side) {
+    public Container getContainer(@Nullable Direction side) {
         return new ContainerAccessControl(inventory, 0, Config.INSTANCE.enableEnergy ? 11 : 10)
                 .containerRemoveCheck((slot, stack) -> {
                     if (slot <= 8) {
@@ -265,5 +268,15 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
     @Override
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
         return new IncubatorMenu(i, inventory, this);
+    }
+
+    @Override
+    public @NotNull Component getName() {
+        return Component.literal("incubator");
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.literal("incubator");
     }
 }

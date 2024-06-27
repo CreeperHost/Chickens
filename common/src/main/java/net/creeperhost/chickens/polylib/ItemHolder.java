@@ -56,7 +56,7 @@ public class ItemHolder
         type = "item";
         itemID = getRegistryName(stackIn.getItem()).toString();
         stack = stackIn;
-        nbtData = stackIn.hasTag() ? stackIn.getTag() : null;
+//        nbtData = stackIn.hasTag() ? stackIn.getTag() : null;
         stackSize = stackIn.getCount();
         isComplete = isFinal;
     }
@@ -115,14 +115,14 @@ public class ItemHolder
     {
         if(this.itemID == null) return ItemStack.EMPTY.getItem();
 
-        return BuiltInRegistries.ITEM.get(new ResourceLocation(this.itemID));
+        return BuiltInRegistries.ITEM.get(ResourceLocation.parse(this.itemID));
     }
 
     public Fluid getFluid()
     {
         if(this.itemID == null) return Fluids.EMPTY;
 
-        return BuiltInRegistries.FLUID.get(new ResourceLocation(this.itemID));
+        return BuiltInRegistries.FLUID.get(ResourceLocation.parse(this.itemID));
     }
 
     public int getStackSize()
@@ -143,7 +143,7 @@ public class ItemHolder
             if (item != null)
             {
                 stack = new ItemStack(getItem(), this.getAmount());
-                if (this.nbtData != null && !this.nbtData.isEmpty()) stack.setTag(this.nbtData);
+//                if (this.nbtData != null && !this.nbtData.isEmpty()) stack.setTag(this.nbtData);
 
                 isComplete = true;
             }

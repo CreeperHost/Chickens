@@ -11,14 +11,16 @@ import net.creeperhost.polylib.blocks.RedstoneActivatedBlock;
 import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.helpers.ContainerUtil;
 import net.creeperhost.polylib.inventory.fluid.*;
-import net.creeperhost.polylib.inventory.item.ContainerAccessControl;
-import net.creeperhost.polylib.inventory.item.ItemInventoryBlock;
-import net.creeperhost.polylib.inventory.item.SerializableContainer;
-import net.creeperhost.polylib.inventory.item.SimpleItemInventory;
+import net.creeperhost.polylib.inventory.items.BlockInventory;
+import net.creeperhost.polylib.inventory.items.ContainerAccessControl;
+import net.creeperhost.polylib.inventory.items.PolyInventoryBlock;
 import net.creeperhost.polylib.inventory.power.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -26,13 +28,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider, PolyFluidBlock, PolyEnergyBlock, RedstoneActivatedBlock {
+public class EggCrackerBlockEntity extends PolyBlockEntity implements PolyInventoryBlock, MenuProvider, PolyFluidBlock, PolyEnergyBlock, RedstoneActivatedBlock {
 
     public final PolyTank tank = new PolyBlockTank(this, FluidManager.BUCKET * 16L);
     public final PolyEnergyStorage energy = new PolyBlockEnergyStorage(this, 128000);
-    public final SimpleItemInventory inventory = new SimpleItemInventory(this, 9)
+    public final BlockInventory inventory = new BlockInventory(this, 9)
             .setSlotValidator(0, stack -> stack.getItem() instanceof ItemChickenEgg)
             .setSlotValidator(7, FluidManager::isFluidItem)
             .setSlotValidator(8, stack -> EnergyManager.isEnergyItem(stack) && EnergyManager.getHandler(stack).canExtract());
@@ -111,21 +114,21 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
     }
 
     @Override
-    public void writeExtraData(CompoundTag nbt) {
-        nbt.put("fluid_tank", tank.serialize(new CompoundTag()));
-        inventory.serialize(nbt);
-        energy.serialize(nbt);
+    public void writeExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
+        tank.serialize(provider, nbt);
+        inventory.serialize(provider, nbt);
+        energy.serialize(provider, nbt);
     }
 
     @Override
-    public void readExtraData(CompoundTag nbt) {
-        tank.deserialize(nbt.getCompound("fluid_tank"));
-        inventory.deserialize(nbt);
-        energy.deserialize(nbt);
+    public void readExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
+        tank.deserialize(provider, nbt);
+        inventory.deserialize(provider, nbt);
+        energy.deserialize(provider, nbt);
     }
 
     @Override
-    public SerializableContainer getContainer(@Nullable Direction side) {
+    public Container getContainer(@Nullable Direction side) {
         ContainerAccessControl ac = new ContainerAccessControl(inventory, 0, Config.INSTANCE.enableEnergy ? 9 : 8)
                 .containerInsertCheck((slot, stack) -> slot == 0 || slot > 6)
                 .slotRemoveCheck(0, stack -> false)
@@ -162,5 +165,15 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
     @Override
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
         return new EggCrackerMenu(i, inventory, this);
+    }
+
+    @Override
+    public @NotNull Component getName() {
+        return Component.literal("egg_cracker");
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.literal("egg_cracker");
     }
 }

@@ -331,16 +331,15 @@ public class EntityChickensChicken extends Chicken
     }
 
     @Override
-    public void defineSynchedData()
-    {
-        super.defineSynchedData();
-        entityData.define(CHICKEN_TYPE, "");
-        entityData.define(CHICKEN_GROWTH, 1);
-        entityData.define(CHICKEN_GAIN, 1);
-        entityData.define(CHICKEN_STRENGTH, 1);
-        entityData.define(LAY_PROGRESS, 0);
-        entityData.define(CHICKEN_STATS_ANALYZED, false);
-        entityData.define(LIFE_SPAN, 100);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(CHICKEN_TYPE, "");
+        builder.define(CHICKEN_GROWTH, 1);
+        builder.define(CHICKEN_GAIN, 1);
+        builder.define(CHICKEN_STRENGTH, 1);
+        builder.define(LAY_PROGRESS, 0);
+        builder.define(CHICKEN_STATS_ANALYZED, false);
+        builder.define(LIFE_SPAN, 100);
     }
 
     @Override

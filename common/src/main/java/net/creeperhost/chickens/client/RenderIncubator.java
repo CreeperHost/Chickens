@@ -8,6 +8,7 @@ import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -19,11 +20,11 @@ public class RenderIncubator implements BlockEntityRenderer<IncubatorBlockEntity
     {
         if(blockEntity.getLevel() == null) return;
 
-        for (int i1 = 0; i1 < blockEntity.getContainer().getContainerSize(); i1++)
+        for (int i1 = 0; i1 < blockEntity.getContainer(Direction.NORTH).getContainerSize(); i1++)
         {
-            if(blockEntity.getContainer().getItem(i1).isEmpty()) continue;
+            if(blockEntity.getContainer(Direction.NORTH).getItem(i1).isEmpty()) continue;
 
-            ItemStack stack = blockEntity.getContainer().getItem(i1);
+            ItemStack stack = blockEntity.getContainer(Direction.NORTH).getItem(i1);
             if(stack.getItem() instanceof ItemChickenEgg || stack.getItem() instanceof ItemChicken)
             {
                 poseStack.pushPose();

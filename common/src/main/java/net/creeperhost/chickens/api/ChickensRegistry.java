@@ -11,8 +11,8 @@ public class ChickensRegistry
     private static final Map<ResourceLocation, ChickensRegistryItem> items = new HashMap<ResourceLocation, ChickensRegistryItem>();
     private static final Map<String, ChickensRegistryItem> STRING_TO_ITEM = new HashMap<String, ChickensRegistryItem>();
 
-    public static final ResourceLocation SMART_CHICKEN_ID = new ResourceLocation(Chickens.MOD_ID, "smart_chicken");
-    public static final ResourceLocation VANILLA_CHICKEN = new ResourceLocation(Chickens.MOD_ID, "vanilla_chicken");
+    public static final ResourceLocation SMART_CHICKEN_ID = ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "smart_chicken");
+    public static final ResourceLocation VANILLA_CHICKEN = ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "vanilla_chicken");
 
     private static final Random rand = new Random();
 

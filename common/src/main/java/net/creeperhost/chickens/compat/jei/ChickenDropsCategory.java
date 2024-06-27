@@ -39,13 +39,13 @@ public class ChickenDropsCategory implements IRecipeCategory<ChickenDropsCategor
     @Override
     public @NotNull IDrawable getBackground()
     {
-        return guiHelper.drawableBuilder(new ResourceLocation(Chickens.MOD_ID, "textures/gui/drops.png"), 0, 0, 82, 54).addPadding(0, 20, 0, 0).build();
+        return guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/gui/drops.png"), 0, 0, 82, 54).addPadding(0, 20, 0, 0).build();
     }
 
     @Override
     public @NotNull IDrawable getIcon()
     {
-        return guiHelper.createDrawable(new ResourceLocation(Chickens.MOD_ID, "textures/gui/drops_icon.png"), 0, 0, 16, 16);
+        return guiHelper.createDrawable(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/gui/drops_icon.png"), 0, 0, 16, 16);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class RenderChickenItem
 
         if(s.isEmpty()) return;
 
-        EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(s));
+        EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(s));
         if(entityType == null) return;
 
         Entity entity = entityType.create(mc.level);

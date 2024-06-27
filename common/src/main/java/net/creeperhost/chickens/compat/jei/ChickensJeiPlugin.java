@@ -24,7 +24,7 @@ import java.util.List;
 @JeiPlugin
 public class ChickensJeiPlugin implements IModPlugin
 {
-    private static final ResourceLocation ID = new ResourceLocation(Chickens.MOD_ID, "jei_plugin");
+    private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "jei_plugin");
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry)
@@ -48,7 +48,8 @@ public class ChickensJeiPlugin implements IModPlugin
     public void registerItemSubtypes(ISubtypeRegistration registration)
     {
         registration.registerSubtypeInterpreter(ModItems.CHICKEN_ITEM.get(), ChickenSubtypeInterpreter.INSTANCE);
-        registration.useNbtForSubtypes(ModItems.CHICKEN_EGG.get());
+        //TODO
+//        registration.useNbtForSubtypes(ModItems.CHICKEN_EGG.get());
     }
 
     @Override

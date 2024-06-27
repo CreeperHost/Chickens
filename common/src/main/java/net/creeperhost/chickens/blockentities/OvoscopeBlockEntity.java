@@ -9,14 +9,15 @@ import net.creeperhost.polylib.blocks.PolyBlockEntity;
 import net.creeperhost.polylib.blocks.RedstoneActivatedBlock;
 import net.creeperhost.polylib.data.serializable.IntData;
 import net.creeperhost.polylib.helpers.ContainerUtil;
-import net.creeperhost.polylib.inventory.item.ContainerAccessControl;
-import net.creeperhost.polylib.inventory.item.ItemInventoryBlock;
-import net.creeperhost.polylib.inventory.item.SerializableContainer;
-import net.creeperhost.polylib.inventory.item.SimpleItemInventory;
+import net.creeperhost.polylib.inventory.items.BlockInventory;
+import net.creeperhost.polylib.inventory.items.ContainerAccessControl;
+import net.creeperhost.polylib.inventory.items.PolyInventoryBlock;
 import net.creeperhost.polylib.inventory.power.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,12 +25,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class OvoscopeBlockEntity extends PolyBlockEntity implements ItemInventoryBlock, MenuProvider, PolyEnergyBlock, RedstoneActivatedBlock {
+public class OvoscopeBlockEntity extends PolyBlockEntity implements PolyInventoryBlock, MenuProvider, PolyEnergyBlock, RedstoneActivatedBlock {
 
     public final PolyEnergyStorage energy = new PolyBlockEnergyStorage(this, 128000);
-    public final SimpleItemInventory inventory = new SimpleItemInventory(this, 4)
+    public final BlockInventory inventory = new BlockInventory(this, 4)
             .setMaxStackSize(1)
             .setSlotValidator(0, stack -> stack.getItem() instanceof ItemChickenEgg)
             .setSlotValidator(3, stack -> EnergyManager.isEnergyItem(stack) && EnergyManager.getHandler(stack).canExtract());
@@ -102,7 +104,7 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements ItemInventor
     }
 
     @Override
-    public SerializableContainer getContainer(@Nullable Direction side) {
+    public Container getContainer(@Nullable Direction side) {
         ContainerAccessControl ac = new ContainerAccessControl(inventory, 0, Config.INSTANCE.enableEnergy ? 4 : 2)
                 .slotRemoveCheck(0, stack -> false)
                 .slotInsertCheck(1, stack -> false)
@@ -129,14 +131,24 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements ItemInventor
     }
 
     @Override
-    public void writeExtraData(CompoundTag nbt) {
-        inventory.serialize(nbt);
-        energy.serialize(nbt);
+    public void writeExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
+        inventory.serialize(provider, nbt);
+        energy.serialize(provider, nbt);
     }
 
     @Override
-    public void readExtraData(CompoundTag nbt) {
-        inventory.deserialize(nbt);
-        energy.deserialize(nbt);
+    public void readExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
+        inventory.deserialize(provider, nbt);
+        energy.deserialize(provider, nbt);
+    }
+
+    @Override
+    public @NotNull Component getName() {
+        return Component.literal("ovoscope");
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.literal("ovoscope");
     }
 }

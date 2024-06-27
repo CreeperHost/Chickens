@@ -21,7 +21,7 @@ public class ClientInit {
 
     private static void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            ItemProperties.register(ModItems.CHICKEN_ITEM.get(), new ResourceLocation(Chickens.MOD_ID, ""), ChickenBlockEntityWithoutLevelRender.getInstance());
+            ItemProperties.register(ModItems.CHICKEN_ITEM.get(), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, ""), ChickenBlockEntityWithoutLevelRender.getInstance());
         });
     }
 

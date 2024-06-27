@@ -24,16 +24,9 @@ public class ChickensModFabric implements ModInitializer {
         }
 
         for (Config.FabricSpawn spawn : Config.INSTANCE.fabricSpawns) {
-            List<TagKey<Biome>> tags = spawn.biomeTags().stream().map(e -> TagKey.create(Registries.BIOME, new ResourceLocation(e))).toList();
-            BiomeModifications.addSpawn(e -> tags.stream().anyMatch(e::hasTag), MobCategory.CREATURE, BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(spawn.type())), spawn.weight(), spawn.minCluster(), spawn.maxCluster());
+            List<TagKey<Biome>> tags = spawn.biomeTags().stream().map(e -> TagKey.create(Registries.BIOME, ResourceLocation.parse(e))).toList();
+            BiomeModifications.addSpawn(e -> tags.stream().anyMatch(e::hasTag), MobCategory.CREATURE, BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(spawn.type())), spawn.weight(), spawn.minCluster(), spawn.maxCluster());
         }
-//
-//        BiomeModifications.addSpawn(e -> e.hasTag(BiomeTags.IS_OVERWORLD), MobCategory.CREATURE, BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation("chickens:flint_chicken")), 10, 2, 4);
-//        BiomeModifications.addSpawn(e -> e.hasTag(BiomeTags.IS_OVERWORLD), MobCategory.CREATURE, BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation("chickens:log_chicken")), 10, 2, 4);
-//        BiomeModifications.addSpawn(e -> e.hasTag(BiomeTags.IS_OVERWORLD), MobCategory.CREATURE, BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation("chickens:sand_chicken")), 10, 2, 4);
-//        //Add these to both creature and monster because creature spawn rate is ridiculously low in the nether.
-//        BiomeModifications.addSpawn(e -> e.hasTag(BiomeTags.IS_NETHER), MobCategory.CREATURE, BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation("chickens:quartz_chicken")), 60, 12, 12);
-//        BiomeModifications.addSpawn(e -> e.hasTag(BiomeTags.IS_NETHER), MobCategory.CREATURE, BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation("chickens:soulsand_chicken")), 60, 12, 12);
     }
 }
 

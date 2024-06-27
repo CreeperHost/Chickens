@@ -5,7 +5,9 @@ import net.creeperhost.chickens.Chickens;
 import net.minecraft.resources.ResourceLocation;
 
 public class PacketHandler {
-    public static final NetworkChannel HANDLER = NetworkChannel.create(new ResourceLocation(Chickens.MOD_ID, "main_channel"));
+
+    @SuppressWarnings("removal")
+    public static final NetworkChannel HANDLER = NetworkChannel.create(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "main_channel"));
 
     public static void init() {
     }

@@ -18,9 +18,9 @@ public class CommonTags {
 
     public static TagKey<Item> registerTag(String string) {
         if (Platform.isForgeLike()) {
-            return TagKey.create(Registries.ITEM, new ResourceLocation("forge", string));
+            return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("forge", string));
         }
-        return TagKey.create(Registries.ITEM, new ResourceLocation("c", string));
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", string));
     }
 
     public static boolean isSeeds(ItemStack stack) {

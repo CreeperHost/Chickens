@@ -11,7 +11,7 @@ import snownee.jade.api.config.IPluginConfig;
 @WailaPlugin
 public class JadePlugin implements IWailaPlugin
 {
-    private static final ResourceLocation ENTITY_DATA_ID = new ResourceLocation(Chickens.MOD_ID, "entity_data");
+    private static final ResourceLocation ENTITY_DATA_ID = ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "entity_data");
 
     @Override
     public void register(IWailaCommonRegistration registration)

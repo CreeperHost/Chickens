@@ -43,19 +43,19 @@ public class ChickenLayingCategory implements IRecipeCategory<ChickenLayingCateg
     @Override
     public @NotNull IDrawable getBackground()
     {
-        return guiHelper.drawableBuilder(new ResourceLocation(Chickens.MOD_ID, "textures/gui/laying.png"), 0, 0, 82, 54).addPadding(0, 20, 0, 0).build();
+        return guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/gui/laying.png"), 0, 0, 82, 54).addPadding(0, 20, 0, 0).build();
     }
 
     @Override
     public IDrawable getIcon()
     {
-        return guiHelper.createDrawable(new ResourceLocation(Chickens.MOD_ID, "textures/gui/laying_icon.png"), 0, 0, 16, 16);
+        return guiHelper.createDrawable(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/gui/laying_icon.png"), 0, 0, 16, 16);
     }
 
     @Override
     public void draw(Recipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
     {
-        IDrawableStatic arrowDrawable = guiHelper.createDrawable(new ResourceLocation(Chickens.MOD_ID, "textures/gui/breeding.png"), 82, 0, 7, 7);
+        IDrawableStatic arrowDrawable = guiHelper.createDrawable(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/gui/breeding.png"), 82, 0, 7, 7);
         guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 

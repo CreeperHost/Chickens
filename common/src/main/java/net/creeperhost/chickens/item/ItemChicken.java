@@ -97,11 +97,10 @@ public class ItemChicken extends Item
         worldIn.addFreshEntity(entity);
     }
 
-
     @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, @org.jetbrains.annotations.Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag tooltipFlag)
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
     {
-        super.appendHoverText(itemStack, level, components, tooltipFlag);
+        super.appendHoverText(itemStack, tooltipContext, components, tooltipFlag);
         ChickenStats chickenStats = new ChickenStats(itemStack);
         if (Screen.hasShiftDown())
         {
@@ -117,7 +116,7 @@ public class ItemChicken extends Item
     }
 
     @Override
-    public Component getName(@NotNull ItemStack stack)
+    public Component getName(ItemStack stack)
     {
         ChickensRegistryItem chickenDescription = ChickensRegistry.getByRegistryName(getTypeFromStack(stack));
         if (chickenDescription == null) return Component.translatable("item.chickens.chicken.name");
