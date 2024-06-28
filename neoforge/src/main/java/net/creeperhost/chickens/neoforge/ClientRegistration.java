@@ -1,6 +1,5 @@
 package net.creeperhost.chickens.neoforge;
 
-import dev.architectury.registry.menu.MenuRegistry;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.client.gui.BreederGui;
 import net.creeperhost.chickens.client.gui.EggCrackerGui;

@@ -83,14 +83,10 @@ public class ItemChicken extends Item
         entity.setGrowth(chickenStats.getGrowth());
         entity.setLifeSpan(chickenStats.getLifespan());
 
-        //TODO no idea what these are called now
-//        if(stack.getTag() != null)
-//        {
-//            if(stack.getTag().contains("baby"))
-//                entity.setBaby(stack.getTag().getBoolean("baby"));
-//            if(stack.getTag().contains("love"))
-//                entity.setInLoveTime(stack.getTag().getInt("love"));
-//        }
+        if(stack.has(ModComponentTypes.IS_BABY.get()))
+            entity.setBaby(stack.get(ModComponentTypes.IS_BABY.get()));
+        if(stack.has(ModComponentTypes.LOVE.get()))
+            entity.setInLoveTime(stack.get(ModComponentTypes.LOVE.get()));
 
         entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         entity.setChickenType(getTypeFromStack(stack));

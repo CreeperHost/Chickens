@@ -22,6 +22,7 @@ public class ChickensClient
     {
         ModScreens.init();
 
+        //TODO this seems to be broken atm
 //        ColorHandlerRegistry.registerItemColors((itemStack, i) ->
 //        {
 //            if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
@@ -29,7 +30,7 @@ public class ChickensClient
 //                ChickensRegistryItem item = itemColoredEgg.getType(itemStack);
 //                return item == null ? 0xFFFFFFFF : item.getBgColor();
 //            }
-//            return 0;
+//            return i;
 //        }, ModItems.CHICKEN_EGG);
 
         if (Platform.isFabric())

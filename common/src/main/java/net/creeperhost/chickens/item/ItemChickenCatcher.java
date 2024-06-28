@@ -3,6 +3,7 @@ package net.creeperhost.chickens.item;
 import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
+import net.creeperhost.chickens.init.ModComponentTypes;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +27,7 @@ public class ItemChickenCatcher extends Item
     }
 
     @Override
-    public InteractionResult interactLivingEntity(@NotNull ItemStack itemStack, @NotNull Player player, @NotNull LivingEntity livingEntity, @NotNull InteractionHand hand)
+    public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack itemStack, @NotNull Player player, @NotNull LivingEntity livingEntity, @NotNull InteractionHand hand)
     {
         Level level = livingEntity.level();
 
@@ -38,12 +39,8 @@ public class ItemChickenCatcher extends Item
 
             ChickenStats chickenStats = new ChickenStats(entityChickensChicken.getGain(), entityChickensChicken.getGrowth(), entityChickensChicken.getStrength(), entityChickensChicken.getLifeSpan());
             chickenStats.write(chicken);
-            //TODO no idea what these are called right now
-//            if(chicken.getTag() != null)
-//            {
-//                chicken.getTag().putBoolean("baby", entityChickensChicken.isBaby());
-//                chicken.getTag().putInt("love", entityChickensChicken.getInLoveTime());
-//            }
+            chicken.set(ModComponentTypes.LOVE.get(), entityChickensChicken.getInLoveTime());
+            chicken.set(ModComponentTypes.IS_BABY.get(), entityChickensChicken.isBaby());
 
             ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), chicken);
             level.addFreshEntity(itemEntity);
@@ -58,12 +55,8 @@ public class ItemChickenCatcher extends Item
             //Vanilla chickens don't have any stats so lets create set them to default
             ChickenStats chickenStats = new ChickenStats(1,1, 1, 100);
             chickenStats.write(stack);
-            //TODO
-//            if(stack.getTag() != null)
-//            {
-//                stack.getTag().putBoolean("baby", chicken.isBaby());
-//                stack.getTag().putInt("love", chicken.getInLoveTime());
-//            }
+            stack.set(ModComponentTypes.LOVE.get(), chicken.getInLoveTime());
+            stack.set(ModComponentTypes.IS_BABY.get(), chicken.isBaby());
 
             ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), stack);
             level.addFreshEntity(itemEntity);
