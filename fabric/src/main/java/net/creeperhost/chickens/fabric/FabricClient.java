@@ -16,7 +16,7 @@ public class FabricClient {
 
     public static void init() {
         BuiltinItemRendererRegistry.INSTANCE.register(ModItems.CHICKEN_ITEM.get(), new ChickenDynamicItemRenderer());
-        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ResourceReloadListenerWrapper(ChickenGuiTextures::getAtlasHolder, new ResourceLocation(Chickens.MOD_ID, "gui_atlas_reload")));
+        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ResourceReloadListenerWrapper(ChickenGuiTextures::getAtlasHolder, ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "gui_atlas_reload")));
     }
 
 }
