@@ -9,15 +9,35 @@ architectury {
 }
 
 loom {
+    runs {
+        datagenClient {
+            client()
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            //This will be ignored but is needed for now to load Fabrics datagen
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+
+            vmArg "-Dpolylib.datagen.output-dir-common=${project(":common").file("src/generated/resources")}"
+            vmArg "-Dpolylib.datagen.output-dir-forge=${project(":neoforge").file("src/generated/resources")}"
+            vmArg "-Dpolylib.datagen.output-dir-fabric=${project(":fabric").file("src/generated/resources")}"
+
+            ideConfigGenerated = true
+            runDir "build/datagen"
+        }
+    }
+
     accessWidenerPath = project(":common").loom.accessWidenerPath
 }
 
 configurations {
     common
+    shadowLib
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon.extendsFrom shadowLib
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
+    implementation.extendsFrom shadowLib
 }
 
 dependencies {
@@ -26,7 +46,6 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modApi("net.creeperhost:polylib-fabric:${rootProject.polylib_version}")
-
     modApi "curse.maven:jade-324717:5444008"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

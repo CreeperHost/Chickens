@@ -11,11 +11,10 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "chickens:breeder"
+          "name": "chickens:incubator"
         }
       ],
       "rolls": 1.0
     }
-  ],
-  "random_sequence": "chickens:blocks/breeder"
+  ]
 }

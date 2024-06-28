@@ -20,6 +20,9 @@
     ],
     "jei_mod_plugin": [
       "net.creeperhost.chickens.compat.jei.ChickensJeiPlugin"
+    ],
+    "fabric-datagen": [
+      "net.creeperhost.chickens.fabric.DataGen"
     ]
   },
   "mixins": [

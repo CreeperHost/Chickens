@@ -1,0 +1,8 @@
+{
+  "values": [
+    "chickens:incubator",
+    "chickens:breeder",
+    "chickens:egg_cracker",
+    "chickens:ovoscope"
+  ]
+}
