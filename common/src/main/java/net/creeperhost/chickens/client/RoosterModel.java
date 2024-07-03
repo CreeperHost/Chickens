@@ -31,8 +31,6 @@ public class RoosterModel <T extends Entity> extends EntityModel<T>
         this.tail = root.getChild("tail");
         this.body = root.getChild("body");
         this.head = root.getChild("head");
-//        this.comb = root.getChild("comb");
-//        this.beak = root.getChild("beak");
         this.leg0 = root.getChild("leg0");
         this.leg1 = root.getChild("leg1");
         this.wing0 = root.getChild("wing0");
@@ -71,10 +69,8 @@ public class RoosterModel <T extends Entity> extends EntityModel<T>
     {
         this.head.xRot = headPitch * 0.017453292F;
         this.head.yRot = headPitch * 0.017453292F;
-        this.leg1.zRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        this.leg0.zRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
-        this.leg1.xRot = ageInTicks;
-        this.leg0.xRot = -ageInTicks;
+        this.leg1.xRot = Mth.cos(limbSwing * 0.6662F) * 0.4F * limbSwingAmount;
+        this.leg0.xRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
     }
 
     @Override
