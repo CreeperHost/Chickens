@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -73,24 +74,24 @@ public class ItemChicken extends Item
     public static void spawn(ItemStack stack, Level worldIn, BlockPos pos)
     {
         ResourceLocation entityName = ResourceLocation.tryParse(getTypeFromStack(stack));
-        EntityChickensChicken entity = (EntityChickensChicken) BuiltInRegistries.ENTITY_TYPE.get(entityName).create(worldIn);
-        ChickenStats chickenStats = new ChickenStats(stack);
-        if (entity == null) return;
+        Entity entity = BuiltInRegistries.ENTITY_TYPE.get(entityName).create(worldIn);
+        if(entity instanceof EntityChickensChicken chicken)
+        {
+            ChickenStats chickenStats = new ChickenStats(stack);
+            if (entity == null) return;
 
-        entity.setStatsAnalyzed(true);
-        entity.setGain(chickenStats.getGain());
-        entity.setStrength(chickenStats.getStrength());
-        entity.setGrowth(chickenStats.getGrowth());
-        entity.setLifeSpan(chickenStats.getLifespan());
+            chicken.setStatsAnalyzed(true);
+            chicken.setGain(chickenStats.getGain());
+            chicken.setStrength(chickenStats.getStrength());
+            chicken.setGrowth(chickenStats.getGrowth());
+            chicken.setLifeSpan(chickenStats.getLifespan());
 
-        if(stack.has(ModComponentTypes.IS_BABY.get()))
-            entity.setBaby(stack.get(ModComponentTypes.IS_BABY.get()));
-        if(stack.has(ModComponentTypes.LOVE.get()))
-            entity.setInLoveTime(stack.get(ModComponentTypes.LOVE.get()));
+            if (stack.has(ModComponentTypes.IS_BABY.get())) chicken.setBaby(stack.get(ModComponentTypes.IS_BABY.get()));
+            if (stack.has(ModComponentTypes.LOVE.get())) chicken.setInLoveTime(stack.get(ModComponentTypes.LOVE.get()));
 
+            chicken.setChickenType(getTypeFromStack(stack));
+        }
         entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-        entity.setChickenType(getTypeFromStack(stack));
-
         worldIn.addFreshEntity(entity);
     }
 

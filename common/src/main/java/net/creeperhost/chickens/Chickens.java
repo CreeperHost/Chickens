@@ -61,6 +61,8 @@ public class Chickens
             );
             ChickensRegistry.register(chickensRegistryItem);
         }
+        ChickensRegistry.register(ModChickens.ROOSTER);
+
         ModBlocks.BLOCKS.register();
         ModEntities.ENTITIES.register();
         ModBlocks.TILES_ENTITIES.register();

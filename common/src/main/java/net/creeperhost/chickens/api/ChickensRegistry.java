@@ -13,6 +13,7 @@ public class ChickensRegistry
 
     public static final ResourceLocation SMART_CHICKEN_ID = ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "smart_chicken");
     public static final ResourceLocation VANILLA_CHICKEN = ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "vanilla_chicken");
+    public static final ResourceLocation ROOSTER = ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "rooster");
 
     private static final Random rand = new Random();
 

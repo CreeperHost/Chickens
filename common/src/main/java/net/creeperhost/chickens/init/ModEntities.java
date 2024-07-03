@@ -32,12 +32,16 @@ public class ModEntities {
 
     public static final Map<ChickensRegistryItem, Supplier<EntityType<EntityChickensChicken>>> CHICKENS = Util.make(new LinkedHashMap<>(), map ->
     {
-        for (ChickensRegistryItem item : ChickensRegistry.getItems()) {
-            map.put(item, ENTITIES.register(item.getEntityName(), () -> EntityType.Builder.of(EntityChickensChicken::new, MobCategory.CREATURE)
-                    .sized(0.6F, 1.7F)
-                    .clientTrackingRange(8)
-                    .build(item.getEntityName())
-            ));
+        for (ChickensRegistryItem item : ChickensRegistry.getItems())
+        {
+            if(!item.equals(ModChickens.ROOSTER))
+            {
+                map.put(item, ENTITIES.register(item.getEntityName(), () -> EntityType.Builder.of(EntityChickensChicken::new, MobCategory.CREATURE)
+                        .sized(0.6F, 1.7F)
+                        .clientTrackingRange(8)
+                        .build(item.getEntityName())
+                ));
+            }
         }
     });
 

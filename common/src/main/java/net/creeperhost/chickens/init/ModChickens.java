@@ -18,13 +18,14 @@ import java.util.List;
 
 public class ModChickens
 {
+    public static final ChickensRegistryItem ROOSTER = new ChickensRegistryItem(ChickensRegistry.ROOSTER, "rooster", ResourceLocation.fromNamespaceAndPath("chickens", "textures/entity/rooster.png"), ItemStack.EMPTY, 0xffffff);
+
     public static List<ChickensRegistryItem> generateDefaultChickens()
     {
         List<ChickensRegistryItem> chickens = new ArrayList<ChickensRegistryItem>();
 
         chickens.add(new ChickensRegistryItem(ChickensRegistry.VANILLA_CHICKEN, "vanilla_chicken", ResourceLocation.withDefaultNamespace("textures/entity/chicken.png"), new ItemStack(Items.EGG), 0xffffff));
         chickens.add(new ChickensRegistryItem(ChickensRegistry.SMART_CHICKEN_ID, "smart_chicken", ResourceLocation.fromNamespaceAndPath("chickens", "textures/entity/smart_chicken.png"), new ItemStack(Items.EGG), 0xffffff));
-
         // dye chickens
         ChickensRegistryItem whiteChicken = createDyeChicken(DyeColor.WHITE, "white_chicken");
         chickens.add(whiteChicken);

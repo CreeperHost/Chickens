@@ -33,6 +33,7 @@ public class DataGen implements DataGeneratorEntrypoint
 
             provider.add("itemGroup.chickens.creative_tab", "Chickens", ModuleType.COMMON);
             provider.add("itemGroup.chickens.creative_tab_eggs", "Chicken Eggs", ModuleType.COMMON);
+            provider.add("entity.chickens.rooster", "Rooster", ModuleType.COMMON);
 
             provider.add("item.liquid_egg.tooltip", "It's like one-off bucket.", ModuleType.COMMON);
             provider.add("item.liquid_egg.water.name", "Water Egg", ModuleType.COMMON);

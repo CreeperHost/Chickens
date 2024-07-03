@@ -3,6 +3,7 @@ package net.creeperhost.chickens.item;
 import net.creeperhost.chickens.api.ChickenStats;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
+import net.creeperhost.chickens.entity.EntityRooster;
 import net.creeperhost.chickens.init.ModComponentTypes;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -43,6 +44,18 @@ public class ItemChickenCatcher extends Item
             chicken.set(ModComponentTypes.IS_BABY.get(), entityChickensChicken.isBaby());
 
             ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), chicken);
+            level.addFreshEntity(itemEntity);
+            livingEntity.remove(Entity.RemovalReason.DISCARDED);
+            return InteractionResult.PASS;
+        }
+        else if (livingEntity instanceof EntityRooster)
+        {
+            ItemStack stack = new ItemStack(ModItems.CHICKEN_ITEM.get());
+            ItemChicken.applyEntityIdToItemStack(stack, ChickensRegistry.ROOSTER);
+            ChickenStats chickenStats = new ChickenStats(1,1, 1, 100);
+            chickenStats.write(stack);
+
+            ItemEntity itemEntity = new ItemEntity(level, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), stack);
             level.addFreshEntity(itemEntity);
             livingEntity.remove(Entity.RemovalReason.DISCARDED);
             return InteractionResult.PASS;
