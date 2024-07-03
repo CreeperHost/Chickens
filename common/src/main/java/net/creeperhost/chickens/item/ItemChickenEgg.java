@@ -128,7 +128,7 @@ public class ItemChickenEgg extends Item implements ItemColor
             list.add(Component.literal(ChatFormatting.BLUE + "ChickenType: " + ChatFormatting.WHITE + chickensRegistryItem.getEntityName()));
             list.add(Component.literal(ChatFormatting.LIGHT_PURPLE + "Progress: " + ChatFormatting.WHITE + getProgress(itemStack)));
 //            list.add(Component.literal("Missed: " + getMissedCycles(itemStack)));
-//            list.add(Component.literal("Viable: " + isViable(itemStack)));
+            list.add(Component.literal("Viable: " + isViable(itemStack)));
         }
 
         ChickenStats chickenStats = new ChickenStats(itemStack);

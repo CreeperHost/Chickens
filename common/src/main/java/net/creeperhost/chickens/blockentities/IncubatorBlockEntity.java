@@ -269,14 +269,4 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
         return new IncubatorMenu(i, inventory, this);
     }
-
-    @Override
-    public @NotNull Component getName() {
-        return Component.literal("incubator");
-    }
-
-    @Override
-    public @NotNull Component getDisplayName() {
-        return Component.literal("incubator");
-    }
 }

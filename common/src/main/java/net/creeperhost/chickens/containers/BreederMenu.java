@@ -36,17 +36,7 @@ public class BreederMenu extends PolyBlockContainerMenu<BreederBlockEntity> {
         hotBar.addPlayerBar(playerInv);
 
         seeds.addSlot(new PolySlot(tile.inventory, 0));
-        chickens.addSlots(2, 1, slot -> new PolySlot(tile.inventory, slot).setStackLimit(stack -> 1));
-        output.addSlots(3, 3, slot -> new PolySlot(tile.inventory, slot).output());
-    }
-
-    @Override
-    public ItemStack quickMoveStack(Player player, int i) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return true;
+        chickens.addSlots(3, 1, slot -> new PolySlot(tile.inventory, slot).setStackLimit(stack -> 1));
+        output.addSlots(3, 4, slot -> new PolySlot(tile.inventory, slot).output());
     }
 }

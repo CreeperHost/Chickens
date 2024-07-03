@@ -3,11 +3,13 @@ package net.creeperhost.chickens.client;
 import com.google.common.collect.Iterables;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -48,18 +50,17 @@ public class RenderChickenItem
 
             poseStack.translate(0.5F, 0.0F, 0.5F);
 
-            if (transformType == ItemDisplayContext.GUI)
-            {
-                Lighting.setupForFlatItems();
-            }
-
             if (mc.getEntityRenderDispatcher() != null)
             {
                 EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
+                if (transformType == ItemDisplayContext.GUI)
+                {
+                    Lighting.setupForFlatItems();
+                }
 
-                MultiBufferSource.BufferSource irendertypebuffer$impl = mc.renderBuffers().bufferSource();
-                entityRenderDispatcher.getRenderer(chicken).render(chicken, 0.0F, 0.0F, poseStack, irendertypebuffer$impl, combinedLight);
+                entityRenderDispatcher.getRenderer(chicken).render(chicken, 0, 0, poseStack, bufferSource, combinedOverlay);
             }
+
             poseStack.popPose();
         }
     }

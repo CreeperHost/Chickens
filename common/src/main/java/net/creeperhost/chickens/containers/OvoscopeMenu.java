@@ -52,14 +52,4 @@ public class OvoscopeMenu extends PolyBlockContainerMenu<OvoscopeBlockEntity> {
             energySlot.addSlot(new PolySlot(tile.inventory, 3).setStackLimit(e -> 1));
         }
     }
-
-    @Override
-    public ItemStack quickMoveStack(Player player, int i) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return true;
-    }
 }

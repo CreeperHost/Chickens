@@ -1,8 +1,10 @@
 package net.creeperhost.chickens.client;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.minecraft.client.model.ChickenModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -28,5 +30,13 @@ public class RenderChickensChicken extends MobRenderer<EntityChickensChicken, Ch
         float f = Mth.lerp(p_114001_, p_114000_.oFlap, p_114000_.flap);
         float f1 = Mth.lerp(p_114001_, p_114000_.oFlapSpeed, p_114000_.flapSpeed);
         return (Mth.sin(f) + 1.0F) * f1;
+    }
+
+    @Override
+    public void render(EntityChickensChicken livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
+        super.render(livingEntity, f, g, poseStack, multiBufferSource, i);
+//        System.out.println("f " + f);
+//        System.out.println("g " +g);
+//        System.out.println("i " +i);
     }
 }

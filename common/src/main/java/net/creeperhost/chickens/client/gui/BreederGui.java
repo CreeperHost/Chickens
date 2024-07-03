@@ -23,7 +23,7 @@ import static net.creeperhost.polylib.client.modulargui.lib.geometry.GeoParam.RI
  * Created by brandon3055 on 01/03/2024
  */
 public class BreederGui extends ContainerGuiProvider<BreederMenu> {
-    public static final int GUI_WIDTH = 176;
+    public static final int GUI_WIDTH = 186;
     public static final int GUI_HEIGHT = 133;
 
     @Override
@@ -36,7 +36,7 @@ public class BreederGui extends ContainerGuiProvider<BreederMenu> {
 
     @Override
     public void buildGui(ModularGui gui, ContainerScreenAccess<BreederMenu> screenAccess) {
-        gui.initStandardGui(GUI_WIDTH, GUI_HEIGHT);
+        gui.initStandardGui(220, GUI_HEIGHT);
         BreederMenu menu = screenAccess.getMenu();
         BreederBlockEntity tile = menu.tile;
         gui.setGuiTitle(tile.getDisplayName());
@@ -63,7 +63,7 @@ public class BreederGui extends ContainerGuiProvider<BreederMenu> {
         GuiSlots seeds = GuiSlots.singleSlot(root, screenAccess, menu.seeds)
                 .setEmptyIcon(ChickenGuiTextures.get("slot/seeds"))
                 .setTooltip(Component.translatable("gui.chickens.breeder.seed_slot"))
-                .constrain(LEFT, match(playInv.container.get(LEFT)))
+                .constrain(LEFT, relative(playInv.container.get(LEFT), -16))
                 .constrain(TOP, relative(title.get(BOTTOM), 6));
 
         GuiSlots outputs = new GuiSlots(root, screenAccess, menu.output, 3)
@@ -74,7 +74,7 @@ public class BreederGui extends ContainerGuiProvider<BreederMenu> {
         Constraints.size(plus, 16, 16);
         Constraints.placeOutside(plus, seeds, Constraints.LayoutPos.MIDDLE_RIGHT, 2, 0);
 
-        GuiSlots chickens = new GuiSlots(root, screenAccess, menu.chickens, 2)
+        GuiSlots chickens = new GuiSlots(root, screenAccess, menu.chickens, 3)
                 .setEmptyIcon(ChickenGuiTextures.get("slot/chicken"))
                 .setTooltip(Component.translatable("gui.chickens.breeder.chicken_slot"));
         Constraints.placeOutside(chickens, plus, Constraints.LayoutPos.MIDDLE_RIGHT, 2, 0);

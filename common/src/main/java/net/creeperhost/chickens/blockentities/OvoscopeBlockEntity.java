@@ -17,7 +17,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -25,7 +24,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class OvoscopeBlockEntity extends PolyBlockEntity implements PolyInventoryBlock, MenuProvider, PolyEnergyBlock, RedstoneActivatedBlock {
@@ -140,15 +138,5 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements PolyInventor
     public void readExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
         inventory.deserialize(provider, nbt);
         energy.deserialize(provider, nbt);
-    }
-
-    @Override
-    public @NotNull Component getName() {
-        return Component.literal("ovoscope");
-    }
-
-    @Override
-    public @NotNull Component getDisplayName() {
-        return Component.literal("ovoscope");
     }
 }

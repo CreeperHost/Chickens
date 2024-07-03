@@ -55,14 +55,4 @@ public class IncubatorMenu extends PolyBlockContainerMenu<IncubatorBlockEntity>
             energySlot.addSlot(new PolySlot(tile.inventory, 10));
         }
     }
-
-    @Override
-    public ItemStack quickMoveStack(Player player, int i) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return true;
-    }
 }

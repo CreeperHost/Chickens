@@ -166,14 +166,4 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements PolyInvent
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
         return new EggCrackerMenu(i, inventory, this);
     }
-
-    @Override
-    public @NotNull Component getName() {
-        return Component.literal("egg_cracker");
-    }
-
-    @Override
-    public @NotNull Component getDisplayName() {
-        return Component.literal("egg_cracker");
-    }
 }

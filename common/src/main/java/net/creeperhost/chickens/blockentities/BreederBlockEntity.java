@@ -7,6 +7,8 @@ import net.creeperhost.chickens.block.BreederBlock;
 import net.creeperhost.chickens.config.Config;
 import net.creeperhost.chickens.containers.BreederMenu;
 import net.creeperhost.chickens.init.ModBlocks;
+import net.creeperhost.chickens.init.ModChickens;
+import net.creeperhost.chickens.init.ModComponentTypes;
 import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.chickens.item.ItemChicken;
 import net.creeperhost.chickens.item.ItemChickenEgg;
@@ -39,10 +41,17 @@ import org.jetbrains.annotations.Nullable;
 
 public class BreederBlockEntity extends PolyBlockEntity implements PolyInventoryBlock, MenuProvider {
 
-    public final BlockInventory inventory = new BlockInventory(this, 6)
+    public final BlockInventory inventory = new BlockInventory(this, 7)
             .setSlotValidator(0, CommonTags::isSeeds)
             .setSlotValidator(1, e -> e.is(ModItems.CHICKEN_ITEM.get()))
-            .setSlotValidator(2, e -> e.is(ModItems.CHICKEN_ITEM.get()));
+            .setSlotValidator(2, e -> e.is(ModItems.CHICKEN_ITEM.get()))
+            .setSlotValidator(3, stack ->
+            {
+                ChickensRegistryItem chickensRegistryItem = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(stack));
+                if(chickensRegistryItem == null) return false;
+                if(chickensRegistryItem.equals(ModChickens.ROOSTER)) return true;
+                return false;
+            });
 
     public final FloatData progress = register("progress", new FloatData(0), SAVE_BOTH);
 
@@ -58,6 +67,7 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
         ItemStack seeds = inventory.getItem(0);
         ItemStack chicken1 = inventory.getItem(1);
         ItemStack chicken2 = inventory.getItem(2);
+        ItemStack rooster = inventory.getItem(3);
 
         boolean canWork = chicken1.getItem() instanceof ItemChicken && chicken2.getItem() instanceof ItemChicken && CommonTags.isSeeds(seeds);
         setState(canWork);
@@ -84,6 +94,18 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
 
         ChickenStats babyStats = increaseStats(chickenStack, chicken1, chicken2, level.random);
         babyStats.write(chickenStack);
+        if(!rooster.isEmpty())
+        {
+            ChickensRegistryItem roosterItem = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(chicken2));
+            if(roosterItem == ModChickens.ROOSTER)
+            {
+                chickenStack.set(ModComponentTypes.EGG_VIABLE.get(), true);
+            }
+        }
+        else
+        {
+            chickenStack.set(ModComponentTypes.EGG_VIABLE.get(), false);
+        }
 
         ChickenStats chickenStats = new ChickenStats(chicken1);
         int count = Math.max(1, ((1 + chickenStats.getGain()) / 3));
@@ -110,13 +132,13 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
     public Container getContainer(@Nullable Direction side) {
         if (side != Direction.DOWN) {
             //Allows extraction from any slot from sides or top
-            return new ContainerAccessControl(inventory, 0, 6)
+            return new ContainerAccessControl(inventory, 0, 7)
                     .slotInsertCheck(1, stack -> stack.getCount() == 1 && inventory.getItem(1).isEmpty()) //TODO This limiting slot to 1 item can be done better with a custom SidedInvWrapper, though not sure about fabric...
                     .slotInsertCheck(2, stack -> stack.getCount() == 1 && inventory.getItem(2).isEmpty()) //TODO This limiting slot to 1 item can be done better with a custom SidedInvWrapper, though not sure about fabric...
                     .containerInsertCheck((slot, stack) -> slot <= 2);
         }
         //Only allow extraction of outputs from bottom (basic hopper compatibility)
-        return new ContainerAccessControl(inventory, 0, 6)
+        return new ContainerAccessControl(inventory, 0, 7)
                 .slotInsertCheck(1, stack -> stack.getCount() == 1 && inventory.getItem(1).isEmpty()) //TODO This limiting slot to 1 item can be done better with a custom SidedInvWrapper, though not sure about fabric...
                 .slotInsertCheck(2, stack -> stack.getCount() == 1 && inventory.getItem(2).isEmpty()) //TODO This limiting slot to 1 item can be done better with a custom SidedInvWrapper, though not sure about fabric...
                 .containerInsertCheck((slot, stack) -> slot <= 2)
@@ -188,15 +210,5 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
         int newStatValue = (stat1 * thisStrength + stat2 * mateStrength) / (thisStrength + mateStrength) + mutation;
         if (newStatValue <= 1) return 1;
         return Math.min(newStatValue, 10);
-    }
-
-    @Override
-    public @NotNull Component getName() {
-        return Component.literal("breeder");
-    }
-
-    @Override
-    public @NotNull Component getDisplayName() {
-        return Component.literal("breeder");
     }
 }
