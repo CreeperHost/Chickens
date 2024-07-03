@@ -1,0 +1,13 @@
+// 1.21	2024-07-03T12:10:57.7283055	Chickens/Recipes
+37d76f422366e6f543df4c6eb8659e8c85c1ac30 data\chickens\advancement\recipes\misc\breeder.json
+5f3028e2add58166541be9076a7db7f43ab9c988 data\chickens\advancement\recipes\food\cooked_chicken.json
+f99a70956cfb9ceda106d0d73390b4e8ee0d6852 data\chickens\advancement\recipes\misc\egg_cracker.json
+536f4e0696eca20a25046f2955effb40ab74fd4d data\chickens\advancement\recipes\misc\catcher.json
+9d6b2693fc714181e666724f33774f87849c16b5 data\chickens\advancement\recipes\misc\ovoscope.json
+5da1e05f8246b8cbfd6c17cc11bc8a9e731b5ee7 ..\..\..\..\common\src\generated\resources\data\chickens\recipe\cooked_chicken.json
+2a2d550698d6a80581b10a57094130cbbaa71353 data\chickens\advancement\recipes\misc\incubator.json
+25392e3eb0640c66766624aa8bea9643e668f71b ..\..\..\..\common\src\generated\resources\data\chickens\recipe\catcher.json
+e4c64ba61c202e58cf14b02b4e19ac689d1d1f07 ..\..\..\..\common\src\generated\resources\data\chickens\recipe\breeder.json
+312e503a8e5369ecea9ea847baf35459898a8daf ..\..\..\..\common\src\generated\resources\data\chickens\recipe\ovoscope.json
+edaf70b0c4c7aab636032ef97fac5b0ba6dd897f ..\..\..\..\common\src\generated\resources\data\chickens\recipe\incubator.json
+71114168a4b9dae63bf26071e8d959d9c1bcb414 ..\..\..\..\common\src\generated\resources\data\chickens\recipe\egg_cracker.json

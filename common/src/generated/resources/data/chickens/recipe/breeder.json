@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "chickens",
   "key": {
     "H": {
       "item": "minecraft:hay_block"
@@ -18,7 +19,7 @@
     "HHH"
   ],
   "result": {
-    "item": "chickens:breeder"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "chickens:breeder"
+  }
 }

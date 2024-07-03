@@ -1,12 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "chickens",
   "key": {
     "C": {
       "item": "minecraft:chest"
     },
     "E": {
-      "tag": "chickens:mod_eggs"
+      "tag": "chickens:eggs"
     },
     "I": {
       "item": "minecraft:iron_ingot"
@@ -21,7 +22,7 @@
     "ICI"
   ],
   "result": {
-    "item": "chickens:egg_cracker"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "chickens:egg_cracker"
+  }
 }

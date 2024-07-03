@@ -1,4 +1,4 @@
-// 1.21	2024-06-28T13:45:18.066123	Chickens/Block Loot Tables
+// 1.21	2024-07-03T12:10:57.7293027	Chickens/Block Loot Tables
 a20333968b6330442e373e82ca8abdaa064eafab ..\..\..\..\common\src\generated\resources\data\chickens\loot_table\blocks\breeder.json
 2c5eb26290d1871b1104271909060a5c50ab2749 ..\..\..\..\common\src\generated\resources\data\chickens\loot_table\blocks\ovoscope.json
 827e82271ae49899f02bcd604540e15aeb658f62 ..\..\..\..\common\src\generated\resources\data\chickens\loot_table\blocks\egg_cracker.json

@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "chickens",
   "key": {
     "E": {
       "tag": "chickens:eggs"
@@ -18,7 +19,7 @@
     " F "
   ],
   "result": {
-    "item": "chickens:catcher"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "chickens:catcher"
+  }
 }

@@ -10,9 +10,11 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 
 import static net.minecraft.data.recipes.RecipeProvider.has;
@@ -207,6 +209,56 @@ public class DataGen implements DataGeneratorEntrypoint
                     .define('S', Items.WHEAT_SEEDS)
                     .group(Chickens.MOD_ID)
                     .unlockedBy("has_item", has(Blocks.HAY_BLOCK)), ModuleType.COMMON);
+
+            provider.add(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.CATCHER_ITEM.get())
+                    .pattern(" E ")
+                    .pattern(" S ")
+                    .pattern(" F ")
+                    .define('E', ModTags.Items.EGGS)
+                    .define('S', Items.STICK)
+                    .define('F', Items.FEATHER)
+                    .group(Chickens.MOD_ID)
+                    .unlockedBy("has_item", has(ModTags.Items.EGGS)), ModuleType.COMMON);
+
+            provider.add(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.EGG_CRACKER.get())
+                    .pattern("IPI")
+                    .pattern("IEI")
+                    .pattern("ICI")
+                    .define('I', Items.IRON_INGOT)
+                    .define('C', Items.CHEST)
+                    .define('E', ModTags.Items.EGGS)
+                    .define('P', Items.PISTON)
+                    .group(Chickens.MOD_ID)
+                    .unlockedBy("has_item", has(ModTags.Items.EGGS)), ModuleType.COMMON);
+
+            provider.add(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.INCUBATOR.get())
+                    .pattern("PLP")
+                    .pattern("GEG")
+                    .pattern("HHH")
+                    .define('E', ModTags.Items.MOD_EGGS)
+                    .define('G', Items.GLASS_PANE)
+                    .define('H', Items.HAY_BLOCK)
+                    .define('L', Items.REDSTONE_LAMP)
+                    .define('P', ItemTags.PLANKS)
+                    .group(Chickens.MOD_ID)
+                    .unlockedBy("has_item", has(ModTags.Items.MOD_EGGS)), ModuleType.COMMON);
+
+            provider.add(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OVOSCOPE.get())
+                    .pattern("PPP")
+                    .pattern("GEG")
+                    .pattern("PCP")
+                    .define('C', Items.COMPARATOR)
+                    .define('E', ModTags.Items.MOD_EGGS)
+                    .define('G', Items.GLASS_PANE)
+                    .define('P', ItemTags.PLANKS)
+                    .group(Chickens.MOD_ID)
+                    .unlockedBy("has_item", has(ModTags.Items.MOD_EGGS)), ModuleType.COMMON);
+
+
+            provider.add(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModTags.Items.CHICKENS),
+                    RecipeCategory.FOOD, Items.COOKED_CHICKEN, 0.35F, 200)
+                    .group(Chickens.MOD_ID)
+                    .unlockedBy("has_item", has(ModTags.Items.CHICKENS)), ModuleType.COMMON);
 
             return provider;
         });

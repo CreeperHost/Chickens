@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "chickens",
   "key": {
     "C": {
       "item": "minecraft:comparator"
@@ -21,7 +22,7 @@
     "PCP"
   ],
   "result": {
-    "item": "chickens:ovoscope"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "chickens:ovoscope"
+  }
 }
