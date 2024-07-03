@@ -28,8 +28,8 @@ dependencies {
     modApi("dev.architectury:architectury-neoforge:${rootProject.architectury_version}") { transitive = false }
     modApi("net.creeperhost:polylib-neoforge:${polylib_version}") { transitive = false }
 
-//    modCompileOnlyApi "mezz.jei:jei-${rootProject.minecraft_version}-neoforge-api:${rootProject.jei_version}"
-//    modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}"
+    modCompileOnlyApi "mezz.jei:jei-${rootProject.minecraft_version}-neoforge-api:${rootProject.jei_version}"
+    modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}"
 
 //    modApi("mekanism:Mekanism:${project.mekanism_version}")
 

@@ -15,6 +15,7 @@ import net.creeperhost.chickens.init.ModScreens;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.util.FastColor;
 
 public class ChickensClient
 {
@@ -22,16 +23,16 @@ public class ChickensClient
     {
         ModScreens.init();
 
-        //TODO this seems to be broken atm
-//        ColorHandlerRegistry.registerItemColors((itemStack, i) ->
-//        {
-//            if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
-//            {
-//                ChickensRegistryItem item = itemColoredEgg.getType(itemStack);
-//                return item == null ? 0xFFFFFFFF : item.getBgColor();
-//            }
-//            return i;
-//        }, ModItems.CHICKEN_EGG);
+        ColorHandlerRegistry.registerItemColors((itemStack, i) ->
+        {
+            if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
+            {
+                ChickensRegistryItem item = itemColoredEgg.getType(itemStack);
+                if(i > 0)
+                    return FastColor.ABGR32.opaque(item.getBgColor());
+            }
+            return 0xFFFFFFFF;
+        }, ModItems.CHICKEN_EGG);
 
         if (Platform.isFabric())
         {

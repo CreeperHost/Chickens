@@ -1,6 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "chickens:item/colored_egg"
+        "layer0": "chickens:item/colored_egg",
+        "layer1": "item/spawn_egg_overlay"
     }
 }
