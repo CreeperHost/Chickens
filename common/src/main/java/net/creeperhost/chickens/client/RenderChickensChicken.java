@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 
 public class RenderChickensChicken extends MobRenderer<EntityChickensChicken, ChickenModel<EntityChickensChicken>>
 {
@@ -16,7 +17,7 @@ public class RenderChickensChicken extends MobRenderer<EntityChickensChicken, Ch
     }
 
     @Override
-    public ResourceLocation getTextureLocation(EntityChickensChicken entity)
+    public @NotNull ResourceLocation getTextureLocation(EntityChickensChicken entity)
     {
         return entity.getTexture();
     }

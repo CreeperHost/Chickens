@@ -75,6 +75,7 @@ public class Chickens
         }
 
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
+        EntityAttributeRegistry.register(ModEntities.ROOSTER, EntityChickensChicken::prepareAttributes);
 
         InteractionEvent.INTERACT_ENTITY.register(Chickens::onEntityInteract);
         PacketHandler.init();
