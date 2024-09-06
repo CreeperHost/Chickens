@@ -40,6 +40,7 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements ItemInventor
 
     public OvoscopeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.OVOSCOPE_TILE.get(), pos, state);
+        energy.setReceiveOnly();
     }
 
     @Override
