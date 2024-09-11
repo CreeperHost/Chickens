@@ -41,6 +41,7 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
 
     public EggCrackerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.EGG_CRACKER_TILE.get(), pos, state);
+        energy.setReceiveOnly();
     }
 
     @Override

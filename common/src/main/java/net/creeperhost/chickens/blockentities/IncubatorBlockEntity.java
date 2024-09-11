@@ -55,6 +55,7 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
 
     public IncubatorBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(ModBlocks.INCUBATOR_TILE.get(), blockPos, blockState);
+        energy.setReceiveOnly();
     }
 
     @Override
