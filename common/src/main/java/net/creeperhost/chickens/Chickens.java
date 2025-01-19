@@ -17,6 +17,7 @@ import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
 import net.creeperhost.chickens.network.PacketHandler;
 import net.creeperhost.chickens.polylib.ItemHolder;
+import net.creeperhost.polylib.PolyLib;
 import net.fabricmc.api.EnvType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -38,6 +39,7 @@ public class Chickens
 
     public static void init()
     {
+        PolyLib.initPolyItemData();
         Config.init();
         for (ChickenConfig chickenConfig : Config.INSTANCE.chickens)
         {

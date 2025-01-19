@@ -31,8 +31,9 @@ public class ChickensClient
             if (itemStack.getItem() instanceof ItemChickenEgg itemColoredEgg)
             {
                 ChickensRegistryItem item = itemColoredEgg.getType(itemStack);
-                if(i > 0)
+                if(item != null && i > 0){
                     return FastColor.ABGR32.opaque(item.getBgColor());
+                }
             }
             return 0xFFFFFFFF;
         }, ModItems.CHICKEN_EGG);

@@ -44,10 +44,10 @@ public class ChickenStats
         }
         else
         {
-            gain = stack.get(ModComponentTypes.CHICKENS_GAIN.get());
-            growth = stack.get(ModComponentTypes.CHICKENS_GROWTH.get());
-            strength = stack.get(ModComponentTypes.CHICKENS_STRENGTH.get());
-            lifespan = stack.get(ModComponentTypes.CHICKENS_LIFESPAN.get());
+            gain = stack.getOrDefault(ModComponentTypes.CHICKENS_GAIN.get(), 1);
+            growth = stack.getOrDefault(ModComponentTypes.CHICKENS_GROWTH.get(), 1);
+            strength = stack.getOrDefault(ModComponentTypes.CHICKENS_STRENGTH.get(), 1);
+            lifespan = stack.getOrDefault(ModComponentTypes.CHICKENS_LIFESPAN.get(), 100);
         }
     }
 

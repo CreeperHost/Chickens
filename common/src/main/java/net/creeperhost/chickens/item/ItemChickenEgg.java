@@ -30,10 +30,11 @@ public class ItemChickenEgg extends Item implements ItemColor
     @Override
     public @NotNull Component getName(@NotNull ItemStack itemStack)
     {
-        if (getType(itemStack) == null) {
+        ChickensRegistryItem item = getType(itemStack);
+        if (item == null) {
             return Component.translatable("item.chickens.egg.name");
         }
-        String name = getType(itemStack).getEntityName().replace("_", " ") + " egg";
+        String name = item.getEntityName().replace("_", " ") + " egg";
         String first = name.substring(0, 1).toUpperCase();
         String formatted = first + name.substring(1);
         return Component.literal(formatted);
@@ -54,12 +55,13 @@ public class ItemChickenEgg extends Item implements ItemColor
         return stack;
     }
 
+    @Nullable
     public ChickensRegistryItem getType(ItemStack stack)
     {
         if(stack.isEmpty()) return null;
         if(!stack.has(ModComponentTypes.EGG_CHICKEN_TYPE.get())) return null;
 
-        ResourceLocation resourceLocation = ResourceLocation.tryParse(stack.get(ModComponentTypes.EGG_CHICKEN_TYPE.get()));//ResourceLocation.tryParse(stack.getTag().getString("chickentype"));
+        ResourceLocation resourceLocation = ResourceLocation.tryParse(stack.getOrDefault(ModComponentTypes.EGG_CHICKEN_TYPE.get(), null));//ResourceLocation.tryParse(stack.getTag().getString("chickentype"));
         if(resourceLocation == null || resourceLocation.toString().isEmpty()) return null;
         AtomicReference<ChickensRegistryItem> value = new AtomicReference<>(null);
         ChickensRegistry.getItems().forEach(chickensRegistryItem1 ->
@@ -74,11 +76,7 @@ public class ItemChickenEgg extends Item implements ItemColor
 
     public int getProgress(ItemStack stack)
     {
-        if(stack.has(ModComponentTypes.EGG_PROGRESS.get()))
-        {
-            return stack.get(ModComponentTypes.EGG_PROGRESS.get());
-        }
-        return 0;
+        return stack.getOrDefault(ModComponentTypes.EGG_PROGRESS.get(), 0);
     }
 
     public void setProgress(ItemStack stack, int amount)
@@ -88,13 +86,13 @@ public class ItemChickenEgg extends Item implements ItemColor
 
     public void incrementMissed(ItemStack stack)
     {
-        int value = stack.get(ModComponentTypes.EGG_MISSED.get()) + 1;
+        int value = stack.getOrDefault(ModComponentTypes.EGG_MISSED.get(), 0) + 1;
         stack.set(ModComponentTypes.EGG_MISSED.get(), value);
     }
 
     public int getMissedCycles(ItemStack stack)
     {
-        return stack.get(ModComponentTypes.EGG_MISSED.get());
+        return stack.getOrDefault(ModComponentTypes.EGG_MISSED.get(), 0);
     }
 
     public void setNotViable(ItemStack stack)
@@ -104,28 +102,28 @@ public class ItemChickenEgg extends Item implements ItemColor
 
     public boolean isViable(ItemStack stack)
     {
-        return stack.get(ModComponentTypes.EGG_VIABLE.get());
+        return stack.getOrDefault(ModComponentTypes.EGG_VIABLE.get(), false);
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, TooltipContext tooltipContext, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag)
     {
-        if(getType(itemStack) != null && tooltipFlag.isAdvanced())
+        ChickensRegistryItem item = getType(itemStack);
+        if(item != null && tooltipFlag.isAdvanced())
         {
-            ChickensRegistryItem chickensRegistryItem = getType(itemStack);
-            list.add(Component.literal(ChatFormatting.AQUA + "Registry name: " + ChatFormatting.WHITE + chickensRegistryItem.getRegistryName().toString()));
-            if(chickensRegistryItem.getLayItemHolder().getItem() != null)
+            list.add(Component.literal(ChatFormatting.AQUA + "Registry name: " + ChatFormatting.WHITE + item.getRegistryName().toString()));
+            if(item.getLayItemHolder().getItem() != null)
             {
-                if(chickensRegistryItem.getLayItemHolder().getType().equals("item"))
+                if(item.getLayItemHolder().getType().equals("item"))
                 {
-                    list.add(Component.literal(ChatFormatting.GOLD + "Item: " + ChatFormatting.WHITE + BuiltInRegistries.ITEM.getKey(chickensRegistryItem.getLayItemHolder().getItem())));
+                    list.add(Component.literal(ChatFormatting.GOLD + "Item: " + ChatFormatting.WHITE + BuiltInRegistries.ITEM.getKey(item.getLayItemHolder().getItem())));
                 }
                 else
                 {
-                    list.add(Component.literal(ChatFormatting.GOLD + "Fluid: " + ChatFormatting.WHITE + BuiltInRegistries.FLUID.getKey(chickensRegistryItem.getLayItemHolder().getFluid())));
+                    list.add(Component.literal(ChatFormatting.GOLD + "Fluid: " + ChatFormatting.WHITE + BuiltInRegistries.FLUID.getKey(item.getLayItemHolder().getFluid())));
                 }
             }
-            list.add(Component.literal(ChatFormatting.BLUE + "ChickenType: " + ChatFormatting.WHITE + chickensRegistryItem.getEntityName()));
+            list.add(Component.literal(ChatFormatting.BLUE + "ChickenType: " + ChatFormatting.WHITE + item.getEntityName()));
             list.add(Component.literal(ChatFormatting.LIGHT_PURPLE + "Progress: " + ChatFormatting.WHITE + getProgress(itemStack)));
 //            list.add(Component.literal("Missed: " + getMissedCycles(itemStack)));
             list.add(Component.literal("Viable: " + isViable(itemStack)));
@@ -139,6 +137,7 @@ public class ItemChickenEgg extends Item implements ItemColor
 
     @Override
     public int getColor(ItemStack itemStack, int i) {
-        return getType(itemStack).getBgColor();
+        ChickensRegistryItem item = getType(itemStack);
+        return item == null ? 0 : item.getBgColor();
     }
 }

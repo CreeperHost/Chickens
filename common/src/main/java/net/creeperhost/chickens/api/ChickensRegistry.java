@@ -119,6 +119,9 @@ public class ChickensRegistry
     @Nullable
     public static ChickensRegistryItem getRandomChild(ChickensRegistryItem parent1, ChickensRegistryItem parent2)
     {
+        if (parent1 == null || parent2 == null) {
+            return null;
+        }
         List<ChickensRegistryItem> possibleChildren = getChildren(parent1, parent2);
         if (possibleChildren.size() == 0)
         {
