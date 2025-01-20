@@ -2,9 +2,7 @@ package net.creeperhost.chickens.fabric;
 
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
-import net.creeperhost.chickens.init.ModItems;
 import net.creeperhost.polylib.fabric.client.ResourceReloadListenerWrapper;
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -15,7 +13,9 @@ import net.minecraft.server.packs.PackType;
 public class FabricClient {
 
     public static void init() {
-        BuiltinItemRendererRegistry.INSTANCE.register(ModItems.CHICKEN_ITEM.get(), new ChickenDynamicItemRenderer());
+
+        //TODO need to do this via mixin for fabric
+//        BuiltinItemRendererRegistry.INSTANCE.register(ModItems.CHICKEN_ITEM.get(), new ChickenDynamicItemRenderer());
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ResourceReloadListenerWrapper(ChickenGuiTextures::getAtlasHolder, ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "gui_atlas_reload")));
     }
 

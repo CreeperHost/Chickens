@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -74,7 +75,7 @@ public class ItemChicken extends Item
     public static void spawn(ItemStack stack, Level worldIn, BlockPos pos)
     {
         ResourceLocation entityName = ResourceLocation.tryParse(getTypeFromStack(stack));
-        Entity entity = BuiltInRegistries.ENTITY_TYPE.get(entityName).create(worldIn);
+        Entity entity = BuiltInRegistries.ENTITY_TYPE.getValue(entityName).create(worldIn, EntitySpawnReason.SPAWN_ITEM_USE);
         if(entity instanceof EntityChickensChicken chicken)
         {
             ChickenStats chickenStats = new ChickenStats(stack);
@@ -86,8 +87,8 @@ public class ItemChicken extends Item
             chicken.setGrowth(chickenStats.getGrowth());
             chicken.setLifeSpan(chickenStats.getLifespan());
 
-            if (stack.has(ModComponentTypes.IS_BABY.get())) chicken.setBaby(stack.get(ModComponentTypes.IS_BABY.get()));
-            if (stack.has(ModComponentTypes.LOVE.get())) chicken.setInLoveTime(stack.get(ModComponentTypes.LOVE.get()));
+            if (stack.has(ModComponentTypes.IS_BABY.get())) chicken.setBaby(stack.getOrDefault(ModComponentTypes.IS_BABY.get(), false));
+            if (stack.has(ModComponentTypes.LOVE.get())) chicken.setInLoveTime(stack.getOrDefault(ModComponentTypes.LOVE.get(), 0));
 
             chicken.setChickenType(getTypeFromStack(stack));
         }

@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -24,20 +25,25 @@ public class RenderChickenItem
     public static void renderByItem(ItemStack itemStack, ItemDisplayContext transformType, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay)
     {
         Minecraft mc = Minecraft.getInstance();
-        if (mc == null) return;
-        if (mc.level == null) return;
+        if (mc == null || mc.level == null) {
+            return;
+        }
         String s = ItemChicken.getTypeFromStack(itemStack);
         if(s == null || s.isEmpty()) {
             ChickensRegistryItem item = Iterables.get(ChickensRegistry.getItems(), (int) ((System.currentTimeMillis() / 1000) % ChickensRegistry.getItems().size()));
             s = item.registryName.toString();
         }
 
-        if(s.isEmpty()) return;
+        if(s.isEmpty()) {
+            return;
+        }
 
-        EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(s));
-        if(entityType == null) return;
+        EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(s));
+        if(entityType == null) {
+            return;
+        }
 
-        Entity entity = entityType.create(mc.level);
+        Entity entity = entityType.create(mc.level, EntitySpawnReason.SPAWNER);
         if(entity == null) return;
 
         if(entity instanceof Chicken chicken)
@@ -57,8 +63,8 @@ public class RenderChickenItem
                 {
                     Lighting.setupForFlatItems();
                 }
-
-                entityRenderDispatcher.getRenderer(chicken).render(chicken, 0, 0, poseStack, bufferSource, combinedOverlay);
+//                entityRenderDispatcher.getRenderer(chicken).render(chicken, 0, 0, poseStack, bufferSource, combinedOverlay);
+                entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, mc.getDeltaTracker().getGameTimeDeltaPartialTick(false), poseStack, bufferSource, combinedLight);
             }
 
             poseStack.popPose();

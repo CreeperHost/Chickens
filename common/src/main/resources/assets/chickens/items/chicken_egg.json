@@ -1,0 +1,12 @@
+{
+    "model": {
+        "type": "minecraft:model",
+        "model": "chickens:item/chicken_egg",
+        "tints": [
+            {
+                "type": "chickens:egg_tint",
+                "default": -1
+            }
+        ]
+    }
+}

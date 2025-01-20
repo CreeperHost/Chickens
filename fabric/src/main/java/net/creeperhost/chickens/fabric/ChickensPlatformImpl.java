@@ -19,10 +19,10 @@ public class ChickensPlatformImpl
         return FabricLoader.getInstance().getConfigDir();
     }
 
-    public static Item createNewChickenItem(Item.Properties properties)
-    {
-        return new ItemChicken(properties);
-    }
+//    public static Item createNewChickenItem(Item.Properties properties)
+//    {
+//        return new ItemChicken(properties);
+//    }
 
     public static int getBiomeTemperature(Holder<Biome> biome) {
         if (biome.is(ConventionalBiomeTags.SNOWY) || biome.is(ConventionalBiomeTags.ICY)) {

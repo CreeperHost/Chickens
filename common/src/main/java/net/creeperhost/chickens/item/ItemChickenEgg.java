@@ -6,25 +6,23 @@ import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.init.ModComponentTypes;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ItemChickenEgg extends Item implements ItemColor
+public class ItemChickenEgg extends Item
 {
-    public ItemChickenEgg()
+    public ItemChickenEgg(Item.Properties properties)
     {
-        super(new Item.Properties());
+        super(properties);
     }
 
     @Override
@@ -133,11 +131,5 @@ public class ItemChickenEgg extends Item implements ItemColor
         list.add(Component.translatable("entity.ChickensChicken.growth").append(" " + chickenStats.getGrowth()).withStyle(ChatFormatting.DARK_PURPLE));
         list.add(Component.translatable("entity.ChickensChicken.gain").append(" " + chickenStats.getGain()).withStyle(ChatFormatting.DARK_PURPLE));
         list.add(Component.translatable("entity.ChickensChicken.strength").append(" " + chickenStats.getStrength()).withStyle(ChatFormatting.DARK_PURPLE));
-    }
-
-    @Override
-    public int getColor(ItemStack itemStack, int i) {
-        ChickensRegistryItem item = getType(itemStack);
-        return item == null ? 0 : item.getBgColor();
     }
 }

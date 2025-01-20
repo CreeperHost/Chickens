@@ -1,42 +1,38 @@
 package net.creeperhost.chickens.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.minecraft.client.model.ChickenModel;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.state.ChickenRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
 
-public class RenderChickensChicken extends MobRenderer<EntityChickensChicken, ChickenModel<EntityChickensChicken>>
-{
-    public RenderChickensChicken(EntityRendererProvider.Context context)
-    {
-        super(context, new ChickenModel<>(context.bakeLayer(ModelLayers.CHICKEN)), 0.5F);
+public class RenderChickensChicken extends MobRenderer<EntityChickensChicken, RenderChickensChicken.CustomChickenState, ChickenModel> {
+    public RenderChickensChicken(EntityRendererProvider.Context context) {
+        super(context, new ChickenModel(context.bakeLayer(ModelLayers.CHICKEN)), 0.5F);
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(EntityChickensChicken entity)
-    {
-        return entity.getTexture();
+    public ResourceLocation getTextureLocation(CustomChickenState state) {
+        return state.texture;
     }
 
     @Override
-    protected float getBob(EntityChickensChicken p_114000_, float p_114001_)
-    {
-        float f = Mth.lerp(p_114001_, p_114000_.oFlap, p_114000_.flap);
-        float f1 = Mth.lerp(p_114001_, p_114000_.oFlapSpeed, p_114000_.flapSpeed);
-        return (Mth.sin(f) + 1.0F) * f1;
+    public CustomChickenState createRenderState() {
+        return new CustomChickenState();
     }
 
     @Override
-    public void render(EntityChickensChicken livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
-        super.render(livingEntity, f, g, poseStack, multiBufferSource, i);
-//        System.out.println("f " + f);
-//        System.out.println("g " +g);
-//        System.out.println("i " +i);
+    public void extractRenderState(EntityChickensChicken chicken, CustomChickenState chickenRenderState, float f) {
+        super.extractRenderState(chicken, chickenRenderState, f);
+        chickenRenderState.flap = Mth.lerp(f, chicken.oFlap, chicken.flap);
+        chickenRenderState.flapSpeed = Mth.lerp(f, chicken.oFlapSpeed, chicken.flapSpeed);
+        chickenRenderState.texture = chicken.getTexture();
+    }
+
+    public static class CustomChickenState extends ChickenRenderState {
+        public ResourceLocation texture;
     }
 }

@@ -115,14 +115,14 @@ public class ItemHolder
     {
         if(this.itemID == null) return ItemStack.EMPTY.getItem();
 
-        return BuiltInRegistries.ITEM.get(ResourceLocation.parse(this.itemID));
+        return BuiltInRegistries.ITEM.getValue(ResourceLocation.parse(this.itemID));
     }
 
     public Fluid getFluid()
     {
         if(this.itemID == null) return Fluids.EMPTY;
 
-        return BuiltInRegistries.FLUID.get(ResourceLocation.parse(this.itemID));
+        return BuiltInRegistries.FLUID.getValue(ResourceLocation.parse(this.itemID));
     }
 
     public int getStackSize()

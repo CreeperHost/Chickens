@@ -18,11 +18,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -70,11 +71,11 @@ public class EntityChickensChicken extends Chicken
     }
 
     @Override
-    public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType mobSpawnType) {
+    public boolean checkSpawnRules(LevelAccessor levelAccessor, EntitySpawnReason spawnReason) {
         if (!levelAccessor.getBiome(getOnPos()).is(BiomeTags.IS_OVERWORLD)) {
             return true; //Allows spawning in the nether
         }
-        return super.checkSpawnRules(levelAccessor, mobSpawnType);
+        return super.checkSpawnRules(levelAccessor, spawnReason);
     }
 
     public ResourceLocation getRegistryName(EntityType<?> entityType)
@@ -84,7 +85,7 @@ public class EntityChickensChicken extends Chicken
 
     public static AttributeSupplier.Builder prepareAttributes()
     {
-        return LivingEntity.createLivingAttributes().add(Attributes.MAX_HEALTH, 4.0D).add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.FOLLOW_RANGE, 15.0D);
+        return Chicken.createAttributes(); //Ours matches vanillas so may as well just use vanillas.
     }
 
     public boolean getStatsAnalyzed()
@@ -195,7 +196,7 @@ public class EntityChickensChicken extends Chicken
             return null;
         }
 
-        EntityChickensChicken newChicken = (EntityChickensChicken) entityType.create(level());
+        EntityChickensChicken newChicken = (EntityChickensChicken) entityType.create(level(), EntitySpawnReason.BREEDING);
         newChicken.setChickenType(childToBeBorn.getRegistryName().toString());
 
         boolean mutatingStats = chickenDescription.getRegistryName() == mateChickenDescription.getRegistryName() && childToBeBorn.getRegistryName() == chickenDescription.getRegistryName();

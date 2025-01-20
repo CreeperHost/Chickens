@@ -25,8 +25,8 @@ public class BreederBlock extends PolyEntityBlock {
     public static final BooleanProperty IS_BREEDING = BooleanProperty.create("is_breeding");
     public static final BooleanProperty HAS_SEEDS = BooleanProperty.create("has_seeds");
 
-    public BreederBlock() {
-        super(Properties.of().mapColor(MapColor.WOOD).noOcclusion().strength(2.0F));
+    public BreederBlock(Properties properties) {
+        super(properties);
         this.registerDefaultState(getStateDefinition().any().setValue(IS_BREEDING, false).setValue(HAS_SEEDS, false));
         this.setBlockEntity(ModBlocks.BREEDER_TILE::get, true);
     }

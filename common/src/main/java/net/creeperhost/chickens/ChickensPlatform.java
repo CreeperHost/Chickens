@@ -30,11 +30,11 @@ public class ChickensPlatform
         throw new AssertionError();
     }
 
-    @ExpectPlatform
-    public static Item createNewChickenItem(Item.Properties properties)
-    {
-        throw new AssertionError();
-    }
+//    @ExpectPlatform
+//    public static Item createNewChickenItem(Item.Properties properties)
+//    {
+//        throw new AssertionError();
+//    }
 
     @ExpectPlatform
     public static int getBiomeTemperature(Holder<Biome> biome) {

@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
-public class RoosterModel <T extends Entity> extends EntityModel<T>
+public class RoosterModel extends EntityModel<RenderRooster.RoosterRenderState>
 {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "rooster"), "main");
@@ -28,6 +28,7 @@ public class RoosterModel <T extends Entity> extends EntityModel<T>
 
     public RoosterModel(ModelPart root)
     {
+        super(root);
         this.tail = root.getChild("tail");
         this.body = root.getChild("body");
         this.head = root.getChild("head");
@@ -65,23 +66,36 @@ public class RoosterModel <T extends Entity> extends EntityModel<T>
     }
 
     @Override
-    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+    public void setupAnim(RenderRooster.RoosterRenderState state)
     {
-        this.head.xRot = headPitch * 0.017453292F;
-        this.head.yRot = headPitch * 0.017453292F;
-        this.leg1.xRot = Mth.cos(limbSwing * 0.6662F) * 0.4F * limbSwingAmount;
-        this.leg0.xRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
+//        this.head.xRot = headPitch * 0.017453292F;
+//        this.head.yRot = headPitch * 0.017453292F;
+//        this.leg1.xRot = Mth.cos(limbSwing * 0.6662F) * 0.4F * limbSwingAmount;
+//        this.leg0.xRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
+
+        super.setupAnim(state);
+        float f = (Mth.sin(state.flap) + 1.0F) * state.flapSpeed;
+        this.head.xRot = state.xRot * 0.017453292F;
+        this.head.yRot = state.yRot * 0.017453292F;
+        float g = state.walkAnimationSpeed;
+        float h = state.walkAnimationPos;
+        this.leg1.xRot = Mth.cos(h * 0.6662F) * 1.4F * g;
+        this.leg0.xRot = Mth.cos(h * 0.6662F + 3.1415927F) * 1.4F * g;
+        this.wing1.zRot = f;
+        this.wing0.zRot = -f;
     }
 
-    @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k)
-    {
-        tail.render(poseStack, vertexConsumer, i, j, k);
-        body.render(poseStack, vertexConsumer, i, j, k);
-        head.render(poseStack, vertexConsumer, i, j, k);
-        leg0.render(poseStack, vertexConsumer, i, j, k);
-        leg1.render(poseStack, vertexConsumer, i, j, k);
-        wing0.render(poseStack, vertexConsumer, i, j, k);
-        wing1.render(poseStack, vertexConsumer, i, j, k);
-    }
+
+
+//    @Override
+//    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k)
+//    {
+//        tail.render(poseStack, vertexConsumer, i, j, k);
+//        body.render(poseStack, vertexConsumer, i, j, k);
+//        head.render(poseStack, vertexConsumer, i, j, k);
+//        leg0.render(poseStack, vertexConsumer, i, j, k);
+//        leg1.render(poseStack, vertexConsumer, i, j, k);
+//        wing0.render(poseStack, vertexConsumer, i, j, k);
+//        wing1.render(poseStack, vertexConsumer, i, j, k);
+//    }
 }

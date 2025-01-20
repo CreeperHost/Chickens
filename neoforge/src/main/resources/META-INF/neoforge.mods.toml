@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[2,)"
+loaderVersion = "[4,)"
 issueTrackerURL = "https://github.com/CreeperHost/Chickens/issues"
 license = "MIT License"
 
@@ -15,27 +15,27 @@ logoFile = "logo.png"
 [[dependencies.chickens]]
 modId = "neoforge"
 type="required"
-versionRange = "[20,)"
+versionRange = "[21.3,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.chickens]]
 modId = "minecraft"
 type="required"
-versionRange = "[1.20.4,)"
+versionRange = "[1.21.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.chickens]]
 modId = "architectury"
 type="required"
-versionRange = "[11.0.9,)"
+versionRange = "[15.0.1,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.chickens]]
 modId = "polylib"
 type="required"
-versionRange = "[2004.0.3,)"
+versionRange = "[2104.0.4,)"
 ordering = "AFTER"
 side = "BOTH"

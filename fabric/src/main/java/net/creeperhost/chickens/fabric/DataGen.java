@@ -8,16 +8,19 @@ import net.creeperhost.polylib.fabric.datagen.ModuleType;
 import net.creeperhost.polylib.fabric.datagen.providers.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 
-import static net.minecraft.data.recipes.RecipeProvider.has;
+import java.util.concurrent.ExecutionException;
 
 
 public class DataGen implements DataGeneratorEntrypoint
@@ -26,6 +29,15 @@ public class DataGen implements DataGeneratorEntrypoint
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator)
     {
+        HolderGetter.Provider registries;
+        try {
+            registries = fabricDataGenerator.getRegistries().get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+        HolderGetter<Item> itemRegistry = registries.lookupOrThrow(Registries.ITEM);
+
         var pack = fabricDataGenerator.createPack();
         pack.addProvider((output, registriesFuture) ->
         {
@@ -201,7 +213,7 @@ public class DataGen implements DataGeneratorEntrypoint
         {
             PolyRecipeProvider provider = new PolyRecipeProvider(output, ModuleType.COMMON, registriesFuture);
 
-            provider.add(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BREEDER.get())
+            provider.add(ShapedRecipeBuilder.shaped(itemRegistry, RecipeCategory.MISC, ModBlocks.BREEDER.get())
                     .pattern("PPP")
                     .pattern("PSP")
                     .pattern("HHH")
@@ -209,9 +221,9 @@ public class DataGen implements DataGeneratorEntrypoint
                     .define('P', ItemTags.PLANKS)
                     .define('S', Items.WHEAT_SEEDS)
                     .group(Chickens.MOD_ID)
-                    .unlockedBy("has_item", has(Blocks.HAY_BLOCK)), ModuleType.COMMON);
+                    .unlockedBy("has_item", provider.has(Blocks.HAY_BLOCK)), ModuleType.COMMON);
 
-            provider.add(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.CATCHER_ITEM.get())
+            provider.add(ShapedRecipeBuilder.shaped(itemRegistry, RecipeCategory.MISC, ModItems.CATCHER_ITEM.get())
                     .pattern(" E ")
                     .pattern(" S ")
                     .pattern(" F ")
@@ -219,9 +231,9 @@ public class DataGen implements DataGeneratorEntrypoint
                     .define('S', Items.STICK)
                     .define('F', Items.FEATHER)
                     .group(Chickens.MOD_ID)
-                    .unlockedBy("has_item", has(ModTags.Items.EGGS)), ModuleType.COMMON);
+                    .unlockedBy("has_item", provider.has(ModTags.Items.EGGS)), ModuleType.COMMON);
 
-            provider.add(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.EGG_CRACKER.get())
+            provider.add(ShapedRecipeBuilder.shaped(itemRegistry, RecipeCategory.MISC, ModItems.EGG_CRACKER.get())
                     .pattern("IPI")
                     .pattern("IEI")
                     .pattern("ICI")
@@ -230,9 +242,9 @@ public class DataGen implements DataGeneratorEntrypoint
                     .define('E', ModTags.Items.EGGS)
                     .define('P', Items.PISTON)
                     .group(Chickens.MOD_ID)
-                    .unlockedBy("has_item", has(ModTags.Items.EGGS)), ModuleType.COMMON);
+                    .unlockedBy("has_item", provider.has(ModTags.Items.EGGS)), ModuleType.COMMON);
 
-            provider.add(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.INCUBATOR.get())
+            provider.add(ShapedRecipeBuilder.shaped(itemRegistry, RecipeCategory.MISC, ModItems.INCUBATOR.get())
                     .pattern("PLP")
                     .pattern("GEG")
                     .pattern("HHH")
@@ -242,9 +254,9 @@ public class DataGen implements DataGeneratorEntrypoint
                     .define('L', Items.REDSTONE_LAMP)
                     .define('P', ItemTags.PLANKS)
                     .group(Chickens.MOD_ID)
-                    .unlockedBy("has_item", has(ModTags.Items.MOD_EGGS)), ModuleType.COMMON);
+                    .unlockedBy("has_item", provider.has(ModTags.Items.MOD_EGGS)), ModuleType.COMMON);
 
-            provider.add(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OVOSCOPE.get())
+            provider.add(ShapedRecipeBuilder.shaped(itemRegistry, RecipeCategory.MISC, ModItems.OVOSCOPE.get())
                     .pattern("PPP")
                     .pattern("GEG")
                     .pattern("PCP")
@@ -253,13 +265,11 @@ public class DataGen implements DataGeneratorEntrypoint
                     .define('G', Items.GLASS_PANE)
                     .define('P', ItemTags.PLANKS)
                     .group(Chickens.MOD_ID)
-                    .unlockedBy("has_item", has(ModTags.Items.MOD_EGGS)), ModuleType.COMMON);
+                    .unlockedBy("has_item", provider.has(ModTags.Items.MOD_EGGS)), ModuleType.COMMON);
 
-
-            provider.add(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModTags.Items.CHICKENS),
-                    RecipeCategory.FOOD, Items.COOKED_CHICKEN, 0.35F, 200)
+            provider.add(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.CHICKEN_ITEM.get()), RecipeCategory.FOOD, Items.COOKED_CHICKEN, 0.35F, 200)
                     .group(Chickens.MOD_ID)
-                    .unlockedBy("has_item", has(ModTags.Items.CHICKENS)), ModuleType.COMMON);
+                    .unlockedBy("has_item", provider.has(ModTags.Items.CHICKENS)), ModuleType.COMMON);
 
             return provider;
         });

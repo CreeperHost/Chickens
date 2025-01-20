@@ -9,15 +9,15 @@ import net.creeperhost.chickens.entity.EntityRooster;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,7 +28,8 @@ public class ModEntities {
 
     public static final Supplier<EntityType<EntityRooster>> ROOSTER = ENTITIES.register("rooster", () -> EntityType.Builder.of(EntityRooster::new, MobCategory.CREATURE)
             .sized(0.6F, 1.7F)
-            .clientTrackingRange(8).build("rooster"));
+            .clientTrackingRange(8)
+            .build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "rooster"))));
 
     public static final Map<ChickensRegistryItem, Supplier<EntityType<EntityChickensChicken>>> CHICKENS = Util.make(new LinkedHashMap<>(), map ->
     {
@@ -39,7 +40,7 @@ public class ModEntities {
                 map.put(item, ENTITIES.register(item.getEntityName(), () -> EntityType.Builder.of(EntityChickensChicken::new, MobCategory.CREATURE)
                         .sized(0.6F, 1.7F)
                         .clientTrackingRange(8)
-                        .build(item.getEntityName())
+                        .build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, item.getEntityName())))
                 ));
             }
         }
@@ -52,10 +53,10 @@ public class ModEntities {
         }
     }
 
-    private static boolean checkChickenSpawnRules(EntityType<? extends Animal> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
+    private static boolean checkChickenSpawnRules(EntityType<? extends Animal> entityType, LevelAccessor levelAccessor, EntitySpawnReason spawnReason, BlockPos blockPos, RandomSource randomSource) {
         if (!levelAccessor.getBiome(blockPos).is(BiomeTags.IS_OVERWORLD)) {
             return true;
         }
-        return Animal.checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource);
+        return Animal.checkAnimalSpawnRules(entityType, levelAccessor, spawnReason, blockPos, randomSource);
     }
 }

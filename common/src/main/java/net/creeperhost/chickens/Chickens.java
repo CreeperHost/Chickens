@@ -22,6 +22,7 @@ import net.fabricmc.api.EnvType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -105,7 +106,7 @@ public class Chickens
             {
                 if(transformationRecipe.getEntityTypeIn() == entity.getType() && ItemStack.isSameItem(player.getItemInHand(interactionHand), transformationRecipe.getStack()))
                 {
-                    Entity newEntity = transformationRecipe.getEntityTypeOut().create(level);
+                    Entity newEntity = transformationRecipe.getEntityTypeOut().create(level, EntitySpawnReason.SPAWN_ITEM_USE);
                     if(newEntity != null)
                     {
                         newEntity.setPos(entity.position());

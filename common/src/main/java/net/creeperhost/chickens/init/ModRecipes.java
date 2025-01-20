@@ -38,7 +38,7 @@ public class ModRecipes
         EntityType<?> entityType;
         try
         {
-            entityType = BuiltInRegistries.ENTITY_TYPE.get(resourceLocation);
+            entityType = BuiltInRegistries.ENTITY_TYPE.getValue(resourceLocation);
             ChickenAPI.registerTransformationRecipe(EntityType.CHICKEN, stack, entityType);
         }
         catch (Exception e)

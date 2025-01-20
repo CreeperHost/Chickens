@@ -19,8 +19,8 @@ dependencies {
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
     modApi("net.creeperhost:polylib-fabric:${rootProject.polylib_version}")
 
-    modApi("mezz.jei:jei-${project.minecraft_version}-common:${project.jei_version}")
-    modApi("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
+//    modApi("mezz.jei:jei-${project.minecraft_version}-common:${project.jei_version}")
+//    modApi("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
 
     modApi "curse.maven:jade-324717:5444008"
 }

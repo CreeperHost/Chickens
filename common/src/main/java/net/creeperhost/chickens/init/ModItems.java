@@ -13,22 +13,29 @@ import net.creeperhost.chickens.item.ItemChickenCatcher;
 import net.creeperhost.chickens.item.ItemChickenEgg;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Chickens.MOD_ID, Registries.ITEM);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Chickens.MOD_ID, Registries.CREATIVE_MODE_TAB);
 
-    public static final RegistrySupplier<Item> CHICKEN_ITEM = ITEMS.register("chicken_item", () -> ChickensPlatform.createNewChickenItem(new Item.Properties().stacksTo(16)));
-    public static final RegistrySupplier<Item> CATCHER_ITEM = ITEMS.register("catcher", () -> new ItemChickenCatcher(new Item.Properties()));
+    public static final RegistrySupplier<Item> CHICKEN_ITEM = ITEMS.register("chicken_item", item("chicken_item", ItemChicken::new, new Item.Properties().stacksTo(16)));
+    public static final RegistrySupplier<Item> CATCHER_ITEM = ITEMS.register("catcher", item("catcher", ItemChickenCatcher::new));
 
-    public static final RegistrySupplier<Item> CHICKEN_EGG = ITEMS.register("chicken_egg", ItemChickenEgg::new);
+    public static final RegistrySupplier<Item> CHICKEN_EGG = ITEMS.register("chicken_egg", item("chicken_egg", ItemChickenEgg::new));
 
     //ItemBlocks
-    public static final RegistrySupplier<Item> BREEDER = ITEMS.register("breeder", () -> new BlockItem(ModBlocks.BREEDER.get(), new Item.Properties()));
-    public static final RegistrySupplier<Item> INCUBATOR = ITEMS.register("incubator", () -> new BlockItem(ModBlocks.INCUBATOR.get(), new Item.Properties()));
-    public static final RegistrySupplier<Item> EGG_CRACKER = ITEMS.register("egg_cracker", () -> new BlockItem(ModBlocks.EGG_CRACKER.get(), new Item.Properties()));
-    public static final RegistrySupplier<Item> OVOSCOPE = ITEMS.register("ovoscope", () -> new BlockItem(ModBlocks.OVOSCOPE.get(), new Item.Properties()));
+    public static final RegistrySupplier<Item> BREEDER = ITEMS.register("breeder", item("breeder", props -> new BlockItem(ModBlocks.BREEDER.get(), props)));
+    public static final RegistrySupplier<Item> INCUBATOR = ITEMS.register("incubator", item("incubator", props -> new BlockItem(ModBlocks.INCUBATOR.get(), props)));
+    public static final RegistrySupplier<Item> EGG_CRACKER = ITEMS.register("egg_cracker", item("egg_cracker", props -> new BlockItem(ModBlocks.EGG_CRACKER.get(), props)));
+    public static final RegistrySupplier<Item> OVOSCOPE = ITEMS.register("ovoscope", item("ovoscope", props -> new BlockItem(ModBlocks.OVOSCOPE.get(), props)));
 
     public static final RegistrySupplier<CreativeModeTab> CREATIVE_MODE_TAB = TABS.register("creative_tab", () -> CreativeTabRegistry.create(builder -> builder
                     .title(Component.translatable("itemGroup.chickens.creative_tab"))
@@ -59,4 +66,12 @@ public class ModItems {
                     .displayItems((itemDisplayParameters, output) -> ChickensRegistry.getItems().forEach(e -> output.accept(ItemChickenEgg.of(e))))
             )
     );
+
+    private static Supplier<Item> item(String name, Function<Item.Properties, Item> item, Item.Properties properties) {
+        return () -> item.apply(properties.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, name))));
+    }
+
+    private static Supplier<Item> item(String name, Function<Item.Properties, Item> item) {
+        return () -> item.apply(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, name))));
+    }
 }

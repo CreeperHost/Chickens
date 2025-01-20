@@ -18,10 +18,10 @@ public class ChickensPlatformImpl
         return FMLPaths.CONFIGDIR.get();
     }
 
-    public static Item createNewChickenItem(Item.Properties properties)
-    {
-        return new ItemChickenNeoForge(properties);
-    }
+//    public static Item createNewChickenItem(Item.Properties properties)
+//    {
+//        return new ItemChickenNeoForge(properties);
+//    }
 
     public static int getBiomeTemperature(Holder<Biome> biome) {
         if (biome.is(Tags.Biomes.IS_SNOWY)) {

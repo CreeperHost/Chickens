@@ -1,13 +1,14 @@
 package net.creeperhost.chickens.neoforge;
 
 import net.creeperhost.chickens.Chickens;
+import net.creeperhost.chickens.client.ChickenEggTint;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
 import net.creeperhost.chickens.init.ModItems;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 
 /**
  * Created by brandon3055 on 23/02/2024
@@ -15,18 +16,22 @@ import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 public class ClientInit {
 
     public static void init(IEventBus modBus) {
-        modBus.addListener(ClientInit::clientSetup);
         modBus.addListener(ClientInit::registerReloadListeners);
+        modBus.addListener(ClientInit::registerItemExtensions);
+        modBus.addListener(ClientInit::registerItemTintSources);
     }
-
-    private static void clientSetup(final FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            ItemProperties.register(ModItems.CHICKEN_ITEM.get(), ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, ""), ChickenBlockEntityWithoutLevelRender.getInstance());
-        });
-    }
-
 
     private static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(ChickenGuiTextures.getAtlasHolder());
+    }
+
+    //TODO need to do this via mixin for fabric
+    public static void registerItemExtensions(RegisterSpecialModelRendererEvent event) {
+        event.register(ModItems.CHICKEN_ITEM.getId(), ChickenItemRender.Unbaked.MAP_CODEC);
+    }
+
+    //TODO need to do this via mixin for fabric
+    public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
+        event.register(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "egg_tint"), ChickenEggTint.MAP_CODEC);
     }
 }

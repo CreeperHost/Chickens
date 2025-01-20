@@ -25,7 +25,7 @@ public class ChickensModFabric implements ModInitializer {
 
         for (Config.FabricSpawn spawn : Config.INSTANCE.fabricSpawns) {
             List<TagKey<Biome>> tags = spawn.biomeTags().stream().map(e -> TagKey.create(Registries.BIOME, ResourceLocation.parse(e))).toList();
-            BiomeModifications.addSpawn(e -> tags.stream().anyMatch(e::hasTag), MobCategory.CREATURE, BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(spawn.type())), spawn.weight(), spawn.minCluster(), spawn.maxCluster());
+            BiomeModifications.addSpawn(e -> tags.stream().anyMatch(e::hasTag), MobCategory.CREATURE, BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(spawn.type())), spawn.weight(), spawn.minCluster(), spawn.maxCluster());
         }
     }
 }
