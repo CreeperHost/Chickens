@@ -13,11 +13,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -46,14 +45,14 @@ public class ModEntities {
         }
     });
 
-    public static <T extends Animal> void registerSpawn(EntityType<T> entityType, ChickensRegistryItem chickensRegistryItem) {
+    @Deprecated //TODO Neo now handles this neo side, still need to check if fabric works
+    public static <T extends Animal> void registerSpawnFabric(EntityType<T> entityType, ChickensRegistryItem chickensRegistryItem) {
         if (chickensRegistryItem.isEnabled()) {
-            //TODO
-//            SpawnPlacements.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkChickenSpawnRules);
+            SpawnPlacements.register(entityType, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkChickenSpawnRules);
         }
     }
 
-    private static boolean checkChickenSpawnRules(EntityType<? extends Animal> entityType, LevelAccessor levelAccessor, EntitySpawnReason spawnReason, BlockPos blockPos, RandomSource randomSource) {
+    public static boolean checkChickenSpawnRules(EntityType<? extends Animal> entityType, LevelAccessor levelAccessor, EntitySpawnReason spawnReason, BlockPos blockPos, RandomSource randomSource) {
         if (!levelAccessor.getBiome(blockPos).is(BiomeTags.IS_OVERWORLD)) {
             return true;
         }

@@ -14,17 +14,9 @@ public class ChickensModNeoForge
     {
         Chickens.init();
 
-        // Submit our event bus to let architectury register our content on the right time
-        iEventBus.addListener(this::commonLoaded);
-
         if(Platform.getEnv().isClient())
         {
             ClientInit.init(iEventBus);
         }
-    }
-
-    private void commonLoaded(final FMLCommonSetupEvent event)
-    {
-        ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> ModEntities.registerSpawn(entityTypeSupplier.get(), chickensRegistryItem));
     }
 }

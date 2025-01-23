@@ -1,0 +1,9 @@
+{
+    "model": {
+        "type": "minecraft:special",
+        "base": "chickens:item/chicken_item",
+        "model": {
+            "type": "chickens:chicken_item"
+        }
+    }
+}
