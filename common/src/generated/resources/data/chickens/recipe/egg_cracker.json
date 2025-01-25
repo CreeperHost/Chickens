@@ -3,18 +3,10 @@
   "category": "misc",
   "group": "chickens",
   "key": {
-    "C": {
-      "item": "minecraft:chest"
-    },
-    "E": {
-      "tag": "chickens:eggs"
-    },
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "P": {
-      "item": "minecraft:piston"
-    }
+    "C": "minecraft:chest",
+    "E": "#chickens:eggs",
+    "I": "minecraft:iron_ingot",
+    "P": "minecraft:piston"
   },
   "pattern": [
     "IPI",

@@ -3,18 +3,10 @@
   "category": "misc",
   "group": "chickens",
   "key": {
-    "C": {
-      "item": "minecraft:comparator"
-    },
-    "E": {
-      "tag": "chickens:mod_eggs"
-    },
-    "G": {
-      "item": "minecraft:glass_pane"
-    },
-    "P": {
-      "tag": "minecraft:planks"
-    }
+    "C": "minecraft:comparator",
+    "E": "#chickens:mod_eggs",
+    "G": "minecraft:glass_pane",
+    "P": "#minecraft:planks"
   },
   "pattern": [
     "PPP",

@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "chickens",
   "key": {
-    "H": {
-      "item": "minecraft:hay_block"
-    },
-    "P": {
-      "tag": "minecraft:planks"
-    },
-    "S": {
-      "item": "minecraft:wheat_seeds"
-    }
+    "H": "minecraft:hay_block",
+    "P": "#minecraft:planks",
+    "S": "minecraft:wheat_seeds"
   },
   "pattern": [
     "PPP",

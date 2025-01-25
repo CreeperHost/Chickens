@@ -3,15 +3,9 @@
   "category": "misc",
   "group": "chickens",
   "key": {
-    "E": {
-      "tag": "chickens:eggs"
-    },
-    "F": {
-      "item": "minecraft:feather"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "E": "#chickens:eggs",
+    "F": "minecraft:feather",
+    "S": "minecraft:stick"
   },
   "pattern": [
     " E ",

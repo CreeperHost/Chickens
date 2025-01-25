@@ -4,9 +4,7 @@
   "cookingtime": 200,
   "experience": 0.35,
   "group": "chickens",
-  "ingredient": {
-    "tag": "chickens:chickens"
-  },
+  "ingredient": "#chickens:chickens",
   "result": {
     "id": "minecraft:cooked_chicken"
   }

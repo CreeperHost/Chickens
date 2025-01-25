@@ -3,21 +3,11 @@
   "category": "misc",
   "group": "chickens",
   "key": {
-    "E": {
-      "tag": "chickens:mod_eggs"
-    },
-    "G": {
-      "item": "minecraft:glass_pane"
-    },
-    "H": {
-      "item": "minecraft:hay_block"
-    },
-    "L": {
-      "item": "minecraft:redstone_lamp"
-    },
-    "P": {
-      "tag": "minecraft:planks"
-    }
+    "E": "#chickens:mod_eggs",
+    "G": "minecraft:glass_pane",
+    "H": "minecraft:hay_block",
+    "L": "minecraft:redstone_lamp",
+    "P": "#minecraft:planks"
   },
   "pattern": [
     "PLP",
