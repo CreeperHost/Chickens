@@ -3,6 +3,8 @@
   "package": "net.creeperhost.chickens.fabric.mixins",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "ItemTintSourcesMixin",
+    "SpecialModelRenderersMixin"
   ],
   "mixins": [
   ],

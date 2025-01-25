@@ -1,9 +1,8 @@
-package net.creeperhost.chickens.neoforge;
+package net.creeperhost.chickens.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.creeperhost.chickens.client.RenderChickenItem;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
@@ -11,6 +10,9 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Created by brandon3055 on 25/01/2025
+ */
 public class ChickenItemRender implements SpecialModelRenderer<ChickenItemRender.Data> {
 
     @Override
@@ -34,7 +36,7 @@ public class ChickenItemRender implements SpecialModelRenderer<ChickenItemRender
     }
 
     public record Unbaked() implements SpecialModelRenderer.Unbaked {
-        public static final MapCodec<ChickenItemRender.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec((builder) -> builder.stable(new Unbaked()));
+        public static final MapCodec<Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec((builder) -> builder.stable(new Unbaked()));
 
         public MapCodec<Unbaked> type() {
             return MAP_CODEC;

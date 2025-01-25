@@ -3,6 +3,7 @@ package net.creeperhost.chickens.neoforge;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.client.ChickenEggTint;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
+import net.creeperhost.chickens.client.ChickenItemRender;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -25,12 +26,10 @@ public class ClientInit {
         event.registerReloadListener(ChickenGuiTextures.getAtlasHolder());
     }
 
-    //TODO need to do this via mixin for fabric
     public static void registerItemExtensions(RegisterSpecialModelRendererEvent event) {
         event.register(ModItems.CHICKEN_ITEM.getId(), ChickenItemRender.Unbaked.MAP_CODEC);
     }
 
-    //TODO need to do this via mixin for fabric
     public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
         event.register(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "egg_tint"), ChickenEggTint.MAP_CODEC);
     }

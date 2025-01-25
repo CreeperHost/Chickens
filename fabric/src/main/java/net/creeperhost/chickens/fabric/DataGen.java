@@ -157,6 +157,11 @@ public class DataGen implements DataGeneratorEntrypoint
             provider.add("block.chickens.incubator", "Incubator", ModuleType.COMMON);
             provider.add("block.chickens.egg_cracker", "Egg Cracker", ModuleType.COMMON);
             provider.add("block.chickens.ovoscope", "Ovoscope", ModuleType.COMMON);
+            provider.add("item.chickens.breeder", "Breeder", ModuleType.COMMON);
+            provider.add("item.chickens.roost", "Roost", ModuleType.COMMON);
+            provider.add("item.chickens.incubator", "Incubator", ModuleType.COMMON);
+            provider.add("item.chickens.egg_cracker", "Egg Cracker", ModuleType.COMMON);
+            provider.add("item.chickens.ovoscope", "Ovoscope", ModuleType.COMMON);
             provider.add("screen.shift.tooltip", "Hold <Shift> for stats", ModuleType.COMMON);
 
             provider.add("advancement.hard_boiled.title", "Hard Boiled", ModuleType.COMMON);
