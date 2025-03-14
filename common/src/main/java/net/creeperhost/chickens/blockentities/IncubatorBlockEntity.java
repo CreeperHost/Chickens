@@ -86,7 +86,10 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
         }
 
         if (Config.INSTANCE.enableEnergy) {
-            EnergyManager.transferEnergy(inventory.getItem(10), energy);
+            IPolyEnergyStorageItem storage = EnergyManager.getHandler(inventory.getItem(10));
+            if (storage != null && EnergyManager.transferEnergy(storage, energy) > 0) {
+                inventory.setItem(10, storage.getContainer());
+            }
         }
     }
 

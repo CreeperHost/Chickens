@@ -51,7 +51,10 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements ItemInventor
 
         //Update Energy
         if (Config.INSTANCE.enableEnergy) {
-            EnergyManager.transferEnergy(inventory.getItem(3), energy);
+            IPolyEnergyStorageItem storage = EnergyManager.getHandler(inventory.getItem(3));
+            if (storage != null && EnergyManager.transferEnergy(storage, energy) > 0) {
+                inventory.setItem(3, storage.getContainer());
+            }
         }
 
         //Handle Outputs

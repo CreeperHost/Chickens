@@ -58,7 +58,10 @@ public class EggCrackerBlockEntity extends PolyBlockEntity implements ItemInvent
 
         //Update Energy
         if (Config.INSTANCE.enableEnergy) {
-            EnergyManager.transferEnergy(inventory.getItem(8), energy);
+            IPolyEnergyStorageItem storage = EnergyManager.getHandler(inventory.getItem(8));
+            if (storage != null && EnergyManager.transferEnergy(storage, energy) > 0) {
+                inventory.setItem(8, storage.getContainer());
+            }
         }
 
         //Update Fluid Slot
