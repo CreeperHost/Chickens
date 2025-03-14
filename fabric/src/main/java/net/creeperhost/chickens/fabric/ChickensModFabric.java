@@ -1,6 +1,6 @@
 package net.creeperhost.chickens.fabric;
 
-import dev.architectury.platform.Platform;
+import dev.architectury.platform.fabric.PlatformImpl;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
 import net.creeperhost.chickens.init.ModItems;
@@ -17,9 +17,9 @@ public class ChickensModFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         Chickens.init();
-        if(Platform.getEnv() == EnvType.CLIENT)
+        if(PlatformImpl.getEnv() == EnvType.CLIENT)
         {
-            BuiltinItemRendererRegistry.INSTANCE.register(ModItems.CHICKEN_ITEM.get(), new ChickenDynamicItemRenderer());
+            BuiltinItemRendererRegistry.INSTANCE.register(ModItems.getChickenItem(), new ChickenDynamicItemRenderer());
             ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ResourceReloadListenerWrapper(ChickenGuiTextures::getUploader, new ResourceLocation(Chickens.MOD_ID, "gui_atlas_reload")));
         }
     }
