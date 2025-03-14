@@ -56,15 +56,12 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements PolyInventor
         }
 
         //Handle Outputs
-        Direction facing = getBlockState().getValue(OvoscopeBlock.FACING);
-        Direction viaDir = facing.getCounterClockWise(Direction.Axis.Y);
-        Direction nonViaDir = facing.getClockWise(Direction.Axis.Y);
         ItemStack viaStack = inventory.getItem(1);
-        if (!viaStack.isEmpty() && level.getBlockEntity(getBlockPos().relative(viaDir)) instanceof Container target) {
+        if (!viaStack.isEmpty() && level.getBlockEntity(getBlockPos().relative(viableFace())) instanceof Container target) {
             viaStack.setCount(ContainerUtil.insertStack(viaStack, target));
         }
         ItemStack nonViaStack = inventory.getItem(2);
-        if (!nonViaStack.isEmpty() && level.getBlockEntity(getBlockPos().relative(nonViaDir)) instanceof Container target) {
+        if (!nonViaStack.isEmpty() && level.getBlockEntity(getBlockPos().relative(nonViableFace())) instanceof Container target) {
             nonViaStack.setCount(ContainerUtil.insertStack(nonViaStack, target));
         }
 
@@ -97,16 +94,28 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements PolyInventor
         scanCount++;
     }
 
+    private Direction viableFace() {
+        Direction facing = getBlockState().getValue(OvoscopeBlock.FACING);
+        return facing.getCounterClockWise(Direction.Axis.Y);
+    }
+
+    private Direction nonViableFace() {
+        Direction facing = getBlockState().getValue(OvoscopeBlock.FACING);
+        return facing.getClockWise(Direction.Axis.Y);
+    }
+
     private boolean consumeEnergy() {
         return !Config.INSTANCE.enableEnergy || energy.extractEnergy(Config.INSTANCE.ovoscopeEnergyRate, false) == Config.INSTANCE.ovoscopeEnergyRate;
     }
 
     @Override
     public Container getContainer(@Nullable Direction side) {
-        ContainerAccessControl ac = new ContainerAccessControl(inventory, 0, Config.INSTANCE.enableEnergy ? 4 : 2)
+        ContainerAccessControl ac = new ContainerAccessControl(inventory, 0, Config.INSTANCE.enableEnergy ? 4 : 3)
                 .slotRemoveCheck(0, stack -> false)
                 .slotInsertCheck(1, stack -> false)
-                .slotInsertCheck(2, stack -> false);
+                .slotInsertCheck(2, stack -> false)
+                .slotRemoveCheck(1, stack -> side == viableFace()) //via
+                .slotRemoveCheck(2, stack -> side == nonViableFace()); //nonVia
 
         if (Config.INSTANCE.enableEnergy) {
             ac.slotRemoveCheck(3, stack -> {
