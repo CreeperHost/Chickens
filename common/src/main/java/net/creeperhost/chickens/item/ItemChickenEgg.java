@@ -31,10 +31,7 @@ public class ItemChickenEgg extends Item
         if (getType(itemStack) == null) {
             return Component.translatable("item.chickens.egg.name");
         }
-        String name = getType(itemStack).getEntityName().replace("_", " ") + " egg";
-        String first = name.substring(0, 1).toUpperCase();
-        String formatted = first + name.substring(1);
-        return Component.literal(formatted);
+        return Component.translatable("entity.chickens."+getType(itemStack).getEntityName()).append(Component.translatable("item.chickens.chicken_egg.egg"));
     }
 
     public static ItemStack of(ChickensRegistryItem chickensRegistryItem)
