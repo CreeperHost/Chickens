@@ -73,9 +73,8 @@ repositories {
         name 'JEI'
         url 'https://dvs1.progwml6.com/files/maven'
     }
-    maven { // TOP
-        name 'tterrag maven'
-        url "https://maven.tterrag.com/"
+    maven {
+        url "https://cursemaven.com"
     }
     flatDir {
         dirs '/libs'
@@ -85,7 +84,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.mc_version}-${project.forge_version}"
 //    theoneprobe-1.18-5.1.0.jar
-    implementation fg.deobf("theoneprobe:theoneprobe:1.18-5.1.0")
+    implementation fg.deobf("curse.maven:the-one-probe-245211:3965688")
 
     compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${project.jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${project.jei_version}")
