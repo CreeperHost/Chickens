@@ -205,9 +205,9 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
         return babyStats;
     }
 
-    private int calculateNewStat(int thisStrength, int mateStrength, int stat1, int stat2, RandomSource rand) {
+    private int calculateNewStat(int strength1, int strength2, int stat1, int stat2, RandomSource rand) {
         int mutation = rand.nextInt(2) + 1;
-        int newStatValue = (stat1 * thisStrength + stat2 * mateStrength) / (thisStrength + mateStrength) + mutation;
+        int newStatValue = (((stat1 * strength1) + (stat2 * strength2)) / (strength1 + strength2)) + mutation;
         if (newStatValue <= 1) return 1;
         return Math.min(newStatValue, 10);
     }

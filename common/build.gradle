@@ -22,7 +22,7 @@ dependencies {
 //    modApi("mezz.jei:jei-${project.minecraft_version}-common:${project.jei_version}")
 //    modApi("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
 
-    modApi "curse.maven:jade-324717:5444008"
+    modApi "curse.maven:jade-324717:6155088"
 }
 
 architectury {

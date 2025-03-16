@@ -7,7 +7,7 @@ import net.creeperhost.chickens.client.ChickenItemRender;
 import net.creeperhost.chickens.init.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 
@@ -22,8 +22,8 @@ public class ClientInit {
         modBus.addListener(ClientInit::registerItemTintSources);
     }
 
-    private static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener(ChickenGuiTextures.getAtlasHolder());
+    private static void registerReloadListeners(AddClientReloadListenersEvent event) {
+        event.addListener(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "gui_texture"), ChickenGuiTextures.getAtlasHolder());
     }
 
     public static void registerItemExtensions(RegisterSpecialModelRendererEvent event) {
