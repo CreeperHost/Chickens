@@ -9,6 +9,7 @@ import net.creeperhost.polylib.entities.SpawnRegistry;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.LevelAccessor;
@@ -41,6 +42,9 @@ public class ModEntities
 
     public static boolean checkAnimalSpawnRules(EntityType<? extends Entity> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource random)
     {
+        if (!worldIn.getBiome(pos).is(BiomeTags.IS_OVERWORLD)) {
+            return true;
+        }
         return worldIn.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) && worldIn.getRawBrightness(pos, 0) > 8;
     }
 }
