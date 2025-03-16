@@ -84,8 +84,9 @@ public class DataGen implements DataGeneratorEntrypoint
             provider.add("item.colored_egg.cyan.name", "Cyan Chicken Egg", ModuleType.COMMON);
             provider.add("entity.chickens.purple_chicken", "Purple Chicken", ModuleType.COMMON);
             provider.add("item.colored_egg.purple.name", "Purple Chicken Egg", ModuleType.COMMON);
-            provider.add("entity.chickens.blue_chicken", "Lapis Blue Chicken", ModuleType.COMMON);
-            provider.add("item.colored_egg.blue.name", "Lapis Blue Chicken Egg", ModuleType.COMMON);
+            provider.add("entity.chickens.blue_chicken", "Blue Chicken", ModuleType.COMMON);
+            provider.add("item.colored_egg.blue.name", "Blue Chicken Egg", ModuleType.COMMON);
+            provider.add("entity.chickens.lapis_chicken", "Lapis Chicken", ModuleType.COMMON);
             provider.add("entity.chickens.brown_chicken", "Cocoa Brown Chicken", ModuleType.COMMON);
             provider.add("item.colored_egg.brown.name", "Cocoa Brown Chicken Egg", ModuleType.COMMON);
             provider.add("entity.chickens.green_chicken", "Cactus Green Chicken", ModuleType.COMMON);

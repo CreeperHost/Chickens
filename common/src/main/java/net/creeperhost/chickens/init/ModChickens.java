@@ -82,6 +82,9 @@ public class ModChickens
         ChickensRegistryItem redstoneChicken = new ChickensRegistryItem(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "redstone_chicken"), "redstone_chicken", ResourceLocation.fromNamespaceAndPath("chickens", "textures/entity/redstone_chicken.png"), new ItemStack(Items.REDSTONE), 0xe60000, redChicken, sandChicken);
         chickens.add(redstoneChicken);
 
+        ChickensRegistryItem lapisChicken = new ChickensRegistryItem(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "lapis_chicken"), "lapis_chicken", ResourceLocation.fromNamespaceAndPath("chickens", "textures/entity/lapis_chicken.png"), new ItemStack(Items.LAPIS_LAZULI), 0x0000e6, blueChicken, sandChicken);
+        chickens.add(lapisChicken);
+
         ChickensRegistryItem glassChicken = new ChickensRegistryItem(ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "glass_chicken"), "glass_chicken", ResourceLocation.fromNamespaceAndPath("chickens", "textures/entity/glass_chicken.png"), new ItemStack(Blocks.GLASS), 0xffffff, quartzChicken, redstoneChicken);
         chickens.add(glassChicken);
 
