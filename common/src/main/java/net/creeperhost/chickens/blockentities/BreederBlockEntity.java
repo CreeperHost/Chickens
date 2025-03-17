@@ -24,7 +24,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -36,7 +35,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BreederBlockEntity extends PolyBlockEntity implements PolyInventoryBlock, MenuProvider {
@@ -54,6 +52,8 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
             });
 
     public final FloatData progress = register("progress", new FloatData(0), SAVE_BOTH);
+    public final FloatData targetProgress = register("cycle_target", new FloatData(0), SAVE_BOTH);
+
 
     public BreederBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.BREEDER_TILE.get(), pos, state);
@@ -73,21 +73,32 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
         setState(canWork);
         if (!canWork) {
             progress.set(0F);
+            targetProgress.set(-1F);
             return;
         }
 
         ChickensRegistryItem regItem1 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(chicken1));
         ChickensRegistryItem regItem2 = ChickensRegistry.getByRegistryName(ItemChicken.getTypeFromStack(chicken2));
-        float timeMultiplier = (regItem1 == null ? 1 : regItem1.breedSpeedMultiplier) * (regItem2 == null ? 1 : regItem2.breedSpeedMultiplier);
+        float speedMultiplier = (regItem1 == null ? 1 : regItem1.breedSpeedMultiplier) * (regItem2 == null ? 1 : regItem2.breedSpeedMultiplier);
 
-        if (progress.get() < Config.INSTANCE.breederMaxProcessTime) {
-            progress.add(getProgressIncrement(timeMultiplier));
+        ChickenStats chickenStats1 = new ChickenStats(inventory.getItem(1));
+        ChickenStats chickenStats2 = new ChickenStats(inventory.getItem(2));
+
+        if (targetProgress.get() < 0) {
+            float t = Config.INSTANCE.breederMaxProcessTime / 0.75F / 2;
+            int avgGain = (chickenStats1.getGain() + chickenStats2.getGain()) / 2;
+            targetProgress.set((t + level.random.nextInt((int)t)) / (1 + (avgGain - 1F) / 9F));
+        }
+
+        if (progress.get() < targetProgress.get()) {
+            progress.add(getProgressIncrement(chickenStats1, chickenStats2, speedMultiplier));
             return;
         }
 
         ChickensRegistryItem baby = ChickensRegistry.getRandomChild(regItem1, regItem2);
         if (baby == null) {
             progress.set(0F);
+            targetProgress.set(-1F);
             return;
         }
         ItemStack chickenStack = ItemChickenEgg.of(baby, level.random.nextDouble() < Config.INSTANCE.onLaidViabilityChange);
@@ -125,6 +136,7 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
                 seeds.shrink(1);
             }
             progress.set(0F);
+            targetProgress.set(-1F);
         }
     }
 
@@ -170,10 +182,7 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
         level.setBlock(getBlockPos(), getBlockState().setValue(BreederBlock.HAS_SEEDS, hasSeeds).setValue(BreederBlock.IS_BREEDING, canWork), 3);
     }
 
-    public float getProgressIncrement(float speedMultiplier) {
-        ChickenStats chickenStats1 = new ChickenStats(inventory.getItem(1));
-        ChickenStats chickenStats2 = new ChickenStats(inventory.getItem(2));
-
+    public float getProgressIncrement(ChickenStats chickenStats1, ChickenStats chickenStats2, float speedMultiplier) {
         float progress = chickenStats1.getGain() + chickenStats2.getGain();
         if (progress > 50) progress = 50;
         return progress * speedMultiplier;

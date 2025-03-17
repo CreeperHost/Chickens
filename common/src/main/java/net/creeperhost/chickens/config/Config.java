@@ -24,7 +24,7 @@ public class Config {
     public int ovoscopeEnergyRate = 10;
     public double incubatorEnergyMultiplier = 1;
 
-    public int breederMaxProcessTime = 1000;
+    public int breederMaxProcessTime = 9000;
     public int crackerProcessTime = 100;
     public int ovoscopeProcessTime = 100;
 
