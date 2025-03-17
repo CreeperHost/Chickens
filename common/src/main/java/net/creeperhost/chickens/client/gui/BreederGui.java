@@ -80,7 +80,7 @@ public class BreederGui extends ContainerGuiProvider<BreederMenu> {
         Constraints.placeOutside(chickens, plus, Constraints.LayoutPos.MIDDLE_RIGHT, 2, 0);
 
         GuiProgressIcon progress = new GuiProgressIcon(root)
-                .setProgress(() -> menu.progress.get() / (double) Config.INSTANCE.breederMaxProcessTime)
+                .setProgress(() -> menu.progress.get() / (double) Math.max(1, menu.targetProgress.get()))
                 .setBackground(ChickenGuiTextures.get("elements/breeder_progress_empty"))
                 .setAnimated(ChickenGuiTextures.get("elements/breeder_progress"));
         Constraints.size(progress, 26, 16);
