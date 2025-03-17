@@ -7,12 +7,8 @@ import net.creeperhost.polylib.client.modulargui.lib.container.SlotGroup;
 import net.creeperhost.polylib.containers.PolyBlockContainerMenu;
 import net.creeperhost.polylib.containers.slots.PolySlot;
 import net.creeperhost.polylib.data.serializable.FloatData;
-import net.creeperhost.polylib.data.serializable.IntData;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.TickRateManager;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 
 public class BreederMenu extends PolyBlockContainerMenu<BreederBlockEntity> {
     public final SlotGroup main = createSlotGroup(0, 1, 2);
@@ -23,6 +19,7 @@ public class BreederMenu extends PolyBlockContainerMenu<BreederBlockEntity> {
     public final SlotGroup output = createSlotGroup(3, 0);
 
     public final DataSync<Float> progress;
+    public final DataSync<Float> targetProgress;
 
     public BreederMenu(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
         this(windowId, playerInv, getClientTile(playerInv, extraData));
@@ -31,6 +28,7 @@ public class BreederMenu extends PolyBlockContainerMenu<BreederBlockEntity> {
     public BreederMenu(int windowId, Inventory playerInv, BreederBlockEntity tile) {
         super(ModContainers.BREEDER_CONTAINER.get(), windowId, playerInv, tile);
         progress = new DataSync<>(this, new FloatData(), tile.progress::get);
+        targetProgress = new DataSync<>(this, new FloatData(), tile.targetProgress::get);
 
         main.addPlayerMain(playerInv);
         hotBar.addPlayerBar(playerInv);
