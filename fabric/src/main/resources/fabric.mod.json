@@ -29,9 +29,10 @@
     "chickens.mixins.json"
   ],
   "depends": {
+    "fabricloader": ">=0.16.10",
     "fabric": "*",
-    "minecraft": ">=1.21.4",
-    "architectury": ">=15.0.1",
-    "polylib": ">=2104.0.4-build.163"
+    "minecraft": ">=1.21.5",
+    "architectury": ">=16.0.3",
+    "polylib": ">=2105.0.4-build.163"
   }
 }

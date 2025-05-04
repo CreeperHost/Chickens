@@ -359,8 +359,8 @@ public class EntityChickensChicken extends Chicken
     public void readAdditionalSaveData(@NotNull CompoundTag tagCompound)
     {
         super.readAdditionalSaveData(tagCompound);
-        setChickenTypeInternal(tagCompound.getString(TYPE_NBT));
-        setStatsAnalyzed(tagCompound.getBoolean(CHICKEN_STATS_ANALYZED_NBT));
+        setChickenTypeInternal(tagCompound.getStringOr(TYPE_NBT, ""));
+        setStatsAnalyzed(tagCompound.getBooleanOr(CHICKEN_STATS_ANALYZED_NBT, false));
         setGrowth(getStatusValue(tagCompound, CHICKEN_GROWTH_NBT));
         setGain(getStatusValue(tagCompound, CHICKEN_GAIN_NBT));
         setStrength(getStatusValue(tagCompound, CHICKEN_STRENGTH_NBT));
@@ -370,6 +370,6 @@ public class EntityChickensChicken extends Chicken
 
     private int getStatusValue(CompoundTag compound, String statusName)
     {
-        return compound.contains(statusName) ? compound.getInt(statusName) : 1;
+        return compound.contains(statusName) ? compound.getIntOr(statusName, 0) : 1;
     }
 }

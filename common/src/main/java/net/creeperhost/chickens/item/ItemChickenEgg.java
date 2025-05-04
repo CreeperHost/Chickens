@@ -12,11 +12,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 public class ItemChickenEgg extends Item
 {
@@ -104,32 +106,32 @@ public class ItemChickenEgg extends Item
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, TooltipContext tooltipContext, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag)
-    {
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> consumer, TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, tooltipContext, tooltipDisplay, consumer, tooltipFlag);
         ChickensRegistryItem item = getType(itemStack);
         if(item != null && tooltipFlag.isAdvanced())
         {
-            list.add(Component.literal(ChatFormatting.AQUA + "Registry name: " + ChatFormatting.WHITE + item.getRegistryName().toString()));
+            consumer.accept(Component.literal(ChatFormatting.AQUA + "Registry name: " + ChatFormatting.WHITE + item.getRegistryName().toString()));
             if(item.getLayItemHolder().getItem() != null)
             {
                 if(item.getLayItemHolder().getType().equals("item"))
                 {
-                    list.add(Component.literal(ChatFormatting.GOLD + "Item: " + ChatFormatting.WHITE + BuiltInRegistries.ITEM.getKey(item.getLayItemHolder().getItem())));
+                    consumer.accept(Component.literal(ChatFormatting.GOLD + "Item: " + ChatFormatting.WHITE + BuiltInRegistries.ITEM.getKey(item.getLayItemHolder().getItem())));
                 }
                 else
                 {
-                    list.add(Component.literal(ChatFormatting.GOLD + "Fluid: " + ChatFormatting.WHITE + BuiltInRegistries.FLUID.getKey(item.getLayItemHolder().getFluid())));
+                    consumer.accept(Component.literal(ChatFormatting.GOLD + "Fluid: " + ChatFormatting.WHITE + BuiltInRegistries.FLUID.getKey(item.getLayItemHolder().getFluid())));
                 }
             }
-            list.add(Component.literal(ChatFormatting.BLUE + "ChickenType: " + ChatFormatting.WHITE + item.getEntityName()));
-            list.add(Component.literal(ChatFormatting.LIGHT_PURPLE + "Progress: " + ChatFormatting.WHITE + getProgress(itemStack)));
+            consumer.accept(Component.literal(ChatFormatting.BLUE + "ChickenType: " + ChatFormatting.WHITE + item.getEntityName()));
+            consumer.accept(Component.literal(ChatFormatting.LIGHT_PURPLE + "Progress: " + ChatFormatting.WHITE + getProgress(itemStack)));
 //            list.add(Component.literal("Missed: " + getMissedCycles(itemStack)));
-            list.add(Component.literal("Viable: " + isViable(itemStack)));
+            consumer.accept(Component.literal("Viable: " + isViable(itemStack)));
         }
 
         ChickenStats chickenStats = new ChickenStats(itemStack);
-        list.add(Component.translatable("entity.ChickensChicken.growth").append(" " + chickenStats.getGrowth()).withStyle(ChatFormatting.DARK_PURPLE));
-        list.add(Component.translatable("entity.ChickensChicken.gain").append(" " + chickenStats.getGain()).withStyle(ChatFormatting.DARK_PURPLE));
-        list.add(Component.translatable("entity.ChickensChicken.strength").append(" " + chickenStats.getStrength()).withStyle(ChatFormatting.DARK_PURPLE));
+        consumer.accept(Component.translatable("entity.ChickensChicken.growth").append(" " + chickenStats.getGrowth()).withStyle(ChatFormatting.DARK_PURPLE));
+        consumer.accept(Component.translatable("entity.ChickensChicken.gain").append(" " + chickenStats.getGain()).withStyle(ChatFormatting.DARK_PURPLE));
+        consumer.accept(Component.translatable("entity.ChickensChicken.strength").append(" " + chickenStats.getStrength()).withStyle(ChatFormatting.DARK_PURPLE));
     }
 }

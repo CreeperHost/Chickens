@@ -20,12 +20,14 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ItemChicken extends Item
 {
@@ -97,22 +99,22 @@ public class ItemChicken extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
-    {
-        super.appendHoverText(itemStack, tooltipContext, components, tooltipFlag);
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> consumer, TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, tooltipContext, tooltipDisplay, consumer, tooltipFlag);
         ChickenStats chickenStats = new ChickenStats(itemStack);
         if (Screen.hasShiftDown())
         {
-            components.add(Component.translatable("entity.ChickensChicken.growth").append(" " + chickenStats.getGrowth()).withStyle(ChatFormatting.DARK_PURPLE));
-            components.add(Component.translatable("entity.ChickensChicken.gain").append(" " + chickenStats.getGain()).withStyle(ChatFormatting.DARK_PURPLE));
-            components.add(Component.translatable("entity.ChickensChicken.strength").append(" " + chickenStats.getStrength()).withStyle(ChatFormatting.DARK_PURPLE));
-            components.add(Component.translatable("entity.ChickensChicken.lifespan").append(" " + chickenStats.getLifespan() + "%").withStyle(ChatFormatting.DARK_PURPLE));
+            consumer.accept(Component.translatable("entity.ChickensChicken.growth").append(" " + chickenStats.getGrowth()).withStyle(ChatFormatting.DARK_PURPLE));
+            consumer.accept(Component.translatable("entity.ChickensChicken.gain").append(" " + chickenStats.getGain()).withStyle(ChatFormatting.DARK_PURPLE));
+            consumer.accept(Component.translatable("entity.ChickensChicken.strength").append(" " + chickenStats.getStrength()).withStyle(ChatFormatting.DARK_PURPLE));
+            consumer.accept(Component.translatable("entity.ChickensChicken.lifespan").append(" " + chickenStats.getLifespan() + "%").withStyle(ChatFormatting.DARK_PURPLE));
         }
         else
         {
-            components.add(Component.translatable("screen.shift.tooltip"));
+            consumer.accept(Component.translatable("screen.shift.tooltip"));
         }
     }
+
 
     @Override
     public @NotNull Component getName(ItemStack stack)

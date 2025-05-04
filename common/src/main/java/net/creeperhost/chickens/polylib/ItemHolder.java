@@ -75,7 +75,7 @@ public class ItemHolder
         this.itemID = itemID;
         try
         {
-            this.nbtData = TagParser.parseTag(nbt);
+            this.nbtData = TagParser.parseCompoundFully(nbt);
         } catch (Exception e)
         {
             this.nbtData = null;
@@ -180,7 +180,7 @@ public class ItemHolder
         {
             try
             {
-                nbtData = TagParser.parseTag(nbtString);
+                nbtData = TagParser.parseCompoundFully(nbtString);
             } catch (Exception e)
             {
                 e.printStackTrace();

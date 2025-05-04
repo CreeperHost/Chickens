@@ -11,13 +11,14 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class RenderIncubator implements BlockEntityRenderer<IncubatorBlockEntity>
 {
+
     @Override
-    public void render(@NotNull IncubatorBlockEntity blockEntity, float f, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i, int j)
-    {
+    public void render(IncubatorBlockEntity blockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, Vec3 vec3) {
         if(blockEntity.getLevel() == null) return;
 
         for (int i1 = 0; i1 < blockEntity.getContainer(Direction.NORTH).getContainerSize(); i1++)
