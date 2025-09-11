@@ -33,7 +33,7 @@ dependencies {
 
 //    modApi("mekanism:Mekanism:${project.mekanism_version}")
 
-    modApi "curse.maven:jade-324717:6389812"
+    modApi "curse.maven:jade-324717:6902747"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }

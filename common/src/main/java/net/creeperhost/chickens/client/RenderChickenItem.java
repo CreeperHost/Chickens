@@ -59,10 +59,10 @@ public class RenderChickenItem
             if (mc.getEntityRenderDispatcher() != null)
             {
                 EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
-                if (transformType == ItemDisplayContext.GUI)
-                {
-                    Lighting.setupForFlatItems();
-                }
+//                if (transformType == ItemDisplayContext.GUI)
+//                {
+//                    Lighting.setupForFlatItems();
+//                }
 //                entityRenderDispatcher.getRenderer(chicken).render(chicken, 0, 0, poseStack, bufferSource, combinedOverlay);
                 entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, mc.getDeltaTracker().getGameTimeDeltaPartialTick(false), poseStack, bufferSource, combinedLight);
             }

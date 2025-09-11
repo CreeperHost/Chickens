@@ -1,10 +1,14 @@
 package net.creeperhost.chickens.neoforge;
 
+import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.client.ChickenEggTint;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
 import net.creeperhost.chickens.client.ChickenItemRender;
+import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModItems;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;

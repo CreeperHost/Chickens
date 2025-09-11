@@ -9,6 +9,9 @@ import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
+
+import java.util.Set;
 
 /**
  * Created by brandon3055 on 25/01/2025
@@ -20,6 +23,11 @@ public class ChickenItemRender implements SpecialModelRenderer<ChickenItemRender
         if (data != null) {
             RenderChickenItem.renderByItem(data.stack, transformType, poseStack, bufferSource, light, overlay);
         }
+    }
+
+    @Override
+    public void getExtents(Set<Vector3f> set) {
+        set.add(new Vector3f());
     }
 
     @Nullable

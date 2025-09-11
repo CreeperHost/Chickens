@@ -53,7 +53,7 @@ public class OvoscopeGui extends ContainerGuiProvider<OvoscopeMenu> {
         GuiElement<?> root = gui.getRoot();
 
         GuiText title = new GuiText(root, gui.getGuiTitle())
-                .setTextColour(0x404040)
+                .setTextColour(0xFF404040)
                 .setShadow(false)
                 .constrain(TOP, relative(root.get(TOP), 4))
                 .constrain(HEIGHT, Constraint.literal(8))
@@ -64,7 +64,7 @@ public class OvoscopeGui extends ContainerGuiProvider<OvoscopeMenu> {
         Constraints.placeInside(playInv.container, root, Constraints.LayoutPos.BOTTOM_CENTER, 0, -7);
         GuiText invTitle = new GuiText(playInv.container, Component.translatable("container.inventory"))
                 .setAlignment(Align.LEFT)
-                .setTextColour(0x404040)
+                .setTextColour(0xFF404040)
                 .setShadow(false)
                 .constrain(WIDTH, match(playInv.container.get(WIDTH)))
                 .constrain(HEIGHT, literal(8));
@@ -147,8 +147,8 @@ public class OvoscopeGui extends ContainerGuiProvider<OvoscopeMenu> {
             float barPos = Math.min(Math.max(progress - (1/8F), 0), 6/8F) / 0.75F;
             barPos = (float) Math.sin(barPos * Math.PI) * 16F;
 
-            render.pose().pushPose();
-            render.pose().translate(0, 0, 300);
+//            render.pose().pushPose();
+//            render.pose().translate(0, 0, 300);
 
 
             Material egg = ChickenGuiTextures.get("elements/egg");
@@ -161,7 +161,7 @@ public class OvoscopeGui extends ContainerGuiProvider<OvoscopeMenu> {
 
             render.fill(xCenter() - barWidth, yMin() + 1 + barPos, xCenter() + barWidth, yMin() + 2 + barPos, 0xFFFF0000);
 
-            render.pose().popPose();
+//            render.pose().popPose();
         }
     }
 

@@ -1,9 +1,12 @@
 package net.creeperhost.chickens.neoforge;
 
 import net.creeperhost.chickens.ChickensPlatform;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.Tags;
 
@@ -41,5 +44,9 @@ public class ChickensPlatformImpl
             return  10;
         }
         return 30;
+    }
+
+    public static void registerBlockRenderType(Block block, ChunkSectionLayer layer) {
+        ItemBlockRenderTypes.setRenderLayer(block, layer);
     }
 }

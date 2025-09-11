@@ -1,12 +1,16 @@
 package net.creeperhost.chickens.fabric;
 
 import net.creeperhost.chickens.ChickensPlatform;
+import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.item.ItemChicken;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 
 import java.nio.file.Path;
 
@@ -42,5 +46,9 @@ public class ChickensPlatformImpl
             return  10;
         }
         return 30;
+    }
+
+    public static void registerBlockRenderType(Block block, ChunkSectionLayer layer) {
+        BlockRenderLayerMap.putBlocks(layer, block);
     }
 }

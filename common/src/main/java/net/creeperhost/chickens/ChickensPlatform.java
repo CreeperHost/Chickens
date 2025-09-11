@@ -2,9 +2,12 @@ package net.creeperhost.chickens;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 
 import java.nio.file.Path;
 
@@ -43,6 +46,11 @@ public class ChickensPlatform
 
     @ExpectPlatform
     public static int getBiomeHumidity(Holder<Biome> biome) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void registerBlockRenderType(Block block, ChunkSectionLayer layer) {
         throw new AssertionError();
     }
 }

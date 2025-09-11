@@ -35,6 +35,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 public class BreederBlockEntity extends PolyBlockEntity implements PolyInventoryBlock, MenuProvider {
@@ -166,15 +168,15 @@ public class BreederBlockEntity extends PolyBlockEntity implements PolyInventory
     }
 
     @Override
-    public void writeExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
-        super.writeExtraData(provider, nbt);
-        inventory.serialize(provider, nbt);
+    public void writeExtraData(ValueOutput output) {
+        super.writeExtraData(output);
+        inventory.serialize(output);
     }
 
     @Override
-    public void readExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
-        super.readExtraData(provider, nbt);
-        inventory.deserialize(provider, nbt);
+    public void readExtraData(ValueInput input) {
+        super.readExtraData(input);
+        inventory.deserialize(input);
     }
 
     public void setState(boolean canWork) {

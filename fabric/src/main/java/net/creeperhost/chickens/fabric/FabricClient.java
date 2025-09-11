@@ -2,8 +2,11 @@ package net.creeperhost.chickens.fabric;
 
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.client.ChickenGuiTextures;
+import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.polylib.fabric.client.ResourceReloadListenerWrapper;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 

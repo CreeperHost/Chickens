@@ -29,6 +29,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
@@ -344,32 +346,33 @@ public class EntityChickensChicken extends Chicken
     }
 
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag tagCompound)
+    public void addAdditionalSaveData(ValueOutput output)
     {
-        super.addAdditionalSaveData(tagCompound);
-        tagCompound.putString(TYPE_NBT, getChickenTypeInternal());
-        tagCompound.putBoolean(CHICKEN_STATS_ANALYZED_NBT, getStatsAnalyzed());
-        tagCompound.putInt(CHICKEN_GROWTH_NBT, getGrowth());
-        tagCompound.putInt(CHICKEN_GAIN_NBT, getGain());
-        tagCompound.putInt(CHICKEN_STRENGTH_NBT, getStrength());
-        tagCompound.putInt(CHICKEN_LIFESPAN_NBT, getLifeSpan());
+        super.addAdditionalSaveData(output);
+        output.putString(TYPE_NBT, getChickenTypeInternal());
+        output.putBoolean(CHICKEN_STATS_ANALYZED_NBT, getStatsAnalyzed());
+        output.putInt(CHICKEN_GROWTH_NBT, getGrowth());
+        output.putInt(CHICKEN_GAIN_NBT, getGain());
+        output.putInt(CHICKEN_STRENGTH_NBT, getStrength());
+        output.putInt(CHICKEN_LIFESPAN_NBT, getLifeSpan());
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag tagCompound)
+    public void readAdditionalSaveData(ValueInput input)
     {
-        super.readAdditionalSaveData(tagCompound);
-        setChickenTypeInternal(tagCompound.getStringOr(TYPE_NBT, ""));
-        setStatsAnalyzed(tagCompound.getBooleanOr(CHICKEN_STATS_ANALYZED_NBT, false));
-        setGrowth(getStatusValue(tagCompound, CHICKEN_GROWTH_NBT));
-        setGain(getStatusValue(tagCompound, CHICKEN_GAIN_NBT));
-        setStrength(getStatusValue(tagCompound, CHICKEN_STRENGTH_NBT));
-        setLifeSpan(getStatusValue(tagCompound, CHICKEN_LIFESPAN_NBT));
+        super.readAdditionalSaveData(input);
+        setChickenTypeInternal(input.getStringOr(TYPE_NBT, ""));
+        setStatsAnalyzed(input.getBooleanOr(CHICKEN_STATS_ANALYZED_NBT, false));
+        setGrowth(getStatusValue(input, CHICKEN_GROWTH_NBT));
+        setGain(getStatusValue(input, CHICKEN_GAIN_NBT));
+        setStrength(getStatusValue(input, CHICKEN_STRENGTH_NBT));
+        setLifeSpan(getStatusValue(input, CHICKEN_LIFESPAN_NBT));
         updateLayProgress();
     }
 
-    private int getStatusValue(CompoundTag compound, String statusName)
+    private int getStatusValue(ValueInput compound, String statusName)
     {
-        return compound.contains(statusName) ? compound.getIntOr(statusName, 0) : 1;
+        int i = compound.getIntOr(statusName, -999);
+        return i == -999 ? 1 : i;
     }
 }

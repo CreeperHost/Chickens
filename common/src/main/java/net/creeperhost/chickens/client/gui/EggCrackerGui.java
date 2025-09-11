@@ -53,7 +53,7 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
         GuiElement<?> root = gui.getRoot();
 
         GuiText title = new GuiText(root, gui.getGuiTitle())
-                .setTextColour(0x404040)
+                .setTextColour(0xFF404040)
                 .setShadow(false)
                 .constrain(TOP, relative(root.get(TOP), 4))
                 .constrain(HEIGHT, Constraint.literal(8))
@@ -64,7 +64,7 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
         Constraints.placeInside(playInv.container, root, Constraints.LayoutPos.BOTTOM_CENTER, 0, -7);
         GuiText invTitle = new GuiText(playInv.container, Component.translatable("container.inventory"))
                 .setAlignment(Align.LEFT)
-                .setTextColour(0x404040)
+                .setTextColour(0xFF404040)
                 .setShadow(false)
                 .constrain(WIDTH, match(playInv.container.get(WIDTH)))
                 .constrain(HEIGHT, literal(8));
@@ -164,35 +164,35 @@ public class EggCrackerGui extends ContainerGuiProvider<EggCrackerMenu> {
             render.fill(xMin() + 1, yMax() - 1, xMax() - 1, yMax(), 0xFF8b8b8b);
 
             float doorAnim = (float) Math.sin(Math.min(animation * 1.1, 1) * Math.PI);
-            render.pose().pushPose();
-            render.pose().translate(xMin() + 1.5, yMax() - 0.5, 0);
-            render.pose().mulPose(Axis.ZP.rotationDegrees(doorAnim * 125));
+            render.pose().pushMatrix();
+            render.pose().translate((float) xMin() + 1.5F, (float) yMax() - 0.5F);
+            render.pose().rotate((float) Math.toRadians(doorAnim * 125));
             render.rect(-0.5, -0.5, 8, 1, 0xFFFFFFFF);
-            render.pose().popPose();
+            render.pose().popMatrix();
 
-            render.pose().pushPose();
-            render.pose().translate(xMax() - 1.5, yMax() - 0.5, 0);
-            render.pose().mulPose(Axis.ZP.rotationDegrees(180 - (doorAnim * 125)));
+            render.pose().pushMatrix();
+            render.pose().translate((float) xMax() - 1.5F, (float) yMax() - 0.5F);
+            render.pose().rotate((float) Math.toRadians(180 - (doorAnim * 125)));
             render.rect(-0.5, -0.5, 8, 1, 0xFFFFFFFF);
-            render.pose().popPose();
+            render.pose().popMatrix();
 
             Material eggMat = ChickenGuiTextures.get("elements/egg");
             Material eggCrackedMat = ChickenGuiTextures.get("elements/egg_cracked");
 
             float dropAnim = Math.min(1, (1F - (float) Math.cos(animation * Math.PI * 0.5)) * 2F);
             float sinkAnim = Math.max(0, animation - 0.5F) * 2;
-            double yTravel = (floorPlate.yMin() - yCenter() - 4) * dropAnim;
+            float yTravel = ((float) floorPlate.yMin() - (float) yCenter() - 4) * dropAnim;
 
-            render.pose().pushPose();
+            render.pose().pushMatrix();
             if (dropAnim < 1) {
-                render.pose().translate(xCenter(), yCenter() + yTravel, 0);
-                render.pose().mulPose(Axis.ZP.rotationDegrees(dropAnim * 180));
+                render.pose().translate((float) xCenter(), (float) yCenter() + yTravel);
+                render.pose().rotate((float) Math.toRadians(dropAnim * 180));
                 render.texRect(eggMat, -8D, -8D, 16D, 16D, colour | 0xFF000000);
             } else {
-                render.pose().translate(0, (sinkAnim * 2D), 0);
+                render.pose().translate(0, (sinkAnim * 2F));
                 render.texRect(eggCrackedMat, xCenter() - 8, (floorPlate.yMin() - 16), 16D, 16D, colour | (int) ((1 - sinkAnim) * 0xFF) << 24);
             }
-            render.pose().popPose();
+            render.pose().popMatrix();
         }
     }
 

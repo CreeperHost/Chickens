@@ -43,7 +43,7 @@ public class BreederGui extends ContainerGuiProvider<BreederMenu> {
         GuiElement<?> root = gui.getRoot();
 
         GuiText title = new GuiText(root, gui.getGuiTitle())
-                .setTextColour(0x404040)
+                .setTextColour(0xFF404040)
                 .setShadow(false)
                 .constrain(TOP, relative(root.get(TOP), 4))
                 .constrain(HEIGHT, Constraint.literal(8))
@@ -54,7 +54,7 @@ public class BreederGui extends ContainerGuiProvider<BreederMenu> {
         Constraints.placeInside(playInv.container, root, Constraints.LayoutPos.BOTTOM_CENTER, 0, -7);
         GuiText invTitle = new GuiText(playInv.container, Component.translatable("container.inventory"))
                 .setAlignment(Align.LEFT)
-                .setTextColour(0x404040)
+                .setTextColour(0xFF404040)
                 .setShadow(false)
                 .constrain(WIDTH, match(playInv.container.get(WIDTH)))
                 .constrain(HEIGHT, literal(8));

@@ -26,6 +26,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.redstone.Orientation;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 public class OvoscopeBlockEntity extends PolyBlockEntity implements PolyInventoryBlock, MenuProvider, PolyEnergyBlock, RedstoneActivatedBlock {
@@ -140,14 +142,14 @@ public class OvoscopeBlockEntity extends PolyBlockEntity implements PolyInventor
     }
 
     @Override
-    public void writeExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
-        inventory.serialize(provider, nbt);
-        energy.serialize(provider, nbt);
+    public void writeExtraData(ValueOutput output) {
+        inventory.serialize(output);
+        energy.serialize(output);
     }
 
     @Override
-    public void readExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
-        inventory.deserialize(provider, nbt);
-        energy.deserialize(provider, nbt);
+    public void readExtraData(ValueInput input) {
+        inventory.deserialize(input);
+        energy.deserialize(input);
     }
 }

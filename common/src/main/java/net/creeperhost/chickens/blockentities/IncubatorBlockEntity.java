@@ -34,6 +34,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -220,17 +222,17 @@ public class IncubatorBlockEntity extends PolyBlockEntity implements PolyFluidBl
     }
 
     @Override
-    public void writeExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
-        tank.serialize(provider, nbt);
-        inventory.serialize(provider, nbt);
-        energy.serialize(provider, nbt);
+    public void writeExtraData(ValueOutput output) {
+        tank.serialize(output);
+        inventory.serialize(output);
+        energy.serialize(output);
     }
 
     @Override
-    public void readExtraData(HolderLookup.Provider provider, CompoundTag nbt) {
-        tank.deserialize(provider, nbt);
-        inventory.deserialize(provider, nbt);
-        energy.deserialize(provider, nbt);
+    public void readExtraData(ValueInput input) {
+        tank.deserialize(input);
+        inventory.deserialize(input);
+        energy.deserialize(input);
     }
 
     @Override

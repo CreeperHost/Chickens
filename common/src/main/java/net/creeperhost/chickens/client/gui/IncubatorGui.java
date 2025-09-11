@@ -52,7 +52,7 @@ public class IncubatorGui extends ContainerGuiProvider<IncubatorMenu> {
         Constraints.placeInside(playInv.container, root, Constraints.LayoutPos.BOTTOM_CENTER, 0, -7);
         GuiText invTitle = new GuiText(playInv.container, Component.translatable("container.inventory"))
                 .setAlignment(Align.LEFT)
-                .setTextColour(0x404040)
+                .setTextColour(0xFF404040)
                 .setShadow(false)
                 .constrain(WIDTH, match(playInv.container.get(WIDTH)))
                 .constrain(HEIGHT, literal(8));
@@ -66,7 +66,7 @@ public class IncubatorGui extends ContainerGuiProvider<IncubatorMenu> {
         Constraints.bind(eggsBorder, eggSlots, -1);
 
         GuiText title = new GuiText(root, gui.getGuiTitle())
-                .setTextColour(0x404040)
+                .setTextColour(0xFF404040)
                 .setShadow(false)
                 .constrain(TOP, relative(root.get(TOP), 4))
                 .constrain(HEIGHT, Constraint.literal(8))
@@ -123,7 +123,7 @@ public class IncubatorGui extends ContainerGuiProvider<IncubatorMenu> {
 
         GuiTextList heatLabel = new GuiTextList(root)
                 .setTextSupplier(() -> List.of(Component.translatable("gui.chickens.incubator.heat"), Component.literal(String.valueOf(menu.heatSetting.get()))))
-                .setTextColour(0x404040)
+                .setTextColour(0xFF404040)
                 .setShadow(false)
                 .constrain(LEFT, relative(eggsBorder.get(RIGHT), 2))
                 .constrain(RIGHT, relative(tank.container.get(LEFT), -2))
