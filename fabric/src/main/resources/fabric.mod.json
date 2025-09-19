@@ -31,8 +31,8 @@
   "depends": {
     "fabricloader": ">=0.17.2",
     "fabric": "*",
-    "minecraft": "~1.21.6",
-    "architectury": ">=17.0.6",
-    "polylib": ">=2105.0.4-build.163"
+    "minecraft": "~1.21.7",
+    "architectury": ">=17.0.8",
+    "polylib": ">=2107.1.0.176"
   }
 }
