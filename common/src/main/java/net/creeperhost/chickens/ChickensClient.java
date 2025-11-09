@@ -4,14 +4,12 @@ import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
-import net.creeperhost.chickens.client.RenderChickensChicken;
 import net.creeperhost.chickens.client.RenderIncubator;
-import net.creeperhost.chickens.client.RenderRooster;
-import net.creeperhost.chickens.client.RoosterModel;
+import net.creeperhost.chickens.client.RenderChickens;
+import net.creeperhost.chickens.client.ChickensModel;
 import net.creeperhost.chickens.init.ModBlocks;
 import net.creeperhost.chickens.init.ModEntities;
 import net.creeperhost.chickens.init.ModScreens;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 
@@ -23,9 +21,9 @@ public class ChickensClient
 
         if (Platform.isFabric())
         {
-            ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickensChicken::new));
-            EntityModelLayerRegistry.register(RoosterModel.LAYER_LOCATION, RoosterModel::createBodyLayer);
-            EntityRendererRegistry.register(ModEntities.ROOSTER, RenderRooster::new);
+            ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickens::new));
+            EntityModelLayerRegistry.register(ChickensModel.LAYER_LOCATION, ChickensModel::createBodyLayer);
+            EntityRendererRegistry.register(ModEntities.ROOSTER, RenderChickens::new);
         }
 
         BlockEntityRendererRegistry.register(ModBlocks.INCUBATOR_TILE.get(), context -> new RenderIncubator());
