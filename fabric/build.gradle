@@ -15,7 +15,8 @@ loom {
             name "Data Generation"
             vmArg "-Dfabric-api.datagen"
             //This will be ignored but is needed for now to load Fabrics datagen
-            vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+//            vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+            vmArg "-Dfabric-api.datagen.output-dir=${project(":common").file("src/generated/resources")}"
 
             vmArg "-Dpolylib.datagen.output-dir-common=${project(":common").file("src/generated/resources")}"
             vmArg "-Dpolylib.datagen.output-dir-forge=${project(":neoforge").file("src/generated/resources")}"

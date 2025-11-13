@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_chicken": {
+    "has_item": {
       "conditions": {
         "items": [
           {
-            "tag": "chickens:chickens"
+            "items": "#chickens:chickens"
           }
         ]
       },
@@ -21,13 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_chicken"
+      "has_item"
     ]
   ],
   "rewards": {
     "recipes": [
       "chickens:cooked_chicken"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }
