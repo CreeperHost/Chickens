@@ -1,14 +1,14 @@
 {
   "eggColour": -1,
-  "id": "diamond",
-  "name": "Diamond",
+  "id": "slime",
+  "name": "Slime",
   "product": {
     "type": "ITEM",
-    "id": "minecraft:diamond",
+    "id": "minecraft:slime_ball",
     "max": 1,
     "min": 1
   },
-  "texture": "chickens:textures/entity/diamond_chicken.png",
+  "texture": "chickens:textures/entity/slime_chicken.png",
   "traitConfigs": [
     {
       "evoExpo": 1.0,

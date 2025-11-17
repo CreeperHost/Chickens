@@ -4,6 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.creeperhost.chickens.Chickens;
 import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
+import net.creeperhost.chickens.entity.ChickensChicken;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.entity.EntityRooster;
 import net.minecraft.Util;
@@ -29,6 +30,11 @@ public class ModEntities {
             .sized(0.6F, 1.7F)
             .clientTrackingRange(8)
             .build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "rooster"))));
+
+    public static final Supplier<EntityType<ChickensChicken>> CHICKEN = ENTITIES.register("chicken", () -> EntityType.Builder.of(ChickensChicken::new, MobCategory.CREATURE)
+            .sized(0.6F, 1.7F)
+            .clientTrackingRange(8)
+            .build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "chicken"))));
 
     public static final Map<ChickensRegistryItem, Supplier<EntityType<EntityChickensChicken>>> CHICKENS = Util.make(new LinkedHashMap<>(), map ->
     {

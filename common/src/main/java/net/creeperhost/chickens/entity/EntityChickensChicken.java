@@ -34,6 +34,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated
 public class EntityChickensChicken extends Chicken
 {
     private static final EntityDataAccessor<String> CHICKEN_TYPE;

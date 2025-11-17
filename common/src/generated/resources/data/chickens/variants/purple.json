@@ -1,14 +1,14 @@
 {
   "eggColour": -1,
-  "id": "diamond",
-  "name": "Diamond",
+  "id": "purple",
+  "name": "Purple",
   "product": {
     "type": "ITEM",
-    "id": "minecraft:diamond",
+    "id": "minecraft:purple_dye",
     "max": 1,
     "min": 1
   },
-  "texture": "chickens:textures/entity/diamond_chicken.png",
+  "texture": "chickens:textures/entity/purple_chicken.png",
   "traitConfigs": [
     {
       "evoExpo": 1.0,

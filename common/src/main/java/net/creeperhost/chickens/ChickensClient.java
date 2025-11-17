@@ -24,6 +24,7 @@ public class ChickensClient
             ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityRendererRegistry.register(entityTypeSupplier, RenderChickens::new));
             EntityModelLayerRegistry.register(ChickensModel.LAYER_LOCATION, ChickensModel::createBodyLayer);
             EntityRendererRegistry.register(ModEntities.ROOSTER, RenderChickens::new);
+            EntityRendererRegistry.register(ModEntities.CHICKEN, RenderChickens::new);
         }
 
         BlockEntityRendererRegistry.register(ModBlocks.INCUBATOR_TILE.get(), context -> new RenderIncubator());

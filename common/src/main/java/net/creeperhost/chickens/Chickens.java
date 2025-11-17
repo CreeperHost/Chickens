@@ -12,6 +12,9 @@ import net.creeperhost.chickens.api.ChickensRegistry;
 import net.creeperhost.chickens.api.ChickensRegistryItem;
 import net.creeperhost.chickens.config.ChickenConfig;
 import net.creeperhost.chickens.config.Config;
+import net.creeperhost.chickens.data.ChickenDataManager;
+import net.creeperhost.chickens.data.ChickenVariant;
+import net.creeperhost.chickens.entity.ChickensChicken;
 import net.creeperhost.chickens.entity.EggTimer;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.init.*;
@@ -25,6 +28,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -84,6 +88,7 @@ public class Chickens
 
         ModEntities.CHICKENS.forEach((chickensRegistryItem, entityTypeSupplier) -> EntityAttributeRegistry.register(entityTypeSupplier, EntityChickensChicken::prepareAttributes));
         EntityAttributeRegistry.register(ModEntities.ROOSTER, EntityChickensChicken::prepareAttributes);
+        EntityAttributeRegistry.register(ModEntities.CHICKEN, Chicken::createAttributes);
 
         InteractionEvent.INTERACT_ENTITY.register(Chickens::onEntityInteract);
         PacketHandler.init();
@@ -104,6 +109,17 @@ public class Chickens
     private static EventResult onEntityInteract(Player player, Entity entity, InteractionHand interactionHand)
     {
         Level level = player.level();
+        if (!level.isClientSide() && interactionHand == InteractionHand.MAIN_HAND) {
+            for (ChickenVariant variant : ChickenDataManager.getVariants()) {
+                for (int i = 0; i < 2; i++) {
+                    ChickensChicken chicken = new ChickensChicken(ModEntities.CHICKEN.get(), player.level());
+                    chicken.setChickenVariant(variant);
+                    chicken.setRooster(i == 1);
+                    chicken.setPos(player.getX() - 3 + level.random.nextInt(6), player.getY(), player.getZ() - 3 + level.random.nextInt(6));
+                    player.level().addFreshEntity(chicken);
+                }
+            }
+        }
         if(!player.getItemInHand(interactionHand).isEmpty())
         {
             for (ChickenTransformationRecipe transformationRecipe : ChickenAPI.TRANSFORMATION_RECIPES)

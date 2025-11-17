@@ -1,14 +1,14 @@
 {
   "eggColour": -1,
-  "id": "diamond",
-  "name": "Diamond",
+  "id": "netherwart",
+  "name": "Netherwart",
   "product": {
     "type": "ITEM",
-    "id": "minecraft:diamond",
+    "id": "minecraft:nether_wart",
     "max": 1,
     "min": 1
   },
-  "texture": "chickens:textures/entity/diamond_chicken.png",
+  "texture": "chickens:textures/entity/netherwart_chicken.png",
   "traitConfigs": [
     {
       "evoExpo": 1.0,

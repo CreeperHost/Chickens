@@ -1,6 +1,8 @@
 package net.creeperhost.chickens.client;
 
 import net.creeperhost.chickens.Chickens;
+import net.creeperhost.chickens.data.ChickenVariant;
+import net.creeperhost.chickens.entity.ChickensChicken;
 import net.creeperhost.chickens.entity.EntityChickensChicken;
 import net.creeperhost.chickens.entity.EntityRooster;
 
@@ -31,13 +33,20 @@ public class RenderChickens extends MobRenderer<Chicken, RenderChickens.Chickens
         super.extractRenderState(entity, state, f);
         state.flap = Mth.lerp(f, entity.oFlap, entity.flap);
         state.flapSpeed = Mth.lerp(f, entity.oFlapSpeed, entity.flapSpeed);
-        if (entity instanceof EntityChickensChicken chickensChicken){
-            state.texture = chickensChicken.getTexture();
+        if (entity instanceof ChickensChicken chicken) {
+            ChickenVariant variant = chicken.getChickenVariant();
+            state.texture = variant.texture();
+            state.isRooster = chicken.isRooster();
         } else {
-            //TODO, temporary, just until i get the rooster variants figured out.
-            state.texture = ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/entity/rooster.png");
+
+            if (entity instanceof EntityChickensChicken chickensChicken) {
+                state.texture = chickensChicken.getTexture();
+            } else {
+                //TODO, temporary, just until i get the rooster variants figured out.
+                state.texture = ResourceLocation.fromNamespaceAndPath(Chickens.MOD_ID, "textures/entity/rooster.png");
+            }
+            state.isRooster = entity instanceof EntityRooster;
         }
-        state.isRooster = entity instanceof EntityRooster;
     }
 
     public static class ChickensRenderState extends ChickenRenderState {

@@ -1,14 +1,14 @@
 {
   "eggColour": -1,
-  "id": "diamond",
-  "name": "Diamond",
+  "id": "blaze",
+  "name": "Blaze",
   "product": {
     "type": "ITEM",
-    "id": "minecraft:diamond",
+    "id": "minecraft:blaze_rod",
     "max": 1,
     "min": 1
   },
-  "texture": "chickens:textures/entity/diamond_chicken.png",
+  "texture": "chickens:textures/entity/blaze_chicken.png",
   "traitConfigs": [
     {
       "evoExpo": 1.0,
